@@ -69,13 +69,14 @@ class events extends account
 				);
 
 			//CREATE USER IN DB
-			$result = $this->events_model->create_events($event_data, $description_data);
+			$this->load->view('templates/forms/event_form', $data);
+			// 	$result = $this->events_model->create_events($event_data, $description_data);
 
-			if( $result['status'] == 'error' ){
-					$this->load->view('templates/forms/event_form', $data);
-				}else{
-					return redirect('account/events', 'refresh');
-				}
+			// 	if( $result['status'] == 'error' ){
+			// 		$this->load->view('templates/forms/event_form', $data);
+			// 	}else{
+			// 		return redirect('account/events', 'refresh');
+			// 	}
 		}
 	}
 
@@ -84,7 +85,17 @@ class events extends account
 		$session_data = $this->session->userdata('logged_in');
 
 		$event_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+		return var_dump($event_id);
+
 		$result = $this->events_model->get_events('event_id', $event_id);
+
+		if( ! count($result) > 0 ){
+			return $this->load->view('/views/error/record_not_found');
+		}
+
+		$result[0]->date_start =  common::format_date($result[0]->date_start, 'm/d/Y');
+		$result[0]->date_end   =  common::format_date($result[0]->date_end, 'm/d/Y');
+		print_r($this->input->post('event_id'));
 
 		$data['events_category'] = $this->events_model->get_categories();
 		$data['result']          = $result[0];
@@ -100,6 +111,16 @@ class events extends account
 			$date_start=$result[$i]['date_start'];
 			$date_end  =$result[$i]['date_end'];
 			$date      = $date_start." - ".$date_end;
+
+			// if( $result[0]->date_start == $result[0]->date_end ){
+			// 	$date = common::format_date($result[0]->date_start, 'm-d-Y');
+			// 	$date = $date.' - '.$date;
+			// }else{
+			// 	$date = common::format_date($result[0]->date_start, 'm-d-Y').' - ';
+			// 	$date.= common::format_date($result[0]->date_end;
+			// }
+
+			// $result[0]->
 
 			if( $result[$i]['max_participants'] == 0 ){
 				$result[$i]['max_participants'] = 'Unlimited';
