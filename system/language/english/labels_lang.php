@@ -12,7 +12,6 @@ $lang['lbl_forgot_password'] = 'I forgot my password';
 $lang['lbl_forum'] = 'Forum';
 $lang['lbl_have_membership'] = 'I already have a membership';
 $lang['lbl_home'] = 'Home';
-$lang['lbl_payment_details'] = 'Payment';
 $lang['lbl_personal_info'] = 'Personal Information';
 $lang['lbl_register_member'] = 'Register a new membership';
 $lang['lbl_register_membership'] = 'Register New Membership';
@@ -27,9 +26,12 @@ $lang['lbl_training'] = 'Training';
 
 //FORM LABELS
 $lang['lbl_event_category'] = 'Event category';
+$lang['lbl_event_date'] = 'Event date';
+$lang['lbl_end_time'] = 'End time';
 $lang['lbl_event_title'] = 'Event title';
 $lang['lbl_location'] = 'Location';
 $lang['lbl_max_participants'] = 'Max no. of participants';
+$lang['lbl_start_time'] = 'Start time';
 
 /* End of file labels.php */
 /* Location: ./system/language/english/labels.php */

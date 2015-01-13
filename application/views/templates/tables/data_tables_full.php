@@ -22,8 +22,8 @@
 					<?php if( in_array('action', $fieldname) ): ?>
 						<td>
 							<div class="btn-group">
-								<a href="<?=base_url()?>account/events/edit/<?=$row['event_id']?>"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button></a>
-								<a href="<?=base_url()?>account/events/delete/<?=$row['event_id']?>"><button type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i></button></a>
+								<a href="<?=base_url()?>account/events/edit/<?=$row['event_id']?>" title="Edit"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button></a>
+								<a href="<?=base_url()?>account/events/delete/<?=$row['event_id']?>" title="Delete"><button type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i></button></a>
 							</div>
 						</td>
 					<?php endif ?>

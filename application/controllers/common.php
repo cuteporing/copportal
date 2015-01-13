@@ -268,4 +268,11 @@ class common extends CI_controller
 		
 	}
 }
+
+function set_values($value){
+	if( isset( $value ) ){
+		return $value;
+	}
+}
 ?>
+

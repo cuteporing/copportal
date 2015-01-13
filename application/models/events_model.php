@@ -84,10 +84,30 @@ class Events_model extends CI_Model {
 	 * @return Array
 	 * --------------------------------------------
 	 */
-	public function get_events()
+	public function get_events($search_by='', $data='')
 	{
-		$query = $this->db->get('cop_events');
-		return $query->result_array();
+		if( $search_by == '' ){
+			$query = $this->db->get('cop_events');
+			return $query->result_array();
+		}else{
+			$this->db->where($search_by, $data);
+			$this->db->from('cop_events');
+			$this->db->limit(1);
+
+			$query = $this->db->get();
+
+			if( $query->num_rows() == 1 ){
+				return $query->result();
+			}else{
+				return FALSE;
+			}
+		}
+		
+	}
+
+	public function update_events()
+	{
+
 	}
 
 	public function create_events($event_data, $description_data)
@@ -103,12 +123,13 @@ class Events_model extends CI_Model {
 		if( $unique_id == '' || is_null($unique_id)){ $unique_id++; }
 
 		$description_data['event_id'] = $unique_id;
-
+		//INSERT DESCRIPTION
 		$this->db->insert('cop_description', $description_data);
 
 		if( $this->db->trans_status() === FALSE )
 		{
-			 $this->db->trans_rollback();
+			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
 			return array(
 				'status'=>'error',
 				'msg'   =>'Cannot create an event'

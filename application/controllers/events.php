@@ -25,11 +25,8 @@ class events extends account
 
 	public function create()
 	{
-		$this->load->helper(array('form', 'url'));
-		$this->load->library('form_validation');
 		$session_data = $this->session->userdata('logged_in');
 		$data['events_category'] = $this->events_model->get_categories();
-		$data['result_msg'] = '';
 
 		//VALIDATE FIELDS
 		$this->form_validation->set_rules('title', 'Title', 'required');
@@ -47,11 +44,14 @@ class events extends account
 			$time_start = common::format_time($this->input->post('time_start'));
 			$time_end   = common::format_time($this->input->post('time_end'));
 
+			$max = ( $this->input->post('max_participants') == '' )?
+					$max = 0 : $max = $max;
+
 			$event_data = array(
 				'owner_id'        =>$session_data['id'],
 				'title'           =>$this->input->post('title'),
 				'status'          =>'open',
-				'max_participants'=>$this->input->post('max_participants'),
+				'max_participants'=>$max,
 				'category_id'     =>$this->input->post('category'),
 				'date_entered'    =>common::get_today(),
 				'date_start'      =>$date_start,
@@ -70,12 +70,10 @@ class events extends account
 
 			//CREATE USER IN DB
 			$result = $this->events_model->create_events($event_data, $description_data);
-			$data['result_msg'] = $result;
 
 			if( $result['status'] == 'error' ){
 					$this->load->view('templates/forms/event_form', $data);
 				}else{
-					$this->session->set_flashdata('message', $result['msg']);
 					return redirect('account/events', 'refresh');
 				}
 		}
@@ -83,7 +81,15 @@ class events extends account
 
 	public function edit()
 	{
+		$session_data = $this->session->userdata('logged_in');
 
+		$event_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+		$result = $this->events_model->get_events('event_id', $event_id);
+
+		$data['events_category'] = $this->events_model->get_categories();
+		$data['result']          = $result[0];
+
+		return $this->load->view('templates/forms/event_form', $data);
 	}
 
 	public function get_events()
@@ -94,6 +100,11 @@ class events extends account
 			$date_start=$result[$i]['date_start'];
 			$date_end  =$result[$i]['date_end'];
 			$date      = $date_start." - ".$date_end;
+
+			if( $result[$i]['max_participants'] == 0 ){
+				$result[$i]['max_participants'] = 'Unlimited';
+			}
+
 			$result[$i]['date'] =  $date;
 		}
 
