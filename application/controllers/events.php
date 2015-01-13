@@ -23,14 +23,11 @@ class events extends account
 	}
 
 
-	public function create($page, $header, $sidebar, $c_header)
+	public function create()
 	{
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 		$session_data = $this->session->userdata('logged_in');
-		$data['header']  = $header;
-		$data['sidebar'] = $sidebar;
-		$data['content_header'] = $c_header;
 		$data['events_category'] = $this->events_model->get_categories();
 		$data['result_msg'] = '';
 
@@ -40,9 +37,7 @@ class events extends account
 
 		if( $this->form_validation->run() === FALSE ){
 			//SHOW VALIDATION MESSAGES
-			$this->load->view('templates/accounts/header', $data);
 			$this->load->view('templates/forms/event_form', $data);
-			$this->load->view('templates/accounts/footer', $data);
 		}else{
 			$date = trim(preg_replace('/\s+/',' ', $this->input->post('event_date')));
 			$date = explode('-', $date);
@@ -51,14 +46,13 @@ class events extends account
 			$date_end   = common::format_date($date[1]);
 			$time_start = common::format_time($this->input->post('time_start'));
 			$time_end   = common::format_time($this->input->post('time_end'));
-			
+
 			$event_data = array(
 				'owner_id'        =>$session_data['id'],
 				'title'           =>$this->input->post('title'),
 				'status'          =>'open',
 				'max_participants'=>$this->input->post('max_participants'),
 				'category_id'     =>$this->input->post('category'),
-				'amount'          =>0.00,
 				'date_entered'    =>common::get_today(),
 				'date_start'      =>$date_start,
 				'date_end'        =>$date_end,
@@ -79,14 +73,36 @@ class events extends account
 			$data['result_msg'] = $result;
 
 			if( $result['status'] == 'error' ){
-					$this->load->view('templates/accounts/header', $data);
 					$this->load->view('templates/forms/event_form', $data);
-					$this->load->view('templates/accounts/footer', $data);
 				}else{
 					$this->session->set_flashdata('message', $result['msg']);
 					return redirect('account/events', 'refresh');
 				}
 		}
+	}
+
+	public function edit()
+	{
+
+	}
+
+	public function get_events()
+	{
+		$result = $this->events_model->get_events();
+
+		for( $i=0; $i<count($result); $i++ ){
+			$date_start=$result[$i]['date_start'];
+			$date_end  =$result[$i]['date_end'];
+			$date      = $date_start." - ".$date_end;
+			$result[$i]['date'] =  $date;
+		}
+
+		$data['table_name']   = 'Trainings and seminars';
+		$data['fieldname']    = array('title','date', 'location', 'max_participants', 'action');
+		$data['field_label']  = array('Title','Date', 'Location', 'Max. no', '&nbsp;');
+		$data['result']       = $result;
+
+		return $this->load->view('templates/tables/data_tables_full', $data);
 	}
 
 	/**
@@ -104,21 +120,20 @@ class events extends account
 		$data['header']  = $header;
 		$data['sidebar'] = $sidebar;
 		$data['content_header'] = $c_header;
+
 		$parameter = $this->uri->slash_segment(3, 'leading');
 
-		if( $parameter  == '/create'){
-			$this->create($page, $header, $sidebar, $c_header);
-		}else{
+		//CONTENT HEADER
+		$this->load->view('templates/accounts/header', $data);
 
-			if(  $this->session->flashdata('message') !== '' ){
-					$data['result_msg'] = $this->session->flashdata('message');
-			}
-
-			$this->load->view('templates/accounts/header', $data);
-			$this->load->view('templates/tables/data_tables_full', $data);
-			// $this->load->view('account/'.$page, $data);
-			$this->load->view('templates/accounts/footer');
+		switch ($parameter) {
+			case '/create': $this->create();	break;
+			case '/edit'  : $this->edit();		break;
+			default:$this->get_events();		break;
 		}
+		
+		//CONTENT FOOTER
+		$this->load->view('templates/accounts/footer');
 	}
 }
 ?>

@@ -263,7 +263,9 @@ class common extends CI_controller
 	}
 
 
-
-
+	static function responseMsg($status, $msg, $data)
+	{
+		
+	}
 }
 ?>

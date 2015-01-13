@@ -37,9 +37,6 @@ class Events_model extends CI_Model {
 	 * - new
 	 * - approved
 	 * - denied
-	 * - Paid
-	 * - Not full paid
-	 * - Unpaid
 	 * @return Integer
 	 * --------------------------------------------
 	 */
@@ -56,12 +53,22 @@ class Events_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
+	/**
+	 * GET CATEGORIES
+	 * @return Array
+	 * --------------------------------------------
+	 */
 	public function get_categories()
 	{
 		$query = $this->db->get('cop_category');
 		return $query->result_array();
 	}
 
+	/**
+	 * GET LAST INSERTED EVENT ID
+	 * @return Array
+	 * --------------------------------------------
+	 */
 	public function get_last_event_id()
 	{
 		$sql = 'MAX(`event_id`) AS event_id';
@@ -70,6 +77,17 @@ class Events_model extends CI_Model {
 		$query = $this->db->get();
 
 		return $query->result();
+	}
+
+	/**
+	 * GET EVENTS
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function get_events()
+	{
+		$query = $this->db->get('cop_events');
+		return $query->result_array();
 	}
 
 	public function create_events($event_data, $description_data)

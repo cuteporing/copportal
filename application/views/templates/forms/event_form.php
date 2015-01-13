@@ -1,4 +1,4 @@
-<section class="content">
+
 <?php if( is_array($result_msg) ): ?>
 	<div class="row">
 		<div class="col-md-12">
@@ -144,6 +144,6 @@
 			</div>
 	</div>
 <?php echo form_close(); ?>
-</section>
+
 
 

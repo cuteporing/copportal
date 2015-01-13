@@ -10,3 +10,4 @@
 	<aside class="right-side">
 		<!-- Content Header (Page header) -->
 		<?=$content_header ?>
+		<section class="content">
