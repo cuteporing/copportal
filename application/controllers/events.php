@@ -22,62 +22,11 @@ class events extends account
 		$this->load->helper('file');
 	}
 
-
 	public function create()
 	{
-		$session_data = $this->session->userdata('logged_in');
 		$data['events_category'] = $this->events_model->get_categories();
 
-		//VALIDATE FIELDS
-		$this->form_validation->set_rules('title', 'Title', 'required');
-		$this->form_validation->set_rules('location', 'Location', 'required');
-
-		if( $this->form_validation->run() === FALSE ){
-			//SHOW VALIDATION MESSAGES
-			$this->load->view('templates/forms/event_form', $data);
-		}else{
-			$date = trim(preg_replace('/\s+/',' ', $this->input->post('event_date')));
-			$date = explode('-', $date);
-
-			$date_start = common::format_date($date[0]);
-			$date_end   = common::format_date($date[1]);
-			$time_start = common::format_time($this->input->post('time_start'));
-			$time_end   = common::format_time($this->input->post('time_end'));
-
-			$max = ( $this->input->post('max_participants') == '' )?
-					$max = 0 : $max = $max;
-
-			$event_data = array(
-				'owner_id'        =>$session_data['id'],
-				'title'           =>$this->input->post('title'),
-				'status'          =>'open',
-				'max_participants'=>$max,
-				'category_id'     =>$this->input->post('category'),
-				'date_entered'    =>common::get_today(),
-				'date_start'      =>$date_start,
-				'date_end'        =>$date_end,
-				'time_start'      =>$time_start,
-				'time_end'        =>$time_end,
-				'location'        =>$this->input->post('location'),
-				'slug'            =>url_title($this->input->post('title'), 'dash', TRUE)
-				);
-
-			$description_data = array(
-				'event_id'   =>0,
-				'description'=>$this->input->post('description'),
-				'sequence'   => 1
-				);
-
-			//CREATE USER IN DB
-			$this->load->view('templates/forms/event_form', $data);
-			// 	$result = $this->events_model->create_events($event_data, $description_data);
-
-			// 	if( $result['status'] == 'error' ){
-			// 		$this->load->view('templates/forms/event_form', $data);
-			// 	}else{
-			// 		return redirect('account/events', 'refresh');
-			// 	}
-		}
+		return $this->load->view('templates/forms/event_form', $data);
 	}
 
 	public function edit()
@@ -85,17 +34,22 @@ class events extends account
 		$session_data = $this->session->userdata('logged_in');
 
 		$event_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
-		return var_dump($event_id);
 
+		//IF THERE IS NO EVENT ID FROM URI, SHOW ERROR RECORD NOT FOUND
+		if( $event_id == '' ){
+			return $this->load->view('error/record_not_found');
+		}
+
+		//GET EVENT DETAILS
 		$result = $this->events_model->get_events('event_id', $event_id);
 
-		if( ! count($result) > 0 ){
-			return $this->load->view('/views/error/record_not_found');
+		//IF THERE IS NO EVENT, SHOW ERROR RECORD NOT FOUND
+		if( $result === FALSE ){
+			return $this->load->view('error/record_not_found');
 		}
 
 		$result[0]->date_start =  common::format_date($result[0]->date_start, 'm/d/Y');
 		$result[0]->date_end   =  common::format_date($result[0]->date_end, 'm/d/Y');
-		print_r($this->input->post('event_id'));
 
 		$data['events_category'] = $this->events_model->get_categories();
 		$data['result']          = $result[0];
@@ -119,8 +73,6 @@ class events extends account
 			// 	$date = common::format_date($result[0]->date_start, 'm-d-Y').' - ';
 			// 	$date.= common::format_date($result[0]->date_end;
 			// }
-
-			// $result[0]->
 
 			if( $result[$i]['max_participants'] == 0 ){
 				$result[$i]['max_participants'] = 'Unlimited';
@@ -163,7 +115,6 @@ class events extends account
 			case '/edit'  : $this->edit();		break;
 			default:$this->get_events();		break;
 		}
-		
 		//CONTENT FOOTER
 		$this->load->view('templates/accounts/footer');
 	}

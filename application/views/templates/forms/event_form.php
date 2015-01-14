@@ -2,11 +2,17 @@
 <?php if( isset($result) ): ?>
 <?php echo form_open('account/events/edit/'.$result->event_id) ?>
 <input  type="text" class="form-control hide" name="event_id" value="<?php if(isset($result)){ echo $result->event_id; } ?>">
-<textarea class="textarea" name="description_mirror" value=""></textarea>
+<textarea class="hide" id="description_mirror" name="description_mirror">
+<!-- 	<?php if(isset($result_description)){ echo $result->event_id; } ?> -->
+</textarea>
 <?php else: ?>
-<?php echo form_open('account/events/create') ?>
+<?php echo form_open('events_ajax/create') ?>
 <?php endif; ?>
 <div class="row">
+	<div class="alert alert-dismissable">
+		<i class="fa"></i>
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+	</div>
 	<!-- LEFT COLUMN -->
 	<div class="col-md-8">
 		<!-- EVENT TITLE -->
@@ -16,7 +22,7 @@
 				<div class="form-group">
 					<label><?=$this->lang->line('lbl_event_title')?></label>
 					<input type="text" class="form-control" name="title" value="<?php if(isset($result)){ echo $result->title; } ?>" maxlength="150">
-					<?=form_error('title', '<p class="error">', '</p>') ?>
+					<p class="error"></p>
 				</div>
 			</div>
 		</div>
@@ -29,7 +35,7 @@
 				</div>
 			</div>
 			<div class='box-body pad'>
-				<textarea class="textarea" name="description" value="" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+				<textarea class="textarea" id="description" name="description" value="" placeholder="Place some text here" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
 			</div>
 		</div>
 		<div class="row">
@@ -69,9 +75,9 @@
 					<label><?=$this->lang->line('lbl_location')?></label>
 					<div class="input-group">
 						<div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
-						<input type="text" class="form-control" placeholder="" name="location" value="<?php if(isset($result)){ echo $result->location; } ?>">
-						<?=form_error('location', '<p class="error">', '</p>') ?>
+						<input type="text" class="form-control" name="location" value="<?php if(isset($result)){ echo $result->location; } ?>">
 					</div>
+					<p class="error"></p>
 				</div>
 
 				<div class="form-group">
@@ -86,8 +92,9 @@
 					<label><?=$this->lang->line('lbl_event_date')?></label>
 					<div class="input-group">
 						<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-						<input type="text" class="form-control pull-right" name="event_date" id="reservation" value="<?php if(isset($result)){ echo $result->date_start.' - '.$result->date_end; } ?>">
+						<input type="text" class="form-control pull-right"  name="event_date" id="reservation" value="<?php if(isset($result)){ echo $result->date_start.' - '.$result->date_end; } ?>">
 					</div>
+					<p class="error"></p>
 				</div>
 
 				<div class="row">
@@ -99,6 +106,7 @@
 									<div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
 									<input type="text" class="form-control timepicker" name="time_start">
 								</div>
+								<p class="error"></p>
 							</div>
 						</div>
 					</div>
@@ -110,6 +118,7 @@
 									<div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
 									<input type="text" class="form-control timepicker" name="time_end">
 								</div><!--//END input-group -->
+								<p class="error"></p>
 							</div><!--//END form-group -->
 						</div><!--//END bootstrap-timepicker -->
 					</div><!--//END col-md-6 -->

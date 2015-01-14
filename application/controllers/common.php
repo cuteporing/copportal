@@ -122,6 +122,7 @@ class common extends CI_controller
 			array_push($script, 'assets/js/ckeditor.js');
 			array_push($script, 'assets/js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js');
 			array_push($script, 'assets/js/all.js');
+			array_push($script, 'assets/js/ajax.js');
 		}
 
 		return $script;
@@ -187,6 +188,13 @@ class common extends CI_controller
 		return mdate($datestring, $time);
 	}
 
+	/**
+	 * FORMAT DATE
+	 * @param String, $datetime
+	 * @param String, $format
+	 * @return String, $formatted
+	 * --------------------------------------------
+	 */
 	static function format_date($datetime, $format='Y-m-d')
 	{
 		$date = new DateTime($datetime);
@@ -194,6 +202,13 @@ class common extends CI_controller
 		return $formatted;
 	}
 
+	/**
+	 * FORMAT TIME
+	 * @param String, $time
+	 * @param String, $format
+	 * @return String, $new_time
+	 * --------------------------------------------
+	 */
 	static function format_time($time, $format='H:s:i')
 	{
 		if( $format == 'H:s:i' ){
@@ -226,7 +241,8 @@ class common extends CI_controller
 
 	/**
 	 * DISPLAYS AN ERROR MESSAGE
-	 * @return String
+	 * @param String, $msg
+	 * @return <p>
 	 * --------------------------------------------
 	 */
 	static function error_msg($msg)
@@ -263,10 +279,25 @@ class common extends CI_controller
 	}
 
 
-	static function responseMsg($status, $msg, $data)
-	{
-		
+	/**
+	 * ENCODE INTO JSON FORMAT FOR AJAX RESPONSE
+	 * @param Integer, $status
+	 * @param String, $msg
+	 * @param Array, $data
+	 * @return <object>
+	 * --------------------------------------------------------
+	 */
+	static function response_msg($status_code, $status_type, $msg, $data=''){
+		$response = array(
+			'status_code'=> $status_code,
+			'status_type'=> $status_type,
+			'status_msg' => $msg,
+			);
+		if ( is_array($data) ) { $response['data'] = $data; }
+
+		return json_encode($response);
 	}
+
 }
 
 function set_values($value){

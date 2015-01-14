@@ -42,6 +42,7 @@
 // $route['news/edit/(:any)'] = 'news/edit/$1';
 // $route['news/(:any)'] = 'news/view/$1';
 // $route['users/register'] = 'users/register';
+$route['events_ajax/create'] = 'events_ajax/create/$1';
 $route['account/(:any)'] = 'account/view/$1';
 $route['logout'] = 'pages/logout';
 $route['(:any)'] = 'pages/view/$1';

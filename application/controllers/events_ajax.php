@@ -1,0 +1,123 @@
+<?php
+/*********************************************************************************
+** The contents of this file are subject to the ______________________
+ * Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is: ______________________
+ * The Initial Developer of the Original Code is CodeIgniter.
+ * Portions created by KBVCodes are Copyright (C) KBVCodes.
+ * All Rights Reserved.
+ *
+ ********************************************************************************/
+
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+include_once('common.php');
+include_once('users.php');
+
+class events_ajax extends CI_controller
+{
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->helper('file');
+		$this->load->helper(array('form', 'url'));
+		$this->load->library('form_validation');
+		$this->load->model('events_model');
+	}
+
+	/**
+	 * CHECKS IF THE POST DATA IS NOT NULL AND RETURNS AN
+	 * ARRAY OF ERROR MSG
+	 * @param Array, $input_field
+	 * @return Array, $error_log
+	 * --------------------------------------------------------
+	 */
+	public function validate_required($input_field)
+	{
+		$error_log  = array();
+		foreach ($input_field as $field) {
+			if( $this->input->post($field) == '' ){
+				$label = str_replace('_', ' ', ucfirst($field));
+				array_push($error_log, array(
+					'input'=>$field,
+					'error_msg'=>$label.' is required')
+				);
+			}
+		}
+		return $error_log;
+	}
+
+	/**
+	 * VALIDATES ALL POST DATA NEEDED FOR CREATING AN EVENT
+	 * @return Array, $error_log
+	 * --------------------------------------------------------
+	 */
+	public function validate_event_create()
+	{
+		$error_log  = array();
+		$required_field= array('category', 'event_date', 'location', 'time_end', 'time_start', 'title');
+
+		if( count($this->validate_required($required_field)) > 0 ){
+			$error_log = $this->validate_required($required_field);
+			return common::response_msg(200, 'error_field', '', $error_log);
+		}else{
+			return FALSE;
+		}
+	}
+
+	/**
+	 * CREATES AN EVENT
+	 * @return Array, $response
+	 * --------------------------------------------------------
+	 */
+	public function create()
+	{
+		if( $this->validate_event_create() ){
+			echo $this->validate_event_create();
+			exit;
+		}
+		$date = trim(preg_replace('/\s+/',' ', $this->input->post('event_date')));
+		$date = explode('-', $date);
+
+		$date_start = common::format_date($date[0]);
+		$date_end   = common::format_date($date[1]);
+		$time_start = common::format_time($this->input->post('time_start'));
+		$time_end   = common::format_time($this->input->post('time_end'));
+
+		$max = ( $this->input->post('max_participants') == '' )?
+				$max = 0 : $max = $max;
+
+		$event_data = array(
+			'owner_id'        =>$session_data['id'],
+			'title'           =>$this->input->post('title'),
+			'status'          =>'open',
+			'max_participants'=>$max,
+			'category_id'     =>$this->input->post('category'),
+			'date_entered'    =>common::get_today(),
+			'date_start'      =>$date_start,
+			'date_end'        =>$date_end,
+			'time_start'      =>$time_start,
+			'time_end'        =>$time_end,
+			'location'        =>$this->input->post('location'),
+			'slug'            =>url_title($this->input->post('title'), 'dash', TRUE)
+			);
+
+		$description_data = array();
+		$description = str_split($this->input->post('description'), 1000);
+		$sequence = 1;
+
+		foreach ($description as $text) {
+			array_push($description_data, array(
+				'event_id'   => 0,
+				'description'=> $text,
+				'sequence'   => $sequence)
+			);
+			$sequence++;
+		}
+		$result = $this->events_model->create_events($event_data, $description_data);
+
+		echo common::response_msg(200, $result['status'], $result['msg']);
+	}
+}
+?>

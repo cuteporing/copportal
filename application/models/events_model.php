@@ -122,9 +122,11 @@ class Events_model extends CI_Model {
 
 		if( $unique_id == '' || is_null($unique_id)){ $unique_id++; }
 
-		$description_data['event_id'] = $unique_id;
-		//INSERT DESCRIPTION
-		$this->db->insert('cop_description', $description_data);
+		foreach ($description_data as $data) {
+			$data['event_id'] = $unique_id;
+			//INSERT DESCRIPTION
+			$this->db->insert('cop_description', $data);
+		}
 
 		if( $this->db->trans_status() === FALSE )
 		{
