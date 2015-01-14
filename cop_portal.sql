@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 13, 2015 at 01:55 AM
+-- Generation Time: Jan 14, 2015 at 02:36 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -49,6 +49,26 @@ CREATE TABLE IF NOT EXISTS `cop_announcement_description` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cop_beneficiaries`
+--
+
+CREATE TABLE IF NOT EXISTS `cop_beneficiaries` (
+`id` int(11) NOT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `last_name` varchar(30) NOT NULL,
+  `gender` varchar(10) NOT NULL,
+  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `phone` varchar(50) NOT NULL,
+  `address_street` varchar(150) NOT NULL,
+  `address_city` varchar(100) NOT NULL,
+  `imagename` varchar(250) NOT NULL,
+  `deleted` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cop_category`
 --
 
@@ -76,14 +96,16 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
 --
 
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
-(4, 2, 'lorem ipsum dolor esment', 1);
+(4, 2, 'lorem ipsum dolor esment', 1),
+(5, 3, '', 1),
+(6, 4, '', 1);
 
 -- --------------------------------------------------------
 
@@ -105,14 +127,16 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `time_end` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `location` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events`
 --
 
 INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `max_participants`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
-(2, 1, 'TECH TUTOR 5', 'open', 0, 1, '2015-01-10 23:14:35', '2015-01-21', '2015-01-22', '02:00:00', '02:00:00', 'Las Pinas city', 'tech-tutor-5');
+(2, 1, 'TECH TUTOR 5', 'open', 0, 1, '2015-01-13 07:08:51', '2015-01-21', '2015-01-22', '02:00:00', '02:00:00', 'Las Pinas city', 'tech-tutor-5'),
+(3, 1, 'TECH TUTOR 7', 'open', 0, 1, '2015-01-13 00:31:52', '2015-01-27', '2015-01-27', '15:30:00', '15:30:00', 'BGC', 'tech-tutor-7'),
+(4, 1, 'TECH TUTOR 5', 'open', NULL, 1, '2015-01-13 01:43:07', '2015-01-21', '2015-01-22', '16:30:00', '16:30:00', 'Las Pinas city', 'tech-tutor-5');
 
 -- --------------------------------------------------------
 
@@ -181,6 +205,12 @@ ALTER TABLE `cop_announcement_description`
  ADD PRIMARY KEY (`announcement_id`);
 
 --
+-- Indexes for table `cop_beneficiaries`
+--
+ALTER TABLE `cop_beneficiaries`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `cop_category`
 --
 ALTER TABLE `cop_category`
@@ -225,15 +255,20 @@ MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `cop_announcement_description`
 MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `cop_beneficiaries`
+--
+ALTER TABLE `cop_beneficiaries`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `cop_events_member`
 --
