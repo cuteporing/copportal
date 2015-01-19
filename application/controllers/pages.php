@@ -58,9 +58,12 @@ class pages extends CI_controller
 		$common = new common;
 		$users = new users;
 
-		if( $common->check_login() )
-			redirect('home', 'refresh');
-
+		if( $common->check_login() ){
+			$session_data = $this->session->userdata('logged_in');
+			if( $session_data['is_admin'] == 'on' ){
+				redirect('account/dashboard', 'refresh');
+			}
+		}
 		return $users->login($page);
 	}
 

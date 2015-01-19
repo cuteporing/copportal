@@ -77,6 +77,8 @@ class events_ajax extends CI_controller
 			echo $this->validate_event_create();
 			exit;
 		}
+		$session_data = $this->session->userdata('logged_in');
+
 		$date = trim(preg_replace('/\s+/',' ', $this->input->post('event_date')));
 		$date = explode('-', $date);
 
@@ -85,14 +87,10 @@ class events_ajax extends CI_controller
 		$time_start = common::format_time($this->input->post('time_start'));
 		$time_end   = common::format_time($this->input->post('time_end'));
 
-		$max = ( $this->input->post('max_participants') == '' )?
-				$max = 0 : $max = $max;
-
 		$event_data = array(
 			'owner_id'        =>$session_data['id'],
 			'title'           =>$this->input->post('title'),
 			'status'          =>'open',
-			'max_participants'=>$max,
 			'category_id'     =>$this->input->post('category'),
 			'date_entered'    =>common::get_today(),
 			'date_start'      =>$date_start,

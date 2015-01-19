@@ -8,7 +8,7 @@
 	<meta name="author" content="<?php echo $author;?>">
 	<title><?php echo $title;?></title>
 <?php foreach ($style as $style_link): ?>
-<?= link_tag(base_url().$style_link); ?>
+	<?= link_tag(base_url().$style_link)."\n"; ?>
 <?php endforeach ?>
 </head>
-<?= $body ?>
+<?= $body."\n" ?>

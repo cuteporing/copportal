@@ -67,7 +67,7 @@ class account extends CI_controller
 
 		$header = create_tag('header', $header, array('class'=>'header'));
 
-		return $header;
+		return $header."\n";
 	}
 
 	/**
@@ -96,7 +96,7 @@ class account extends CI_controller
 		$navigation = anchor('', $navigation, $toggle_attr);
 		$navigation.= $this->top_nav_list();
 
-		$navigation = $navigation.end_tag('nav');
+		$navigation = $navigation.end_tag('nav')."\n";
 		$navigation = element_tag('nav', $navbar_attr).$navigation;
 
 		return $navigation;
@@ -125,6 +125,10 @@ class account extends CI_controller
 	 */
 	public function dropdown_user()
 	{
+		$users = new users;
+
+		$users->get_login_info();
+		
 		$session_data = $this->session->userdata('logged_in');
 
 		//ATTRIBUTES FOR ELEMENTS
@@ -258,17 +262,6 @@ class account extends CI_controller
 		return $manage_users->view($page,$header,$sidebar, $c_header);
 	}
 
-	/**
-	 * DESTROYS LOG IN SESSION DATA
-	 * @return redirect
-	 * --------------------------------------------
-	 */
-	public function logout()
-	{
-		$this->session->unset_userdata('logged_in');
-		session_destroy();
-		return redirect('home', 'refresh');
-	}
 
 	/**
 	 * CHECK PAGE URI

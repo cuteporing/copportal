@@ -32,6 +32,25 @@ class Users_model extends CI_Model {
 		return $query->result_array();
 	}
 
+	public function get_login_info($id)
+	{
+		$sql_stmt ='id, user_name, first_name, last_name, ';
+		$sql_stmt.='gender, is_admin, date_entered, imagename';
+
+		$this->db->select($sql_stmt);
+		$this->db->from('cop_users');
+		$this->db->where('id', $id);
+		$this->db->limit(1);
+
+		$query = $this->db->get();
+
+		if( $query->num_rows() == 1 ){
+			return $query->result();
+		}else{
+			return FALSE;
+		}
+	}
+
 	public function check_user($user_name, $password)
 	{
 		$sql_stmt ='id, user_name, user_password, first_name, last_name, ';

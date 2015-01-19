@@ -29,7 +29,7 @@ $lang['lbl_event_category'] = 'Event category';
 $lang['lbl_event_date'] = 'Event date';
 $lang['lbl_end_time'] = 'End time';
 $lang['lbl_event_title'] = 'Event title';
-$lang['lbl_location'] = 'Location';
+$lang['lbl_location'] = 'Venue';
 $lang['lbl_max_participants'] = 'Max no. of participants';
 $lang['lbl_start_time'] = 'Start time';
 

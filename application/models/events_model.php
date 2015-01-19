@@ -93,7 +93,7 @@ class Events_model extends CI_Model {
 			$this->db->where($search_by, $data);
 			$this->db->from('cop_events');
 			$this->db->limit(1);
-
+			$this->db->order_by("date_start", "desc");
 			$query = $this->db->get();
 
 			if( $query->num_rows() == 1 ){
@@ -105,11 +105,35 @@ class Events_model extends CI_Model {
 		
 	}
 
-	public function update_events()
+	public function delete_event_desc($event_id)
 	{
+		$this->db->where('event_id', $event_id);
+		$this->db->update('cop_description', $event_data);
+	}
+
+
+	/**
+	 * UPDATE EVENT DETAILS
+	 * @param Array, $event_data
+	 * @param Array, $description_data
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function update_events($event_data, $description_data)
+	{
+		$this->db->trans_begin();
+		$this->db->where('event_id', $event_data['event_id']);
+		$this->db->update('cop_events', $event_data);
+
+		$this->delete_event_desc($event_data['event_id']);
 
 	}
 
+	/**
+	 * CREATES AN EVENT
+	 * @return Array
+	 * --------------------------------------------
+	 */
 	public function create_events($event_data, $description_data)
 	{
 		$this->db->trans_begin();

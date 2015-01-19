@@ -58,4 +58,21 @@ $(function() {
 		"bInfo": true,
 		"bAutoWidth": false
 	});
+
+	sideBar();
+
+	function sideBar(){
+		var host = location.host;
+		var url  = document.URL.split(location.host+'/copportal/account/')[1];
+		var page = url.split('/')[0];
+		var link = $('[data-page="'+page+'"]').parents('li');
+		var hasDrop = (link.hasClass('treeview'))? true : false;
+
+		link.addClass("active").slideDown('fast').siblings().removeClass('active');
+		link.find('.fa.pull-right').removeClass('fa-angle-left').addClass('fa-angle-down');
+		link.siblings().find('.fa.pull-right').removeClass('fa-angle-down').addClass('fa-angle-left');
+
+		if( hasDrop )
+			link.find('.treeview-menu').slideDown('fast');
+	}
 });

@@ -73,17 +73,12 @@ class events extends account
 			// 	$date = common::format_date($result[0]->date_start, 'm-d-Y').' - ';
 			// 	$date.= common::format_date($result[0]->date_end;
 			// }
-
-			if( $result[$i]['max_participants'] == 0 ){
-				$result[$i]['max_participants'] = 'Unlimited';
-			}
-
 			$result[$i]['date'] =  $date;
 		}
 
 		$data['table_name']   = 'Trainings and seminars';
-		$data['fieldname']    = array('title','date', 'location', 'max_participants', 'action');
-		$data['field_label']  = array('Title','Date', 'Location', 'Max. no', '&nbsp;');
+		$data['fieldname']    = array('title','date', 'location', 'action');
+		$data['field_label']  = array('Activity','Date', 'Venue', '&nbsp;');
 		$data['result']       = $result;
 
 		return $this->load->view('templates/tables/data_tables_full', $data);
@@ -111,9 +106,9 @@ class events extends account
 		$this->load->view('templates/accounts/header', $data);
 
 		switch ($parameter) {
-			case '/create': $this->create();	break;
-			case '/edit'  : $this->edit();		break;
-			default:$this->get_events();		break;
+			case '/create': $this->create(); break;
+			case '/edit'  : $this->edit();   break;
+			default:$this->get_events();     break;
 		}
 		//CONTENT FOOTER
 		$this->load->view('templates/accounts/footer');

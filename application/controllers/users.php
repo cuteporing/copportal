@@ -218,5 +218,55 @@ class users extends CI_Controller
 	{
 		return $this->users_model->get_no_of_user();
 	}
+
+	public function get_login_info()
+	{
+			$session_data = $this->session->userdata('logged_in');
+			$result = $this->users_model->get_login_info($session_data['id']);
+
+			if( !$result ){
+				$this->logout();
+			}
+			$this->session->unset_userdata('logged_in');
+
+			$sess_array = array();
+			foreach ($result as $row) {
+				$sess_array = array(
+					'id'          =>$row->id,
+					'user_name'   =>$row->user_name,
+					'first_name'  =>$row->first_name,
+					'last_name'   =>$row->last_name,
+					'gender'      =>$row->gender,
+					'is_admin'    =>$row->is_admin,
+					'date_entered'=>$row->date_entered,
+					'imagename'   =>$row->imagename,
+				);
+				$this->session->set_userdata('logged_in', $sess_array);
+			}
+
+			// foreach ($result as $row) {
+			// 			$session_data['id']          = $row->id;
+			// 			$session_data['user_name']   = $row->user_name;
+			// 			$session_data['first_name']  = $row->first_name;
+			// 			$session_data['last_name']   = $row->last_name;
+			// 			$session_data['gender']      = $row->gender;
+			// 			$session_data['is_admin']    = $row->is_admin;
+			// 			$session_data['date_entered']= $row->date_entered;
+			// 			$session_data['imagename']   = $row->imagename;
+			// 	}
+
+	}
+
+	/**
+	 * DESTROYS LOG IN SESSION DATA
+	 * @return redirect
+	 * --------------------------------------------
+	 */
+	public function logout()
+	{
+		$this->session->unset_userdata('logged_in');
+		session_destroy();
+		return redirect('home', 'refresh');
+	}
 }
 ?>

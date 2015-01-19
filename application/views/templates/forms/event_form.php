@@ -1,18 +1,15 @@
 
 <?php if( isset($result) ): ?>
-<?php echo form_open('account/events/edit/'.$result->event_id) ?>
-<input  type="text" class="form-control hide" name="event_id" value="<?php if(isset($result)){ echo $result->event_id; } ?>">
-<textarea class="hide" id="description_mirror" name="description_mirror">
-<!-- 	<?php if(isset($result_description)){ echo $result->event_id; } ?> -->
-</textarea>
+	<?php echo form_open('events_ajax/edit/') ?>
+	<input  type="text" class="form-control hide" name="event_id" value="<?php if(isset($result)){ echo $result->event_id; } ?>">
+	<textarea class="hide" id="description_mirror" name="description_mirror">
+	<!-- 	<?php if(isset($result_description)){ echo $result->event_id; } ?> -->
+	</textarea>
 <?php else: ?>
-<?php echo form_open('events_ajax/create') ?>
+	<?php echo form_open('events_ajax/create') ?>
 <?php endif; ?>
 <div class="row">
-	<div class="alert alert-dismissable">
-		<i class="fa"></i>
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-	</div>
+	<div class="error_message col-md-12"></div>
 	<!-- LEFT COLUMN -->
 	<div class="col-md-8">
 		<!-- EVENT TITLE -->
@@ -78,14 +75,6 @@
 						<input type="text" class="form-control" name="location" value="<?php if(isset($result)){ echo $result->location; } ?>">
 					</div>
 					<p class="error"></p>
-				</div>
-
-				<div class="form-group">
-					<label><?=$this->lang->line('lbl_max_participants')?></label>
-					<div class="input-group">
-						<div class="input-group-addon"><i class="ion ion-android-people"></i></div>
-						<input type="text" class="form-control" placeholder="" name="max_participants" value="<?php if(isset($result)){ echo $result->max_participants; } ?>">
-					</div>
 				</div>
 
 				<div class="form-group">

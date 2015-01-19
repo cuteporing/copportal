@@ -109,7 +109,7 @@ class sidebar extends account
 	{
 		if( $title == '' ){ return $title; }
 
-		return span($title);
+		return span($title, array( 'data-page'=>strtolower($title) ));
 	}
 
 	/**

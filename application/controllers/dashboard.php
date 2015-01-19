@@ -19,6 +19,7 @@ class dashboard extends account
 	{
 		parent::__construct();
 		$this->load->model('events_model');
+		$this->load->model('beneficiary_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 	}
@@ -39,11 +40,11 @@ class dashboard extends account
 						$icon        = 'android_calendar';
 						$link        = 'account/events/latest';
 						break;
-			case 'participant_req':
+			case 'beneficiary':
 						$color       = 'green';
-						$description = 'New Participants';
+						$description = 'Beneficiaries';
 						$icon        = 'person_add';
-						$link        = 'account/events/new-participants';
+						$link        = 'account/beneficiary/';
 						break;
 			case 'members':
 						$color       = 'red';
@@ -80,18 +81,18 @@ class dashboard extends account
 		$status_box = new status_box;
 
 		//GET DESCRIPTION FOR STATUS BOX ATTRIBUTE
-		$no_of_ongoing = $this->events_model->get_no_of_events('ongoing');
-		$no_of_new     = $this->events_model->get_no_of_member('new');
-		$no_of_members = $users->get_no_of_user();
+		$no_of_ongoing     = $this->events_model->get_no_of_events('ongoing');
+		$no_of_beneficiary = $this->beneficiary_model->count_beneficiaries();
+		$no_of_members     = $users->get_no_of_user();
 
 		//STATUS BOX ATTRIBUTES
-		$ongoing_detail = $this->get_stat_attribute('ongoing_events', $no_of_ongoing);
-		$new_mem_detail = $this->get_stat_attribute('participant_req', $no_of_new);
-		$members_detail = $this->get_stat_attribute('members', $no_of_members);
+		$ongoing_detail     = $this->get_stat_attribute('ongoing_events', $no_of_ongoing);
+		$beneficiary_detail = $this->get_stat_attribute('beneficiary', $no_of_beneficiary);
+		$members_detail     = $this->get_stat_attribute('members', $no_of_members);
 
 		//GET ALL DETAILS IN AN ARRAY
 		array_push($details, $ongoing_detail);
-		array_push($details, $new_mem_detail);
+		array_push($details, $beneficiary_detail);
 		array_push($details, $members_detail);
 
 		//CREATE A STATUS BOX

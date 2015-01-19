@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2015 at 08:34 AM
+-- Generation Time: Jan 19, 2015 at 04:36 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -73,9 +73,9 @@ CREATE TABLE IF NOT EXISTS `cop_beneficiaries` (
 --
 
 CREATE TABLE IF NOT EXISTS `cop_category` (
-  `category_id` int(11) NOT NULL,
+`category_id` int(11) NOT NULL,
   `category_name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_category`
@@ -83,7 +83,8 @@ CREATE TABLE IF NOT EXISTS `cop_category` (
 
 INSERT INTO `cop_category` (`category_id`, `category_name`) VALUES
 (1, 'Trainings'),
-(2, 'Seminars');
+(2, 'Seminars'),
+(3, 'Others');
 
 -- --------------------------------------------------------
 
@@ -96,16 +97,7 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `cop_description`
---
-
-INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
-(4, 2, 'lorem ipsum dolor esment', 1),
-(5, 3, '', 1),
-(6, 4, '', 1);
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -118,7 +110,6 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `owner_id` int(11) NOT NULL,
   `title` varchar(255) CHARACTER SET latin1 NOT NULL,
   `status` varchar(50) NOT NULL,
-  `max_participants` int(11) DEFAULT '0',
   `category_id` int(11) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_start` date DEFAULT NULL,
@@ -127,16 +118,14 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `time_end` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `location` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events`
 --
 
-INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `max_participants`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
-(2, 1, 'TECH TUTOR 5', 'open', 0, 1, '2015-01-13 07:08:51', '2015-01-21', '2015-01-22', '02:00:00', '02:00:00', 'Las Pinas city', 'tech-tutor-5'),
-(3, 1, 'TECH TUTOR 7', 'open', 0, 1, '2015-01-13 00:31:52', '2015-01-27', '2015-01-27', '15:30:00', '15:30:00', 'BGC', 'tech-tutor-7'),
-(4, 1, 'TECH TUTOR 5', 'open', NULL, 1, '2015-01-13 01:43:07', '2015-01-21', '2015-01-22', '16:30:00', '16:30:00', 'Las Pinas city', 'tech-tutor-5');
+INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
+(1, 1, 'TECH TUTOR 5', 'open', 1, '2015-01-19 14:29:56', '2015-01-21', '2015-01-22', '02:00:00', '02:00:00', 'Las Pinas city', 'tech-tutor-5');
 
 -- --------------------------------------------------------
 
@@ -184,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
 --
 
 INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city`, `address_postalcode`, `imagename`, `deleted`, `crypt_type`, `visited`) VALUES
-(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-01-10 05:24:36', '0000-00-00 00:00:00', NULL, 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 'Las Piñas', NULL, NULL, 0, 'PHP5.3MD5', 1),
+(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-01-18 10:54:55', '0000-00-00 00:00:00', NULL, 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 'Las Piñas', NULL, NULL, 0, 'PHP5.3MD5', 1),
 (2, '311-1262', '$1$31000000$cw981R2sDU.dqcJR3rlXr.', 'Ish', 'Landrito', 'female', 'off', '2015-01-10 05:25:19', '2015-01-05 21:32:11', NULL, NULL, 'Active', NULL, NULL, NULL, NULL, 0, 'PHP5.3MD5', 1),
 (3, '311-1263', '$1$31000000$cw981R2sDU.dqcJR3rlXr.', 'Azanette', 'Caingal', 'female', 'off', '2015-01-10 05:25:21', '2015-01-05 21:32:54', NULL, NULL, 'Active', NULL, NULL, NULL, NULL, 0, 'PHP5.3MD5', 1);
 
@@ -260,15 +249,20 @@ MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `cop_beneficiaries`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `cop_category`
+--
+ALTER TABLE `cop_category`
+MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `cop_events_member`
 --

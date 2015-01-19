@@ -38,13 +38,10 @@
 |
 */
 
-// $route['news/create'] = 'news/create';
-// $route['news/edit/(:any)'] = 'news/edit/$1';
-// $route['news/(:any)'] = 'news/view/$1';
-// $route['users/register'] = 'users/register';
 $route['events_ajax/create'] = 'events_ajax/create/$1';
+$route['events_ajax/edit'] = 'events_ajax/edit/$1';
 $route['account/(:any)'] = 'account/view/$1';
-$route['logout'] = 'pages/logout';
+$route['logout'] = 'users/logout';
 $route['(:any)'] = 'pages/view/$1';
 $route['default_controller'] = 'pages/view';
 
