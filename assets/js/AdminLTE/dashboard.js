@@ -28,6 +28,7 @@ $(function() {
 
     //bootstrap WYSIHTML5 - text editor
     $(".textarea").wysihtml5();
+
     setTimeout(function(){
         if( $('#description_mirror').length > 0 ){
              var description = $('#description_mirror').val();

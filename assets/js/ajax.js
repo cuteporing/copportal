@@ -1,4 +1,5 @@
 $(function() {
+	var scroll = 0;
 	// DO NOT MODIFY THIS, ALL FUNCTION WILL NOT
 	// RUN IF THIS IS ERASED OR MODIFIED
 	// --------------------------------------------
@@ -32,11 +33,10 @@ $(function() {
 	// - warning
 	// --------------------------------------------
 	function create_alert(msg, type){
-		console.log('create_alert');
 		var alert_class = 'alert-'+type;
 		var div         = document.createElement('div');
 
-		div.className = 'alert alert-dismissable alert-'+type;
+		div.className = 'alert alert-dismissable '+alert_class;
 
 		switch(type){
 			case 'danger' : icon_class = 'fa fa-ban';      break;
@@ -45,6 +45,7 @@ $(function() {
 			case 'warning': icon_class = 'fa fa-warning';  break;
 			default       : icon_class = 'fa fa-info';     break;
 		}
+
 		button = '<button type="button" class="close" aria-hidden="true" '+
 						 'data-dismiss="alert">×</button>';
 		icon = '<i class="'+icon_class+'"></i>';
@@ -53,10 +54,41 @@ $(function() {
 		return div;
 	}
 
+	// SHOW GENERAL ALERT MESSAGE
+	// --------------------------------------------
 	function show_alert_msg(msg, type){
-		$('.error_message').html( create_alert(msg, type) ).slideDown("fast");
+		$('.error_message').css('top', scroll+77+'px');
+		$('.error_message').html( create_alert(msg, type) );
+
+		$('.error_message').animate({ width: "30%" }, 500, function(){
+			// $('.error_message .alert').show();
+		});
+
+		console.log("yeah");
+		// $('.error_message').html( create_alert(msg, type) ).slideDown("fast");
 	}
 
+	// RESETS THE FORM
+	// --------------------------------------------
+	function form_reset(url){
+		if( url == undefined ){ return; }
+
+		url = url.split('/');
+		var type = url[url.length-1];
+
+		if( type == 'create' ){
+			 $('form').find("input[type=text], textarea").val("");
+			 $('.textarea').data("wysihtml5").editor.setValue('');
+		}
+	}
+
+	$(window).scroll(function(){
+		scroll = $(window).scrollTop();
+		console.log(scroll);
+	});
+
+	// SENDS FORM DATA VIA AJAX
+	// --------------------------------------------
 	$('form').submit(function(e){
 		e.preventDefault();
 		hide_error_field();
@@ -80,8 +112,17 @@ $(function() {
 				}else if( result.status_type == "success" ){
 					//DISPLAY GENERAL SUCCESS MESSAGE
 					show_alert_msg(result.status_msg, 'success');
+					form_reset(form.attr('action'));
 				}
 			}
 		)
 	});
+
+	$('[data-ajax="delete"]').click(function(e){
+		e.preventDefault();
+		var url = $(this).parent().attr('href');
+		$.get( url, function( data ) {
+			alert( data );
+		});
+	})
 });

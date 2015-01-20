@@ -42,6 +42,8 @@ class events extends account
 
 		//GET EVENT DETAILS
 		$result = $this->events_model->get_events('event_id', $event_id);
+		//GET EVENT DESCRIPTION
+		$result_desc = $this->events_model->get_event_desc($event_id);
 
 		//IF THERE IS NO EVENT, SHOW ERROR RECORD NOT FOUND
 		if( $result === FALSE ){
@@ -53,6 +55,7 @@ class events extends account
 
 		$data['events_category'] = $this->events_model->get_categories();
 		$data['result']          = $result[0];
+		$data['result_desc']     = ($result_desc)? $result_desc : array();
 
 		return $this->load->view('templates/forms/event_form', $data);
 	}
@@ -62,8 +65,8 @@ class events extends account
 		$result = $this->events_model->get_events();
 
 		for( $i=0; $i<count($result); $i++ ){
-			$date_start=$result[$i]['date_start'];
-			$date_end  =$result[$i]['date_end'];
+			$date_start= $result[$i]['date_start'];
+			$date_end  = $result[$i]['date_end'];
 			$date      = $date_start." - ".$date_end;
 
 			// if( $result[0]->date_start == $result[0]->date_end ){
@@ -75,7 +78,8 @@ class events extends account
 			// }
 			$result[$i]['date'] =  $date;
 		}
-
+		$data['btn_edit']     = 'account/events/edit/';
+		$data['btn_delete']   = 'events_ajax/delete/';
 		$data['table_name']   = 'Trainings and seminars';
 		$data['fieldname']    = array('title','date', 'location', 'action');
 		$data['field_label']  = array('Activity','Date', 'Venue', '&nbsp;');

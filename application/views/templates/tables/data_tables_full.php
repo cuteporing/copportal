@@ -21,24 +21,24 @@
           <?php endif ?>
         <?php endfor ?>
         <?php if( in_array('action', $fieldname) ): ?>
-					<td>
-						<div class="btn-group">
-							<a href="<?=base_url()?>account/events/edit/<?=$row['event_id']?>" title="Edit"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button></a>
-							<a href="<?=base_url()?>account/events/delete/<?=$row['event_id']?>" title="Delete"><button type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i></button></a>
-						</div>
-					</td>
-				<?php endif ?>
-				</tr>
-			<?php endforeach ?>
-		</tbody>
-		<tfoot>
-			<tr>
-				<?php foreach ($field_label as $label): ?>
-					<th><?= $label ?></th>
-				<?php endforeach ?>
-			</tr>
-		</tfoot>
-	</table>
+          <td>
+            <div class="btn-group">
+              <a href="<?=base_url().$btn_edit.$row['event_id']?>" title="Edit"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button></a>
+              <a href="<?=base_url().$btn_delete.$row['event_id']?>" title="Delete"><button type="button" class="btn btn-danger" data-ajax="delete"><i class="fa fa-trash-o"></i></button></a>
+            </div>
+          </td>
+        <?php endif ?>
+        </tr>
+      <?php endforeach ?>
+    </tbody>
+    <tfoot>
+        <tr>
+          <?php foreach ($field_label as $label): ?>
+            <th><?= $label ?></th>
+          <?php endforeach ?>
+        </tr>
+    </tfoot>
+  </table>
 </div><!-- /.box-body -->
 
 

@@ -43,9 +43,9 @@ class Events_model extends CI_Model {
 	public function get_no_of_member($status)
 	{
 		switch ($status) {
-			case 'new'     : $fieldname = 'status';					break;
-			case 'approved': $fieldname = 'status';					break;
-			case 'denied'  : $fieldname = 'status';					break;
+			case 'new'     : $fieldname = 'status'; break;
+			case 'approved': $fieldname = 'status'; break;
+			case 'denied'  : $fieldname = 'status'; break;
 			default: return; break;
 		}
 		$this->db->where($fieldname, $status);
@@ -80,6 +80,26 @@ class Events_model extends CI_Model {
 	}
 
 	/**
+	 * GET EVENT DESCRIPTION BASED ON THE EVENT ID
+	 * @param Integer, $event_id
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function get_event_desc($event_id)
+	{
+		$this->db->where('event_id', $event_id);
+		$this->db->from('cop_description');
+		$this->db->order_by("sequence", "asc");
+		$query = $this->db->get();
+
+		if( $query->num_rows() == 1 ){
+			return $query->result();
+		}else{
+			return FALSE;
+		}
+	}
+
+	/**
 	 * GET EVENTS
 	 * @return Array
 	 * --------------------------------------------
@@ -105,12 +125,40 @@ class Events_model extends CI_Model {
 		
 	}
 
+	/**
+	 * DELETE EVENT DESCRIPTION
+	 * @param Integer, $event_id
+	 * --------------------------------------------
+	 */
 	public function delete_event_desc($event_id)
 	{
-		$this->db->where('event_id', $event_id);
-		$this->db->update('cop_description', $event_data);
+		$id = array('event_id'=>$event_id);
+		$this->db->delete('cop_description', $id);
 	}
 
+	/**
+	 * DELETE EVENT DETAILS
+	 * @param Integer, $event_id
+	 * --------------------------------------------
+	 */
+	public function delete_event($event_id)
+	{
+		$id = array('event_id'=>$event_id);
+
+		$this->db->trans_begin();
+		$this->db->delete('cop_events', $id);
+		$this->delete_event_desc($event_id);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
+			return FALSE;
+		}else{
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
 
 	/**
 	 * UPDATE EVENT DETAILS
@@ -124,13 +172,36 @@ class Events_model extends CI_Model {
 		$this->db->trans_begin();
 		$this->db->where('event_id', $event_data['event_id']);
 		$this->db->update('cop_events', $event_data);
-
+		//DELETE ALL EVENT DESCRIPTION FOR THE EVENT
 		$this->delete_event_desc($event_data['event_id']);
 
+		foreach ($description_data as $data) {
+			$data['event_id'] = $event_data['event_id'];
+			//INSERT DESCRIPTION
+			$this->db->insert('cop_description', $data);
+		}
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
+			return array(
+				'status'=>'error',
+				'msg'   =>'Cannot update the event'
+				);
+		}else{
+			$this->db->trans_commit();
+			return array(
+				'status'=>'success',
+				'msg'   =>'"'.$event_data['title'].'" has been updated'
+				);
+		}
 	}
 
 	/**
 	 * CREATES AN EVENT
+	 * @param Array, $event_data
+	 * @param Array, $description_data
 	 * @return Array
 	 * --------------------------------------------
 	 */

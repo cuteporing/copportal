@@ -39,6 +39,7 @@
 */
 
 $route['events_ajax/create'] = 'events_ajax/create/$1';
+$route['events_ajax/delete/(:any)'] = 'events_ajax/delete/$1';
 $route['events_ajax/edit'] = 'events_ajax/edit/$1';
 $route['account/(:any)'] = 'account/view/$1';
 $route['logout'] = 'users/logout';

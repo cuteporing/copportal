@@ -3,13 +3,17 @@
 	<?php echo form_open('events_ajax/edit/') ?>
 	<input  type="text" class="form-control hide" name="event_id" value="<?php if(isset($result)){ echo $result->event_id; } ?>">
 	<textarea class="hide" id="description_mirror" name="description_mirror">
-	<!-- 	<?php if(isset($result_description)){ echo $result->event_id; } ?> -->
+		<?php if( isset($result_desc) && count($result_desc) > 0 ): ?>
+			<?php foreach ($result_desc as $description): ?>
+				<?=$description->description ?>
+			<?php endforeach; ?>
+		<?php endif; ?>
 	</textarea>
 <?php else: ?>
 	<?php echo form_open('events_ajax/create') ?>
 <?php endif; ?>
 <div class="row">
-	<div class="error_message col-md-12"></div>
+	<div class="error_message"></div>
 	<!-- LEFT COLUMN -->
 	<div class="col-md-8">
 		<!-- EVENT TITLE -->

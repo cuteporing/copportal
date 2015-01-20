@@ -131,9 +131,16 @@ h6,
   font-family: 'Source Sans Pro', sans-serif;
 }
 
-.error{
+.error {
   color: red;
   margin-top: 3px;
+}
+.error_message {
+  right:0;
+  width: 0;
+  top: 77px;
+  z-index: 99;
+  position: absolute;
 }
 /* Page Header */
 .page-header {
