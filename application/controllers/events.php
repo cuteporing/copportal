@@ -69,13 +69,13 @@ class events extends account
 			$date_end  = $result[$i]['date_end'];
 			$date      = $date_start." - ".$date_end;
 
-			// if( $result[0]->date_start == $result[0]->date_end ){
-			// 	$date = common::format_date($result[0]->date_start, 'm-d-Y');
-			// 	$date = $date.' - '.$date;
-			// }else{
-			// 	$date = common::format_date($result[0]->date_start, 'm-d-Y').' - ';
-			// 	$date.= common::format_date($result[0]->date_end;
-			// }
+			if( $date_start == $date_end ){
+				$date = common::format_date($result[0]->date_start, 'M d-Y');
+				$date = $date.' - '.$date;
+			}else{
+				$date = common::format_date($result[0]->date_start, 'm-d-Y').' - ';
+				$date.= common::format_date($result[0]->date_end;
+			}
 			$result[$i]['date'] =  $date;
 		}
 		$data['btn_edit']     = 'account/events/edit/';

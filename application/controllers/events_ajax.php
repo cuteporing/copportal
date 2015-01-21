@@ -162,7 +162,12 @@ class events_ajax extends CI_controller
 	public function delete()
 	{
 		$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
-		$result = $this->events_model->delete_event();
+		$result = $this->events_model->delete_event($event_id);
+		if( $result ){
+			echo common::response_msg(200, 'success', 'Event has been deleted');
+		}else{
+			echo common::response_msg(200, 'error', 'Cannot delete event');
+		}
 	}
 
 	/**

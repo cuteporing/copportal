@@ -1,3 +1,5 @@
+<div class="error_message"></div>
+
 <div class="box">
 	<div class="box-header">
 	<h3 class="box-title"><?=$table_name ?></h3>
@@ -24,7 +26,7 @@
           <td>
             <div class="btn-group">
               <a href="<?=base_url().$btn_edit.$row['event_id']?>" title="Edit"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button></a>
-              <a href="<?=base_url().$btn_delete.$row['event_id']?>" title="Delete"><button type="button" class="btn btn-danger" data-ajax="delete"><i class="fa fa-trash-o"></i></button></a>
+              <a href="<?=base_url().$btn_delete.$row['event_id']?>" title="Delete"><button type="button" class="btn btn-danger" data-ajax="delete" data-del-type="table"><i class="fa fa-trash-o"></i></button></a>
             </div>
           </td>
         <?php endif ?>

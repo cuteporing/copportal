@@ -32,7 +32,7 @@ $(function() {
 	// - success
 	// - warning
 	// --------------------------------------------
-	function create_alert(msg, type){
+	function create_alert(type){
 		var alert_class = 'alert-'+type;
 		var div         = document.createElement('div');
 
@@ -49,7 +49,8 @@ $(function() {
 		button = '<button type="button" class="close" aria-hidden="true" '+
 						 'data-dismiss="alert">×</button>';
 		icon = '<i class="'+icon_class+'"></i>';
-		div.innerHTML = icon+button+msg;
+		// div.innerHTML = icon+button+msg;
+		div.innerHTML = icon+button;
 
 		return div;
 	}
@@ -58,14 +59,22 @@ $(function() {
 	// --------------------------------------------
 	function show_alert_msg(msg, type){
 		$('.error_message').css('top', scroll+77+'px');
-		$('.error_message').html( create_alert(msg, type) );
-
-		$('.error_message').animate({ width: "30%" }, 500, function(){
-			// $('.error_message .alert').show();
+		$('.error_message').html( create_alert(type) );
+		$('.alert-dismissable').css({
+			'height'      : '52px',
+			'padding-left': '30px',
+			'margin-left' : '15px',
+			'position'    : 'relative'
 		});
+		$('.error_message').animate({ width: "30%" }, 500, function(){
+			$('.alert-dismissable').append(msg);
+		});
+	}
 
-		console.log("yeah");
-		// $('.error_message').html( create_alert(msg, type) ).slideDown("fast");
+	// HIDE GENERAL ALERT MESSAGE
+	// --------------------------------------------
+	function hide_alert_msg(){
+		$('[data-dismiss="alert"]').click();
 	}
 
 	// RESETS THE FORM
@@ -82,15 +91,21 @@ $(function() {
 		}
 	}
 
+	// ONSCROLL EVENT
+	// --------------------------------------------
 	$(window).scroll(function(){
 		scroll = $(window).scrollTop();
-		console.log(scroll);
+		//IF THERE IS AN ALERT MESSAGE BOX
+		if( $('.alert-dismissable').length > 0 ){
+			$('.error_message').css('top', scroll+77+'px');
+		}
 	});
 
 	// SENDS FORM DATA VIA AJAX
 	// --------------------------------------------
 	$('form').submit(function(e){
 		e.preventDefault();
+		hide_alert_msg();
 		hide_error_field();
 		var form = $(this);
 
@@ -118,11 +133,43 @@ $(function() {
 		)
 	});
 
+	// REMOVE DATA FROM A TABLE LIST
+	// --------------------------------------------
+	function remove_data_table(el){
+		el.closest('tr').remove();
+	}
+
+	// REMOVE DISPLAYED DATA DEPENDING ON THE TYPE
+	// --------------------------------------------
+	function remove_data(el){
+		var type= el.data('del-type');
+		switch(type) {
+			case 'table': remove_data_table(el); break;
+			default : remove_data_table(el);     break;
+		}
+	}
+
+	// DELETE DATA VIA AJAX
+	// --------------------------------------------
 	$('[data-ajax="delete"]').click(function(e){
 		e.preventDefault();
 		var url = $(this).parent().attr('href');
+		var _this= $(this);
 		$.get( url, function( data ) {
-			alert( data );
+			var result = JSON.parse(data);
+			console.log("RESULT: ");
+			console.log("--------------------------------------");
+			console.log( result );
+
+			if( result.status_type='success' ){
+				//DISPLAY GENERAL SUCCESS MESSAGE
+				show_alert_msg(result.status_msg, 'success');
+				//REMOVE DISPLAYED DATA
+				remove_data(_this);
+			}else{
+				//DISPLAY GENERAL ERROR MESSAGE
+				show_alert_msg(result.status_msg, 'danger');
+			}
 		});
 	})
 });
