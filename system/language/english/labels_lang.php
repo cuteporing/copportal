@@ -27,14 +27,17 @@ $lang['lbl_reject'] = 'Reject';
 $lang['lbl_training'] = 'Training';
 
 //FORM LABELS
+$lang['lbl_city'] = 'City';
 $lang['lbl_event_category'] = 'Event category';
 $lang['lbl_event_date'] = 'Event date';
 $lang['lbl_end_time'] = 'End time';
 $lang['lbl_event_title'] = 'Event title';
 $lang['lbl_first_name'] = 'First name';
+$lang['lbl_gender'] = 'Gender';
 $lang['lbl_last_name'] = 'Last name';
 $lang['lbl_location'] = 'Venue';
 $lang['lbl_max_participants'] = 'Max no. of participants';
+$lang['lbl_phone'] = 'Phone';
 $lang['lbl_start_time'] = 'Start time';
 $lang['lbl_street_address'] = 'Street address';
 

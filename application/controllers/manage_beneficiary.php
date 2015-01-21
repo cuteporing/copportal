@@ -19,6 +19,7 @@ class manage_beneficiary extends account
 	{
 		parent::__construct();
 		$this->load->model('beneficiary_model');
+		$this->load->model('city_model');
 	}
 
 	public function display_user_stat_box()
@@ -27,9 +28,17 @@ class manage_beneficiary extends account
 		return $stat_box;
 	}
 
+	public function get_gender()
+	{
+		return array('Female', 'Male', 'Other');
+	}
+
 	public function create()
 	{
-		return $this->load->view('templates/forms/beneficiary_form');
+		$data['city_list'] = $this->city_model->get_cities();
+		$data['gender_list'] = $this->get_gender();
+
+		return $this->load->view('templates/forms/beneficiary_form', $data);
 	}
 
 	/**

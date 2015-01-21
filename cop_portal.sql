@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2015 at 04:36 PM
+-- Generation Time: Jan 21, 2015 at 10:33 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `cop_announcements` (
 --
 
 CREATE TABLE IF NOT EXISTS `cop_announcement_description` (
-`announcement_id` int(11) NOT NULL,
+  `announcement_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `cop_beneficiaries` (
   `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `phone` varchar(50) NOT NULL,
   `address_street` varchar(150) NOT NULL,
-  `address_city` varchar(100) NOT NULL,
+  `address_city_id` int(11) NOT NULL,
   `imagename` varchar(250) NOT NULL,
   `deleted` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -89,6 +89,24 @@ INSERT INTO `cop_category` (`category_id`, `category_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cop_city`
+--
+
+CREATE TABLE IF NOT EXISTS `cop_city` (
+`city_id` int(11) NOT NULL,
+  `city` varchar(50) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_city`
+--
+
+INSERT INTO `cop_city` (`city_id`, `city`) VALUES
+(1, 'Las Piñas');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cop_description`
 --
 
@@ -97,7 +115,14 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_description`
+--
+
+INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
+(12, 10, 'ASDASD', 1);
 
 -- --------------------------------------------------------
 
@@ -118,14 +143,14 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `time_end` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `location` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events`
 --
 
 INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
-(1, 1, 'TECH TUTOR 5', 'open', 1, '2015-01-19 14:29:56', '2015-01-21', '2015-01-22', '02:00:00', '02:00:00', 'Las Pinas city', 'tech-tutor-5');
+(10, 1, 'TECH TUTOR 7', 'open', 1, '2015-01-20 01:45:24', '2015-01-20', '2015-01-20', '16:30:00', '16:30:00', 'ASD', 'tech-tutor-7');
 
 -- --------------------------------------------------------
 
@@ -134,7 +159,7 @@ INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_i
 --
 
 CREATE TABLE IF NOT EXISTS `cop_events_member` (
-`event_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
   `id` int(11) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` varchar(50) NOT NULL
@@ -147,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `cop_events_member` (
 --
 
 CREATE TABLE IF NOT EXISTS `cop_users` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `user_name` varchar(255) DEFAULT NULL,
   `user_password` varchar(200) DEFAULT NULL,
   `first_name` varchar(30) DEFAULT NULL,
@@ -166,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
   `deleted` int(1) NOT NULL DEFAULT '0',
   `crypt_type` varchar(20) NOT NULL DEFAULT 'MD5',
   `visited` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_users`
@@ -188,12 +213,6 @@ ALTER TABLE `cop_announcements`
  ADD PRIMARY KEY (`announcement_id`);
 
 --
--- Indexes for table `cop_announcement_description`
---
-ALTER TABLE `cop_announcement_description`
- ADD PRIMARY KEY (`announcement_id`);
-
---
 -- Indexes for table `cop_beneficiaries`
 --
 ALTER TABLE `cop_beneficiaries`
@@ -204,6 +223,12 @@ ALTER TABLE `cop_beneficiaries`
 --
 ALTER TABLE `cop_category`
  ADD PRIMARY KEY (`category_id`);
+
+--
+-- Indexes for table `cop_city`
+--
+ALTER TABLE `cop_city`
+ ADD PRIMARY KEY (`city_id`);
 
 --
 -- Indexes for table `cop_description`
@@ -218,18 +243,6 @@ ALTER TABLE `cop_events`
  ADD PRIMARY KEY (`event_id`);
 
 --
--- Indexes for table `cop_events_member`
---
-ALTER TABLE `cop_events_member`
- ADD PRIMARY KEY (`event_id`);
-
---
--- Indexes for table `cop_users`
---
-ALTER TABLE `cop_users`
- ADD PRIMARY KEY (`id`), ADD KEY `user_user_name_idx` (`user_name`), ADD KEY `user_user_password_idx` (`user_password`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -237,11 +250,6 @@ ALTER TABLE `cop_users`
 -- AUTO_INCREMENT for table `cop_announcements`
 --
 ALTER TABLE `cop_announcements`
-MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `cop_announcement_description`
---
-ALTER TABLE `cop_announcement_description`
 MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `cop_beneficiaries`
@@ -254,41 +262,20 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `cop_category`
 MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
+-- AUTO_INCREMENT for table `cop_city`
+--
+ALTER TABLE `cop_city`
+MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
---
--- AUTO_INCREMENT for table `cop_events_member`
---
-ALTER TABLE `cop_events_member`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `cop_users`
---
-ALTER TABLE `cop_users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `cop_announcement_description`
---
-ALTER TABLE `cop_announcement_description`
-ADD CONSTRAINT `cop_announcement_description_ibfk_1` FOREIGN KEY (`announcement_id`) REFERENCES `cop_announcements` (`announcement_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
-
---
--- Constraints for table `cop_events_member`
---
-ALTER TABLE `cop_events_member`
-ADD CONSTRAINT `cop_events_member_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `cop_events` (`event_id`) ON UPDATE NO ACTION;
-
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
