@@ -20,8 +20,6 @@ class dashboard extends account
 		parent::__construct();
 		$this->load->model('events_model');
 		$this->load->model('beneficiary_model');
-		$this->load->helper(array('form', 'url'));
-		$this->load->library('form_validation');
 	}
 
 	/**

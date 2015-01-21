@@ -75,10 +75,33 @@ class sidebar extends account
 				),
 			3 => array(
 				'admin'=>'on',
+				'title'=>'Manage Beneficiary',
+				'link' =>'account/manage_beneficiary',
+				'class'=> array('class'=>'treeview'),
+				'icon' => array('class'=>'fa fa-users'),
+				'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
+				'badge'=> 'none',
+				'drop' => array(
+									0 =>array(
+										'admin'=>'on',
+										'title'=>'Add beneficiary',
+										'link' =>'account/manage_beneficiary/create',
+										'icon' =>array('class'=>'fa fa-angle-double-right'),
+										),
+									1 =>array(
+										'admin'=>'on',
+										'title'=>'View beneficiary',
+										'link' =>'account/manage_beneficiary/view',
+										'icon' =>array('class'=>'fa fa-angle-double-right'),
+										)
+									)
+				),
+			4 => array(
+				'admin'=>'on',
 				'title'=>'Manage Users',
 				'link' =>'account/manage_users',
 				'class'=> array('class'=>''),
-				'icon' => array('class'=>'fa fa-users'),
+				'icon' => array('class'=>'fa fa-user'),
 				'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
 				'badge'=> 'none',
 				'drop' => 'none'

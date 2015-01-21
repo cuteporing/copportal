@@ -18,6 +18,7 @@ include_once('announcements.php');
 include_once('box.php');
 include_once('dashboard.php');
 include_once('events.php');
+include_once('manage_beneficiary.php');
 include_once('manage_users.php');
 include_once('sidebar.php');
 include_once('status_box.php');
@@ -253,6 +254,16 @@ class account extends CI_controller
 		return $events->view($page,$header,$sidebar, $c_header);
 	}
 
+	public function manage_beneficiary($page, $sidebar)
+	{
+		$manage_beneficiary  = new manage_beneficiary;
+
+		$header  = $this->header();
+		$c_header= self::content_header(ucfirst($page));
+
+		return $manage_beneficiary->view($page,$header,$sidebar, $c_header);
+	}
+
 	public function manage_users($page, $sidebar)
 	{
 		$manage_users  = new manage_users;
@@ -281,11 +292,12 @@ class account extends CI_controller
 		$sidebar = $sidebar->view_sidebar();
 
 		switch ($page) {
-			case 'announcements' : $this->announcements($page, $sidebar);	break;
-			case 'dashboard'     : $this->dashboard($page, $sidebar);		break;
-			case 'events'        : $this->events($page, $sidebar);			break;
-			case 'manage_users'  : $this->manage_users($page, $sidebar);	break;
-			default: $this->dashboard($page, $sidebar); 					break;
+			case 'announcements'     : $this->announcements($page, $sidebar);		break;
+			case 'dashboard'         : $this->dashboard($page, $sidebar);			break;
+			case 'events'            : $this->events($page, $sidebar);				break;
+			case 'manage_beneficiary': $this->manage_beneficiary($page, $sidebar);	break;
+			case 'manage_users'      : $this->manage_busers($page, $sidebar);		break;
+			default: $this->dashboard($page, $sidebar); 							break;
 		}
 
 		$common->display_footer();
