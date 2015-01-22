@@ -48,7 +48,7 @@ $(function() {
 	$(".timepicker").timepicker({
 		showInputs: false
 	});
-
+	//Data table
 	$("#displayData").dataTable();
 	$('#example2').dataTable({
 		"bPaginate": true,
@@ -58,6 +58,25 @@ $(function() {
 		"bInfo": true,
 		"bAutoWidth": false
 	});
+	//Clone elements
+	$('[data-blind]').click(function(e){
+		e.preventDefault();
+		var elementClass = '.' + $(this).data('blind');
+		var element      = $(elementClass);
+		var button       = $(this);
+
+		for (var i = 1; i < element.length; i++) {
+			if( $( elementClass ).eq( i ).hasClass('hide') ){
+				$( elementClass ).eq( i ).fadeIn('fast').removeClass('hide');
+
+				if( i == element.length-1 ){
+					button.hide();
+				}
+				return;
+			}
+		};
+	});
+
 
 	sideBar();
 
@@ -66,7 +85,7 @@ $(function() {
 		var url  = document.URL.split(location.host+'/copportal/account/')[1];
 		var page = url.split('/')[0];
 		var link = $('[data-page="'+page+'"]').parents('li');
-		var hasDrop = (link.hasClass('treeview'))? true : false;
+		var hasDrop = link.hasClass('treeview')? true : false;
 
 		link.addClass("active").slideDown('fast').siblings().removeClass('active');
 		link.find('.fa.pull-right').removeClass('fa-angle-left').addClass('fa-angle-down');

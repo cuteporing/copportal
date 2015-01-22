@@ -23,7 +23,7 @@ class City_model extends CI_Model {
 		if( $city_id !== 0 ){
 			$this->db->where('city_id', $city_id);
 			$this->db->from('cop_city');
-			$this->db->order_by("city", "asc");
+			$this->db->order_by('city','ASC');
 			$query = $this->db->get();
 
 			if( $query->num_rows() == 1 ){

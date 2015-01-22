@@ -1,9 +1,9 @@
 
 <?php if( isset($result) ): ?>
-	<?php echo form_open('manage_beneficiary_ajax/edit/') ?>
+	<?php echo form_open('beneficiary_ajax/edit/') ?>
 	<input  type="text" class="form-control hide" name="id" value="<?php if(isset($result)){ echo $result->id; } ?>">
 <?php else: ?>
-	<?php echo form_open('manage_beneficiary_ajax/create') ?>
+	<?php echo form_open('beneficiary_ajax/create') ?>
 <?php endif; ?>
 <div class="row">
 	<div class="error_message"></div>
@@ -32,7 +32,7 @@
 
 				<div class="form-group">
 					<label><?=$this->lang->line('lbl_street_address')?></label>
-					<input type="text" class="form-control" name="first_name" value="<?php if(isset($result)){ echo $result->address_street; } ?>" maxlength="150">
+					<input type="text" class="form-control" name="street_address" value="<?php if(isset($result)){ echo $result->address_street; } ?>" maxlength="150">
 					<p class="error"></p>
 				</div>
 
@@ -74,16 +74,36 @@
 			</div>
 		</div>
 	</div><!--//END col-md-8 -->
+
+	<input type="hidden" name="confirm" id="confirm" value="<?php echo 'false';?>">
+
 	<!-- RIGHT COLUMN -->
 	<div class="col-md-4">
 		<div class="box box-primary">
 			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_contact_details')?></h3></div>
 			<div class="box-body">
-				<div class="form-group">
-					<label><?=$this->lang->line('lbl_street_address')?></label>
-					<input type="text" class="form-control" name="first_name" value="<?php if(isset($result)){ echo $result->address_street; } ?>" maxlength="150">
-					<p class="error"></p>
+				<div class="form-group phone">
+					<label><?=$this->lang->line('lbl_phone')?></label>
+					<div class="input-group">
+						<div class="input-group-addon"><i class="fa fa-phone"></i></div>
+						<input type="text" name="phone[]" class="form-control" data-inputmask="'mask': ['9999-999-9999', '+639 99 999 9999[9]-9999']" data-mask/>
+					</div>
 				</div>
+				<div class="form-group phone hide">
+					<label><?=$this->lang->line('lbl_phone')?></label>
+					<div class="input-group">
+						<div class="input-group-addon"><i class="fa fa-phone"></i></div>
+						<input type="text" name="phone[]" class="form-control" data-inputmask="'mask': ['9999-999-9999', '+639 99 999 9999[9]-9999']" data-mask/>
+					</div>
+				</div> 
+				<div class="form-group phone hide">
+					<label><?=$this->lang->line('lbl_phone')?></label>
+					<div class="input-group">
+						<div class="input-group-addon"><i class="fa fa-phone"></i></div>
+						<input type="text" name="phone[]" class="form-control" data-inputmask="'mask': ['9999-999-9999', '+639 99 999 9999[9]-9999']" data-mask/>
+					</div>
+				</div>
+				<button class="btn btn-primary btn-block" data-blind="phone"><i class="fa fa-plus"></i> Add</button>
 			</div><!--//END box-body -->
 		</div><!--//END box-primary -->
 	</div><!--//END col-md-4 -->

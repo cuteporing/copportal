@@ -24,5 +24,45 @@ class Beneficiary_model extends CI_Model {
 		$this->db->from('cop_beneficiaries');
 		return $this->db->count_all_results();
 	}
+
+	public function check_beneficiary($name)
+	{
+		$this->db->select('id');
+		$this->db->from('cop_beneficiaries');
+		$this->db->where('first_name', $name['first_name']);
+		$this->db->where('last_name', $name['last_name']);
+		$this->db->limit(1);
+
+		$query = $this->db->get();
+
+		if( $query->num_rows() == 1 ){
+			return TRUE;
+		}else{
+			return FALSE;
+		}
+
+	}
+
+	public function create_beneficiary($data)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('cop_beneficiaries', $data);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
+			return array(
+				'status'=>'error',
+				'msg'   =>'Cannot add beneficiary'
+				);
+		}else{
+			$this->db->trans_commit();
+			return array(
+				'status'=>'success',
+				'msg'   =>$data['first_name'].' has been added to the list of beneficiaries'
+				);
+		}
+	}
 }
 ?>

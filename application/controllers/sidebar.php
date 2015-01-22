@@ -131,8 +131,8 @@ class sidebar extends account
 	public function create_title($title)
 	{
 		if( $title == '' ){ return $title; }
-
-		return span($title, array( 'data-page'=>strtolower($title) ));
+		$data_title = str_replace(' ', '_', $title);
+		return span($title, array( 'data-page'=>strtolower($data_title) ));
 	}
 
 	/**

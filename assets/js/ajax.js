@@ -8,6 +8,15 @@ $(function() {
 		return str;
 	}
 
+	function show_alert_confirm(msg) {
+		var x;
+		(confirm("Press a button!") == true)?
+			x = true : x = false;
+
+		console.log(x);
+		$('#confirm').val( x );
+	}
+
 	// SHOW ERROR MESSAGE
 	// --------------------------------------------
 	function show_error_field(data){
@@ -124,6 +133,9 @@ $(function() {
 				}else if( result.status_type == "error" ){
 					//DISPLAY GENERAL ERROR MESSAGE
 					show_alert_msg(result.status_msg, 'danger');
+				}else if( result.status_type == 'error_confirm' ){
+					//DISPLAY ALERT CONFIRM MESSAGE
+					show_alert_confirm(result.status_msg);
 				}else if( result.status_type == "success" ){
 					//DISPLAY GENERAL SUCCESS MESSAGE
 					show_alert_msg(result.status_msg, 'success');

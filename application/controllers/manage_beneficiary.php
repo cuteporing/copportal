@@ -38,7 +38,8 @@ class manage_beneficiary extends account
 		$data['city_list'] = $this->city_model->get_cities();
 		$data['gender_list'] = $this->get_gender();
 
-		return $this->load->view('templates/forms/beneficiary_form', $data);
+		$this->load->view('templates/forms/beneficiary_form', $data);
+		$this->load->view('templates/modal', $data);
 	}
 
 	/**
