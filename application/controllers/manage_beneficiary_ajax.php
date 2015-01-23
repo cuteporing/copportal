@@ -15,7 +15,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 include_once('common.php');
 include_once('users.php');
 
-class beneficiary_ajax extends CI_controller
+class manage_beneficiary_ajax extends CI_controller
 {
 	public function __construct()
 	{
@@ -97,6 +97,21 @@ class beneficiary_ajax extends CI_controller
 			echo $this->validate_beneficiary_create();
 			exit;
 		}
+
+		$phone_list = array();
+
+		foreach ($this->input->post('phone') as $phone) {
+			if( $phone !== '' ){
+				array_push($phone_list, $phone);
+			}
+		}
+
+		if( count($phone_list) > 0 ){
+			json_encode($phone_list);
+		}else{
+			
+		}
+
 		echo common::response_msg(200, 'success', 'asdasdasdasd');
 		exit;
 

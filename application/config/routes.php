@@ -38,7 +38,7 @@
 |
 */
 
-$route['beneficiary_ajax/create'] = 'beneficiary_ajax/create/$1';
+$route['manage_beneficiary_ajax/create'] = 'manage_beneficiary_ajax/create/$1';
 $route['events_ajax/create'] = 'events_ajax/create/$1';
 $route['events_ajax/delete/(:any)'] = 'events_ajax/delete/$1';
 $route['events_ajax/edit'] = 'events_ajax/edit/$1';

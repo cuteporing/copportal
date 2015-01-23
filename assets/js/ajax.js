@@ -10,11 +10,14 @@ $(function() {
 
 	function show_alert_confirm(msg) {
 		var x;
-		(confirm("Press a button!") == true)?
-			x = true : x = false;
+		( confirm( msg ) == true )?
+			x = 'yes' : x = 'no';
 
 		console.log(x);
 		$('#confirm').val( x );
+		if( x == 'yes' ){
+			$(":submit").click();
+		}
 	}
 
 	// SHOW ERROR MESSAGE
@@ -77,6 +80,7 @@ $(function() {
 		});
 		$('.error_message').animate({ width: "30%" }, 500, function(){
 			$('.alert-dismissable').append(msg);
+			$('.alert-dismissable').css('height', 'auto');
 		});
 	}
 
@@ -95,8 +99,10 @@ $(function() {
 		var type = url[url.length-1];
 
 		if( type == 'create' ){
-			 $('form').find("input[type=text], textarea").val("");
-			 $('.textarea').data("wysihtml5").editor.setValue('');
+			$('form').find("input[type=text], textarea").val("");
+			if( $('[data-wysihtml5]').length > 0 ){
+				$('.textarea').data("wysihtml5").editor.setValue('');
+			}
 		}
 	}
 

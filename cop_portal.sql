@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2015 at 10:33 AM
+-- Generation Time: Jan 23, 2015 at 09:53 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -59,12 +59,19 @@ CREATE TABLE IF NOT EXISTS `cop_beneficiaries` (
   `gender` varchar(10) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `phone` varchar(50) NOT NULL,
+  `phone` varchar(150) DEFAULT NULL,
   `address_street` varchar(150) NOT NULL,
   `address_city_id` int(11) NOT NULL,
   `imagename` varchar(250) NOT NULL,
   `deleted` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_beneficiaries`
+--
+
+INSERT INTO `cop_beneficiaries` (`id`, `first_name`, `last_name`, `gender`, `date_entered`, `date_modified`, `phone`, `address_street`, `address_city_id`, `imagename`, `deleted`) VALUES
+(1, 'Krishia', 'Valencia', '', '2015-01-22 05:31:46', '2015-01-22 05:31:36', '', 'BGC', 3, '', 0);
 
 -- --------------------------------------------------------
 
@@ -95,14 +102,20 @@ INSERT INTO `cop_category` (`category_id`, `category_name`) VALUES
 CREATE TABLE IF NOT EXISTS `cop_city` (
 `city_id` int(11) NOT NULL,
   `city` varchar(50) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_city`
 --
 
 INSERT INTO `cop_city` (`city_id`, `city`) VALUES
-(1, 'Las Piñas');
+(1, 'Caloocan'),
+(2, 'Las Piñas'),
+(3, 'Makati'),
+(4, 'Malabon'),
+(5, 'Mandaluyong'),
+(6, 'Marikina'),
+(7, 'Muntinlupa');
 
 -- --------------------------------------------------------
 
@@ -115,14 +128,14 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
 --
 
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
-(12, 10, 'ASDASD', 1);
+(15, 12, 'asdasdaasd', 1);
 
 -- --------------------------------------------------------
 
@@ -143,14 +156,14 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `time_end` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `location` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events`
 --
 
 INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
-(10, 1, 'TECH TUTOR 7', 'open', 1, '2015-01-20 01:45:24', '2015-01-20', '2015-01-20', '16:30:00', '16:30:00', 'ASD', 'tech-tutor-7');
+(12, 1, 'TECH TUTOR 5', 'open', 1, '2015-01-21 23:15:39', '2015-01-22', '2015-01-22', '15:15:00', '15:15:00', 'asdas', 'tech-tutor-5');
 
 -- --------------------------------------------------------
 
@@ -255,7 +268,7 @@ MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `cop_beneficiaries`
 --
 ALTER TABLE `cop_beneficiaries`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `cop_category`
 --
@@ -265,17 +278,17 @@ MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT for table `cop_city`
 --
 ALTER TABLE `cop_city`
-MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -1,9 +1,9 @@
 
 <?php if( isset($result) ): ?>
-	<?php echo form_open('beneficiary_ajax/edit/') ?>
+	<?php echo form_open('manage_beneficiary_ajax/edit/') ?>
 	<input  type="text" class="form-control hide" name="id" value="<?php if(isset($result)){ echo $result->id; } ?>">
 <?php else: ?>
-	<?php echo form_open('beneficiary_ajax/create') ?>
+	<?php echo form_open('manage_beneficiary_ajax/create') ?>
 <?php endif; ?>
 <div class="row">
 	<div class="error_message"></div>
@@ -32,7 +32,7 @@
 
 				<div class="form-group">
 					<label><?=$this->lang->line('lbl_street_address')?></label>
-					<input type="text" class="form-control" name="street_address" value="<?php if(isset($result)){ echo $result->address_street; } ?>" maxlength="150">
+					<input type="text" class="form-control" name="address_street" value="<?php if(isset($result)){ echo $result->address_street; } ?>" maxlength="150">
 					<p class="error"></p>
 				</div>
 
@@ -75,7 +75,7 @@
 		</div>
 	</div><!--//END col-md-8 -->
 
-	<input type="hidden" name="confirm" id="confirm" value="<?php echo 'false';?>">
+	<input type="hidden" name="confirm" id="confirm" value="no">
 
 	<!-- RIGHT COLUMN -->
 	<div class="col-md-4">
