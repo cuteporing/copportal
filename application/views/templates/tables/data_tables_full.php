@@ -10,7 +10,11 @@
     <thead>
       <tr>
         <?php foreach ($field_label as $label): ?>
-        <th><?= $label ?></th>
+          <?php if( $label == '&nbsp;' ): ?>
+            <th width="200"><?= $label ?></th>
+          <?php else: ?>
+            <th><?= $label ?></th>
+          <?php endif; ?>
         <?php endforeach ?>
       </tr>
     </thead>
@@ -25,8 +29,8 @@
         <?php if( in_array('action', $fieldname) ): ?>
           <td>
             <div class="btn-group">
-              <a href="<?=base_url().$btn_edit.$row['event_id']?>" title="Edit"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button></a>
-              <a href="<?=base_url().$btn_delete.$row['event_id']?>" title="Delete"><button type="button" class="btn btn-danger" data-ajax="delete" data-del-type="table"><i class="fa fa-trash-o"></i></button></a>
+              <a href="<?=base_url().$btn_edit.$row['result_id']?>" title="Edit"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button></a>
+              <a href="<?=base_url().$btn_delete.$row['result_id']?>" title="Delete"><button type="button" class="btn btn-danger" data-ajax="delete" data-del-type="table"><i class="fa fa-trash-o"></i></button></a>
             </div>
           </td>
         <?php endif ?>

@@ -86,21 +86,21 @@
 					<label><?=$this->lang->line('lbl_phone')?></label>
 					<div class="input-group">
 						<div class="input-group-addon"><i class="fa fa-phone"></i></div>
-						<input type="text" name="phone[]" class="form-control" data-inputmask="'mask': ['9999-999-9999', '+639 99 999 9999[9]-9999']" data-mask/>
+						<input type="text" name="phone[]" class="form-control" data-inputmask="'mask': ['9999-999-9999', '+639 99 999 9999']" data-mask/>
 					</div>
 				</div>
 				<div class="form-group phone hide">
 					<label><?=$this->lang->line('lbl_phone')?></label>
 					<div class="input-group">
 						<div class="input-group-addon"><i class="fa fa-phone"></i></div>
-						<input type="text" name="phone[]" class="form-control" data-inputmask="'mask': ['9999-999-9999', '+639 99 999 9999[9]-9999']" data-mask/>
+						<input type="text" name="phone[]" class="form-control" data-inputmask="'mask': ['9999-999-9999', '+639 99 999 9999']" data-mask/>
 					</div>
 				</div> 
 				<div class="form-group phone hide">
 					<label><?=$this->lang->line('lbl_phone')?></label>
 					<div class="input-group">
 						<div class="input-group-addon"><i class="fa fa-phone"></i></div>
-						<input type="text" name="phone[]" class="form-control" data-inputmask="'mask': ['9999-999-9999', '+639 99 999 9999[9]-9999']" data-mask/>
+						<input type="text" name="phone[]" class="form-control" data-inputmask="'mask': ['9999-999-9999', '+639 99 999 9999']" data-mask/>
 					</div>
 				</div>
 				<button class="btn btn-primary btn-block" data-blind="phone"><i class="fa fa-plus"></i> Add</button>

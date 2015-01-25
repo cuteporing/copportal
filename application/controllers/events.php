@@ -67,13 +67,31 @@ class events extends account
 		for( $i=0; $i<count($result); $i++ ){
 			$date_start= $result[$i]['date_start'];
 			$date_end  = $result[$i]['date_end'];
-			$date = $date_start.' - '.$date_end;
+			// $date = $date_start.' - '.$date_end;
 
-			$date_start = explode('-', $date_start);
-			$date_end = explode('-', $date_end);
+			// $date_start = explode('-', $date_start);
+			// $date_end = explode('-', $date_end);
 
-			// if( $date_start == $date_end ){
-			// 	$date = common::format_date($date_start, 'M d, Y');
+			if( $date_start == $date_end ){
+				$date = common::format_date($date_start, 'M d, Y');
+			}else{
+				$date_start = explode('-', $date_start);
+				$date_end = explode('-', $date_end);
+
+				if($date_start[0] == $date_end[0] &&
+					 $date_start[1] == $date_start[1]){
+
+					$date = common::format_date($date_start, 'M ');
+					for($i=$date_start[2]; $i <= $date_end[2]; $i++){
+						$date.= $i;
+						if( $i < $date_end[2] ){
+							$date.=', ';
+						}
+					}
+				}else{
+
+				}
+			}
 			// }else{
 				// $date = $date_start.' - '.$date_end;
 			// }
@@ -92,7 +110,9 @@ class events extends account
 			// 	$date = common::format_date($date_start, 'm-d-Y').' - ';
 			// 	$date.= common::format_date($date_end, 'm-d-Y');
 			// }
-			$result[$i]['date'] =  $date;
+			$result[$i]['date']      =  $date;
+			$result[$i]['result_id'] = $result[$i]['event_id'];
+
 		}
 		$data['btn_edit']     = 'account/events/edit/';
 		$data['btn_delete']   = 'events_ajax/delete/';

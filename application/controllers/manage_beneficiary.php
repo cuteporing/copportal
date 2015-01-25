@@ -42,6 +42,25 @@ class manage_beneficiary extends account
 		$this->load->view('templates/modal', $data);
 	}
 
+	public function get_beneficiaries()
+	{
+		$result = $this->beneficiary_model->get_events();
+
+		for( $i=0; $i<count($result); $i++ ){
+			$result[$i]['name'] =  '<b>'.$result[$i]['last_name'].'</b>, '.$result[$i]['first_name'];
+			$result[$i]['result_id'] = $result[$i]['id'];
+		}
+
+		$data['btn_edit']     = 'account/manage_beneficiary/edit/';
+		$data['btn_delete']   = 'manage_beneficiary_ajax/delete/';
+		$data['table_name']   = 'Trainings and seminars';
+		$data['fieldname']    = array('name', 'action');
+		$data['field_label']  = array('Name', '&nbsp;');
+		$data['result']       = $result;
+
+		return $this->load->view('templates/tables/data_tables_full', $data);
+	}
+
 	/**
 	 * DISPLAY MANAGE BENEFICIARY PAGE
 	 * @param String, $page
@@ -64,9 +83,9 @@ class manage_beneficiary extends account
 		$this->load->view('templates/accounts/header', $data);
 
 		switch ($parameter) {
-			case '/create': $this->create(); break;
-			case '/edit'  : $this->edit();   break;
-			default:$this->get_events();     break;
+			case '/create': $this->create();    break;
+			case '/edit'  : $this->edit();      break;
+			default:$this->get_beneficiaries(); break;
 		}
 		//CONTENT FOOTER
 		$this->load->view('templates/accounts/footer');
