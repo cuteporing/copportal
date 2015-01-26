@@ -22,17 +22,21 @@ class manage_beneficiary extends account
 		$this->load->model('city_model');
 	}
 
-	public function display_user_stat_box()
-	{
-		$stat_box = '';
-		return $stat_box;
-	}
-
+	/**
+	 * GENDER COMBO BOX
+	 * @return Array
+	 * --------------------------------------------
+	 */
 	public function get_gender()
 	{
 		return array('Female', 'Male', 'Other');
 	}
 
+	/**
+	 * CREATE BENEFICIARY
+	 * @return PAGE
+	 * --------------------------------------------
+	 */
 	public function create()
 	{
 		$data['city_list'] = $this->city_model->get_cities();
@@ -42,9 +46,49 @@ class manage_beneficiary extends account
 		$this->load->view('templates/modal', $data);
 	}
 
+	/**
+	 * EDIT BENEFICIARY
+	 * @return PAGE
+	 * --------------------------------------------
+	 */
+	public function edit()
+	{
+		$beneficiary_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+
+		//IF THERE IS NO BENEFICIARY ID FROM URI, SHOW ERROR RECORD NOT FOUND
+		if( $beneficiary_id == '' ){
+			return $this->load->view('error/record_not_found');
+		}
+
+		//GET BENEFICIARY DETAILS
+		$result = $this->beneficiary_model->get_beneficiary('id', $beneficiary_id);
+
+		//IF THERE IS NO BENEFICIARY, SHOW ERROR RECORD NOT FOUND
+		if( $result === FALSE ){
+			return $this->load->view('error/record_not_found');
+		}
+
+		$selected = array(
+			'address_city_id'=>$result[0]->address_city_id,
+			'gender' =>$result[0]->gender
+			);
+
+		$data['result']      = $result[0];
+		$data['selected']    = $selected;
+		$data['city_list']   = $this->city_model->get_cities();
+		$data['gender_list'] = $this->get_gender();
+
+		return $this->load->view('templates/forms/beneficiary_form', $data);
+	}
+
+	/**
+	 * DISPLAY THE LIST OF BENEFICIARIES
+	 * @return table
+	 * --------------------------------------------
+	 */
 	public function get_beneficiaries()
 	{
-		$result = $this->beneficiary_model->get_events();
+		$result = $this->beneficiary_model->get_beneficiary();
 
 		for( $i=0; $i<count($result); $i++ ){
 			$result[$i]['name'] =  '<b>'.$result[$i]['last_name'].'</b>, '.$result[$i]['first_name'];

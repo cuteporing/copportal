@@ -22,6 +22,11 @@ class events extends account
 		$this->load->helper('file');
 	}
 
+	/**
+	 * DISPLAY CREATE EVENT PAGE
+	 * @return table
+	 * --------------------------------------------
+	 */
 	public function create()
 	{
 		$data['events_category'] = $this->events_model->get_categories();
@@ -29,6 +34,11 @@ class events extends account
 		return $this->load->view('templates/forms/event_form', $data);
 	}
 
+	/**
+	 * DISPLAY EVENTS EDIT PAGE
+	 * @return page
+	 * --------------------------------------------
+	 */
 	public function edit()
 	{
 		$session_data = $this->session->userdata('logged_in');
@@ -60,6 +70,11 @@ class events extends account
 		return $this->load->view('templates/forms/event_form', $data);
 	}
 
+	/**
+	 * DISPLAY EVENT LIST PAGE
+	 * @return table
+	 * --------------------------------------------
+	 */
 	public function get_events()
 	{
 		$result = $this->events_model->get_events();

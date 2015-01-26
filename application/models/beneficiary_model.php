@@ -18,6 +18,11 @@ class Beneficiary_model extends CI_Model {
 		$this->load->database();
 	}
 
+	/**
+	 * COUNT THE NUMBER OF BENEFICIARIES
+	 * @return Integer
+	 * --------------------------------------------
+	 */
 	public function count_beneficiaries()
 	{
 		$this->db->where('deleted', 0);
@@ -25,6 +30,13 @@ class Beneficiary_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
+	/**
+	 * CHECK IF THERE IS ALREADY A BENEFICIARY
+	 * W/ THE SAME NAME
+	 * @param String, $name
+	 * @return Boolean
+	 * --------------------------------------------
+	 */
 	public function check_beneficiary($name)
 	{
 		$this->db->select('id');
@@ -45,10 +57,12 @@ class Beneficiary_model extends CI_Model {
 
 	/**
 	 * GET BENEFICIARIES
-	 * @return Array
+	 * @param String, $search_by
+	 * @param String, $data
+	 * @return Array | Boolean <FALSE>
 	 * --------------------------------------------
 	 */
-	public function get_events($search_by='', $data='')
+	public function get_beneficiary($search_by='', $data='')
 	{
 		if( $search_by == '' ){
 			$query = $this->db->get('cop_beneficiaries');
@@ -69,10 +83,10 @@ class Beneficiary_model extends CI_Model {
 		
 	}
 
-
 	/**
 	 * DELETE BENEFICIARIES
 	 * @param Integer, $id
+	 * @return Boolean
 	 * --------------------------------------------
 	 */
 	public function delete_beneficiary($id)
@@ -93,6 +107,12 @@ class Beneficiary_model extends CI_Model {
 		}
 	}
 
+	/**
+	 * CREATES BENEFICIARIES
+	 * @param Integer, $id
+	 * @return Array
+	 * --------------------------------------------
+	 */
 	public function create_beneficiary($data)
 	{
 		$this->db->trans_begin();
@@ -105,7 +125,6 @@ class Beneficiary_model extends CI_Model {
 			return array(
 				'status'=>'error',
 				'msg'   =>$this->db->_error_message()
-				// 'msg'   =>'Cannot add beneficiary'
 				);
 		}else{
 			$this->db->trans_commit();
@@ -114,6 +133,39 @@ class Beneficiary_model extends CI_Model {
 				'msg'   =>$data['first_name'].' has been added to the list of beneficiaries'
 				);
 		}
+	}
+
+	/**
+	 * UPDATE BENEFICIARY PROFILE
+	 * @param Array, $data
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function update_beneficiary($data)
+	{
+		return array(
+				'status'=>'success',
+				'msg'   =>'" profile has been updated'
+				);
+		// $this->db->trans_begin();
+		// $this->db->where('id', $data['id']);
+		// $this->db->update('cop_beneficiaries', $data);
+
+		// if( $this->db->trans_status() === FALSE )
+		// {
+		// 	//TRANSACTION ERROR CATCH
+		// 	$this->db->trans_rollback();
+		// 	return array(
+		// 		'status'=>'error',
+		// 		'msg'   =>$this->db->_error_message()
+		// 		);
+		// }else{
+		// 	$this->db->trans_commit();
+		// 	return array(
+		// 		'status'=>'success',
+		// 		'msg'   =>'"'.$data['first_name'].'" profile has been updated'
+		// 		);
+		// }
 	}
 }
 ?>

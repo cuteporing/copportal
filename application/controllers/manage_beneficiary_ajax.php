@@ -144,56 +144,45 @@ class manage_beneficiary_ajax extends CI_controller
 	}
 
 	/**
-	 * CREATES AN EVENT
+	 * EDIT THE BENEFICIARY PROFILE
 	 * @return Array, $response
 	 * --------------------------------------------------------
 	 */
 	public function edit()
 	{
-		if( $this->validate_event_create() ){
-			echo $this->validate_event_create();
+		if( $this->validate_beneficiary_create() ){
+			echo $this->validate_beneficiary_create();
 			exit;
 		}
-		$session_data = $this->session->userdata('logged_in');
 
-		$date = trim(preg_replace('/\s+/',' ', $this->input->post('event_date')));
-		$date = explode('-', $date);
+		$phone_list = array();
 
-		$date_start = common::format_date($date[0]);
-		$date_end   = common::format_date($date[1]);
-		$time_start = common::format_time($this->input->post('time_start'));
-		$time_end   = common::format_time($this->input->post('time_end'));
-
-		$event_data = array(
-			'event_id'        =>$this->input->post('event_id'),
-			'owner_id'        =>$session_data['id'],
-			'title'           =>$this->input->post('title'),
-			'status'          =>'open',
-			'category_id'     =>$this->input->post('category'),
-			'date_entered'    =>common::get_today(),
-			'date_start'      =>$date_start,
-			'date_end'        =>$date_end,
-			'time_start'      =>$time_start,
-			'time_end'        =>$time_end,
-			'location'        =>$this->input->post('location'),
-			'slug'            =>url_title($this->input->post('title'), 'dash', TRUE)
-			);
-
-		$description_data = array();
-		$description = str_split($this->input->post('description'), 1000);
-		$sequence = 1;
-
-		foreach ($description as $text) {
-			array_push($description_data, array(
-				'event_id'   => 0,
-				'description'=> $text,
-				'sequence'   => $sequence)
-			);
-			$sequence++;
+		//GET ALL THE PHONE NUMBER AND TEMPORARILY SAVE IT
+		//IN AN ARRAY
+		foreach ($this->input->post('phone') as $phone) {
+			if( $phone !== '' ){
+				array_push($phone_list, $phone);
+			}
 		}
-		$result = $this->events_model->update_events($event_data, $description_data);
+		//SAVE THE PHONE NUMBER IN JSON FORMAT
+		$phone_json = json_encode($phone_list);
 
-		echo common::response_msg(200, $result['status'], $result['msg']);
+		$data = array(
+			'first_name'     => $this->input->post('first_name'),
+			'last_name'      => $this->input->post('last_name'),
+			'gender'         => $this->input->post('gender'),
+			'date_entered'   => common::get_today(),
+			'date_modified'  => common::get_today(),
+			'phone'          => $phone_json,
+			'address_street' => $this->input->post('address_street'),
+			'address_city_id'=> $this->input->post('city'),
+			'deleted'        => 0
+			);
+
+		// $result = $this->events_model->update_beneficiary($data);
+		echo common::response_msg(200, 'error', '', $result);
+		exit;
+		// echo common::response_msg(200, $result['status'], $result['msg']);
 	}
 }
 ?>

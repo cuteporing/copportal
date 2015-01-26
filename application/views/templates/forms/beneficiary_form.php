@@ -1,7 +1,7 @@
 
 <?php if( isset($result) ): ?>
 	<?php echo form_open('manage_beneficiary_ajax/edit/') ?>
-	<input  type="text" class="form-control hide" name="id" value="<?php if(isset($result)){ echo $result->id; } ?>">
+	<input type="text" class="form-control hide" name="id" value="<?php if(isset($result)){ echo $result->id; } ?>">
 <?php else: ?>
 	<?php echo form_open('manage_beneficiary_ajax/create') ?>
 <?php endif; ?>
@@ -42,7 +42,7 @@
 							<label><?=$this->lang->line('lbl_city')?></label>
 							<select class="form-control" name="city">
 								<?php foreach ($city_list as $row): ?>
-									<?php if( isset( $selected ) && $row['address_city_id'] == $selected['city_id'] ): ?>
+									<?php if( isset( $selected ) && $row['city_id'] == $selected['address_city_id'] ): ?>
 										<?= create_tag('option', $row['city'], array('value'=>$row['city_id'], 'selected'=>'selected')) ?>
 									<?php else: ?>
 										<?= create_tag('option', $row['city'], array('value'=>$row['city_id'])) ?>
