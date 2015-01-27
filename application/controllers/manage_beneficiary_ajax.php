@@ -168,6 +168,7 @@ class manage_beneficiary_ajax extends CI_controller
 		$phone_json = json_encode($phone_list);
 
 		$data = array(
+			'id'             => $this->input->post('id'),
 			'first_name'     => $this->input->post('first_name'),
 			'last_name'      => $this->input->post('last_name'),
 			'gender'         => $this->input->post('gender'),
@@ -179,10 +180,8 @@ class manage_beneficiary_ajax extends CI_controller
 			'deleted'        => 0
 			);
 
-		// $result = $this->events_model->update_beneficiary($data);
-		echo common::response_msg(200, 'error', '', $result);
-		exit;
-		// echo common::response_msg(200, $result['status'], $result['msg']);
+		$result = $this->beneficiary_model->update_beneficiary($data);
+		echo common::response_msg(200, $result['status'], $result['msg']);
 	}
 }
 ?>

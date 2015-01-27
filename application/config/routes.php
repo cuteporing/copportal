@@ -37,7 +37,7 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-
+$route['announcements_ajax/create'] = 'announcements_ajax/create/$1';
 $route['manage_beneficiary_ajax/create'] = 'manage_beneficiary_ajax/create/$1';
 $route['manage_beneficiary_ajax/delete/(:any)'] = 'manage_beneficiary_ajax/delete/$1';
 $route['manage_beneficiary_ajax/edit'] = 'manage_beneficiary_ajax/edit/$1';

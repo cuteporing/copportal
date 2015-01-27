@@ -39,7 +39,7 @@ class sidebar extends account
 				'admin'=>'on',
 				'title'=>'Announcements',
 				'link' =>'account/announcements',
-				'class'=> array('class'=>''),
+				'class'=> array('class'=>'treeview'),
 				'icon' => array('class'=>'fa fa-th'),
 				'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
 				'badge'=> array(
@@ -48,7 +48,20 @@ class sidebar extends account
 												'class'=>'badge pull-right bg-green'
 											)
 									),
-				'drop' => 'none'
+				'drop' => array(
+									0 =>array(
+										'admin'=>'on',
+										'title'=>'Create announcements',
+										'link' =>'account/announcements/create',
+										'icon' =>array('class'=>'fa fa-angle-double-right'),
+										),
+									1 =>array(
+										'admin'=>'on',
+										'title'=>'View announcements',
+										'link' =>'account/announcements/',
+										'icon' =>array('class'=>'fa fa-angle-double-right'),
+										)
+									)
 				),
 			2 => array(
 				'admin'=>'on',

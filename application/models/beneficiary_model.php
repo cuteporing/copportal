@@ -143,29 +143,25 @@ class Beneficiary_model extends CI_Model {
 	 */
 	public function update_beneficiary($data)
 	{
-		return array(
-				'status'=>'success',
-				'msg'   =>'" profile has been updated'
-				);
-		// $this->db->trans_begin();
-		// $this->db->where('id', $data['id']);
-		// $this->db->update('cop_beneficiaries', $data);
+		$this->db->trans_begin();
+		$this->db->where('id', $data['id']);
+		$this->db->update('cop_beneficiaries', $data);
 
-		// if( $this->db->trans_status() === FALSE )
-		// {
-		// 	//TRANSACTION ERROR CATCH
-		// 	$this->db->trans_rollback();
-		// 	return array(
-		// 		'status'=>'error',
-		// 		'msg'   =>$this->db->_error_message()
-		// 		);
-		// }else{
-		// 	$this->db->trans_commit();
-		// 	return array(
-		// 		'status'=>'success',
-		// 		'msg'   =>'"'.$data['first_name'].'" profile has been updated'
-		// 		);
-		// }
+		if( $this->db->trans_status() === FALSE )
+		{
+			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
+			return array(
+				'status'=>'error',
+				'msg'   =>$this->db->_error_message()
+				);
+		}else{
+			$this->db->trans_commit();
+			return array(
+				'status'=>'success',
+				'msg'   =>'"'.$data['first_name'].'" profile has been updated'
+				);
+		}
 	}
 }
 ?>

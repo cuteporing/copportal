@@ -186,6 +186,12 @@ class account extends CI_controller
 		return $list;
 	}
 
+	/**
+	 * BREAD CRUMBS
+	 * @param String, $page
+	 * @return data
+	 * --------------------------------------------
+	 */
 	static function bread_crumbs($page = '')
 	{
 		$attribute = array(
@@ -206,7 +212,7 @@ class account extends CI_controller
 
 	/**
 	 * DISPLAY THE PAGE CONTENT HEADER AND
-	 * BREAD CRUMBS
+	 * @param String, Page
 	 * @return data
 	 * --------------------------------------------
 	 */
@@ -216,11 +222,17 @@ class account extends CI_controller
 		$title        = heading($page.create_tag('small','Control panel'), '1');
 		$bread_crumbs = self::bread_crumbs($page);
 
-		return create_tag(
-							'section', $title.$bread_crumbs, array('class'=>'content-header')
-						);
+		return create_tag('section', $title.$bread_crumbs,
+						array('class'=>'content-header'));
 	}
 
+	/**
+	 * ANNOUNCEMENTS
+	 * @param String, $page
+	 * @param String, $sidebar
+	 * @return page
+	 * --------------------------------------------
+	 */
 	public function announcements($page, $sidebar)
 	{
 		$announcements = new announcements;
@@ -244,6 +256,13 @@ class account extends CI_controller
 		return $dashboard->view($page,$header,$sidebar, $c_header);
 	}
 
+	/**
+	 * EVENTS
+	 * @param String, $page
+	 * @param String, $sidebar
+	 * @return page
+	 * --------------------------------------------
+	 */
 	public function events($page, $sidebar)
 	{
 		$events  = new events;
@@ -254,6 +273,13 @@ class account extends CI_controller
 		return $events->view($page,$header,$sidebar, $c_header);
 	}
 
+	/**
+	 * MANAGE BENEFICIARY
+	 * @param String, $page
+	 * @param String, $sidebar
+	 * @return page
+	 * --------------------------------------------
+	 */
 	public function manage_beneficiary($page, $sidebar)
 	{
 		$manage_beneficiary  = new manage_beneficiary;
@@ -264,6 +290,14 @@ class account extends CI_controller
 		return $manage_beneficiary->view($page,$header,$sidebar, $c_header);
 	}
 
+	/**
+	 * TOP NAVIGATION DROPDOWN THAT CONTAINS THE
+	 * USER INFORMATION
+	 * @param String, $page
+	 * @param String, $sidebar
+	 * @return dropdown
+	 * --------------------------------------------
+	 */
 	public function manage_users($page, $sidebar)
 	{
 		$manage_users  = new manage_users;
@@ -272,7 +306,6 @@ class account extends CI_controller
 
 		return $manage_users->view($page,$header,$sidebar, $c_header);
 	}
-
 
 	/**
 	 * CHECK PAGE URI
