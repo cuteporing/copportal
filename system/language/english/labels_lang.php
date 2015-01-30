@@ -9,6 +9,7 @@ $lang['lbl_contact_details'] = 'Contact details';
 $lang['lbl_contact_us'] = 'Contact Us';
 $lang['lbl_create_announcement'] = 'Create new announcement';
 $lang['lbl_create_events'] = 'Create new events';
+$lang['lbl_create_user'] = 'Create user';
 $lang['lbl_event_description'] = 'Event Description';
 $lang['lbl_event_details'] = 'Event details';
 $lang['lbl_forgot_password'] = 'I forgot my password';
@@ -40,6 +41,7 @@ $lang['lbl_last_name'] = 'Last name';
 $lang['lbl_location'] = 'Venue';
 $lang['lbl_max_participants'] = 'Max no. of participants';
 $lang['lbl_phone'] = 'Phone';
+$lang['lbl_status'] = 'Status';
 $lang['lbl_start_time'] = 'Start time';
 $lang['lbl_street_address'] = 'Street address';
 

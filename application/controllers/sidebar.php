@@ -113,11 +113,24 @@ class sidebar extends account
 				'admin'=>'on',
 				'title'=>'Manage Users',
 				'link' =>'account/manage_users',
-				'class'=> array('class'=>''),
+				'class'=> array('class'=>'treeview'),
 				'icon' => array('class'=>'fa fa-user'),
 				'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
 				'badge'=> 'none',
-				'drop' => 'none'
+				'drop' => array(
+									0 =>array(
+										'admin'=>'on',
+										'title'=>'Add user',
+										'link' =>'account/manage_users/create',
+										'icon' =>array('class'=>'fa fa-angle-double-right'),
+										),
+									1 =>array(
+										'admin'=>'on',
+										'title'=>'View Users',
+										'link' =>'account/manage_users/view',
+										'icon' =>array('class'=>'fa fa-angle-double-right'),
+										)
+									)
 				)
 			);
 	}

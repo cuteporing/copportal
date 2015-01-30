@@ -329,7 +329,7 @@ class account extends CI_controller
 			case 'dashboard'         : $this->dashboard($page, $sidebar);			break;
 			case 'events'            : $this->events($page, $sidebar);				break;
 			case 'manage_beneficiary': $this->manage_beneficiary($page, $sidebar);	break;
-			case 'manage_users'      : $this->manage_busers($page, $sidebar);		break;
+			case 'manage_users'      : $this->manage_users($page, $sidebar);		break;
 			default: $this->dashboard($page, $sidebar); 							break;
 		}
 
