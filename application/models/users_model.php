@@ -26,10 +26,43 @@ class Users_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
-	public function get_user()
+	public function get_user($search_by='', $data='')
 	{
-		$query = $this->db->get('cop_users');
-		return $query->result_array();
+		if( $search_by == '' ){
+			$query = $this->db->get('cop_users');
+			return $query->result_array();
+		}else{
+			$this->db->where($search_by, $data);
+			$this->db->from('cop_users');
+			$this->db->limit(1);
+			$query = $this->db->get();
+
+			if( $query->num_rows() == 1 ){
+				return $query->result();
+			}else{
+				return FALSE;
+			}
+		}
+	}
+
+
+	public function get_announcements($search_by='', $data='')
+	{
+		if( $search_by == '' ){
+			$query = $this->db->get('cop_announcements');
+			return $query->result_array();
+		}else{
+			$this->db->where($search_by, $data);
+			$this->db->from('cop_announcements');
+			$this->db->limit(1);
+			$query = $this->db->get();
+
+			if( $query->num_rows() == 1 ){
+				return $query->result();
+			}else{
+				return FALSE;
+			}
+		}
 	}
 
 	public function get_login_info($id)

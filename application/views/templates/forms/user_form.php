@@ -79,15 +79,18 @@
 
 	<!-- RIGHT COLUMN -->
 	<div class="col-md-4">
-		<div class="box box-primary">
-			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_contact_details')?></h3></div>
+		<div class="box box-danger">
+			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_disable_account')?></h3></div>
 			<div class="box-body">
 				<div class="form-group">
-					<label><?=$this->lang->line('lbl_status')?></label>
-					<div class="input-group">
-						<div class="input-group-addon"><i class="fa fa-envelope-o"></i></div>
-						<input type="email" name="email" class="form-control" placeholder="sample@example.com"/>
-					</div>
+					<label>
+						<input type="radio" name="status" class="minimal-red" value="Inactive"/>
+						Yes
+					</label>
+					<label>
+						<input type="radio" name="status" class="minimal-red" value="Active" checked/>
+						No
+					</label>
 				</div>
 			</div><!--//END box-body -->
 		</div><!--//END box-primary -->

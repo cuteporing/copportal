@@ -10,6 +10,7 @@ $lang['lbl_contact_us'] = 'Contact Us';
 $lang['lbl_create_announcement'] = 'Create new announcement';
 $lang['lbl_create_events'] = 'Create new events';
 $lang['lbl_create_user'] = 'Create user';
+$lang['lbl_disable_account'] = 'Disable account?';
 $lang['lbl_event_description'] = 'Event Description';
 $lang['lbl_event_details'] = 'Event details';
 $lang['lbl_forgot_password'] = 'I forgot my password';
