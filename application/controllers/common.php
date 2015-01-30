@@ -154,7 +154,7 @@ class common extends CI_controller
 	 */
 	public function display_header($page)
 	{
-		$data['title']       = ucfirst($page);
+		$data['title']       = ucfirst(str_replace('_', ' ', $page));
 		$data['description'] = self::get_constants('meta', 'DESCRIPTION');
 		$data['keywords']    = self::get_constants('meta', 'KEYWORDS');
 		$data['author']      = self::get_constants('meta', 'AUTHOR');

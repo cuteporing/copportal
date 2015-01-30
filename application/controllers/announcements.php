@@ -18,7 +18,7 @@ class announcements extends account
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('events_model');
+		$this->load->model('announcements_model');
 		$this->load->helper('file');
 	}
 
@@ -30,6 +30,72 @@ class announcements extends account
 	public function create()
 	{
 		return $this->load->view('templates/forms/announcement_form');
+	}
+
+	/**
+	 * DISPLAY ANNOUNCEMENT EDIT PAGE
+	 * @return page
+	 * --------------------------------------------
+	 */
+	public function edit()
+	{
+		$session_data = $this->session->userdata('logged_in');
+
+		$announcement_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+
+		//IF THERE IS NO EVENT ID FROM URI, SHOW ERROR RECORD NOT FOUND
+		if( $announcement_id == '' ){
+			return $this->load->view('error/record_not_found');
+		}
+
+		//GET EVENT DETAILS
+		$result = $this->announcements_model->get_announcements('announcement_id', $announcement_id);
+		//GET EVENT DESCRIPTION
+		$result_desc = $this->announcements_model->get_announcement_desc($announcement_id);
+
+		//IF THERE IS NO EVENT, SHOW ERROR RECORD NOT FOUND
+		if( $result === FALSE ){
+			return $this->load->view('error/record_not_found');
+		}
+
+		$data['result']      = $result[0];
+		$data['result_desc'] = ($result_desc)? $result_desc : array();
+
+		return $this->load->view('templates/forms/announcement_form', $data);
+	}
+
+	/**
+	 * DISPLAY THE LIST OF ANNOUNCEMENTS
+	 * @return table
+	 * --------------------------------------------
+	 */
+	public function get_announcements()
+	{
+		$result = $this->announcements_model->get_announcements();
+
+		for( $i=0; $i<count($result); $i++ ){
+			$result_desc = $this->announcements_model->get_announcement_desc($result[$i]['announcement_id']);
+			if( $result_desc !== FALSE ){
+				foreach ($result_desc as $row) {
+					$description = $row->description;
+				}
+			}else{
+				$description = '';
+			}
+			
+			$result[$i]['date_entered']  = common::format_date($result[$i]['date_entered'], 'M d, Y');
+			$result[$i]['result_id']     = $result[$i]['announcement_id'];
+			$result[$i]['description']   = $description;
+		}
+
+		$data['btn_edit']     = 'account/announcements/edit/';
+		$data['btn_delete']   = 'announcements_ajax/delete/';
+		$data['table_name']   = 'Announcements';
+		$data['fieldname']    = array('title', 'description', 'date_entered', 'action');
+		$data['field_label']  = array('Title', 'Description', 'Date', '&nbsp;');
+		$data['result']       = $result;
+
+		return $this->load->view('templates/tables/data_tables_full', $data);
 	}
 
 
@@ -57,7 +123,7 @@ class announcements extends account
 		switch ($parameter) {
 			case '/create': $this->create(); break;
 			case '/edit'  : $this->edit();   break;
-			default:$this->get_events();     break;
+			default:$this->get_announcements();     break;
 		}
 		//CONTENT FOOTER
 		$this->load->view('templates/accounts/footer');

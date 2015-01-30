@@ -103,5 +103,60 @@ class announcements_ajax extends CI_controller
 
 		echo common::response_msg(200, $result['status'], $result['msg']);
 	}
+
+	/**
+	 * CREATES AN EVENT
+	 * @return Array, $response
+	 * --------------------------------------------------------
+	 */
+	public function edit()
+	{
+		if( $this->validate_announcement_create() ){
+			echo $this->validate_announcement_create();
+			exit;
+		}
+		$session_data = $this->session->userdata('logged_in');
+		$announcement_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+
+		$announcement_data = array(
+			'owner_id'       =>$session_data['id'],
+			'announcement_id'=>$this->input->post('announcement_id'),
+			'title'          =>$this->input->post('title'),
+			'slug'           =>url_title($this->input->post('title'), 'dash', TRUE)
+			);
+
+		$description_data = array();
+		$description = str_split($this->input->post('description'), 1000);
+		$sequence = 1;
+
+		foreach ($description as $text) {
+			array_push($description_data, array(
+				'announcement_id' => $announcement_id,
+				'description'     => $text,
+				'sequence'        => $sequence)
+			);
+			$sequence++;
+		}
+		$result = $this->announcements_model->update_announcements($announcement_data, $description_data);
+
+		echo common::response_msg(200, $result['status'], $result['msg']);
+	}
+
+	/**
+	 * DELETES AN ANNOUNCEMENT
+	 * @return Array, $response
+	 * --------------------------------------------------------
+	 */
+	public function delete()
+	{
+		$announcement_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+
+		$result = $this->announcements_model->delete_announcement($announcement_id);
+		if( $result ){
+			echo common::response_msg(200, 'success', 'Announcement has been deleted');
+		}else{
+			echo common::response_msg(200, 'error', 'Cannot delete announcement');
+		}
+	}
 }
 ?>

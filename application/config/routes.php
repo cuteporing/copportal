@@ -38,6 +38,8 @@
 |
 */
 $route['announcements_ajax/create'] = 'announcements_ajax/create/$1';
+$route['announcements_ajax/delete/(:any)'] = 'announcements_ajax/delete/$1';
+$route['announcements_ajax/edit'] = 'announcements_ajax/edit/$1';
 $route['manage_beneficiary_ajax/create'] = 'manage_beneficiary_ajax/create/$1';
 $route['manage_beneficiary_ajax/delete/(:any)'] = 'manage_beneficiary_ajax/delete/$1';
 $route['manage_beneficiary_ajax/edit'] = 'manage_beneficiary_ajax/edit/$1';

@@ -8,15 +8,17 @@ $(function() {
 		return str;
 	}
 
-	function show_alert_confirm(msg) {
+	function show_alert_confirm(msg, is_form) {
 		var x;
 		( confirm( msg ) == true )?
 			x = 'yes' : x = 'no';
 
 		console.log(x);
 		$('#confirm').val( x );
-		if( x == 'yes' ){
+		if( x == 'yes' && is_form === false){
 			$(":submit").click();
+		}else if( is_form === true ){
+			return x;
 		}
 	}
 
@@ -141,7 +143,7 @@ $(function() {
 					show_alert_msg(result.status_msg, 'danger');
 				}else if( result.status_type == 'error_confirm' ){
 					//DISPLAY ALERT CONFIRM MESSAGE
-					show_alert_confirm(result.status_msg);
+					show_alert_confirm(result.status_msg, false);
 				}else if( result.status_type == "success" ){
 					//DISPLAY GENERAL SUCCESS MESSAGE
 					show_alert_msg(result.status_msg, 'success');
@@ -173,6 +175,12 @@ $(function() {
 		e.preventDefault();
 		var url = $(this).parent().attr('href');
 		var _this= $(this);
+
+		if( show_alert_confirm(
+			'Are you sure you want to delete?', true) === 'no' ){
+			return;
+		}
+
 		$.get( url, function( data ) {
 			var result = JSON.parse(data);
 			console.log("RESULT: ");
