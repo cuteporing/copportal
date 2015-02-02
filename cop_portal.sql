@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 23, 2015 at 09:53 AM
+-- Generation Time: Feb 02, 2015 at 08:17 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -32,7 +32,19 @@ CREATE TABLE IF NOT EXISTS `cop_announcements` (
   `title` varchar(255) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_announcements`
+--
+
+INSERT INTO `cop_announcements` (`announcement_id`, `owner_id`, `title`, `date_entered`, `slug`) VALUES
+(1, 1, 'superubu', '2015-01-30 03:59:08', 'superubu'),
+(7, 1, 'KURISHA', '2015-01-30 03:56:39', 'kurisha'),
+(9, 1, 'asdasdas', '2015-01-29 20:04:48', 'asdasdas'),
+(12, 1, 'asdasda', '2015-01-29 20:11:42', 'asdasda'),
+(14, 1, 'RANSU', '2015-01-30 03:57:54', 'ransu'),
+(16, 1, 'SUPER TUTOR', '2015-01-29 20:37:54', 'super-tutor');
 
 -- --------------------------------------------------------
 
@@ -45,6 +57,14 @@ CREATE TABLE IF NOT EXISTS `cop_announcement_description` (
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_announcement_description`
+--
+
+INSERT INTO `cop_announcement_description` (`announcement_id`, `description`, `sequence`) VALUES
+(16, 'ASDASD', 1),
+(1, 'asdasdasdas', 1);
 
 -- --------------------------------------------------------
 
@@ -64,14 +84,14 @@ CREATE TABLE IF NOT EXISTS `cop_beneficiaries` (
   `address_city_id` int(11) NOT NULL,
   `imagename` varchar(250) NOT NULL,
   `deleted` int(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_beneficiaries`
 --
 
 INSERT INTO `cop_beneficiaries` (`id`, `first_name`, `last_name`, `gender`, `date_entered`, `date_modified`, `phone`, `address_street`, `address_city_id`, `imagename`, `deleted`) VALUES
-(1, 'Krishia', 'Valencia', '', '2015-01-22 05:31:46', '2015-01-22 05:31:36', '', 'BGC', 3, '', 0);
+(5, 'asdas', 'dasda', 'Female', '2015-01-29 18:57:55', '2015-01-29 18:57:55', '[]', 'asdas', 1, '', 0);
 
 -- --------------------------------------------------------
 
@@ -194,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
   `is_admin` varchar(3) DEFAULT '0',
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `phone` varchar(50) DEFAULT NULL,
+  `phone` varchar(150) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
   `address_street` varchar(150) DEFAULT NULL,
@@ -202,18 +222,17 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
   `address_postalcode` varchar(9) DEFAULT NULL,
   `imagename` varchar(250) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0',
-  `crypt_type` varchar(20) NOT NULL DEFAULT 'MD5',
-  `visited` int(11) NOT NULL
+  `crypt_type` varchar(20) NOT NULL DEFAULT 'MD5'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_users`
 --
 
-INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city`, `address_postalcode`, `imagename`, `deleted`, `crypt_type`, `visited`) VALUES
-(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-01-18 10:54:55', '0000-00-00 00:00:00', NULL, 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 'Las Piñas', NULL, NULL, 0, 'PHP5.3MD5', 1),
-(2, '311-1262', '$1$31000000$cw981R2sDU.dqcJR3rlXr.', 'Ish', 'Landrito', 'female', 'off', '2015-01-10 05:25:19', '2015-01-05 21:32:11', NULL, NULL, 'Active', NULL, NULL, NULL, NULL, 0, 'PHP5.3MD5', 1),
-(3, '311-1263', '$1$31000000$cw981R2sDU.dqcJR3rlXr.', 'Azanette', 'Caingal', 'female', 'off', '2015-01-10 05:25:21', '2015-01-05 21:32:54', NULL, NULL, 'Active', NULL, NULL, NULL, NULL, 0, 'PHP5.3MD5', 1);
+INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city`, `address_postalcode`, `imagename`, `deleted`, `crypt_type`) VALUES
+(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-01-18 10:54:55', '0000-00-00 00:00:00', NULL, 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 'Las Piñas', NULL, NULL, 0, 'PHP5.3MD5'),
+(2, '311-1262', '$1$31000000$cw981R2sDU.dqcJR3rlXr.', 'Ish', 'Landrito', 'female', 'off', '2015-01-10 05:25:19', '2015-01-05 21:32:11', NULL, NULL, 'Active', NULL, NULL, NULL, NULL, 0, 'PHP5.3MD5'),
+(3, '311-1263', '$1$31000000$cw981R2sDU.dqcJR3rlXr.', 'Azanette', 'Caingal', 'female', 'off', '2015-01-10 05:25:21', '2015-01-05 21:32:54', NULL, NULL, 'Active', NULL, NULL, NULL, NULL, 0, 'PHP5.3MD5');
 
 --
 -- Indexes for dumped tables
@@ -263,12 +282,12 @@ ALTER TABLE `cop_events`
 -- AUTO_INCREMENT for table `cop_announcements`
 --
 ALTER TABLE `cop_announcements`
-MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `cop_beneficiaries`
 --
 ALTER TABLE `cop_beneficiaries`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `cop_category`
 --

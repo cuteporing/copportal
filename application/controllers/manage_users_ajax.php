@@ -49,18 +49,43 @@ class manage_users_ajax extends CI_controller
 	}
 
 	/**
+	 * CHECKS IF THE PASSWORD AND THE CONFIRMATION PASSWORD IS
+	 * THE SAME
+	 * ARRAY OF ERROR MSG
+	 * @return Array, $error_log
+	 * --------------------------------------------------------
+	 */
+	public function validate_password()
+	{
+		$error_log  = array();
+
+		if( $this->input->post('user_password') !== $this->input->post('re_user_password') ){
+			array_push($error_log, array(
+				'input'=>'user_password',
+				'error_msg'=>'Password does not match ')
+			);
+		}
+		return $error_log;
+	}
+
+	/**
 	 * VALIDATES ALL POST DATA NEEDED FOR CREATING AN EVENT
 	 * @return Array, $error_log
 	 * --------------------------------------------------------
 	 */
-	public function validate_announcement_create()
+	public function validate_users_create()
 	{
 		$error_log = array();
-		$required_field = array('first_name', 'last_name', 'gender', );
+		$required_field = array(
+			'user_name', 'first_name', 'last_name',
+			'gender', 'user_password');
 
 		//IF THERE ARE MISSING INPUT DATA
 		if( count($this->validate_required($required_field)) > 0 ){
 			$error_log = $this->validate_required($required_field);
+			return common::response_msg(200, 'error_field', '', $error_log);
+		}elseif( count($this->validate_password()) > 0 ){
+			$error_log = $this->validate_password();
 			return common::response_msg(200, 'error_field', '', $error_log);
 		}else{
 			return FALSE;
@@ -74,17 +99,58 @@ class manage_users_ajax extends CI_controller
 	 */
 	public function create()
 	{
-		if( $this->validate_announcement_create() ){
-			echo $this->validate_announcement_create();
+		if( $this->validate_users_create() ){
+			echo $this->validate_users_create();
 			exit;
 		}
+		$users = new users;
+		$phone_list = array();
+
 		$session_data = $this->session->userdata('logged_in');
 
+		//GET ALL THE PHONE NUMBER AND TEMPORARILY SAVE IT
+		//IN AN ARRAY
+		foreach ($this->input->post('phone') as $phone) {
+			if( $phone !== '' ){
+				array_push($phone_list, $phone);
+			}
+		}
+
+		//SAVE THE PHONE NUMBER IN JSON FORMAT
+		$phone_json = json_encode($phone_list);
+
+		//GET PHP VERSION TO DETERMINE WHAT KIND OF ENCRYPTION
+		//TO BE USED
+		$users->checkPHPVersion();
+
+		$user_info = array(
+			'user_name' =>$this->input->post('username'),
+			'crypt_type'=>''
+			);
+
+		//GET THE ENCRYPTED PASSWORD W/ SALT
+		$encrypt_pass = $users->encrypt_password(
+			$user_info, $this->input->post('password'));
+
+		echo common::response_msg(200, 'error', 'aa', $encrypt_pass);
+		exit;
+
 		$announcement_data = array(
-			'owner_id'     =>$session_data['id'],
-			'title'        =>$this->input->post('title'),
-			'date_entered' =>common::get_today(),
-			'slug'         =>url_title($this->input->post('title'), 'dash', TRUE)
+			'user_name'         =>$this->input->post('user_name'),
+			'user_password'     =>$this->input->post('user_password'),
+			'first_name'        =>$this->input->post('first_name'),
+			'last_name'         =>$this->input->post('last_name'),
+			'gender'            =>$this->input->post('gender'),
+			'is_admin'          =>'on',
+			'date_entered'      =>common::get_today(),
+			'date_modified'     =>common::get_today(),
+			'phone'             =>$phone_json,
+			'email'             =>$this->input->post('email'),
+			'status'            =>$this->input->post('status'),
+			'address_street'    =>$this->input->post('address_street'),
+			'address_postalcode'=>'',
+			'deleted'           =>0,
+			'crypt_type'        =>$users->checkPHPVersion()
 			);
 
 		$description_data = array();
@@ -104,59 +170,5 @@ class manage_users_ajax extends CI_controller
 		echo common::response_msg(200, $result['status'], $result['msg']);
 	}
 
-	/**
-	 * CREATES AN EVENT
-	 * @return Array, $response
-	 * --------------------------------------------------------
-	 */
-	public function edit()
-	{
-		if( $this->validate_announcement_create() ){
-			echo $this->validate_announcement_create();
-			exit;
-		}
-		$session_data = $this->session->userdata('logged_in');
-		$announcement_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
-
-		$announcement_data = array(
-			'owner_id'       =>$session_data['id'],
-			'announcement_id'=>$this->input->post('announcement_id'),
-			'title'          =>$this->input->post('title'),
-			'slug'           =>url_title($this->input->post('title'), 'dash', TRUE)
-			);
-
-		$description_data = array();
-		$description = str_split($this->input->post('description'), 1000);
-		$sequence = 1;
-
-		foreach ($description as $text) {
-			array_push($description_data, array(
-				'announcement_id' => $announcement_id,
-				'description'     => $text,
-				'sequence'        => $sequence)
-			);
-			$sequence++;
-		}
-		$result = $this->announcements_model->update_announcements($announcement_data, $description_data);
-
-		echo common::response_msg(200, $result['status'], $result['msg']);
-	}
-
-	/**
-	 * DELETES AN ANNOUNCEMENT
-	 * @return Array, $response
-	 * --------------------------------------------------------
-	 */
-	public function delete()
-	{
-		$announcement_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
-
-		$result = $this->announcements_model->delete_announcement($announcement_id);
-		if( $result ){
-			echo common::response_msg(200, 'success', 'Announcement has been deleted');
-		}else{
-			echo common::response_msg(200, 'error', 'Cannot delete announcement');
-		}
-	}
 }
 ?>

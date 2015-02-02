@@ -30,6 +30,7 @@ $lang['lbl_reject'] = 'Reject';
 $lang['lbl_training'] = 'Training';
 
 //FORM LABELS
+$lang['lbl_account_type'] = 'Account type';
 $lang['lbl_city'] = 'City';
 $lang['lbl_event_category'] = 'Event category';
 $lang['lbl_event_date'] = 'Event date';
@@ -41,10 +42,13 @@ $lang['lbl_gender'] = 'Gender';
 $lang['lbl_last_name'] = 'Last name';
 $lang['lbl_location'] = 'Venue';
 $lang['lbl_max_participants'] = 'Max no. of participants';
+$lang['lbl_password'] = 'Password';
 $lang['lbl_phone'] = 'Phone';
+$lang['lbl_re_password'] = 'Re-type Password';
 $lang['lbl_status'] = 'Status';
 $lang['lbl_start_time'] = 'Start time';
 $lang['lbl_street_address'] = 'Street address';
+$lang['lbl_user_name'] = 'Username';
 
 /* End of file labels.php */
 /* Location: ./system/language/english/labels.php */

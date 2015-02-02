@@ -37,16 +37,25 @@
 | in the URL cannot be matched to a valid route.
 |
 */
+
+$route['account/(:any)'] = 'account/view/$1';
+//ANNOUNCEMENTS
 $route['announcements_ajax/create'] = 'announcements_ajax/create/$1';
 $route['announcements_ajax/delete/(:any)'] = 'announcements_ajax/delete/$1';
 $route['announcements_ajax/edit'] = 'announcements_ajax/edit/$1';
-$route['manage_beneficiary_ajax/create'] = 'manage_beneficiary_ajax/create/$1';
-$route['manage_beneficiary_ajax/delete/(:any)'] = 'manage_beneficiary_ajax/delete/$1';
-$route['manage_beneficiary_ajax/edit'] = 'manage_beneficiary_ajax/edit/$1';
+//EVENTS
 $route['events_ajax/create'] = 'events_ajax/create/$1';
 $route['events_ajax/delete/(:any)'] = 'events_ajax/delete/$1';
 $route['events_ajax/edit'] = 'events_ajax/edit/$1';
-$route['account/(:any)'] = 'account/view/$1';
+//MANAGE BENEFICIARY
+$route['manage_beneficiary_ajax/create'] = 'manage_beneficiary_ajax/create/$1';
+$route['manage_beneficiary_ajax/delete/(:any)'] = 'manage_beneficiary_ajax/delete/$1';
+$route['manage_beneficiary_ajax/edit'] = 'manage_beneficiary_ajax/edit/$1';
+//MANAGE USERS
+$route['manage_users_ajax/create'] = 'manage_users_ajax/create/$1';
+$route['manage_users_ajax/delete/(:any)'] = 'manage_users_ajax/delete/$1';
+$route['manage_users_ajax/edit'] = 'manage_users/edit/$1';
+
 $route['logout'] = 'users/logout';
 $route['(:any)'] = 'pages/view/$1';
 $route['default_controller'] = 'pages/view';

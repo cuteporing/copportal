@@ -17,14 +17,14 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label><?=$this->lang->line('lbl_first_name')?></label>
-							<input type="text" class="form-control" name="first_name" value="<?php if(isset($result)){ echo $result->first_name; } ?>" maxlength="50">
+							<input type="text" class="form-control" name="first_name" value="<?php if(isset($result)){ echo $result->first_name; } ?>" maxlength="30">
 							<p class="error"></p>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label><?=$this->lang->line('lbl_last_name')?></label>
-							<input type="text" class="form-control" name="last_name" value="<?php if(isset($result)){ echo $result->last_name; } ?>" maxlength="50">
+							<input type="text" class="form-control" name="last_name" value="<?php if(isset($result)){ echo $result->last_name; } ?>" maxlength="30">
 							<p class="error"></p>
 						</div>
 					</div>

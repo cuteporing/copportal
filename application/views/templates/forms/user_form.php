@@ -16,15 +16,44 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
+							<label><?=$this->lang->line('lbl_user_name')?></label>
+							<input type="text" class="form-control" name="user_name" value="<?php if(isset($result)){ echo $result->user_name; } ?>" maxlength="50">
+							<p class="error"></p>
+						</div>
+					</div>
+					<div class="col-md-6">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label><?=$this->lang->line('lbl_password')?></label>
+							<input type="password" class="form-control" name="user_password" value="<?php if(isset($result)){ echo $result->user_password; } ?>" maxlength="50">
+							<p class="error"></p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label><?=$this->lang->line('lbl_re_password')?></label>
+							<input type="password" class="form-control" name="re_user_password" value="<?php if(isset($result)){ echo $result->re_user_password; } ?>" maxlength="50">
+							<p class="error"></p>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
 							<label><?=$this->lang->line('lbl_first_name')?></label>
-							<input type="text" class="form-control" name="first_name" value="<?php if(isset($result)){ echo $result->first_name; } ?>" maxlength="50">
+							<input type="text" class="form-control" name="first_name" value="<?php if(isset($result)){ echo $result->first_name; } ?>" maxlength="30">
 							<p class="error"></p>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label><?=$this->lang->line('lbl_last_name')?></label>
-							<input type="text" class="form-control" name="last_name" value="<?php if(isset($result)){ echo $result->last_name; } ?>" maxlength="50">
+							<input type="text" class="form-control" name="last_name" value="<?php if(isset($result)){ echo $result->last_name; } ?>" maxlength="30">
 							<p class="error"></p>
 						</div>
 					</div>
