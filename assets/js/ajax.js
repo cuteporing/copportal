@@ -27,6 +27,7 @@ $(function() {
 	function show_error_field(data){
 		$.each(data, function(idx, obj){
 			$('input[name="'+obj.input+'"]')
+				.css('border-color', 'red')
 				.parents('.form-group')
 				.find('.error')
 				.html(obj.error_msg);
@@ -37,6 +38,12 @@ $(function() {
 	// --------------------------------------------
 	function hide_error_field(){
 		$('.error').empty();
+	}
+
+	function hide_error_highlight(){
+		$('input').each(function() {
+			$(this).removeAttr('style');
+		});
 	}
 
 	// CREATES AN ALERT MESSAGE
@@ -124,6 +131,7 @@ $(function() {
 		e.preventDefault();
 		hide_alert_msg();
 		hide_error_field();
+		hide_error_highlight();
 		var form = $(this);
 
 		$.post(
@@ -168,6 +176,10 @@ $(function() {
 			default : remove_data_table(el);     break;
 		}
 	}
+
+	$('input').focus(function(){
+		$(this).removeAttr('style').next().html('');
+	});
 
 	// DELETE DATA VIA AJAX
 	// --------------------------------------------

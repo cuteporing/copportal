@@ -49,6 +49,31 @@ class manage_users_ajax extends CI_controller
 	}
 
 	/**
+	 * CHECKS IF THE USERNAME ALREADY EXIST
+	 * ARRAY OF ERROR MSG
+	 * @return Array, $error_log
+	 * --------------------------------------------------------
+	 */
+	public function validate_username()
+	{
+		$error_log  = array();
+		$users = new users;
+
+		if( count(
+				$this->users_model->check_user(
+					$this->input->post('user_name') )
+				)
+			){
+			array_push($error_log, array(
+				'input'=>'user_name',
+				'error_msg'=>'There is already an existing username ')
+			);
+		}
+		return $error_log;
+	}
+
+
+	/**
 	 * CHECKS IF THE PASSWORD AND THE CONFIRMATION PASSWORD IS
 	 * THE SAME
 	 * ARRAY OF ERROR MSG
@@ -83,6 +108,9 @@ class manage_users_ajax extends CI_controller
 		//IF THERE ARE MISSING INPUT DATA
 		if( count($this->validate_required($required_field)) > 0 ){
 			$error_log = $this->validate_required($required_field);
+			return common::response_msg(200, 'error_field', '', $error_log);
+		}elseif( count($this->validate_username()) > 0 ){
+			$error_log = $this->validate_username();
 			return common::response_msg(200, 'error_field', '', $error_log);
 		}elseif( count($this->validate_password()) > 0 ){
 			$error_log = $this->validate_password();
@@ -121,10 +149,10 @@ class manage_users_ajax extends CI_controller
 
 		//GET PHP VERSION TO DETERMINE WHAT KIND OF ENCRYPTION
 		//TO BE USED
-		$users->checkPHPVersion();
+		$version = $users->checkPHPVersion();
 
 		$user_info = array(
-			'user_name' =>$this->input->post('username'),
+			'user_name' =>$this->input->post('user_name'),
 			'crypt_type'=>''
 			);
 
@@ -132,15 +160,12 @@ class manage_users_ajax extends CI_controller
 		$encrypt_pass = $users->encrypt_password(
 			$user_info, $this->input->post('password'));
 
-		echo common::response_msg(200, 'error', 'aa', $encrypt_pass);
-		exit;
-
-		$announcement_data = array(
+		$data = array(
 			'user_name'         =>$this->input->post('user_name'),
-			'user_password'     =>$this->input->post('user_password'),
+			'user_password'     =>$encrypt_pass,
 			'first_name'        =>$this->input->post('first_name'),
 			'last_name'         =>$this->input->post('last_name'),
-			'gender'            =>$this->input->post('gender'),
+			'gender'            =>strtolower( $this->input->post('gender') ),
 			'is_admin'          =>'on',
 			'date_entered'      =>common::get_today(),
 			'date_modified'     =>common::get_today(),
@@ -153,19 +178,7 @@ class manage_users_ajax extends CI_controller
 			'crypt_type'        =>$users->checkPHPVersion()
 			);
 
-		$description_data = array();
-		$description = str_split($this->input->post('description'), 1000);
-		$sequence = 1;
-
-		foreach ($description as $text) {
-			array_push($description_data, array(
-				'announcement_id' => 0,
-				'description'     => $text,
-				'sequence'        => $sequence)
-			);
-			$sequence++;
-		}
-		$result = $this->announcements_model->create_announcements($announcement_data, $description_data);
+		$result = $this->users_model->create_user($data);
 
 		echo common::response_msg(200, $result['status'], $result['msg']);
 	}

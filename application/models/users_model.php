@@ -84,16 +84,23 @@ class Users_model extends CI_Model {
 		}
 	}
 
-	public function check_user($user_name, $password)
+	public function check_user($user_name='', $password='')
 	{
-		$sql_stmt ='id, user_name, user_password, first_name, last_name, ';
-		$sql_stmt.='gender, is_admin, date_entered, imagename';
+		if( $user_name !== '' && $password == '' ){
+			$this->db->select('id');
+			$this->db->from('cop_users');
+			$this->db->where('user_name', $user_name);
+		}else{
+			$sql_stmt ='id, user_name, user_password, first_name, last_name, ';
+			$sql_stmt.='gender, is_admin, date_entered, imagename';
 
-		$this->db->select($sql_stmt);
-		$this->db->from('cop_users');
-		$this->db->where('user_name', $user_name);
-		$this->db->where('user_password', $password);
-		$this->db->where('status', 'Active');
+			$this->db->select($sql_stmt);
+			$this->db->from('cop_users');
+			$this->db->where('user_name', $user_name);
+			$this->db->where('user_password', $password);
+			$this->db->where('status', 'Active');
+		}
+
 		$this->db->limit(1);
 
 		$query = $this->db->get();
@@ -107,7 +114,24 @@ class Users_model extends CI_Model {
 
 	public function create_user($data)
 	{
-		return $this->db->insert('cop_users', $data);
+		$this->db->trans_begin();
+		$this->db->insert('cop_users', $data);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
+			return array(
+				'status'=>'error',
+				'msg'   =>$this->db->_error_message()
+				);
+		}else{
+			$this->db->trans_commit();
+			return array(
+				'status'=>'success',
+				'msg'   =>$data['first_name'].' has been created'
+				);
+		}
 	}
 }
 ?>
