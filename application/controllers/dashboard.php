@@ -1,9 +1,9 @@
 <?php
 /*********************************************************************************
-** The contents of this file are subject to the ______________________
+** The contents of this file are subject to the COPPortal
  * Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
- * The Original Code is: ______________________
+ * The Original Code is: KBVCodes
  * The Initial Developer of the Original Code is CodeIgniter.
  * Portions created by KBVCodes are Copyright (C) KBVCodes.
  * All Rights Reserved.
@@ -42,7 +42,7 @@ class dashboard extends account
 						$color       = 'green';
 						$description = 'Beneficiaries';
 						$icon        = 'person_add';
-						$link        = 'account/beneficiary/';
+						$link        = 'account/manage_beneficiary/view';
 						break;
 			case 'members':
 						$color       = 'red';

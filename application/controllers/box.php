@@ -1,9 +1,9 @@
 <?php
 /*********************************************************************************
-** The contents of this file are subject to the ______________________
+** The contents of this file are subject to the COPPortal
  * Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
- * The Original Code is: ______________________
+ * The Original Code is: KBVCodes
  * The Initial Developer of the Original Code is CodeIgniter.
  * Portions created by KBVCodes are Copyright (C) KBVCodes.
  * All Rights Reserved.

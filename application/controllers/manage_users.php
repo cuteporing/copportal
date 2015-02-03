@@ -1,9 +1,9 @@
 <?php
 /*********************************************************************************
-** The contents of this file are subject to the ______________________
+** The contents of this file are subject to the COPPortal
  * Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
- * The Original Code is: ______________________
+ * The Original Code is: KBVCodes
  * The Initial Developer of the Original Code is CodeIgniter.
  * Portions created by KBVCodes are Copyright (C) KBVCodes.
  * All Rights Reserved.
@@ -87,7 +87,7 @@ class manage_users extends account
 		$data['city_list']   = $this->city_model->get_cities();
 		$data['gender_list'] = $this->get_gender();
 
-		return $this->load->view('templates/forms/beneficiary_form', $data);
+		return $this->load->view('templates/forms/user_form', $data);
 	}
 
 	/**
@@ -97,7 +97,9 @@ class manage_users extends account
 	 */
 	public function get_users()
 	{
-		$result = $this->users_model->get_user();
+		$field_name = array('deleted');
+		$field_value = array('0');
+		$result = $this->users_model->get_user($field_name, $field_value);
 
 		for( $i=0; $i<count($result); $i++ ){
 			$result[$i]['name'] =  '<b>'.$result[$i]['last_name'].'</b>, '.$result[$i]['first_name'];

@@ -1,6 +1,0 @@
-<section class="content">
-</section>
-
-
-
-

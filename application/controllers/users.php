@@ -1,14 +1,15 @@
 <?php
 /*********************************************************************************
-** The contents of this file are subject to the ______________________
+** The contents of this file are subject to the COPPortal
  * Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
- * The Original Code is: ______________________
+ * The Original Code is: KBVCodes
  * The Initial Developer of the Original Code is CodeIgniter.
  * Portions created by KBVCodes are Copyright (C) KBVCodes.
  * All Rights Reserved.
  *
  ********************************************************************************/
+
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class users extends CI_Controller
@@ -187,11 +188,6 @@ class users extends CI_Controller
 		}
 	}
 
-	public function forget_password()
-	{
-
-	}
-
 	/**
 	 * DISPLAYS USER'S PROFILE PICTURE
 	 * @return img
@@ -203,7 +199,6 @@ class users extends CI_Controller
 			( $gender == 'male' )?
 				$src['src'] = 'assets/img/avatar5.png'
 			: $src['src'] = 'assets/img/avatar3.png';
-
 		}
 
 		return img($src);
@@ -231,6 +226,10 @@ class users extends CI_Controller
 
 			$sess_array = array();
 			foreach ($result as $row) {
+				if( (int)$row->deleted === 1 ){
+					$this->logout();
+				}
+
 				$sess_array = array(
 					'id'          =>$row->id,
 					'user_name'   =>$row->user_name,

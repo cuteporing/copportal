@@ -1,14 +1,15 @@
 <?php
 /*********************************************************************************
-** The contents of this file are subject to the ______________________
+** The contents of this file are subject to the COPPortal
  * Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
- * The Original Code is: ______________________
- * The Initial Developer of the Original Code is Krishia Valencia.
+ * The Original Code is: KBVCodes
+ * The Initial Developer of the Original Code is CodeIgniter.
  * Portions created by KBVCodes are Copyright (C) KBVCodes.
  * All Rights Reserved.
  *
  ********************************************************************************/
+
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Users_model extends CI_Model {
@@ -18,37 +19,65 @@ class Users_model extends CI_Model {
 		$this->load->database();
 	}
 
+	/**
+	 * GET'S THE NO. OF USER THAT IS ACTIVE
+	 * @return Integer
+	 * --------------------------------------------
+	 */
 	public function get_no_of_user()
 	{
 		$this->db->where('status', 'Active');
-		$this->db->where('is_admin', 'off');
+		$this->db->where('is_admin', 'on');
 		$this->db->from('cop_users');
 		return $this->db->count_all_results();
 	}
 
+	/**
+	 * GET'S DATA
+	 * @param String | Array, $search_by
+	 * @param String | Array, $data
+	 * @return Array | Object | Boolean <FALSE>
+	 * --------------------------------------------
+	 */
 	public function get_user($search_by='', $data='')
 	{
 		if( $search_by == '' ){
 			$query = $this->db->get('cop_users');
 			return $query->result_array();
 		}else{
-			$this->db->where($search_by, $data);
-			$this->db->from('cop_users');
-			$this->db->limit(1);
-			$query = $this->db->get();
-
-			if( $query->num_rows() == 1 ){
-				return $query->result();
+			//IF SEARCH PARAMETER IS AN ARRAY RETURN AN ARRAY RESULT
+			if( is_array($search_by) ){
+				for($i=0; $i < count($search_by); $i++){
+					$this->db->where($search_by[$i], $data[$i]);
+					$this->db->from('cop_users');
+					$query = $this->db->get();
+					return $query->result_array();
+				}
+			//IF SEARCH PARAMETER IS STRING RETURN AN OBJECT
 			}else{
-				return FALSE;
+				$this->db->where($search_by, $data);
+				$this->db->from('cop_users');
+				$query = $this->db->get();
+				if( $query->num_rows() == 1 ){
+					return $query->result();
+				}else{
+					return FALSE;
+				}
 			}
 		}
 	}
 
+	/**
+	 * GET LOGIN INFO
+	 * @param String | Array, $search_by
+	 * @param String | Array, $data
+	 * @return Array | Object | Boolean <FALSE>
+	 * --------------------------------------------
+	 */
 	public function get_login_info($id)
 	{
 		$sql_stmt ='id, user_name, first_name, last_name, ';
-		$sql_stmt.='gender, is_admin, date_entered, imagename';
+		$sql_stmt.='gender, is_admin, date_entered, imagename, deleted';
 
 		$this->db->select($sql_stmt);
 		$this->db->from('cop_users');
@@ -111,6 +140,23 @@ class Users_model extends CI_Model {
 				'status'=>'success',
 				'msg'   =>$data['first_name'].' has been created'
 				);
+		}
+	}
+
+	public function delete_user($data)
+	{
+		$this->db->trans_begin();
+		$this->db->where('id', $data['id']);
+		$this->db->update('cop_users', $data);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
+			return FALSE;
+		}else{
+			$this->db->trans_commit();
+			return TRUE;
 		}
 	}
 }

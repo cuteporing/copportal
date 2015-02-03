@@ -1,9 +1,9 @@
 <?php
 /*********************************************************************************
-** The contents of this file are subject to the ______________________
+** The contents of this file are subject to the COPPortal
  * Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
- * The Original Code is: ______________________
+ * The Original Code is: KBVCodes
  * The Initial Developer of the Original Code is CodeIgniter.
  * Portions created by KBVCodes are Copyright (C) KBVCodes.
  * All Rights Reserved.
@@ -170,7 +170,7 @@ class account extends CI_controller
 		$user_header = li($user_header, $attribute['user_header']);
 
 		//LINKS FOR USER FOOTER
-		$profile_btn = anchor('', 'Profile', $attribute['btn_flat']);
+		$profile_btn = anchor('account/manage_users/edit/'.$session_data['id'], 'Profile', $attribute['btn_flat']);
 		$profile_btn = div($profile_btn, $attribute['pull_left']);
 	
 		$signout_btn = anchor('logout', 'Signout', $attribute['btn_flat']);

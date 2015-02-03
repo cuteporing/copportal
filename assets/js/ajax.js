@@ -177,6 +177,8 @@ $(function() {
 		}
 	}
 
+	// REMOVE BORDER ERROR HIGHLIGHT WHEN FOCUS
+	// --------------------------------------------
 	$('input').focus(function(){
 		$(this).removeAttr('style').next().html('');
 	});

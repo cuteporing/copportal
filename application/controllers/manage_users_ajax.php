@@ -1,9 +1,9 @@
 <?php
 /*********************************************************************************
-** The contents of this file are subject to the ______________________
+** The contents of this file are subject to the COPPortal
  * Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
- * The Original Code is: ______________________
+ * The Original Code is: KBVCodes
  * The Initial Developer of the Original Code is CodeIgniter.
  * Portions created by KBVCodes are Copyright (C) KBVCodes.
  * All Rights Reserved.
@@ -183,5 +183,26 @@ class manage_users_ajax extends CI_controller
 		echo common::response_msg(200, $result['status'], $result['msg']);
 	}
 
+	/**
+	 * DELETES A USER
+	 * @return Array, $response
+	 * --------------------------------------------------------
+	 */
+	public function delete()
+	{
+		$id   = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		$data = array(
+			'id'      => $id,
+			'status'  => 'Inactive',
+			'deleted' => 1,
+			);
+
+		$result = $this->users_model->delete_user($data);
+		if( $result ){
+			echo common::response_msg(200, 'success', 'User has been deleted');
+		}else{
+			echo common::response_msg(200, 'error', 'Cannot delete user');
+		}
+	}
 }
 ?>

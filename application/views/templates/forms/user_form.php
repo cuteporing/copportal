@@ -1,7 +1,7 @@
 
 <?php if( isset($result) ): ?>
 	<?php echo form_open('manage_users_ajax/edit/') ?>
-	<input  type="text" class="form-control hide" name="id" value="<?php if(isset($result)){ echo $result->id; } ?>">
+	<input  type="text" class="form-control hide" name="id" value="<?php if(isset($result->id)){ echo $result->id; } ?>">
 <?php else: ?>
 	<?php echo form_open('manage_users_ajax/create') ?>
 <?php endif; ?>
@@ -36,7 +36,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label><?=$this->lang->line('lbl_re_password')?></label>
-							<input type="password" class="form-control" name="re_user_password" value="<?php if(isset($result)){ echo $result->re_user_password; } ?>" maxlength="50">
+							<input type="password" class="form-control" name="re_user_password" value="<?php if(isset($result)){ echo $result->user_password; } ?>" maxlength="50">
 							<p class="error"></p>
 						</div>
 					</div>
