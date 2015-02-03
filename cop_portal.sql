@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 02, 2015 at 08:17 AM
+-- Generation Time: Feb 03, 2015 at 02:15 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `cop_beneficiaries` (
 --
 
 INSERT INTO `cop_beneficiaries` (`id`, `first_name`, `last_name`, `gender`, `date_entered`, `date_modified`, `phone`, `address_street`, `address_city_id`, `imagename`, `deleted`) VALUES
-(5, 'asdas', 'dasda', 'Female', '2015-01-29 18:57:55', '2015-01-29 18:57:55', '[]', 'asdas', 1, '', 0);
+(5, 'asdas', 'dasda', 'Female', '2015-02-02 18:09:03', '2015-02-02 18:09:03', '["1231-231-2312"]', 'asdas', 1, '', 0);
 
 -- --------------------------------------------------------
 
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `cop_events_member` (
 --
 
 CREATE TABLE IF NOT EXISTS `cop_users` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `user_name` varchar(255) DEFAULT NULL,
   `user_password` varchar(200) DEFAULT NULL,
   `first_name` varchar(30) DEFAULT NULL,
@@ -218,21 +218,20 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
   `email` varchar(100) DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
   `address_street` varchar(150) DEFAULT NULL,
-  `address_city` varchar(100) DEFAULT NULL,
+  `address_city_id` int(11) DEFAULT NULL,
   `address_postalcode` varchar(9) DEFAULT NULL,
   `imagename` varchar(250) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0',
   `crypt_type` varchar(20) NOT NULL DEFAULT 'MD5'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_users`
 --
 
-INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city`, `address_postalcode`, `imagename`, `deleted`, `crypt_type`) VALUES
-(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-01-18 10:54:55', '0000-00-00 00:00:00', NULL, 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 'Las Piñas', NULL, NULL, 0, 'PHP5.3MD5'),
-(2, '311-1262', '$1$31000000$cw981R2sDU.dqcJR3rlXr.', 'Ish', 'Landrito', 'female', 'off', '2015-01-10 05:25:19', '2015-01-05 21:32:11', NULL, NULL, 'Active', NULL, NULL, NULL, NULL, 0, 'PHP5.3MD5'),
-(3, '311-1263', '$1$31000000$cw981R2sDU.dqcJR3rlXr.', 'Azanette', 'Caingal', 'female', 'off', '2015-01-10 05:25:21', '2015-01-05 21:32:54', NULL, NULL, 'Active', NULL, NULL, NULL, NULL, 0, 'PHP5.3MD5');
+INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city_id`, `address_postalcode`, `imagename`, `deleted`, `crypt_type`) VALUES
+(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-02-03 01:03:10', '0000-00-00 00:00:00', '[]', 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 1, NULL, NULL, 0, 'PHP5.3MD5'),
+(2, 'ransu', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-02 18:02:51', '2015-02-02 18:02:51', '[]', '', 'Active', '', 1, '', NULL, 0, 'PHP5.3MD5');
 
 --
 -- Indexes for dumped tables
@@ -275,6 +274,12 @@ ALTER TABLE `cop_events`
  ADD PRIMARY KEY (`event_id`);
 
 --
+-- Indexes for table `cop_users`
+--
+ALTER TABLE `cop_users`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -308,6 +313,11 @@ MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 ALTER TABLE `cop_events`
 MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `cop_users`
+--
+ALTER TABLE `cop_users`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

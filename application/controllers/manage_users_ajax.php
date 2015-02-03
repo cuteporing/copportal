@@ -59,11 +59,7 @@ class manage_users_ajax extends CI_controller
 		$error_log  = array();
 		$users = new users;
 
-		if( count(
-				$this->users_model->check_user(
-					$this->input->post('user_name') )
-				)
-			){
+		if( $this->users_model->check_user($this->input->post('user_name')) !== FALSE ){
 			array_push($error_log, array(
 				'input'=>'user_name',
 				'error_msg'=>'There is already an existing username ')
@@ -109,12 +105,15 @@ class manage_users_ajax extends CI_controller
 		if( count($this->validate_required($required_field)) > 0 ){
 			$error_log = $this->validate_required($required_field);
 			return common::response_msg(200, 'error_field', '', $error_log);
+		//CHECK IF USERNAME ALREADY EXIST
 		}elseif( count($this->validate_username()) > 0 ){
 			$error_log = $this->validate_username();
 			return common::response_msg(200, 'error_field', '', $error_log);
+		//CHECK IF PASSWORD AND CONFIRM PASSWORD IS THE SAME
 		}elseif( count($this->validate_password()) > 0 ){
 			$error_log = $this->validate_password();
 			return common::response_msg(200, 'error_field', '', $error_log);
+
 		}else{
 			return FALSE;
 		}
@@ -158,7 +157,7 @@ class manage_users_ajax extends CI_controller
 
 		//GET THE ENCRYPTED PASSWORD W/ SALT
 		$encrypt_pass = $users->encrypt_password(
-			$user_info, $this->input->post('password'));
+			$user_info, $this->input->post('user_password'));
 
 		$data = array(
 			'user_name'         =>$this->input->post('user_name'),
@@ -173,6 +172,7 @@ class manage_users_ajax extends CI_controller
 			'email'             =>$this->input->post('email'),
 			'status'            =>$this->input->post('status'),
 			'address_street'    =>$this->input->post('address_street'),
+			'address_city_id'    =>$this->input->post('city'),
 			'address_postalcode'=>'',
 			'deleted'           =>0,
 			'crypt_type'        =>$users->checkPHPVersion()

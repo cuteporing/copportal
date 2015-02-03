@@ -73,6 +73,14 @@ class manage_beneficiary extends account
 			'gender' =>$result[0]->gender
 			);
 
+		$phone_list = json_decode( $result[0]->phone );
+
+		if( !count( $phone_list ) > 0 ){
+			$data['phone_list'] = '';
+		}else{
+			$data['phone_list'] = $phone_list;
+		}
+		print_r( $data['phone_list'] );
 		$data['result']      = $result[0];
 		$data['selected']    = $selected;
 		$data['city_list']   = $this->city_model->get_cities();

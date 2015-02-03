@@ -243,18 +243,6 @@ class users extends CI_Controller
 				);
 				$this->session->set_userdata('logged_in', $sess_array);
 			}
-
-			// foreach ($result as $row) {
-			// 			$session_data['id']          = $row->id;
-			// 			$session_data['user_name']   = $row->user_name;
-			// 			$session_data['first_name']  = $row->first_name;
-			// 			$session_data['last_name']   = $row->last_name;
-			// 			$session_data['gender']      = $row->gender;
-			// 			$session_data['is_admin']    = $row->is_admin;
-			// 			$session_data['date_entered']= $row->date_entered;
-			// 			$session_data['imagename']   = $row->imagename;
-			// 	}
-
 	}
 
 	/**

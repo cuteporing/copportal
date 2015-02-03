@@ -45,26 +45,6 @@ class Users_model extends CI_Model {
 		}
 	}
 
-
-	public function get_announcements($search_by='', $data='')
-	{
-		if( $search_by == '' ){
-			$query = $this->db->get('cop_announcements');
-			return $query->result_array();
-		}else{
-			$this->db->where($search_by, $data);
-			$this->db->from('cop_announcements');
-			$this->db->limit(1);
-			$query = $this->db->get();
-
-			if( $query->num_rows() == 1 ){
-				return $query->result();
-			}else{
-				return FALSE;
-			}
-		}
-	}
-
 	public function get_login_info($id)
 	{
 		$sql_stmt ='id, user_name, first_name, last_name, ';
