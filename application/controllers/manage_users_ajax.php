@@ -214,7 +214,7 @@ class manage_users_ajax extends CI_controller
 		$phone_json = json_encode($phone_list);
 
 		//GET PHP VERSION TO DETERMINE WHAT KIND OF ENCRYPTION
-		//TO BE USED
+		// TO BE USED
 		$version = $users->checkPHPVersion();
 
 		$user_info = array(
@@ -240,17 +240,15 @@ class manage_users_ajax extends CI_controller
 			'email'             =>$this->input->post('email'),
 			'status'            =>$this->input->post('status'),
 			'address_street'    =>$this->input->post('address_street'),
-			'address_city_id'    =>$this->input->post('city'),
+			'address_city_id'   =>$this->input->post('city'),
 			'address_postalcode'=>'',
 			'deleted'           =>0,
 			'crypt_type'        =>$users->checkPHPVersion()
 			);
-		echo common::response_msg(200, 'error', 'aa');
-		exit;
 
-		// $result = $this->users_model->update_user($data);
+		$result = $this->users_model->update_user($data);
 
-		// echo common::response_msg(200, $result['status'], $result['msg']);
+		echo common::response_msg(200, $result['status'], $result['msg']);
 	}
 
 	/**

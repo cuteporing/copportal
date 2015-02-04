@@ -161,7 +161,7 @@ class Users_model extends CI_Model {
 			$this->db->trans_commit();
 			return array(
 				'status'=>'success',
-				'msg'   =>$data['first_name'].' has been created'
+				'msg'   =>$data['first_name'].' has been updated'
 				);
 		}
 	}

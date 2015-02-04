@@ -590,7 +590,7 @@ if ( ! function_exists('element_tag'))
 
 		foreach($param as $attr => $value)
 		{
-			$tag .= $attr.'="'.$value.'" ';
+			$tag .= $attr.'="'.$value.'"';
 		}
 
 		$tag .= '>';

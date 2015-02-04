@@ -33,9 +33,7 @@
 					<div class="col-md-6">
 					</div>
 				</div>
-				<?php endif; ?>
 
-				<?php if( !isset($result) ): ?>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -52,6 +50,10 @@
 						</div>
 					</div>
 				</div>
+				<?php else: ?>
+					<input type="hidden" class="form-control" name="user_name" value="<?php if(isset($result)){ echo $result->user_name; } ?>" maxlength="50">
+					<input type="hidden" class="form-control" name="user_password" value="<?php if(isset($result)){ echo $result->user_password; } ?>" maxlength="50">
+					<input type="hidden" class="form-control" name="re_user_password" value="<?php if(isset($result)){ echo $result->user_password; } ?>" maxlength="50">
 				<?php endif; ?>
 
 				<div class="row">

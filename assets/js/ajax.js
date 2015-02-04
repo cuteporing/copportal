@@ -79,17 +79,26 @@ $(function() {
 	// SHOW GENERAL ALERT MESSAGE
 	// --------------------------------------------
 	function show_alert_msg(msg, type){
-		$('.error_message').css('top', scroll+77+'px');
+		$('.error_message').css({
+			'width'  : '30%',
+			'right'  : '-1000px',
+			'top'    : scroll+77+'px'});
 		$('.error_message').html( create_alert(type) );
-		$('.alert-dismissable').css({
-			'height'      : '52px',
-			'padding-left': '30px',
-			'margin-left' : '15px',
-			'position'    : 'relative'
-		});
-		$('.error_message').animate({ width: "30%" }, 500, function(){
-			$('.alert-dismissable').append(msg);
-			$('.alert-dismissable').css('height', 'auto');
+		$('.alert-dismissable')
+			.css({
+				'height'      : 'auto',
+				'padding-left': '30px',
+				'margin-left' : '15px',
+				'position'    : 'relative'
+			})
+			.append(msg);
+
+		$('.error_message').animate({ right: '0px'}, 500, function(){
+			$('.error_message').delay(1500).animate({
+				right: '-1000px'
+			}, 1000, function(){
+				$('.error_message').find('.close').click();
+			});
 		});
 	}
 
