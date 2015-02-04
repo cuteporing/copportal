@@ -54,6 +54,15 @@ class Events_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
+	public function get_members($event_id)
+	{
+		$this->db->where('event_id', $event_id);
+		$this->db->from('cop_events_member');
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
 	/**
 	 * GET CATEGORIES
 	 * @return Array

@@ -23,6 +23,36 @@ class manage_beneficiary extends account
 	}
 
 	/**
+	 * SET OF ACTION BUTTON FOR TABLE DISPLAY
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	static function action_btn()
+	{
+		return array(
+				0 => array(
+					'icon' =>'fa fa-edit',
+					'title'=>'Edit',
+					'type' =>'info',
+					'url'  =>'account/manage_beneficiary/edit/',
+					),
+				1 => array(
+					'data_attr' =>array(
+						0 => array(
+							'data_name' =>'data-ajax',
+							'value'=>'delete'),
+						1 => array(
+							'data_name' =>'data-del-type',
+							'value'=>'table')),
+					'icon' =>'fa fa-trash-o',
+					'title'=>'Delete',
+					'type' =>'danger',
+					'url'  =>'manage_beneficiary_ajax/delete/',
+					)
+				);
+	}
+
+	/**
 	 * GENDER COMBO BOX
 	 * @return Array
 	 * --------------------------------------------
@@ -80,7 +110,7 @@ class manage_beneficiary extends account
 		}else{
 			$data['phone_list'] = $phone_list;
 		}
-		print_r( $data['phone_list'] );
+
 		$data['result']      = $result[0];
 		$data['selected']    = $selected;
 		$data['city_list']   = $this->city_model->get_cities();
@@ -103,8 +133,7 @@ class manage_beneficiary extends account
 			$result[$i]['result_id'] = $result[$i]['id'];
 		}
 
-		$data['btn_edit']     = 'account/manage_beneficiary/edit/';
-		$data['btn_delete']   = 'manage_beneficiary_ajax/delete/';
+		$data['action_btn']   = self::action_btn();
 		$data['table_name']   = 'Trainings and seminars';
 		$data['fieldname']    = array('name', 'action');
 		$data['field_label']  = array('Name', '&nbsp;');

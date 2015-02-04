@@ -23,6 +23,36 @@ class announcements extends account
 	}
 
 	/**
+	 * SET OF ACTION BUTTON FOR TABLE DISPLAY
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	static function action_btn()
+	{
+		return array(
+				0 => array(
+					'icon' =>'fa fa-edit',
+					'title'=>'Edit',
+					'type' =>'info',
+					'url'  =>'account/announcements/edit/',
+					),
+				1 => array(
+					'data_attr' =>array(
+						0 => array(
+							'data_name' =>'data-ajax',
+							'value'=>'delete'),
+						1 => array(
+							'data_name' =>'data-del-type',
+							'value'=>'table')),
+					'icon' =>'fa fa-trash-o',
+					'title'=>'Delete',
+					'type' =>'danger',
+					'url'  =>'announcements_ajax/delete/',
+					)
+				);
+	}
+
+	/**
 	 * DISPLAY CREATE ANNOUNCEMENT PAGE
 	 * @return table
 	 * --------------------------------------------
@@ -82,14 +112,13 @@ class announcements extends account
 			}else{
 				$description = '';
 			}
-			
+
 			$result[$i]['date_entered']  = common::format_date($result[$i]['date_entered'], 'M d, Y');
 			$result[$i]['result_id']     = $result[$i]['announcement_id'];
 			$result[$i]['description']   = $description;
 		}
 
-		$data['btn_edit']     = 'account/announcements/edit/';
-		$data['btn_delete']   = 'announcements_ajax/delete/';
+		$data['action_btn']   = self::action_btn();
 		$data['table_name']   = 'Announcements';
 		$data['fieldname']    = array('title', 'description', 'date_entered', 'action');
 		$data['field_label']  = array('Title', 'Description', 'Date', '&nbsp;');

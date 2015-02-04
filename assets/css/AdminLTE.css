@@ -136,8 +136,8 @@ h6,
   margin-top: 3px;
 }
 .error_message {
-  right:0;
-  width: 0;
+  right: 0;
+  width: 30%;
   top: 77px;
   z-index: 99;
   position: absolute;

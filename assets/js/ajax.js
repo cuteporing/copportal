@@ -80,7 +80,6 @@ $(function() {
 	// --------------------------------------------
 	function show_alert_msg(msg, type){
 		$('.error_message').css({
-			'width'  : '30%',
 			'right'  : '-1000px',
 			'top'    : scroll+77+'px'});
 		$('.error_message').html( create_alert(type) );

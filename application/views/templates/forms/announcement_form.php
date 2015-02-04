@@ -18,7 +18,15 @@
 	<div class="col-md-12">
 		<!-- EVENT TITLE -->
 		<div class="box box-warning">
-			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_create_announcement')?></h3></div>
+			<div class="box-header">
+				<h3 class="box-title">
+					<?php if( isset($result) ): ?>
+						<?=$this->lang->line('lbl_edit_announcement')?>
+					<?php else: ?>
+						<?=$this->lang->line('lbl_create_announcement')?>
+					<?php endif; ?>
+				</h3>
+			</div>
 			<div class="box-body">
 				<div class="form-group">
 					<label><?=$this->lang->line('lbl_announcement_title')?></label>

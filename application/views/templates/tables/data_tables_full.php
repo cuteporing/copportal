@@ -28,10 +28,23 @@
         <?php endfor ?>
         <?php if( in_array('action', $fieldname) ): ?>
           <td>
+            <?php if( isset($action_btn) ): ?>
             <div class="btn-group">
-              <a href="<?=base_url().$btn_edit.$row['result_id']?>" title="Edit"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button></a>
-              <a href="<?=base_url().$btn_delete.$row['result_id']?>" title="Delete"><button type="button" class="btn btn-danger" data-ajax="delete" data-del-type="table"><i class="fa fa-trash-o"></i></button></a>
+                <?php foreach ($action_btn as $btn): ?>
+                    <a href="<?= base_url().$btn['url'].$row['result_id'] ?>">
+                      <button type="button" class="btn btn-<?=$btn['type'] ?>"
+                        <?php if( isset($btn['data_attr']) ): ?>
+                          <?php foreach ($btn['data_attr'] as $key): ?>
+                            <?= $key['data_name'].'="'.$key['value'].'" ' ?>
+                           <?php endforeach; ?>
+                        <?php endif; ?>
+                        >
+                        <i class="<?= $btn['icon']?>"></i>
+                      </button>
+                    </a>
+                <?php endforeach; ?>
             </div>
+            <?php endif; ?>
           </td>
         <?php endif ?>
         </tr>

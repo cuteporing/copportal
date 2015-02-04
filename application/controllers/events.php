@@ -23,6 +23,42 @@ class events extends account
 	}
 
 	/**
+	 * SET OF ACTION BUTTON FOR TABLE DISPLAY
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	static function action_btn()
+	{
+		return array(
+				0 => array(
+					'icon' =>'fa fa-plus-square-o',
+					'title'=>'Join',
+					'type' =>'success',
+					'url'  =>'account/events/manage/',
+					),
+				1 => array(
+					'icon' =>'fa fa-edit',
+					'title'=>'Edit',
+					'type' =>'info',
+					'url'  =>'account/events/edit/',
+					),
+				2 => array(
+					'data_attr' =>array(
+						0 => array(
+							'data_name' =>'data-ajax',
+							'value'=>'delete'),
+						1 => array(
+							'data_name' =>'data-del-type',
+							'value'=>'table')),
+					'icon' =>'fa fa-trash-o',
+					'title'=>'Delete',
+					'type' =>'danger',
+					'url'  =>'events_ajax/delete/',
+					)
+				);
+	}
+
+	/**
 	 * DISPLAY CREATE EVENT PAGE
 	 * @return table
 	 * --------------------------------------------
@@ -68,6 +104,33 @@ class events extends account
 		$data['result_desc']     = ($result_desc)? $result_desc : array();
 
 		return $this->load->view('templates/forms/event_form', $data);
+	}
+
+	public function manage()
+	{
+		$event_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+		
+		//IF THERE IS NO EVENT ID FROM URI, SHOW ERROR RECORD NOT FOUND
+		if( $event_id == '' ){
+			return $this->load->view('error/record_not_found');
+		}
+
+		//GET EVENT DETAILS
+		$result_event = $this->events_model->get_events('event_id', $event_id);
+		//GET EVENT DESCRIPTION
+		$result_desc = $this->events_model->get_event_desc($event_id);
+		//GET EVENT MEMBERS
+		$result_members = $this->events_model->get_members($event_id);
+
+		$data['result_event'] = $result_event[0];
+		$data['result_desc']  = ($result_desc)? $result_desc : array();
+		$data['table_name']   = 'Members';
+		$data['fieldname']    = array('date_entered');
+		$data['field_label']  = array('Date joined');
+		$data['result']       = $result_members;
+
+		$this->load->view('account/events', $data);
+		$this->load->view('templates/tables/data_tables_display', $data);
 	}
 
 	/**
@@ -127,10 +190,9 @@ class events extends account
 			// }
 			$result[$i]['date']      =  $date;
 			$result[$i]['result_id'] = $result[$i]['event_id'];
-
 		}
-		$data['btn_edit']     = 'account/events/edit/';
-		$data['btn_delete']   = 'events_ajax/delete/';
+
+		$data['action_btn']   = self::action_btn();
 		$data['table_name']   = 'Trainings and seminars';
 		$data['fieldname']    = array('title','date', 'location', 'action');
 		$data['field_label']  = array('Activity','Date', 'Venue', '&nbsp;');
@@ -163,6 +225,7 @@ class events extends account
 		switch ($parameter) {
 			case '/create': $this->create(); break;
 			case '/edit'  : $this->edit();   break;
+			case '/manage': $this->manage(); break;
 			default:$this->get_events();     break;
 		}
 		//CONTENT FOOTER

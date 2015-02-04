@@ -11,7 +11,15 @@
 	<div class="col-md-8">
 		<!-- EVENT TITLE -->
 		<div class="box box-warning">
-			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_add_beneficiary')?></h3></div>
+			<div class="box-header">
+				<h3 class="box-title">
+					<?php if( isset($result) ): ?>
+						<?=$this->lang->line('lbl_edit_beneficiary')?>
+					<?php else: ?>
+						<?=$this->lang->line('lbl_add_beneficiary')?>
+					<?php endif; ?>
+				</h3>
+			</div>
 			<div class="box-body">
 				<div class="row">
 					<div class="col-md-6">

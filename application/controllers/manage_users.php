@@ -26,6 +26,36 @@ class manage_users extends account
 	}
 
 	/**
+	 * SET OF ACTION BUTTON FOR TABLE DISPLAY
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	static function action_btn()
+	{
+		return array(
+				0 => array(
+					'icon' =>'fa fa-edit',
+					'title'=>'Edit',
+					'type' =>'info',
+					'url'  =>'account/manage_users/edit/',
+					),
+				1 => array(
+					'data_attr' =>array(
+						0 => array(
+							'data_name' =>'data-ajax',
+							'value'=>'delete'),
+						1 => array(
+							'data_name' =>'data-del-type',
+							'value'=>'table')),
+					'icon' =>'fa fa-trash-o',
+					'title'=>'Delete',
+					'type' =>'danger',
+					'url'  =>'manage_users_ajax/delete/',
+					)
+				);
+	}
+
+	/**
 	 * GENDER COMBO BOX
 	 * @return Array
 	 * --------------------------------------------
@@ -106,8 +136,7 @@ class manage_users extends account
 			$result[$i]['result_id'] = $result[$i]['id'];
 		}
 
-		$data['btn_edit']     = 'account/manage_users/edit/';
-		$data['btn_delete']   = 'manage_users_ajax/delete/';
+		$data['action_btn']   = self::action_btn();
 		$data['table_name']   = 'List of users';
 		$data['fieldname']    = array('name', 'action');
 		$data['field_label']  = array('Name', '&nbsp;');
