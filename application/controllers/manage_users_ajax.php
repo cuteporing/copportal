@@ -58,8 +58,10 @@ class manage_users_ajax extends CI_controller
 	{
 		$error_log  = array();
 		$users = new users;
+		$mode = str_replace('/', '', $this->uri->slash_segment(2, 'leading'));
 
-		if( $this->users_model->check_user($this->input->post('user_name')) !== FALSE ){
+		if( $this->users_model->check_user($this->input->post('user_name')) !== FALSE &&
+			$mode == 'create' ){
 			array_push($error_log, array(
 				'input'=>'user_name',
 				'error_msg'=>'There is already an existing username ')
@@ -120,7 +122,7 @@ class manage_users_ajax extends CI_controller
 	}
 
 	/**
-	 * CREATES AN EVENT
+	 * CREATES A USER
 	 * @return Array, $response
 	 * --------------------------------------------------------
 	 */
@@ -181,6 +183,74 @@ class manage_users_ajax extends CI_controller
 		$result = $this->users_model->create_user($data);
 
 		echo common::response_msg(200, $result['status'], $result['msg']);
+	}
+
+	/**
+	 * EDIT USER INFO
+	 * @return Array, $response
+	 * --------------------------------------------------------
+	 */
+	public function edit()
+	{
+		if( $this->validate_users_create() ){
+			echo $this->validate_users_create();
+			exit;
+		}
+		$users = new users;
+		$phone_list = array();
+
+		$session_data = $this->session->userdata('logged_in');
+		$id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+
+		//GET ALL THE PHONE NUMBER AND TEMPORARILY SAVE IT
+		//IN AN ARRAY
+		foreach ($this->input->post('phone') as $phone) {
+			if( $phone !== '' ){
+				array_push($phone_list, $phone);
+			}
+		}
+
+		//SAVE THE PHONE NUMBER IN JSON FORMAT
+		$phone_json = json_encode($phone_list);
+
+		//GET PHP VERSION TO DETERMINE WHAT KIND OF ENCRYPTION
+		//TO BE USED
+		$version = $users->checkPHPVersion();
+
+		$user_info = array(
+			'user_name' =>$this->input->post('user_name'),
+			'crypt_type'=>''
+			);
+
+		//GET THE ENCRYPTED PASSWORD W/ SALT
+		$encrypt_pass = $users->encrypt_password(
+			$user_info, $this->input->post('user_password'));
+
+		$data = array(
+			'id'                =>$id,
+			'user_name'         =>$this->input->post('user_name'),
+			'user_password'     =>$encrypt_pass,
+			'first_name'        =>$this->input->post('first_name'),
+			'last_name'         =>$this->input->post('last_name'),
+			'gender'            =>strtolower( $this->input->post('gender') ),
+			'is_admin'          =>'on',
+			'date_entered'      =>common::get_today(),
+			'date_modified'     =>common::get_today(),
+			'phone'             =>$phone_json,
+			'email'             =>$this->input->post('email'),
+			'status'            =>$this->input->post('status'),
+			'address_street'    =>$this->input->post('address_street'),
+			'address_city_id'    =>$this->input->post('city'),
+			'address_postalcode'=>'',
+			'deleted'           =>0,
+			'crypt_type'        =>$users->checkPHPVersion()
+			);
+		echo common::response_msg(200, 'error', 'aa');
+		exit;
+
+		// $result = $this->users_model->update_user($data);
+
+		// echo common::response_msg(200, $result['status'], $result['msg']);
 	}
 
 	/**

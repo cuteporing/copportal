@@ -11,8 +11,17 @@
 	<div class="col-md-8">
 		<!-- EVENT TITLE -->
 		<div class="box box-warning">
-			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_create_user')?></h3></div>
+			<div class="box-header">
+				<h3 class="box-title">
+					<?php if( !isset($result) ): ?>
+						<?=$this->lang->line('lbl_create_user')?>
+					<?php else: ?>
+						<?=$this->lang->line('lbl_edit_user')?>
+					<?php endif; ?>
+				</h3>
+			</div>
 			<div class="box-body">
+				<?php if( !isset($result) ): ?>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -24,7 +33,9 @@
 					<div class="col-md-6">
 					</div>
 				</div>
+				<?php endif; ?>
 
+				<?php if( !isset($result) ): ?>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -41,6 +52,7 @@
 						</div>
 					</div>
 				</div>
+				<?php endif; ?>
 
 				<div class="row">
 					<div class="col-md-6">
@@ -108,21 +120,28 @@
 
 	<!-- RIGHT COLUMN -->
 	<div class="col-md-4">
-		<div class="box box-danger">
-			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_disable_account')?></h3></div>
-			<div class="box-body">
-				<div class="form-group">
-					<label>
-						<input type="radio" name="status" class="minimal-red" value="Inactive"/>
-						Yes
-					</label>
-					<label>
-						<input type="radio" name="status" class="minimal-red" value="Active" checked/>
-						No
-					</label>
+		<?php if( isset($result) ): ?>
+			<div class="box box-primary">
+				<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_disable_account')?></h3></div>
+				<div class="box-body">
+					<div class="form-group">
+						<label>
+							<input type="radio" name="status" class="minimal-red" value="Inactive"/>
+							Yes
+						</label>
+						<label>
+							<input type="radio" name="status" class="minimal-red" value="Active" checked/>
+							No
+						</label>
+					</div>
 				</div>
-			</div><!--//END box-body -->
-		</div><!--//END box-primary -->
+			</div>
+			<button class="btn btn-warning btn-block" data>
+				<i class="fa fa-lock"></i> Change password
+			</button><br>
+		<?php else: ?>
+			<input type="hidden" name="status" class="minimal-red" value="Active" checked/>
+		<?php endif; ?>
 
 		<div class="box box-primary">
 			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_contact_details')?></h3></div>
