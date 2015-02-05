@@ -17,7 +17,6 @@ class Upload extends CI_Controller {
 	function do_upload()
 	{
 		$config['upload_path'] = './uploads/';
-		print_r($config['upload_path']);
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['max_size']	= '100';
 		$config['max_width']  = '1024';
@@ -33,8 +32,19 @@ class Upload extends CI_Controller {
 		else
 		{
 			$data = array('upload_data' => $this->upload->data());
+			$config['image_library'] = 'gd2';
+			$config['source_image']	= $data['upload_data']['file_path'];
+			$config['create_thumb'] = TRUE;
+			$config['new_image'] = $data['upload_data']['file_path'];
+			$config['maintain_ratio'] = TRUE;
+			$config['width']	= 75;
+			$config['height']	= 50;
 
+			$this->load->library('image_lib', $config);
+			$this->image_lib->resize();
+			
 			$this->load->view('pages/upload_success', $data);
+
 		}
 	}
 }
