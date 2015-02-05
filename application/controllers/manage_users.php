@@ -138,8 +138,8 @@ class manage_users extends account
 
 		$data['action_btn']   = self::action_btn();
 		$data['table_name']   = 'List of users';
-		$data['fieldname']    = array('name', 'action');
-		$data['field_label']  = array('Name', '&nbsp;');
+		$data['fieldname']    = array('name', 'status', 'action');
+		$data['field_label']  = array('Name', 'Status', '&nbsp;');
 		$data['result']       = $result;
 
 		return $this->load->view('templates/tables/data_tables_full', $data);

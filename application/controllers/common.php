@@ -57,7 +57,7 @@ class common extends CI_controller
 		$style = array();
 
 		//DARK BOOTSTRAP THEME
-		$bs_acct = array('home','announcements', 'dashboard', 'events', 'manage_beneficiary', 'manage_users');
+		$bs_acct = array('upload','home','announcements', 'dashboard', 'events', 'manage_beneficiary', 'manage_users');
 		$bs_dark = array('login', 'forgot_password', 'register');
 
 		if( in_array( strtolower($page), $bs_dark ) ){
@@ -92,7 +92,7 @@ class common extends CI_controller
 		$script = array();
 
 		//DARK BOOTSTRAP THEME
-		$bs_acct = array('announcements', 'dashboard', 'events', 'manage_beneficiary', 'manage_users');
+		$bs_acct = array('upload','announcements', 'dashboard', 'events', 'manage_beneficiary', 'manage_users');
 		$bs_dark = array('login', 'forgot_password', 'register');
 
 		if( in_array( strtolower($page), $bs_dark ) ){
@@ -137,7 +137,7 @@ class common extends CI_controller
 	 */
 	static function get_body_class($page)
 	{
-		$bs_acct = array('announcements', 'dashboard', 'events', 'manage_beneficiary', 'manage_users');
+		$bs_acct = array('upload','announcements', 'dashboard', 'events', 'manage_beneficiary', 'manage_users');
 		$bs_dark = array('login', 'forgot_password', 'register');
 
 		//DARK BOOTSTRAP THEME

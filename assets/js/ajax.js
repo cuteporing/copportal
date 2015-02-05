@@ -96,6 +96,7 @@ $(function() {
 			$('.error_message').delay(1500).animate({
 				right: '-1000px'
 			}, 1000, function(){
+				$('.error_message').removeAttr('style');
 				$('.error_message').find('.close').click();
 			});
 		});

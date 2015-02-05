@@ -73,6 +73,27 @@ class events_ajax extends CI_controller
 	}
 
 	/**
+	 * CHECKS IF EVENT DOES EXIST
+	 * ARRAY OF ERROR MSG
+	 * @return Array, $error_log
+	 * --------------------------------------------------------
+	 */
+	public function validate_event_exist()
+	{
+		$error_log= array();
+		$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		$result   = $this->events_model->get_events('event_id', $event_id);
+
+		if( $result ){
+			array_push($error_log, array(
+				'input'=>'',
+				'error_msg'=>'Sorry this event does not exist anymore')
+			);
+		}
+		return $error_log;
+	}
+
+	/**
 	 * VALIDATES ALL POST DATA NEEDED FOR CREATING AN EVENT
 	 * @return Array, $error_log
 	 * --------------------------------------------------------
@@ -102,15 +123,63 @@ class events_ajax extends CI_controller
 		}
 	}
 
+
 	/**
-	 * CREATES AN EVENT
+	 * VALIDATES ALL POST DATA NEEDED FOR CREATING AN EVENT
+	 * @return Array, $error_log
+	 * --------------------------------------------------------
+	 */
+	public function validate_event_member()
+	{
+		$error_log = array();
+		$required_field = array(
+			'beneficiary_id');
+
+		//IF THERE ARE MISSING INPUT DATA
+		if( count($this->validate_required($required_field)) > 0 ){
+			$error_log = $this->validate_required($required_field);
+			$error_log[0]['error_msg'] = 'Beneficiary is required';
+			return common::response_msg(200, 'error_field', '', $error_log);
+
+		//IF DOES NOT EVENT EXIST
+		}elseif( count($this->validate_event_exist()) > 0 ){
+			$error_log = $this->validate_event_exist();
+			return common::response_msg(200, 'error', $error_log['error_msg']);
+
+		//IF EVENT DATE IS NOT CORRECT
+		}else{
+			return FALSE;
+		}
+	}
+
+	/**
+	 * ADD BENEFICIARY TO THE LIST OF MEMBER JOINING IN AN
+	 * EVENT
 	 * @return JSON, $response
 	 * --------------------------------------------------------
 	 */
 	public function member_add()
 	{
-		// redirect('http://192.168.0.207/copportal/account/events/manage/12', 'refresh');
-		echo common::response_msg(200, 'refresh', '11');
+		if( $this->validate_event_member() ){
+			echo $this->validate_event_member();
+			exit;
+		}
+
+		$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		$beneficiary_id = $this->input->post('beneficiary_id');
+
+		$data = array(
+			'event_id'=>$event_id,
+			'id'      =>$beneficiary_id
+			);
+
+		$result = $this->events_model->add_event_member($data);
+
+		if( $result['status'] == 'error' ){
+			echo common::response_msg(200, $result['status'], $result['msg'], $data);
+		}else{
+			echo common::response_msg(200, 'refresh', '11');
+		}
 	}
 
 	/**
@@ -165,7 +234,7 @@ class events_ajax extends CI_controller
 			'date_end'        =>$date_end,
 			'time_start'      =>$time_start,
 			'time_end'        =>$time_end,
-			'location'        =>$this->input->post('location'),
+			'location'        =>ucfirst($this->input->post('location')),
 			'slug'            =>url_title($this->input->post('title'), 'dash', TRUE)
 			);
 
@@ -234,7 +303,7 @@ class events_ajax extends CI_controller
 			'date_end'        =>$date_end,
 			'time_start'      =>$time_start,
 			'time_end'        =>$time_end,
-			'location'        =>$this->input->post('location'),
+			'location'        =>ucfirst($this->input->post('location')),
 			'slug'            =>url_title($this->input->post('title'), 'dash', TRUE)
 			);
 

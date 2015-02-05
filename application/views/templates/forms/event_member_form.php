@@ -18,7 +18,7 @@
 							<input type="search" class="form-control" name="beneficiary" data-autocomplete data-autocomplete-id="beneficiary_name" data-link="<?=base_url()?>events_ajax/member_list/<?=$result_id?>">
 							<input type="hidden" name="beneficiary_id">
 						</div>
-						<ul id="beneficiary_name" class="auto-complete-list"></ul>
+						<ul id="beneficiary_name" name="beneficiary_name" class="auto-complete-list"></ul>
 						<p class="error"></p>
 					</div>
 					<input type="submit" class="btn btn-warning btn-block " value="Add to event">

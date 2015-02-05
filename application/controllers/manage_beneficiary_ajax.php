@@ -111,8 +111,8 @@ class manage_beneficiary_ajax extends CI_controller
 		$phone_json = json_encode($phone_list);
 
 		$data = array(
-			'first_name'     => $this->input->post('first_name'),
-			'last_name'      => $this->input->post('last_name'),
+			'first_name'     => ucfirst($this->input->post('first_name')),
+			'last_name'      => ucfirst($this->input->post('last_name')),
 			'gender'         => $this->input->post('gender'),
 			'date_entered'   => common::get_today(),
 			'date_modified'  => common::get_today(),
@@ -169,8 +169,8 @@ class manage_beneficiary_ajax extends CI_controller
 
 		$data = array(
 			'id'             => $this->input->post('id'),
-			'first_name'     => $this->input->post('first_name'),
-			'last_name'      => $this->input->post('last_name'),
+			'first_name'     => ucfirst($this->input->post('first_name')),
+			'last_name'      => ucfirst($this->input->post('last_name')),
 			'gender'         => $this->input->post('gender'),
 			'date_entered'   => common::get_today(),
 			'date_modified'  => common::get_today(),

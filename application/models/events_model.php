@@ -237,6 +237,34 @@ class Events_model extends CI_Model {
 	}
 
 	/**
+	 * ADD BENEFICIARY TO AN EVENT
+	 * @param Array, $data
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function add_event_member($data)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('cop_events_member', $data);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
+			return array(
+				'status'=>'error',
+				'msg'   =>'Cannot create an event'
+				);
+		}else{
+			$this->db->trans_commit();
+			return array(
+				'status'=>'success',
+				'msg'   =>''
+				);
+		}
+	}
+
+	/**
 	 * CREATES AN EVENT
 	 * @param Array, $event_data
 	 * @param Array, $description_data
