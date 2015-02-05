@@ -104,6 +104,38 @@ class events_ajax extends CI_controller
 
 	/**
 	 * CREATES AN EVENT
+	 * @return JSON, $response
+	 * --------------------------------------------------------
+	 */
+	public function member_add()
+	{
+		// redirect('http://192.168.0.207/copportal/account/events/manage/12', 'refresh');
+		echo common::response_msg(200, 'refresh', '11');
+	}
+
+	/**
+	 * CREATES AN EVENT
+	 * @return JSON, $response
+	 * --------------------------------------------------------
+	 */
+	public function member_list()
+	{
+		$data    = array();
+		$keyword = $this->input->get('keyword');
+		$event_id= str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+
+		$result  = $this->events_model->get_members($event_id, $keyword, TRUE);
+		foreach ($result as $row) {
+			array_push($data, array(
+				'label'=>$row->first_name.' '.$row->last_name,
+				'value'=>$row->id,
+				));
+		}
+		echo json_encode($data);
+	}
+
+	/**
+	 * CREATES AN EVENT
 	 * @return Array, $response
 	 * --------------------------------------------------------
 	 */

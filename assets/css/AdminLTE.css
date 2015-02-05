@@ -131,6 +131,27 @@ h6,
   font-family: 'Source Sans Pro', sans-serif;
 }
 
+.auto-complete-list {
+  list-style-type: none;
+  max-height: 150px;
+  position: absolute;
+  padding-left: 0px;
+  overflow-y: scroll;
+  width: 95%;
+  background: white;
+  border: 1px solid rgb(208, 208, 208);
+  z-index: 50;
+  display: none;
+}
+  .auto-complete-list .item {
+    padding-left: 20px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  .auto-complete-list .item:hover {
+    background: rgb(234, 234, 234);
+  }
+
 .error {
   color: red;
   margin-top: 3px;

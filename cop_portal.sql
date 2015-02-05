@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 03, 2015 at 02:15 AM
+-- Generation Time: Feb 05, 2015 at 07:57 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -148,14 +148,15 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
 --
 
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
-(15, 12, 'asdasdaasd', 1);
+(15, 12, 'asdasdaasd', 1),
+(16, 13, '', 1);
 
 -- --------------------------------------------------------
 
@@ -176,14 +177,15 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `time_end` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `location` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events`
 --
 
 INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
-(12, 1, 'TECH TUTOR 5', 'open', 1, '2015-01-21 23:15:39', '2015-01-22', '2015-01-22', '15:15:00', '15:15:00', 'asdas', 'tech-tutor-5');
+(12, 1, 'TECH TUTOR 5', 'open', 1, '2015-01-21 23:15:39', '2015-01-22', '2015-01-22', '15:15:00', '15:15:00', 'asdas', 'tech-tutor-5'),
+(13, 1, 'TECH TUTOR 7', 'open', 2, '2015-02-04 23:44:54', '2015-02-05', '2015-02-05', '14:30:00', '14:30:00', 'asdasdas', 'tech-tutor-7');
 
 -- --------------------------------------------------------
 
@@ -195,8 +197,15 @@ CREATE TABLE IF NOT EXISTS `cop_events_member` (
   `event_id` int(11) NOT NULL,
   `id` int(11) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` varchar(50) NOT NULL
+  `status` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_events_member`
+--
+
+INSERT INTO `cop_events_member` (`event_id`, `id`, `date_entered`, `status`) VALUES
+(12, 5, '2015-02-05 06:19:45', NULL);
 
 -- --------------------------------------------------------
 
@@ -223,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
   `imagename` varchar(250) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0',
   `crypt_type` varchar(20) NOT NULL DEFAULT 'MD5'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_users`
@@ -231,7 +240,8 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
 
 INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city_id`, `address_postalcode`, `imagename`, `deleted`, `crypt_type`) VALUES
 (1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-02-03 01:03:10', '0000-00-00 00:00:00', '[]', 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 1, NULL, NULL, 0, 'PHP5.3MD5'),
-(2, 'ransu', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-02 18:02:51', '2015-02-02 18:02:51', '[]', '', 'Active', '', 1, '', NULL, 0, 'PHP5.3MD5');
+(2, 'ransu', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-03 02:34:44', '2015-02-02 18:02:51', '[]', '', 'Inactive', '', 1, '', NULL, 1, 'PHP5.3MD5'),
+(3, 'ransus', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-04 01:46:18', '2015-02-03 18:46:02', '[]', '', 'Inactive', '', 1, '', NULL, 1, 'PHP5.3MD5');
 
 --
 -- Indexes for dumped tables
@@ -307,17 +317,17 @@ MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `cop_users`
 --
 ALTER TABLE `cop_users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

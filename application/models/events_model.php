@@ -54,13 +54,39 @@ class Events_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
-	public function get_members($event_id)
+	/**
+	 * GET MEMBERS
+	 * @param Integer, $event_id
+	 * @param String, $keyword
+	 * @param Boolean, $list_only
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function get_members($event_id, $keyword='', $list_only=FALSE)
 	{
-		$this->db->where('event_id', $event_id);
-		$this->db->from('cop_events_member');
-		$query = $this->db->get();
+		if( !$list_only ){
+			$this->db->where('event_id', $event_id);
+			$this->db->from('cop_events_member');
+			$query = $this->db->get();
 
-		return $query->result();
+			return $query->result_array();
+		}else{
+			$sql = 'cop_events_member.id, ';
+			$sql.= 'cop_beneficiaries.first_name, ';
+			$sql.= 'cop_beneficiaries.last_name ';
+
+			$this->db->select($sql);
+			$this->db->from('cop_events_member');
+			$this->db->join('cop_beneficiaries',
+				'cop_events_member.id = cop_beneficiaries.id', 'left');
+			$this->db->where('event_id', $event_id);
+			$this->db->like('cop_beneficiaries.first_name', $keyword, 'both');
+			$this->db->or_like('cop_beneficiaries.last_name', $keyword);
+
+			$query = $this->db->get();
+
+			return $query->result();
+		}
 	}
 
 	/**
@@ -111,6 +137,8 @@ class Events_model extends CI_Model {
 
 	/**
 	 * GET EVENTS
+	 * @param String, $search_by
+	 * @param String, $data
 	 * @return Array
 	 * --------------------------------------------
 	 */

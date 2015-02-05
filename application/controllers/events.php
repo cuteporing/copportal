@@ -128,8 +128,10 @@ class events extends account
 		$data['fieldname']    = array('date_entered');
 		$data['field_label']  = array('Date joined');
 		$data['result']       = $result_members;
+		$data['result_id']    = $event_id;
 
 		$this->load->view('account/events', $data);
+		$this->load->view('templates/forms/event_member_form', $data);
 		$this->load->view('templates/tables/data_tables_display', $data);
 	}
 

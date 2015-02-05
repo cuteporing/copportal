@@ -1,5 +1,3 @@
-<div class="error_message"></div>
-
 <div class="box">
 	<div class="box-header">
 	<h3 class="box-title"><?=$table_name ?></h3>

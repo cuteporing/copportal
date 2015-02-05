@@ -164,6 +164,9 @@ $(function() {
 					//DISPLAY GENERAL SUCCESS MESSAGE
 					show_alert_msg(result.status_msg, 'success');
 					form_reset(form.attr('action'));
+				}else if( result.status_type == "refresh" ){
+					//RELOAD PAGE
+					location.reload();
 				}
 			}
 		)
@@ -219,5 +222,60 @@ $(function() {
 				show_alert_msg(result.status_msg, 'danger');
 			}
 		});
+	});
+
+
+	$("[data-autocomplete]").keyup(function() {
+		var _this       = $(this);
+		var url         = $(this).data('link');
+		var keyword     = $(this).val();
+		var result_id   = $(this).data('autocomplete-id');
+		var result_list = $('#'+result_id);
+		var name        = _this.attr('name');
+
+		var MIN_LENGTH  = 3;
+		console.log( url );
+		//CHECK IF NO. OF CHARS IS MORE THAN 3 BEFORE MAKING AN AJAX REQUEST
+		if (keyword.length >= MIN_LENGTH) {
+			$.get( url, { keyword: keyword } )
+			
+			.done(function( data ) {
+				console.log( data );
+				result_list.html('');
+				var results = jQuery.parseJSON(data);
+
+				//SET ALL THE RESULT IN A LIST
+				$(results).each(function(key, item) {
+					if( item.label == keyword ){
+						$('input[name="'+name+'_id"]').val(item.value);
+					}
+					result_list.append('<li class="item" data-value="'+
+						item.value+'">' + item.label + '</li>');
+				})
+
+				//ADD THE SELECTED OPTION TO THE SEARCH BOX
+				$('#'+result_id+' .item').click(function() {
+					var text  = $(this).html();
+					var value = $(this).data('value');
+					_this.val(text);
+					$('input[name="'+name+'_id"]').val(value);
+				})
+			});
+		} else {
+			result_list.html('');
+		}
+	});
+
+	$("[data-autocomplete]").blur(function(){
+		var result_list = $('#'+$(this).data('autocomplete-id'));
+		result_list.fadeOut(500);
 	})
+	.focus(function() {
+		var name = $(this).attr('name');
+		var result_list = $('#'+$(this).data('autocomplete-id'));
+
+		$('input[name="'+name+'_id"]').val('');
+		result_list.show();
+	});
+
 });

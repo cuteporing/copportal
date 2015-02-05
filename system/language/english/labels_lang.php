@@ -3,6 +3,7 @@
 $lang['lbl_about_us'] = 'About Us';
 $lang['lbl_accept'] = 'Accept';
 $lang['lbl_add_beneficiary'] = 'Add beneficiary';
+$lang['lbl_add_member'] = 'Add member';
 $lang['lbl_admin'] = 'Admin';
 $lang['lbl_announcement'] = 'Announcement';
 $lang['lbl_contact_details'] = 'Contact details';
@@ -35,6 +36,7 @@ $lang['lbl_training'] = 'Training';
 
 //FORM LABELS
 $lang['lbl_account_type'] = 'Account type';
+$lang['lbl_beneficiary_name'] = 'Beneficiary';
 $lang['lbl_city'] = 'City';
 $lang['lbl_event_category'] = 'Event category';
 $lang['lbl_event_date'] = 'Event date';
