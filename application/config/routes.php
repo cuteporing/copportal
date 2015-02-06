@@ -62,7 +62,7 @@ $route['manage_users_ajax/delete/(:any)'] = 'manage_users_ajax/delete/$1';
 $route['manage_users_ajax/edit'] = 'manage_users_ajax/edit/$1';
 
 $route['logout'] = 'users/logout';
-// $route['(:any)'] = 'pages/view/$1';
+$route['(:any)'] = 'pages/view/$1';
 $route['default_controller'] = 'pages/view';
 
 /* End of file routes.php */

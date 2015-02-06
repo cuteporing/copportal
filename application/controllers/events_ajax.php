@@ -23,6 +23,7 @@ class events_ajax extends CI_controller
 		$this->load->helper('file');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
+		$this->load->model('beneficiary_model');
 		$this->load->model('events_model');
 	}
 
@@ -86,7 +87,7 @@ class events_ajax extends CI_controller
 
 		if( $result ){
 			array_push($error_log, array(
-				'input'=>'',
+				'input'=>'beneficiary',
 				'error_msg'=>'Sorry this event does not exist anymore')
 			);
 		}
@@ -123,7 +124,6 @@ class events_ajax extends CI_controller
 		}
 	}
 
-
 	/**
 	 * VALIDATES ALL POST DATA NEEDED FOR CREATING AN EVENT
 	 * @return Array, $error_log
@@ -138,13 +138,13 @@ class events_ajax extends CI_controller
 		//IF THERE ARE MISSING INPUT DATA
 		if( count($this->validate_required($required_field)) > 0 ){
 			$error_log = $this->validate_required($required_field);
-			$error_log[0]['error_msg'] = 'Beneficiary is required';
+			$error_log[0]['error_msg'] = 'Cannot find beneficiary';
 			return common::response_msg(200, 'error_field', '', $error_log);
 
-		//IF DOES NOT EVENT EXIST
-		}elseif( count($this->validate_event_exist()) > 0 ){
-			$error_log = $this->validate_event_exist();
-			return common::response_msg(200, 'error', $error_log['error_msg']);
+		//IF EVENT DOES NOT EXIST
+		// }elseif( count($this->validate_event_exist()) > 0 ){
+		// 	$error_log = $this->validate_event_exist();
+		// 	return common::response_msg(200, 'error', $error_log['error_msg']);
 
 		//IF EVENT DATE IS NOT CORRECT
 		}else{
@@ -164,7 +164,8 @@ class events_ajax extends CI_controller
 			echo $this->validate_event_member();
 			exit;
 		}
-
+			echo common::response_msg(200, 'error', '11');
+			exit;
 		$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
 		$beneficiary_id = $this->input->post('beneficiary_id');
 
@@ -172,14 +173,15 @@ class events_ajax extends CI_controller
 			'event_id'=>$event_id,
 			'id'      =>$beneficiary_id
 			);
+			echo common::response_msg(200, 'error', '11',$data);
 
-		$result = $this->events_model->add_event_member($data);
+		// $result = $this->events_model->add_event_member($data);
 
-		if( $result['status'] == 'error' ){
-			echo common::response_msg(200, $result['status'], $result['msg'], $data);
-		}else{
-			echo common::response_msg(200, 'refresh', '11');
-		}
+		// if( $result['status'] == 'error' ){
+		// 	echo common::response_msg(200, $result['status'], $result['msg']);
+		// }else{
+		// 	echo common::response_msg(200, 'refresh', '11');
+		// }
 	}
 
 	/**
@@ -189,11 +191,11 @@ class events_ajax extends CI_controller
 	 */
 	public function member_list()
 	{
-		$data    = array();
-		$keyword = $this->input->get('keyword');
+		$data  = array();
+		$keyword = ucfirst($this->input->get('keyword'));
 		$event_id= str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
 
-		$result  = $this->events_model->get_members($event_id, $keyword, TRUE);
+		$result  = $this->beneficiary_model->get_beneficiary_list($keyword);
 		foreach ($result as $row) {
 			array_push($data, array(
 				'label'=>$row->first_name.' '.$row->last_name,

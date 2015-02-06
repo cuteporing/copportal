@@ -56,6 +56,17 @@ class Beneficiary_model extends CI_Model {
 
 	}
 
+	public function get_beneficiary_list($keyword)
+	{
+		$this->db->select('id, first_name, last_name');
+		$this->db->from('cop_beneficiaries');
+		$this->db->like('cop_beneficiaries.first_name', $keyword, 'both');
+		$this->db->or_like('cop_beneficiaries.last_name', $keyword, 'both');
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
 	/**
 	 * GET BENEFICIARIES
 	 * @param String, $search_by
