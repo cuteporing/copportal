@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2015 at 07:57 AM
+-- Generation Time: Feb 09, 2015 at 08:31 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -84,14 +84,15 @@ CREATE TABLE IF NOT EXISTS `cop_beneficiaries` (
   `address_city_id` int(11) NOT NULL,
   `imagename` varchar(250) NOT NULL,
   `deleted` int(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_beneficiaries`
 --
 
 INSERT INTO `cop_beneficiaries` (`id`, `first_name`, `last_name`, `gender`, `date_entered`, `date_modified`, `phone`, `address_street`, `address_city_id`, `imagename`, `deleted`) VALUES
-(5, 'asdas', 'dasda', 'Female', '2015-02-02 18:09:03', '2015-02-02 18:09:03', '["1231-231-2312"]', 'asdas', 1, '', 0);
+(6, 'Ransu', 'Caw', 'Male', '2015-02-05 00:37:33', '2015-02-05 00:37:33', '[]', 'asdasdas', 4, '', 0),
+(7, 'Nikki', 'Chin', 'Female', '2015-02-05 17:42:48', '2015-02-05 17:42:48', '[]', 'asdasdasd', 1, '', 0);
 
 -- --------------------------------------------------------
 
@@ -148,15 +149,16 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
 --
 
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
-(15, 12, 'asdasdaasd', 1),
-(16, 13, '', 1);
+(31, 15, '', 1),
+(32, 16, '', 1),
+(37, 20, '', 1);
 
 -- --------------------------------------------------------
 
@@ -177,15 +179,14 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `time_end` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `location` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events`
 --
 
 INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
-(12, 1, 'TECH TUTOR 5', 'open', 1, '2015-01-21 23:15:39', '2015-01-22', '2015-01-22', '15:15:00', '15:15:00', 'asdas', 'tech-tutor-5'),
-(13, 1, 'TECH TUTOR 7', 'open', 2, '2015-02-04 23:44:54', '2015-02-05', '2015-02-05', '14:30:00', '14:30:00', 'asdasdas', 'tech-tutor-7');
+(20, 1, 'TECH TUTOR 5', 'open', 1, '2015-02-08 22:05:35', '2015-02-09', '2015-02-09', '13:00:PM', '13:00:PM', 'Dasd', 'tech-tutor-5');
 
 -- --------------------------------------------------------
 
@@ -205,7 +206,34 @@ CREATE TABLE IF NOT EXISTS `cop_events_member` (
 --
 
 INSERT INTO `cop_events_member` (`event_id`, `id`, `date_entered`, `status`) VALUES
-(12, 5, '2015-02-05 06:19:45', NULL);
+(14, 7, '2015-02-09 02:27:47', NULL),
+(14, 6, '2015-02-09 02:48:23', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cop_gallery`
+--
+
+CREATE TABLE IF NOT EXISTS `cop_gallery` (
+`gallery_id` int(11) NOT NULL,
+  `cover_photo_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cop_gallery_photos`
+--
+
+CREATE TABLE IF NOT EXISTS `cop_gallery_photos` (
+`gallery_photos_id` int(11) NOT NULL,
+  `gallery_id` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `path` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -240,8 +268,8 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
 
 INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city_id`, `address_postalcode`, `imagename`, `deleted`, `crypt_type`) VALUES
 (1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-02-03 01:03:10', '0000-00-00 00:00:00', '[]', 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 1, NULL, NULL, 0, 'PHP5.3MD5'),
-(2, 'ransu', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-03 02:34:44', '2015-02-02 18:02:51', '[]', '', 'Inactive', '', 1, '', NULL, 1, 'PHP5.3MD5'),
-(3, 'ransus', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-04 01:46:18', '2015-02-03 18:46:02', '[]', '', 'Inactive', '', 1, '', NULL, 1, 'PHP5.3MD5');
+(2, 'ransu', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-05 07:36:56', '2015-02-02 18:02:51', '[]', '', 'Inactive', '', 1, '', NULL, 1, 'PHP5.3MD5'),
+(3, 'ransus', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-05 07:36:58', '2015-02-03 18:46:02', '[]', '', 'Inactive', '', 1, '', NULL, 1, 'PHP5.3MD5');
 
 --
 -- Indexes for dumped tables
@@ -284,6 +312,18 @@ ALTER TABLE `cop_events`
  ADD PRIMARY KEY (`event_id`);
 
 --
+-- Indexes for table `cop_gallery`
+--
+ALTER TABLE `cop_gallery`
+ ADD PRIMARY KEY (`gallery_id`);
+
+--
+-- Indexes for table `cop_gallery_photos`
+--
+ALTER TABLE `cop_gallery_photos`
+ ADD PRIMARY KEY (`gallery_photos_id`);
+
+--
 -- Indexes for table `cop_users`
 --
 ALTER TABLE `cop_users`
@@ -302,7 +342,7 @@ MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 -- AUTO_INCREMENT for table `cop_beneficiaries`
 --
 ALTER TABLE `cop_beneficiaries`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `cop_category`
 --
@@ -317,12 +357,22 @@ MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT for table `cop_gallery`
+--
+ALTER TABLE `cop_gallery`
+MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `cop_gallery_photos`
+--
+ALTER TABLE `cop_gallery_photos`
+MODIFY `gallery_photos_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `cop_users`
 --
