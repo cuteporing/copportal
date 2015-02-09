@@ -39,6 +39,7 @@ $lang['lbl_account_type'] = 'Account type';
 $lang['lbl_album_title'] = 'Album title';
 $lang['lbl_beneficiary_name'] = 'Beneficiary';
 $lang['lbl_city'] = 'City';
+$lang['lbl_description'] = 'Description';
 $lang['lbl_event_category'] = 'Event category';
 $lang['lbl_event_date'] = 'Event date';
 $lang['lbl_end_time'] = 'End time';
