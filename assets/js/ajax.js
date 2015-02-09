@@ -158,6 +158,9 @@ $(function() {
 				}else if( result.status_type == "error" ){
 					//DISPLAY GENERAL ERROR MESSAGE
 					show_alert_msg(result.status_msg, 'danger');
+				}else if( result.status_type == "warning" ){
+					//DISPLAY GENERAL ERROR MESSAGE
+					show_alert_msg(result.status_msg, 'warning');
 				}else if( result.status_type == 'error_confirm' ){
 					//DISPLAY ALERT CONFIRM MESSAGE
 					show_alert_confirm(result.status_msg, false);

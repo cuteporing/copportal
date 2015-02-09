@@ -1,7 +1,6 @@
 <div class="col-md-6" id="event_member_form">
 <?php echo form_open('events_ajax/member_add/'.
 		str_replace('/', '', $this->uri->slash_segment(4, 'leading'))) ?>
-	<div class="error_message"></div>
 		<div class="box box-warning">
 			<div class="box-header">
 				<h3 class="box-title"><?=$this->lang->line('lbl_add_member')?></h3>

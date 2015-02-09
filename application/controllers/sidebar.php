@@ -88,6 +88,16 @@ class sidebar extends account
 				),
 			3 => array(
 				'admin'=>'on',
+				'title'=>'Gallery',
+				'link' =>'account/gallery',
+				'class'=> array('class'=>''),
+				'icon' => array('class'=>'fa fa-picture-o'),
+				'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
+				'badge'=> 'none',
+				'drop' => 'none'
+				),
+			4 => array(
+				'admin'=>'on',
 				'title'=>'Manage Beneficiary',
 				'link' =>'account/manage_beneficiary',
 				'class'=> array('class'=>'treeview'),
@@ -109,7 +119,8 @@ class sidebar extends account
 										)
 									)
 				),
-			4 => array(
+
+			5 => array(
 				'admin'=>'on',
 				'title'=>'Manage Users',
 				'link' =>'account/manage_users',

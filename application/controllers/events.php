@@ -29,7 +29,7 @@ class events extends account
 	 */
 	static function action_btn($type='event')
 	{
-		if($type = 'members'){
+		if($type == 'members'){
 			return array(
 				0 => array(
 					'data_attr' =>array(
@@ -42,10 +42,10 @@ class events extends account
 					'icon' =>'fa fa-times',
 					'title'=>'Delete',
 					'type' =>'danger',
-					'url'  =>'events_ajax/delete/',
+					'url'  =>'events_ajax/member_delete/',
 					)
 				);
-		}elseif($type='event'){
+		}else{
 			return array(
 				0 => array(
 					'icon' =>'fa fa-plus-square-o',
@@ -145,7 +145,7 @@ class events extends account
 				$result_members[$i]['date_entered'], 'M d, Y');
 			$result_members[$i]['name'] = '<b>'.$result_members[$i]['last_name'];
 			$result_members[$i]['name'].='</b>, '.$result_members[$i]['first_name'];
-			$result_members[$i]['result_id'] = $result_members[$i]['id'];
+			$result_members[$i]['result_id'] = $event_id.'/'.$result_members[$i]['id'];
 		}
 
 		$data['action_btn']   = self::action_btn('members');
@@ -221,7 +221,7 @@ class events extends account
 			$result[$i]['result_id'] = $result[$i]['event_id'];
 		}
 
-		$data['action_btn']   = self::action_btn();
+		$data['action_btn']   = self::action_btn('event');
 		$data['table_name']   = 'Trainings and seminars';
 		$data['fieldname']    = array('title','date', 'location', 'action');
 		$data['field_label']  = array('Activity','Date', 'Venue', '&nbsp;');

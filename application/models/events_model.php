@@ -163,6 +163,57 @@ class Events_model extends CI_Model {
 	}
 
 	/**
+	 * ADD BENEFICIARY TO AN EVENT
+	 * @param Array, $data
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function add_event_member($data)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('cop_events_member', $data);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
+			return array(
+				'status'=>'error',
+				'msg'   =>'Cannot create an event'
+				);
+		}else{
+			$this->db->trans_commit();
+			return array(
+				'status'=>'success',
+				'msg'   =>''
+				);
+		}
+	}
+
+	/**
+	 * REMOVE BENEFICIARY FROM AN EVENT
+	 * @param Integer, $event_id
+	 * --------------------------------------------
+	 */
+	public function delete_event_member($event_id, $id)
+	{
+		$this->db->trans_begin();
+
+		$this->db->where('event_id', $event_id);
+		$this->db->where('id', $id);
+		$this->db->delete('cop_events_member');
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			$this->db->trans_rollback();
+			return FALSE;
+		}else{
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
+
+	/**
 	 * DELETE EVENT DESCRIPTION
 	 * @param Integer, $event_id
 	 * --------------------------------------------
@@ -231,34 +282,6 @@ class Events_model extends CI_Model {
 			return array(
 				'status'=>'success',
 				'msg'   =>'"'.$event_data['title'].'" has been updated'
-				);
-		}
-	}
-
-	/**
-	 * ADD BENEFICIARY TO AN EVENT
-	 * @param Array, $data
-	 * @return Array
-	 * --------------------------------------------
-	 */
-	public function add_event_member($data)
-	{
-		$this->db->trans_begin();
-		$this->db->insert('cop_events_member', $data);
-
-		if( $this->db->trans_status() === FALSE )
-		{
-			//TRANSACTION ERROR CATCH
-			$this->db->trans_rollback();
-			return array(
-				'status'=>'error',
-				'msg'   =>'Cannot create an event'
-				);
-		}else{
-			$this->db->trans_commit();
-			return array(
-				'status'=>'success',
-				'msg'   =>''
 				);
 		}
 	}

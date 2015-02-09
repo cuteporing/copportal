@@ -85,10 +85,10 @@ class events_ajax extends CI_controller
 		$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
 		$result   = $this->events_model->get_events('event_id', $event_id);
 
-		if( $result ){
-			array_push($error_log, array(
-				'input'=>'beneficiary',
-				'error_msg'=>'Sorry this event does not exist anymore')
+		if( !$result ){
+			$error_log = array(
+				'status'=>'beneficiary',
+				'msg'=>'Sorry this event does not exist anymore'
 			);
 		}
 		return $error_log;
@@ -104,11 +104,11 @@ class events_ajax extends CI_controller
 	{
 		$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
 		$beneficiary_id = $this->input->post('beneficiary_id');
-		$result   = $this->events_model->check_member($event_id, $beneficiary_id);
+		$result = $this->events_model->check_member($event_id, $beneficiary_id);
 
 		$error_log= array();
-		if( count($result) > 0 ){
-			array_push($error_log, array(
+		if( $result > 0 ){
+			$error_log = array(
 				'status'=>'error',
 				'msg'=>'Beneficiary already joined'
 			);
@@ -163,14 +163,15 @@ class events_ajax extends CI_controller
 			$error_log[0]['error_msg'] = 'Cannot find beneficiary';
 			return common::response_msg(200, 'error_field', '', $error_log);
 
+		//IF EVENT DOES NOT EXIST
+		}elseif( count($this->validate_event_exist()) > 0 ){
+			$error_log = $this->validate_event_exist();
+			return common::response_msg(200, 'error', $error_log['msg']);
+
 		//IF MEMBER ALREADY JOINED
 		}elseif( count($this->validate_member_exist()) > 0 ){
 			$error_log = $this->validate_member_exist();
-			return common::response_msg(200, 'error', $error_log['error_msg']);
-		//IF EVENT DOES NOT EXIST
-		// }elseif( count($this->validate_event_exist()) > 0 ){
-		// 	$error_log = $this->validate_event_exist();
-		// 	return common::response_msg(200, 'error', $error_log['error_msg']);
+			return common::response_msg(200, 'warning', $error_log['msg']);
 
 		//IF EVENT DATE IS NOT CORRECT
 		}else{
@@ -205,6 +206,26 @@ class events_ajax extends CI_controller
 			echo common::response_msg(200, $result['status'], $result['msg']);
 		}else{
 			echo common::response_msg(200, 'refresh', '');
+		}
+	}
+
+	/**
+	 * ADD BENEFICIARY TO THE LIST OF MEMBER JOINING IN AN
+	 * EVENT
+	 * @return JSON, $response
+	 * --------------------------------------------------------
+	 */
+	public function member_delete()
+	{
+		$event_id      = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		$beneficiary_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+
+		$result = $this->events_model->delete_event_member($event_id, $beneficiary_id);
+
+		if( $result ){
+			echo common::response_msg(200, 'success', 'Beneficiary has been removed');
+		}else{
+			echo common::response_msg(200, 'error', 'Cannot remove beneficiary from the event');
 		}
 	}
 
