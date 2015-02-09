@@ -62,11 +62,30 @@ class Events_model extends CI_Model {
 	 */
 	public function get_members($event_id)
 	{
-		$this->db->where('event_id', $event_id);
+		$sql = 'cop_beneficiaries.id,';
+		$sql.= 'cop_beneficiaries.first_name, ';
+		$sql.= 'cop_beneficiaries.last_name, ';
+		$sql.= 'cop_beneficiaries.gender, ';
+		$sql.= 'cop_events_member.date_entered ';
+
+		$this->db->select($sql);
 		$this->db->from('cop_events_member');
+		$this->db->join('cop_beneficiaries',
+			'cop_events_member.id = cop_beneficiaries.id', 'left');
+		$this->db->where('cop_events_member.event_id', $event_id);
+		$this->db->order_by('cop_beneficiaries.last_name', 'asc');
+
 		$query = $this->db->get();
 
 		return $query->result_array();
+	}
+
+	public function check_member($event_id, $id)
+	{
+		$this->db->where('event_id', $event_id);
+		$this->db->where('id', $id);
+		$this->db->from('cop_events_member');
+		return $this->db->count_all_results();
 	}
 
 	/**

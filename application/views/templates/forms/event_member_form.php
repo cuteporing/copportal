@@ -15,7 +15,7 @@
 						<label><?=$this->lang->line('lbl_beneficiary_name')?></label>
 						<div class="input-group">
 							<div class="input-group-addon"><i class="fa fa-search"></i></div>
-							<input type="search" class="form-control" name="beneficiary" data-autocomplete data-autocomplete-id="beneficiary_name" data-link="<?=base_url()?>events_ajax/member_list/<?=$result_id?>">
+							<input type="search" class="form-control" name="beneficiary" data-autocomplete data-autocomplete-id="beneficiary_name" auto-complete="off" data-link="<?=base_url()?>events_ajax/member_list/<?=$event_id?>">
 							<input type="hidden" name="beneficiary_id">
 						</div>
 						<ul id="beneficiary_name" name="beneficiary_name" class="auto-complete-list"></ul>

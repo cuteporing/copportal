@@ -27,9 +27,26 @@ class events extends account
 	 * @return Array
 	 * --------------------------------------------
 	 */
-	static function action_btn()
+	static function action_btn($type='event')
 	{
-		return array(
+		if($type = 'members'){
+			return array(
+				0 => array(
+					'data_attr' =>array(
+						0 => array(
+							'data_name' =>'data-ajax',
+							'value'=>'delete'),
+						1 => array(
+							'data_name' =>'data-del-type',
+							'value'=>'table')),
+					'icon' =>'fa fa-times',
+					'title'=>'Delete',
+					'type' =>'danger',
+					'url'  =>'events_ajax/delete/',
+					)
+				);
+		}elseif($type='event'){
+			return array(
 				0 => array(
 					'icon' =>'fa fa-plus-square-o',
 					'title'=>'Join',
@@ -56,6 +73,7 @@ class events extends account
 					'url'  =>'events_ajax/delete/',
 					)
 				);
+		}
 	}
 
 	/**
@@ -122,17 +140,26 @@ class events extends account
 		//GET EVENT MEMBERS
 		$result_members = $this->events_model->get_members($event_id);
 
+		for($i=0; $i<count($result_members); $i++){
+			$result_members[$i]['date_entered'] = common::format_date(
+				$result_members[$i]['date_entered'], 'M d, Y');
+			$result_members[$i]['name'] = '<b>'.$result_members[$i]['last_name'];
+			$result_members[$i]['name'].='</b>, '.$result_members[$i]['first_name'];
+			$result_members[$i]['result_id'] = $result_members[$i]['id'];
+		}
+
+		$data['action_btn']   = self::action_btn('members');
+		$data['event_id']     = $event_id;
 		$data['result_event'] = $result_event[0];
 		$data['result_desc']  = ($result_desc)? $result_desc : array();
 		$data['table_name']   = 'Members';
-		$data['fieldname']    = array('date_entered');
-		$data['field_label']  = array('Date joined');
+		$data['fieldname']    = array('name', 'date_entered', 'action');
+		$data['field_label']  = array('Name', 'Date joined', '&nbsp;');
 		$data['result']       = $result_members;
-		$data['result_id']    = $event_id;
 
 		$this->load->view('account/events', $data);
 		$this->load->view('templates/forms/event_member_form', $data);
-		$this->load->view('templates/tables/data_tables_display', $data);
+		$this->load->view('templates/tables/data_tables_full', $data);
 	}
 
 	/**
