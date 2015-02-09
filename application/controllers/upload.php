@@ -1,17 +1,24 @@
 <?php
+/*********************************************************************************
+** The contents of this file are subject to the COPPortal
+ * Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is: KBVCodes
+ * The Initial Developer of the Original Code is CodeIgniter.
+ * Portions created by KBVCodes are Copyright (C) KBVCodes.
+ * All Rights Reserved.
+ *
+ ********************************************************************************/
 
-class Upload extends CI_Controller {
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class upload extends CI_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
 		$this->load->helper(array('form', 'url'));
 		$this->load->helper('url');
-	}
-
-	function index()
-	{
-		$this->load->view('pages/upload', array('error' => ' ' ));
 	}
 
 	function do_upload()
@@ -32,17 +39,6 @@ class Upload extends CI_Controller {
 		else
 		{
 			$data = array('upload_data' => $this->upload->data());
-			$config['image_library'] = 'gd2';
-			$config['source_image']	= $data['upload_data']['file_path'];
-			$config['create_thumb'] = TRUE;
-			$config['new_image'] = $data['upload_data']['file_path'];
-			$config['maintain_ratio'] = TRUE;
-			$config['width']	= 75;
-			$config['height']	= 50;
-
-			$this->load->library('image_lib', $config);
-			$this->image_lib->resize();
-			
 			$this->load->view('pages/upload_success', $data);
 
 		}

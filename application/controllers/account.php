@@ -18,6 +18,7 @@ include_once('announcements.php');
 include_once('box.php');
 include_once('dashboard.php');
 include_once('events.php');
+include_once('gallery.php');
 include_once('manage_beneficiary.php');
 include_once('manage_users.php');
 include_once('sidebar.php');
@@ -46,7 +47,7 @@ class account extends CI_controller
 		}
 	}
 
-/**
+	/**
 	 * DISPLAYS SYSTEM LOGO
 	 * @return Link
 	 * --------------------------------------------
@@ -274,6 +275,23 @@ class account extends CI_controller
 	}
 
 	/**
+	 * GALLERY
+	 * @param String, $page
+	 * @param String, $sidebar
+	 * @return page
+	 * --------------------------------------------
+	 */
+	public function gallery($page, $sidebar)
+	{
+		$gallery  = new gallery;
+
+		$header  = $this->header();
+		$c_header= self::content_header(ucfirst($page));
+
+		return $gallery->view($page,$header,$sidebar, $c_header);
+	}
+
+	/**
 	 * MANAGE BENEFICIARY
 	 * @param String, $page
 	 * @param String, $sidebar
@@ -320,7 +338,7 @@ class account extends CI_controller
 
 		if( ! $common->check_login() ) redirect('home', 'refresh');
 
-		$common->loadLanguage();
+		$common->load_language();
 		$common->display_header($page);
 		$sidebar = $sidebar->view_sidebar();
 
@@ -328,6 +346,7 @@ class account extends CI_controller
 			case 'announcements'     : $this->announcements($page, $sidebar);		break;
 			case 'dashboard'         : $this->dashboard($page, $sidebar);			break;
 			case 'events'            : $this->events($page, $sidebar);				break;
+			case 'gallery'           : $this->gallery($page, $sidebar);				break;
 			case 'manage_beneficiary': $this->manage_beneficiary($page, $sidebar);	break;
 			case 'manage_users'      : $this->manage_users($page, $sidebar);		break;
 			default: $this->dashboard($page, $sidebar); 							break;

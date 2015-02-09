@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2015 at 08:31 AM
+-- Generation Time: Feb 09, 2015 at 09:21 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -219,6 +219,9 @@ CREATE TABLE IF NOT EXISTS `cop_gallery` (
 `gallery_id` int(11) NOT NULL,
   `cover_photo_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
+  `description` text,
+  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `slug` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

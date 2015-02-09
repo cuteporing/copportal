@@ -124,6 +124,11 @@ class events extends account
 		return $this->load->view('templates/forms/event_form', $data);
 	}
 
+	/**
+	 * ADD BENEFICIARY ON EVENT
+	 * @return table
+	 * --------------------------------------------
+	 */
 	public function manage()
 	{
 		$event_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));

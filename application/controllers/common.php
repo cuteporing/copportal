@@ -14,12 +14,15 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class common extends CI_controller
 {
+	private $bs_acct;
+	private $bs_dark;
+
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	public function loadLanguage()
+	public function load_language()
 	{
 		$this->lang->load('labels', 'english');
 		$this->lang->load('error', 'english');
@@ -55,9 +58,18 @@ class common extends CI_controller
 	static function get_style_sheet($page)
 	{
 		$style = array();
+		//ADMIN PAGES
+		$bs_acct = array(
+			'announcements',
+			'dashboard',
+			'events',
+			'gallery',
+			'home',
+			'manage_beneficiary',
+			'manage_users',
+			'upload');
 
-		//DARK BOOTSTRAP THEME
-		$bs_acct = array('upload','home','announcements', 'dashboard', 'events', 'manage_beneficiary', 'manage_users');
+		//VIEW PAGES
 		$bs_dark = array('login', 'forgot_password', 'register');
 
 		if( in_array( strtolower($page), $bs_dark ) ){
@@ -92,7 +104,16 @@ class common extends CI_controller
 		$script = array();
 
 		//DARK BOOTSTRAP THEME
-		$bs_acct = array('upload','announcements', 'dashboard', 'events', 'manage_beneficiary', 'manage_users');
+		$bs_acct = array(
+			'announcements',
+			'dashboard',
+			'events',
+			'gallery',
+			'home',
+			'manage_beneficiary',
+			'manage_users',
+			'upload');
+
 		$bs_dark = array('login', 'forgot_password', 'register');
 
 		if( in_array( strtolower($page), $bs_dark ) ){
@@ -137,7 +158,17 @@ class common extends CI_controller
 	 */
 	static function get_body_class($page)
 	{
-		$bs_acct = array('upload','announcements', 'dashboard', 'events', 'manage_beneficiary', 'manage_users');
+		//DARK BOOTSTRAP THEME
+		$bs_acct = array(
+			'announcements',
+			'dashboard',
+			'events',
+			'gallery',
+			'home',
+			'manage_beneficiary',
+			'manage_users',
+			'upload');
+
 		$bs_dark = array('login', 'forgot_password', 'register');
 
 		//DARK BOOTSTRAP THEME
@@ -228,13 +259,16 @@ class common extends CI_controller
 				'12' => 00
 				);
 
+			$time = str_replace(' ', ':', $time);
 			$time = str_replace(':', ' ', $time);
 			$time = explode(' ', $time);
 
-			if( $time[2] == 'PM' )
+			if( $time[2] == 'PM' ){
 					$time[0] = $military_hr[$time[0]];
+			}else{
+				$time[2] = '00';
+			}
 
-			$time[2] = '00';
 			$new_time = implode(':', $time);
 			return $new_time;
 		}

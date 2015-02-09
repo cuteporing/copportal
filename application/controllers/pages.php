@@ -99,7 +99,7 @@ class pages extends CI_controller
 	{
 		self::checkIfPageExist($page);
 		$common = new common;
-		$common->loadLanguage();
+		$common->load_language();
 		$common->display_header($page);
 
 		switch ($page) {
