@@ -18,32 +18,63 @@ class Gallery_model extends CI_Model {
 	{
 		$this->load->database();
 	}
-
-
 	/**
-	 * GET BENEFICIARIES
+	 * GET ALBUM
 	 * @param String, $search_by
 	 * @param String, $data
-	 * @return Array | Boolean <FALSE>
+	 * @return Array
 	 * --------------------------------------------
 	 */
-	public function get_beneficiary($search_by = array())
+	public function get_album($search_param=array())
 	{
-		if( count($search_by) > 0 ){
-			foreach ($search_by as $row) {
-				$this->db->where($row['fieldname'], $row['data']);
+		if( count($search_param) > 0 ){
+
+			foreach ($search_param as $param) {
+				$this->db->where(
+					$param['fieldname'],
+					$param['data']
+				);
 			}
+
 			$this->db->from('cop_gallery');
 			$query = $this->db->get();
-
-			if( $query->num_rows() == 1 ){
+				
+			if( $query->num_rows() > 0 ){
 				return $query->result();
 			}else{
 				return FALSE;
 			}
+
 		}else{
 			$query = $this->db->get('cop_gallery');
 			return $query->result();
+		}
+	}
+
+	/**
+	 * CREATES A NEW ALBUM
+	 * @param Array, $data
+	 * @return Array | Boolean <FALSE>
+	 * --------------------------------------------
+	 */
+	public function create_album($data)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('cop_gallery', $data);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			$this->db->trans_rollback();
+			return array(
+				'status'=>'error',
+				'msg'   =>'Cannot create the album'
+				);
+		}else{
+			$this->db->trans_commit();
+			return array(
+				'status'=>'success',
+				'msg'   =>''
+				);
 		}
 	}
 }

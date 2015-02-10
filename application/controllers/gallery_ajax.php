@@ -25,16 +25,133 @@ class gallery_ajax extends CI_controller
 		$this->load->model('gallery_model');
 	}
 
-	public function album_create()
+	/**
+	 * CHECKS IF THE POST DATA IS NOT NULL AND RETURNS AN
+	 * ARRAY OF ERROR MSG
+	 * @param Array, $input_field
+	 * @return Array, $error_log
+	 * --------------------------------------------------------
+	 */
+	public function validate_required($input_field)
 	{
+		$error_log  = array();
+		foreach ($input_field as $field) {
+			if( $this->input->post($field) == '' ){
+				$label = str_replace('_', ' ', ucfirst($field));
+				array_push($error_log, array(
+					'input'=>$field,
+					'error_msg'=>$label.' is required')
+				);
+			}
+		}
+		return $error_log;
+	}
+
+	/**
+	 * CHECK IF ALBUM ALREADY EXISTED
+	 * @return Array, $error_log
+	 * --------------------------------------------------------
+	 */
+	public function validate_album_exist()
+	{
+		$error_log    = array();
+		$search_param = array();
+		$album_type   = $this->input->post('album_type');
+		//CUSTOM ALBUM
+		if( $album_type == 'custom' ){
+
+			//SEARCH PARAMETER FOR ALBUM
+			array_push($search_param, array(
+					'fieldname'=> 'title',
+					'data'     => $this->input->post('title')
+					));
+			//CHECK IF ALBUM ALREADY EXISTED
+			$result = $this->gallery_model->get_album($search_param);
+
+			//RETURN AN ERROR IF ALREADY EXISTED
+			if( $result !== false ){
+				$error_log = array(
+					'status'=>'error',
+					'msg'   =>'Album already existed',
+				);
+			}
+
+		//EVENT ALBUM
+		}elseif ( $album_type == 'event' ) {
+
+		}
+
+		return $error_log;
+	}
+
+	/**
+	 * VALIDATES ALL POST DATA NEEDED FOR CREATING AN EVENT
+	 * @return Array, $error_log
+	 * --------------------------------------------------------
+	 */
+	public function validate_album_create()
+	{
+		$error_log = array();
+		$required_field = array('title');
+
+		//IF THERE ARE MISSING INPUT DATA
+		if( count($this->validate_required($required_field)) > 0 ){
+			$error_log = $this->validate_required($required_field);
+			return common::response_msg(200, 'error_field', '', $error_log);
+		}elseif( count($this->validate_album_exist()) > 0 ){
+			$error_log = $this->validate_album_exist();
+			return common::response_msg(200, $error_log['status'], $error_log['msg']);
+		//IF EVENT DATE IS NOT CORRECT
+		}else{
+			return FALSE;
+		}
+	}
+
+	/**
+	 * CREATES AN ALBUM
+	 * @return Array, $error_log
+	 * --------------------------------------------------------
+	 */
+	public function create_album()
+	{
+		if( $this->validate_album_create() ){
+			echo $this->validate_album_create();
+			exit;
+		}
+
 		$data = array(
-			'title'        => $this->input=>post('title'),
+			'title'        => $this->input->post('title'),
 			'description'  => $this->input->post('description'),
 			'date_entered' => common::get_today(),
 			'date_modified'=> common::get_today(),
 			'slug'         => url_title($this->input->post('title'), 'dash', TRUE)
 			);
 
+		$result	= $this->gallery_model->create_album($data);
+
+		if( $result['status'] == 'error' ){
+			echo common::response_msg(200, $result['status'], $result['msg']);
+		}else{
+			echo common::response_msg(200, 'refresh', '');
+		}
+	}
+
+	/**
+	 * DELETES AN ALBUM
+	 * @return Array, $response
+	 * --------------------------------------------------------
+	 */
+	public function delete_album()
+	{
+		// $event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		echo common::response_msg(200, 'error', 'aaa');
+
+		// $result = $this->events_model->delete_event($event_id);
+		// if( $result ){
+		// 	echo common::response_msg(200, 'success', 'Event has been deleted');
+		// }else{
+		// 	echo common::response_msg(200, 'error', 'Cannot delete event');
+		// }
 	}
 }
 ?>

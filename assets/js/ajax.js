@@ -187,8 +187,9 @@ $(function() {
 	function remove_data(el){
 		var type= el.data('del-type');
 		switch(type) {
-			case 'table': remove_data_table(el); break;
-			default : remove_data_table(el);     break;
+			case 'table'  : remove_data_table(el); break;
+			case 'refresh': location.reload();     break;
+			default : remove_data_table(el);       break;
 		}
 	}
 
@@ -202,7 +203,7 @@ $(function() {
 	// --------------------------------------------
 	$('[data-ajax="delete"]').click(function(e){
 		e.preventDefault();
-		var url = $(this).parent().attr('href');
+		var url  = ( $(this).attr('href') )? $(this).attr('href') : $(this).parent().attr('href');
 		var _this= $(this);
 
 		if( show_alert_confirm(

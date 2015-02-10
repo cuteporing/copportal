@@ -58,5 +58,12 @@ $lang['lbl_start_time'] = 'Start time';
 $lang['lbl_street_address'] = 'Street address';
 $lang['lbl_user_name'] = 'Username';
 
+//BUTTONS
+$lang['lbl_custom_album'] = 'Custom album';
+$lang['lbl_custom_event_album'] = 'Create event album';
+$lang['lbl_delete_album'] = 'Delete album';
+$lang['lbl_edit_album'] = 'Edit album';
+
+
 /* End of file labels.php */
 /* Location: ./system/language/english/labels.php */

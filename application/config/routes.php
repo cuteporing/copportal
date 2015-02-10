@@ -53,7 +53,8 @@ $route['events_ajax/member_list/(:any)'] = 'events_ajax/member_list/$1';
 $route['events_ajax/member_add/(:any)'] = 'events_ajax/member_add/$1';
 $route['events_ajax/member_delete/(:any)'] = 'events_ajax/member_delete/$1';
 //GALLERY
-$route['gallery_ajax/album_create/'] = 'gallery_ajax/album_create';
+$route['gallery_ajax/create_album'] = 'gallery_ajax/create_album/$1';
+$route['gallery_ajax/delete_album/(:any)'] = 'gallery_ajax/delete_album/$1';
 
 //MANAGE BENEFICIARY
 $route['manage_beneficiary_ajax/create'] = 'manage_beneficiary_ajax/create/$1';

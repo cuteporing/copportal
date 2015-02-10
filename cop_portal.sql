@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2015 at 09:21 AM
+-- Generation Time: Feb 10, 2015 at 05:46 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
@@ -158,7 +158,8 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
 (31, 15, '', 1),
 (32, 16, '', 1),
-(37, 20, '', 1);
+(37, 20, '', 1),
+(38, 21, '', 1);
 
 -- --------------------------------------------------------
 
@@ -179,14 +180,15 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `time_end` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `location` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events`
 --
 
 INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
-(20, 1, 'TECH TUTOR 5', 'open', 1, '2015-02-08 22:05:35', '2015-02-09', '2015-02-09', '13:00:PM', '13:00:PM', 'Dasd', 'tech-tutor-5');
+(20, 1, 'TECH TUTOR 5', 'open', 1, '2015-02-08 22:05:35', '2015-02-09', '2015-02-09', '13:00:PM', '13:00:PM', 'Dasd', 'tech-tutor-5'),
+(21, 1, 'asdasdasd', 'open', 1, '2015-02-09 17:30:05', '2015-02-10', '2015-02-10', '08:30:00', '08:30:00', 'Dasda', 'asdasdasd');
 
 -- --------------------------------------------------------
 
@@ -217,13 +219,24 @@ INSERT INTO `cop_events_member` (`event_id`, `id`, `date_entered`, `status`) VAL
 
 CREATE TABLE IF NOT EXISTS `cop_gallery` (
 `gallery_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
   `cover_photo_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_gallery`
+--
+
+INSERT INTO `cop_gallery` (`gallery_id`, `event_id`, `cover_photo_id`, `title`, `description`, `date_entered`, `date_modified`, `slug`) VALUES
+(1, 0, 0, 'LALALLA', '', '2015-02-09 19:24:01', '2015-02-09 19:24:01', 'lalalla'),
+(2, 0, 0, 'COP ', '', '2015-02-09 19:25:15', '2015-02-09 19:25:15', 'cop'),
+(3, 0, 0, 'COP a', '', '2015-02-09 19:25:27', '2015-02-09 19:25:27', 'cop-a'),
+(4, 0, 0, 'asdasda', '', '2015-02-09 19:38:29', '2015-02-09 19:38:29', 'asdasda');
 
 -- --------------------------------------------------------
 
@@ -360,17 +373,17 @@ MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `cop_gallery`
 --
 ALTER TABLE `cop_gallery`
-MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `cop_gallery_photos`
 --
