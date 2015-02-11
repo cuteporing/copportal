@@ -22,6 +22,7 @@ class gallery_ajax extends CI_controller
 		$this->load->helper('file');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
+		$this->load->model('events_model');
 		$this->load->model('gallery_model');
 	}
 
@@ -92,7 +93,11 @@ class gallery_ajax extends CI_controller
 	public function validate_album_create()
 	{
 		$error_log = array();
-		$required_field = array('title');
+		if( $this->input->post('album_type') == 'custom' ){
+			$required_field = array('title');
+		}else{
+			$required_field = array('event_id');
+		}
 
 		//IF THERE ARE MISSING INPUT DATA
 		if( count($this->validate_required($required_field)) > 0 ){
@@ -119,13 +124,24 @@ class gallery_ajax extends CI_controller
 			exit;
 		}
 
-		$data = array(
-			'title'        => $this->input->post('title'),
-			'description'  => $this->input->post('description'),
-			'date_entered' => common::get_today(),
-			'date_modified'=> common::get_today(),
-			'slug'         => url_title($this->input->post('title'), 'dash', TRUE)
-			);
+		if( $this->input->post('album_type') == 'custom' ){
+			$data = array(
+				'title'        => $this->input->post('title'),
+				'description'  => $this->input->post('description'),
+				'date_entered' => common::get_today(),
+				'date_modified'=> common::get_today(),
+				'slug'         => url_title($this->input->post('title'), 'dash', TRUE)
+				);
+		}else{
+			$data = array(
+				'event_id'     => $this->input->pos('event_id'),
+				// 'title'        => $this->input->post('title'),
+				// 'description'  => $this->input->post('description'),
+				'date_entered' => common::get_today(),
+				'date_modified'=> common::get_today(),
+				// 'slug'         => url_title($this->input->post('title'), 'dash', TRUE)
+				);
+		}
 
 		$result	= $this->gallery_model->create_album($data);
 
@@ -143,15 +159,14 @@ class gallery_ajax extends CI_controller
 	 */
 	public function delete_album()
 	{
-		// $event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
-		echo common::response_msg(200, 'error', 'aaa');
+		$gallery_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
 
-		// $result = $this->events_model->delete_event($event_id);
-		// if( $result ){
-		// 	echo common::response_msg(200, 'success', 'Event has been deleted');
-		// }else{
-		// 	echo common::response_msg(200, 'error', 'Cannot delete event');
-		// }
+		$result = $this->gallery_model->delete_album($gallery_id);
+		if( $result ){
+			echo common::response_msg(200, 'success', '');
+		}else{
+			echo common::response_msg(200, 'error', 'The album contains photos');
+		}
 	}
 }
 ?>

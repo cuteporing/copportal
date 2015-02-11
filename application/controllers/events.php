@@ -71,6 +71,19 @@ class events extends account
 					'title'=>'Delete',
 					'type' =>'danger',
 					'url'  =>'events_ajax/delete/',
+					),
+				3 => array(
+					'data_attr' =>array(
+						0 => array(
+							'data_name' =>'data-ajax',
+							'value'=>'edit'),
+						1 => array(
+							'data_name' =>'data-ajax-confirm-msg',
+							'value'=>'Close the event?')),
+					'icon' =>'fa fa-ban',
+					'title'=>'Close',
+					'type' =>'warning',
+					'url'  =>'events_ajax/close/',
 					)
 				);
 		}
@@ -179,57 +192,43 @@ class events extends account
 		for( $i=0; $i<count($result); $i++ ){
 			$date_start= $result[$i]['date_start'];
 			$date_end  = $result[$i]['date_end'];
-			// $date = $date_start.' - '.$date_end;
-
-			// $date_start = explode('-', $date_start);
-			// $date_end = explode('-', $date_end);
 
 			if( $date_start == $date_end ){
 				$date = common::format_date($date_start, 'M d, Y');
 			}else{
-				$date_start = explode('-', $date_start);
-				$date_end = explode('-', $date_end);
+				$date_start_arr = explode('-', $date_start);
+				$date_end_arr   = explode('-', $date_end);
 
-				if($date_start[0] == $date_end[0] &&
-					 $date_start[1] == $date_start[1]){
+				//IF MONTH AND YEAR FOR STARTING AND ENDING DATE IS THE SAME,
+				//AND DAY IS DIFF DISPLAY AS:
+				// <M d-d, YYYY>
+				// <Feb 11-13, 2015>
+				if( $date_start_arr[0] == $date_end_arr[0] &&
+					$date_start_arr[1] == $date_end_arr[1] ){
 
 					$date = common::format_date($date_start, 'M ');
-					for($i=$date_start[2]; $i <= $date_end[2]; $i++){
-						$date.= $i;
-						if( $i < $date_end[2] ){
-							$date.=', ';
-						}
-					}
-				}else{
+					$date.= $date_start_arr[2].'-'.$date_end_arr[2].', '.$date_start_arr[0];
 
+				//IF MONTH OR YEAR FOR STARTING AND ENDING DATE IS DIFFERENT,
+				//DISPLAY AS:
+				// <M d, YYYY - M d, YYY>
+				// <Feb 11, 2015 - Feb 11, 2016>
+				}elseif( $date_start_arr[0] != $date_end_arr[0] ||
+					$date_start_arr[1] != $date_end_arr[1] ){
+
+					$date = common::format_date($date_start, 'M d, Y').' - ';
+					$date.= common::format_date($date_end, 'M d, Y');
 				}
 			}
-			// }else{
-				// $date = $date_start.' - '.$date_end;
-			// }
-			// elseif( $date_start[0] == $date_end[0] &&
-			// 		 $date_start[1] == $date_start[1] ){
-			// 	$date = common::format_date($date_start, 'M ');
-			// 	for($i=$date_start[2]; $i <= $date_end[2]; $i++){
-			// 		$date.= $i;
-			// 		if( $i < $date_end[2] ){
-			// 			$date.=', ';
-			// 		}
-			// 	}
-			// 	$date.= $date_start[0];
-			// }
-			// else{
-			// 	$date = common::format_date($date_start, 'm-d-Y').' - ';
-			// 	$date.= common::format_date($date_end, 'm-d-Y');
-			// }
+
 			$result[$i]['date']      =  $date;
 			$result[$i]['result_id'] = $result[$i]['event_id'];
 		}
 
 		$data['action_btn']   = self::action_btn('event');
 		$data['table_name']   = 'Trainings and seminars';
-		$data['fieldname']    = array('title','date', 'location', 'action');
-		$data['field_label']  = array('Activity','Date', 'Venue', '&nbsp;');
+		$data['fieldname']    = array('title','date', 'location', 'status', 'action');
+		$data['field_label']  = array('Activity','Date', 'Venue', 'Status', '&nbsp;');
 		$data['result']       = $result;
 
 		return $this->load->view('templates/tables/data_tables_full', $data);

@@ -38,7 +38,7 @@ class Gallery_model extends CI_Model {
 
 			$this->db->from('cop_gallery');
 			$query = $this->db->get();
-				
+
 			if( $query->num_rows() > 0 ){
 				return $query->result();
 			}else{
@@ -48,6 +48,23 @@ class Gallery_model extends CI_Model {
 		}else{
 			$query = $this->db->get('cop_gallery');
 			return $query->result();
+		}
+	}
+
+	/**
+	 * CHECKS IF THE GALLERY HAS NO PHOTO
+	 * @param Integer, $gallery_id
+	 * @return Boolean
+	 * --------------------------------------------
+	 */
+	public function check_album_empty($gallery_id)
+	{
+		$this->db->where('gallery_id', $gallery_id);
+		$this->db->from('cop_gallery_photos');
+		if( $this->db->count_all_results() > 0 ){
+			return false;
+		}else{
+			return true;
 		}
 	}
 
@@ -75,6 +92,34 @@ class Gallery_model extends CI_Model {
 				'status'=>'success',
 				'msg'   =>''
 				);
+		}
+	}
+
+	/**
+	 * DELETES AN ALBUM
+	 * @param Integer, $gallery_id
+	 * @return Boolean
+	 * --------------------------------------------
+	 */
+	public function delete_album($gallery_id)
+	{
+		$is_empty = $this->check_album_empty($gallery_id);
+		if( $is_empty ){
+			$this->db->trans_begin();
+
+			$this->db->where('gallery_id', $gallery_id);
+			$this->db->delete('cop_gallery');
+
+			if( $this->db->trans_status() === FALSE )
+			{
+				$this->db->trans_rollback();
+				return FALSE;
+			}else{
+				$this->db->trans_commit();
+				return TRUE;
+			}
+		}else{
+			return FALSE;
 		}
 	}
 }

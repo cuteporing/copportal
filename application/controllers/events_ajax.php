@@ -319,6 +319,27 @@ class events_ajax extends CI_controller
 	}
 
 	/**
+	 * CLOSE THE EVENT
+	 * @return Array, $response
+	 * --------------------------------------------------------
+	 */
+	public function close()
+	{
+		$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		$data = array(
+			'event_id'=> $event_id,
+			'status'  => 'close'
+			);
+
+		$result = $this->events_model->close_events($data);
+		if( $result ){
+			echo common::response_msg(200, 'refresh', '');
+		}else{
+			echo common::response_msg(200, 'error', 'Error while closing the event');
+		}
+	}
+
+	/**
 	 * CREATES AN EVENT
 	 * @return Array, $response
 	 * --------------------------------------------------------

@@ -48,6 +48,7 @@ $route['announcements_ajax/edit'] = 'announcements_ajax/edit/$1';
 //EVENTS
 $route['events_ajax/create'] = 'events_ajax/create/$1';
 $route['events_ajax/delete/(:any)'] = 'events_ajax/delete/$1';
+$route['events_ajax/close/(:any)'] = 'events_ajax/close/$1';
 $route['events_ajax/edit'] = 'events_ajax/edit/$1';
 $route['events_ajax/member_list/(:any)'] = 'events_ajax/member_list/$1';
 $route['events_ajax/member_add/(:any)'] = 'events_ajax/member_add/$1';

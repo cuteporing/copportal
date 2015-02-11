@@ -20,8 +20,8 @@
 								<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
-								<li><a href="gallery_ajax/edit_album"><?=$this->lang->line('lbl_edit_album')?></a></li>
-								<li><a href="gallery_ajax/delete_album/<?=$obj->gallery_id ?>" data-ajax="delete" data-del-type="refresh"><?=$this->lang->line('lbl_delete_album')?></a></li>
+								<li><a href="<?=base_url() ?>gallery_ajax/edit_album"><?=$this->lang->line('lbl_edit_album')?></a></li>
+								<li><a href="<?=base_url() ?>gallery_ajax/delete_album/<?=$obj->gallery_id ?>" data-ajax="delete" data-del-type="refresh"><?=$this->lang->line('lbl_delete_album')?></a></li>
 							</ul>
 						</div>
 					</div>

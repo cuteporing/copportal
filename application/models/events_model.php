@@ -249,6 +249,28 @@ class Events_model extends CI_Model {
 	}
 
 	/**
+	 * CLOSE EVENT
+	 * @param Array, $event_data
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function close_events($event_data)
+	{
+		$this->db->trans_begin();
+		$this->db->where('event_id', $event_data['event_id']);
+		$this->db->update('cop_events', $event_data);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			$this->db->trans_rollback();
+			return FALSE;
+		}else{
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
+
+	/**
 	 * UPDATE EVENT DETAILS
 	 * @param Array, $event_data
 	 * @param Array, $description_data

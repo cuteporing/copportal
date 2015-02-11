@@ -79,6 +79,10 @@ $(function() {
 	// SHOW GENERAL ALERT MESSAGE
 	// --------------------------------------------
 	function show_alert_msg(msg, type){
+		if( $('.error_message:not(".modal .error_message")').length == 0 ){
+			$('body').append('<div class="error_message"></div>');
+		}
+
 		$('.error_message').css({
 			'right'  : '-1000px',
 			'top'    : scroll+77+'px'});
@@ -96,8 +100,10 @@ $(function() {
 			$('.error_message').delay(1500).animate({
 				right: '-1000px'
 			}, 1000, function(){
+				$('.error_message:not(".modal .error_message")').remove();
 				$('.error_message').removeAttr('style');
 				$('.error_message').find('.close').click();
+
 			});
 		});
 	}
@@ -203,6 +209,8 @@ $(function() {
 	// --------------------------------------------
 	$('[data-ajax="delete"]').click(function(e){
 		e.preventDefault();
+		console.log(" [data-ajax=delete] ");
+
 		var url  = ( $(this).attr('href') )? $(this).attr('href') : $(this).parent().attr('href');
 		var _this= $(this);
 
@@ -216,19 +224,46 @@ $(function() {
 			console.log("RESULT: ");
 			console.log("--------------------------------------");
 			console.log( result );
-
-			if( result.status_type='success' ){
+			console.log( result.status_type );
+			if( result.status_type=='success' ){
 				//DISPLAY GENERAL SUCCESS MESSAGE
 				show_alert_msg(result.status_msg, 'success');
 				//REMOVE DISPLAYED DATA
 				remove_data(_this);
-			}else{
+			}else if( result.status_type == 'error'){
 				//DISPLAY GENERAL ERROR MESSAGE
 				show_alert_msg(result.status_msg, 'danger');
 			}
 		});
 	});
 
+	// DELETE DATA VIA AJAX
+	// --------------------------------------------
+	$('[data-ajax="edit"]').click(function(e){
+		e.preventDefault();
+		var url  = ( $(this).attr('href') )? $(this).attr('href') : $(this).parent().attr('href');
+		var _this= $(this);
+		var confirm_msg = _this.data('ajax-confirm-msg');
+		if( show_alert_confirm(
+			confirm_msg, true) === 'no' ){
+			return;
+		}
+
+		$.get( url, function( data ) {
+			var result = JSON.parse(data);
+			console.log("RESULT: ");
+			console.log("--------------------------------------");
+			console.log( result );
+
+			if( result.status_type == 'refresh' ){
+				//RELOAD PAGE
+				location.reload();
+			}else{
+				//DISPLAY GENERAL ERROR MESSAGE
+				show_alert_msg(result.status_msg, 'danger');
+			}
+		});
+	});
 
 	$("[data-autocomplete]").keyup(function() {
 		var _this       = $(this);
