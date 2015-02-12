@@ -18,7 +18,7 @@
 		<div class="col-md-4">
 			<div class="box box-solid">
 				<div class="box-header">
-					<h3 class="box-title"><?=$obj->title ?></h3>
+					<h3 class="box-title"><a href="<?=base_url() ?>account/gallery/<?=$obj->slug ?>"><?=$obj->title ?></a></h3>
 					<div class="box-tools pull-right">
 						<div class="btn-group">
 							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">

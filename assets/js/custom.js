@@ -1,25 +1,35 @@
 $(function() {
 	$('form[enctype]').submit(function(e) {
 		e.preventDefault();
-		var url = $(this).attr('action');
-		$('#files').html('');
+		var _this    = $(this);
+		var formData = new FormData(this);
+		var url      = $(this).attr('action');
+		var progressbar = $('.progress');
+		var btn = _this.find('input[type="submit"]');
 
-		$.ajaxFileUpload({
-			url             : url,
-			secureuri       : false,
-			fileElementId   : 'userfile',
-			dataType: 'JSON',
-			success : function (data)
-			{
+		btn.addClass('hide');
+		progressbar.removeClass('hide');
+
+		console.log( $('.progress').length );
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data){
 				var obj = jQuery.parseJSON(data);
-				if(obj['status'] == 'success'){
-					$('#files').html(obj['msg']);
-					console.log(obj['img_data']);
-				}else{
-					$('#files').html('Some failure message');
-				}
+				progressbar.find('.progress-bar').animate({ width: '100%' }, 1000, function(){ });
+				
+				console.log(obj);
+			},
+			error: function(data){
+				//error function
+				// $('.progress').hide();
+				var obj = jQuery.parseJSON(data);
+				console.log(obj);
 			}
 		});
-		return false;
 	});
 });

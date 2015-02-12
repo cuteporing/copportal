@@ -56,6 +56,7 @@ class upload extends CI_Controller {
 				$status = 'error';
 				$msg = $this->upload->display_errors('', '');
 			}else{
+				$aaa  = $this->input->post('upload_photo_path');
 				$data = $this->upload->data();
 				$image_path = $data['full_path'];
 				if(file_exists($image_path)){
@@ -68,26 +69,7 @@ class upload extends CI_Controller {
 			}
 			@unlink($_FILES[$file_element_name]);
 		}
-		echo json_encode(array('status' => $status, 'msg' => $msg, 'img_data'=>$this->upload->data()));
-		// $upload_path   = ( isset($params['upload_path']) )?   $params['upload_path']   : common::get_constants('imgPath',   'GENERAL');
-		// $allowed_types = ( isset($params['allowed_types']) )? $params['allowed_types'] : common::get_constants('imgConfig', 'ALLOWED_TYPES');
-		// $max_size      = ( isset($params['max_size']) )?      $params['max_size']      : common::get_constants('imgConfig', 'MAX_SIZE');
-		// $max_width     = ( isset($params['max_width']) )?     $params['max_width']     : common::get_constants('imgConfig', 'MAX_WIDTH');
-		// $max_height    = ( isset($params['max_height']) )?    $params['max_height']    : common::get_constants('imgConfig', 'MAX_HEIGHT');
-
-		// $config['upload_path']   = $upload_path;
-		// $config['allowed_types'] = $allowed_types;
-		// $config['max_size']	     = $max_size;
-		// $config['max_width']     = $max_width;
-		// $config['max_height']    = $max_height;
-
-		// $this->load->library('upload', $config);
-
-		// if ( ! $this->upload->do_upload() ){
-		// 	return array('error' => $this->upload->display_errors());
-		// }else{
-		// 	return array('upload_data' => $this->upload->data());
-		// }
+		echo json_encode(array('status' => $status, 'msg' => $msg, 'img_data'=>$data, 'data'=>$aaa));
 	}
 }
 ?>
