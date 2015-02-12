@@ -151,8 +151,6 @@ class common extends CI_controller
 			array_push($script, 'assets/js/ckeditor.js');
 			array_push($script, 'assets/js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js');
 			array_push($script, 'assets/js/all.js');
-			array_push($script, 'assets/js/custom.js');
-			array_push($script, 'assets/js/ajaxfileupload.js');
 			array_push($script, 'assets/js/ajax.js');
 		}
 
