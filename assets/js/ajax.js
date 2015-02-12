@@ -142,12 +142,13 @@ $(function() {
 
 	// SENDS FORM DATA VIA AJAX
 	// --------------------------------------------
-	$('form').submit(function(e){
+	$('form:not([enctype])').submit(function(e){
 		e.preventDefault();
 		hide_alert_msg();
 		hide_error_field();
 		hide_error_highlight();
 		var form = $(this);
+		var btn  = form.find('input[type="submit"]');
 
 		$.post(
 			form.attr('action'),
@@ -176,7 +177,14 @@ $(function() {
 					form_reset(form.attr('action'));
 				}else if( result.status_type == "refresh" ){
 					//RELOAD PAGE
-					location.reload();
+					if( result.status_msg != '' ){
+						btn.data('redirect-link', result.status_msg);
+						btn.data('del-type', 'redirect');
+						console.log( btn.data('redirect-link') );
+						remove_data(btn);
+					}else{
+						location.reload();
+					}
 				}
 			}
 		)
@@ -193,9 +201,10 @@ $(function() {
 	function remove_data(el){
 		var type= el.data('del-type');
 		switch(type) {
-			case 'table'  : remove_data_table(el); break;
-			case 'refresh': location.reload();     break;
-			default : remove_data_table(el);       break;
+			case 'table'   : remove_data_table(el);                      break;
+			case 'refresh' : location.reload();                          break;
+			case 'redirect': window.location = el.data('redirect-link'); break;
+			default : remove_data_table(el);                             break;
 		}
 	}
 
@@ -257,7 +266,8 @@ $(function() {
 
 			if( result.status_type == 'refresh' ){
 				//RELOAD PAGE
-				location.reload();
+				_this.attr('data-reload-link') = result.status_msg;
+				remove_data(_this);
 			}else{
 				//DISPLAY GENERAL ERROR MESSAGE
 				show_alert_msg(result.status_msg, 'danger');

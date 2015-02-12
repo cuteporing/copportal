@@ -50,6 +50,20 @@ class gallery extends account
 	}
 
 	/**
+	 * CREATE AN EVENT ALBUM MODAL
+	 * @return modal
+	 * --------------------------------------------
+	 */
+	public function upload_photo_modal()
+	{
+		$data['modal_id']     = 'upload-photo-modal';
+		$data['modal_header'] = '<i class="fa fa-upload"></i> Upload photos';
+		$this->load->view('templates/modal/modal_header', $data);
+		$this->load->view('templates/forms/gallery_upload_form', $data);
+		$this->load->view('templates/modal/modal_footer', $data);
+	}
+
+	/**
 	 * GET GALLERY
 	 * @return page
 	 * --------------------------------------------
@@ -58,13 +72,19 @@ class gallery extends account
 	{
 		$album_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
 		if( $album_id !== '' ){
-
+			// $params
+			// $result = $this->gallery_model->get_album();
+			$data['result_album_photos'] = array();
+			$this->load->view('account/gallery', $data);
+			$this->custom_album_modal();
+			$this->event_album_modal();
+			$this->upload_photo_modal();
 		}else{
 			$data['result_album'] = $this->gallery_model->get_album();
+			$this->load->view('account/gallery', $data);
+			$this->custom_album_modal();
+			$this->event_album_modal();
 		}
-		$this->load->view('account/gallery', $data);
-		$this->custom_album_modal();
-		$this->event_album_modal();
 	}
 
 	/**

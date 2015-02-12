@@ -39,8 +39,8 @@
 */
 
 $route['account/(:any)'] = 'account/view/$1';
-$route['upload/(:any)'] = 'upload/$1';
-$route['upload/do_upload'] = 'upload/do_upload/$1';
+// $route['upload/(:any)'] = 'upload/$1';
+$route['upload/upload_gallery_photo'] = 'upload/upload_gallery_photo/$1';
 //ANNOUNCEMENTS
 $route['announcements_ajax/create'] = 'announcements_ajax/create/$1';
 $route['announcements_ajax/delete/(:any)'] = 'announcements_ajax/delete/$1';
@@ -56,7 +56,7 @@ $route['events_ajax/member_delete/(:any)'] = 'events_ajax/member_delete/$1';
 //GALLERY
 $route['gallery_ajax/create_album'] = 'gallery_ajax/create_album/$1';
 $route['gallery_ajax/delete_album/(:any)'] = 'gallery_ajax/delete_album/$1';
-
+$route['gallery_ajax/photo_upload/'] = 'gallery_ajax/photo_upload/$1';
 //MANAGE BENEFICIARY
 $route['manage_beneficiary_ajax/create'] = 'manage_beneficiary_ajax/create/$1';
 $route['manage_beneficiary_ajax/delete/(:any)'] = 'manage_beneficiary_ajax/delete/$1';

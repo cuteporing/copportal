@@ -13,6 +13,7 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 include_once('common.php');
+include_once('upload.php');
 
 class gallery_ajax extends CI_controller
 {
@@ -124,13 +125,15 @@ class gallery_ajax extends CI_controller
 			exit;
 		}
 
+		$slug = url_title($this->input->post('title'), 'dash', TRUE);
+
 		if( $this->input->post('album_type') == 'custom' ){
 			$data = array(
 				'title'        => $this->input->post('title'),
 				'description'  => $this->input->post('description'),
 				'date_entered' => common::get_today(),
 				'date_modified'=> common::get_today(),
-				'slug'         => url_title($this->input->post('title'), 'dash', TRUE)
+				'slug'         => $slug
 				);
 		}else{
 			$data = array(
@@ -139,7 +142,7 @@ class gallery_ajax extends CI_controller
 				// 'description'  => $this->input->post('description'),
 				'date_entered' => common::get_today(),
 				'date_modified'=> common::get_today(),
-				// 'slug'         => url_title($this->input->post('title'), 'dash', TRUE)
+				// 'slug'         => $slug
 				);
 		}
 
@@ -148,7 +151,7 @@ class gallery_ajax extends CI_controller
 		if( $result['status'] == 'error' ){
 			echo common::response_msg(200, $result['status'], $result['msg']);
 		}else{
-			echo common::response_msg(200, 'refresh', '');
+			echo common::response_msg(200, 'refresh', base_url().'account/gallery/'.$slug);
 		}
 	}
 
@@ -167,6 +170,11 @@ class gallery_ajax extends CI_controller
 		}else{
 			echo common::response_msg(200, 'error', 'The album contains photos');
 		}
+	}
+
+	public function photo_upload()
+	{
+		echo common::response_msg(200, 'error', $this->input->post('userfile'));
 	}
 }
 ?>

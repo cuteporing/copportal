@@ -51,6 +51,26 @@ class Gallery_model extends CI_Model {
 		}
 	}
 
+	public function get_album_photos($slug)
+	{
+		// 		$sql = 'cop_beneficiaries.id,';
+		// $sql.= 'cop_beneficiaries.first_name, ';
+		// $sql.= 'cop_beneficiaries.last_name, ';
+		// $sql.= 'cop_beneficiaries.gender, ';
+		// $sql.= 'cop_events_member.date_entered ';
+
+		// $this->db->select($sql);
+		// $this->db->from('cop_events_member');
+		// $this->db->join('cop_beneficiaries',
+		// 	'cop_events_member.id = cop_beneficiaries.id', 'left');
+		// $this->db->where('cop_events_member.event_id', $event_id);
+		// $this->db->order_by('cop_beneficiaries.last_name', 'asc');
+
+		// $query = $this->db->get();
+
+		// return $query->result_array();
+	}
+
 	/**
 	 * CHECKS IF THE GALLERY HAS NO PHOTO
 	 * @param Integer, $gallery_id

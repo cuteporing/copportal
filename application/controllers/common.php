@@ -38,12 +38,19 @@ class common extends CI_controller
 	static function get_constants($type, $request)
 	{
 		$constants = array(
-			'meta' => array(
-				'DESCRIPTION' => 'COP Tracer',
-				'KEYWORDS'    => 'cop, training, seminar, outreach, program',
-				'AUTHOR'      => 'KBVCodes, 2014', ),
-			'imgPath' => array(
-				'BANNER' => '/upload/banner/', ),
+			'meta'      => array(
+				'DESCRIPTION'   => 'COP Tracer',
+				'KEYWORDS'      => 'cop, training, seminar, outreach, program',
+				'AUTHOR'        => 'KBVCodes, 2014', ),
+			'imgPath'   => array(
+				'BANNER'        => './uploads/banner/',
+				'GALLERY'       => './uploads/gallery/',
+				'GENERAL'       => './uploads/', ),
+			'imgConfig' => array(
+				'ALLOWED_TYPES' => 'gif|jpg|png',
+				'MAX_SIZE'      => '100',
+				'MAX_WIDTH'     => '1024',
+				'MAX_HEIGHT'    => '768',),
 		);
 
 		return $constants[$type][$request];
@@ -144,6 +151,8 @@ class common extends CI_controller
 			array_push($script, 'assets/js/ckeditor.js');
 			array_push($script, 'assets/js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js');
 			array_push($script, 'assets/js/all.js');
+			array_push($script, 'assets/js/custom.js');
+			array_push($script, 'assets/js/ajaxfileupload.js');
 			array_push($script, 'assets/js/ajax.js');
 		}
 

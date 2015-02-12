@@ -59,6 +59,7 @@ $lang['lbl_street_address'] = 'Street address';
 $lang['lbl_user_name'] = 'Username';
 
 //BUTTONS
+$lang['lbl_add_photo'] = 'Add photo';
 $lang['lbl_custom_album'] = 'Custom album';
 $lang['lbl_custom_event_album'] = 'Create event album';
 $lang['lbl_delete_album'] = 'Delete album';

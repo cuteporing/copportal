@@ -5,6 +5,11 @@
 <a class="btn btn-app" data-toggle="modal" data-target="#event-album-modal">
 	<i class="fa fa-calendar-o"></i> <?=$this->lang->line('lbl_custom_event_album')?>
 </a>
+<?php if( isset($result_album_photos) ): ?>
+<a class="btn btn-app" data-toggle="modal" data-target="#upload-photo-modal">
+	<i class="fa fa-upload"></i> <?=$this->lang->line('lbl_add_photo')?>
+</a>
+<?php endif; ?>
 </div>
 
 <?php if( isset($result_album) ): ?>
@@ -31,4 +36,11 @@
 			</div>
 		</div>
 	<?php endforeach; ?>
+	</div>
+<?php endif; ?>
+
+<?php if( isset($result_album_photos) ): ?>
+	<div class="row">
+a
+	</div>
 <?php endif; ?>
