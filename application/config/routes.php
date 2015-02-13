@@ -40,7 +40,7 @@
 
 $route['account/(:any)'] = 'account/view/$1';
 // $route['upload/(:any)'] = 'upload/$1';
-$route['upload/upload_gallery_photo'] = 'upload/upload_gallery_photo/$1';
+// $route['upload/upload_gallery_photo'] = 'upload/upload_gallery_photo/$1';
 //ANNOUNCEMENTS
 $route['announcements_ajax/create'] = 'announcements_ajax/create/$1';
 $route['announcements_ajax/delete/(:any)'] = 'announcements_ajax/delete/$1';
