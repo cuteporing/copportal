@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2015 at 05:46 AM
+-- Generation Time: Feb 15, 2015 at 02:17 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -39,12 +39,8 @@ CREATE TABLE IF NOT EXISTS `cop_announcements` (
 --
 
 INSERT INTO `cop_announcements` (`announcement_id`, `owner_id`, `title`, `date_entered`, `slug`) VALUES
-(1, 1, 'superubu', '2015-01-30 03:59:08', 'superubu'),
-(7, 1, 'KURISHA', '2015-01-30 03:56:39', 'kurisha'),
 (9, 1, 'asdasdas', '2015-01-29 20:04:48', 'asdasdas'),
-(12, 1, 'asdasda', '2015-01-29 20:11:42', 'asdasda'),
-(14, 1, 'RANSU', '2015-01-30 03:57:54', 'ransu'),
-(16, 1, 'SUPER TUTOR', '2015-01-29 20:37:54', 'super-tutor');
+(12, 1, 'asdasda', '2015-01-29 20:11:42', 'asdasda');
 
 -- --------------------------------------------------------
 
@@ -57,14 +53,6 @@ CREATE TABLE IF NOT EXISTS `cop_announcement_description` (
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `cop_announcement_description`
---
-
-INSERT INTO `cop_announcement_description` (`announcement_id`, `description`, `sequence`) VALUES
-(16, 'ASDASD', 1),
-(1, 'asdasdasdas', 1);
 
 -- --------------------------------------------------------
 
@@ -158,8 +146,7 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
 (31, 15, '', 1),
 (32, 16, '', 1),
-(37, 20, '', 1),
-(38, 21, '', 1);
+(37, 20, '', 1);
 
 -- --------------------------------------------------------
 
@@ -187,8 +174,7 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
 --
 
 INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
-(20, 1, 'TECH TUTOR 5', 'open', 1, '2015-02-08 22:05:35', '2015-02-09', '2015-02-09', '13:00:PM', '13:00:PM', 'Dasd', 'tech-tutor-5'),
-(21, 1, 'asdasdasd', 'open', 1, '2015-02-09 17:30:05', '2015-02-10', '2015-02-10', '08:30:00', '08:30:00', 'Dasda', 'asdasdasd');
+(20, 1, 'TECH TUTOR 5', 'open', 1, '2015-02-08 22:05:35', '2015-02-09', '2015-02-09', '13:00:PM', '13:00:PM', 'Dasd', 'tech-tutor-5');
 
 -- --------------------------------------------------------
 
@@ -219,24 +205,21 @@ INSERT INTO `cop_events_member` (`event_id`, `id`, `date_entered`, `status`) VAL
 
 CREATE TABLE IF NOT EXISTS `cop_gallery` (
 `gallery_id` int(11) NOT NULL,
-  `event_id` int(11) NOT NULL,
+  `event_id` int(11) DEFAULT NULL,
   `cover_photo_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_gallery`
 --
 
 INSERT INTO `cop_gallery` (`gallery_id`, `event_id`, `cover_photo_id`, `title`, `description`, `date_entered`, `date_modified`, `slug`) VALUES
-(1, 0, 0, 'LALALLA', '', '2015-02-09 19:24:01', '2015-02-09 19:24:01', 'lalalla'),
-(2, 0, 0, 'COP ', '', '2015-02-09 19:25:15', '2015-02-09 19:25:15', 'cop'),
-(3, 0, 0, 'COP a', '', '2015-02-09 19:25:27', '2015-02-09 19:25:27', 'cop-a'),
-(4, 0, 0, 'asdasda', '', '2015-02-09 19:38:29', '2015-02-09 19:38:29', 'asdasda');
+(5, NULL, 0, 'SUPER', '', '2015-02-15 12:12:31', '2015-02-15 12:12:31', 'super');
 
 -- --------------------------------------------------------
 
@@ -247,9 +230,18 @@ INSERT INTO `cop_gallery` (`gallery_id`, `event_id`, `cover_photo_id`, `title`, 
 CREATE TABLE IF NOT EXISTS `cop_gallery_photos` (
 `gallery_photos_id` int(11) NOT NULL,
   `gallery_id` int(11) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `path` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `raw_name` varchar(255) NOT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `file_ext` varchar(10) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cop_gallery_photos`
+--
+
+INSERT INTO `cop_gallery_photos` (`gallery_photos_id`, `gallery_id`, `raw_name`, `file_path`, `file_ext`) VALUES
+(1, 5, '13973_clippy4', '/uploads/gallery/', '.jpg'),
+(2, 5, 'ampersand', './uploads/gallery/', '.png');
 
 -- --------------------------------------------------------
 
@@ -383,12 +375,12 @@ MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 -- AUTO_INCREMENT for table `cop_gallery`
 --
 ALTER TABLE `cop_gallery`
-MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `cop_gallery_photos`
 --
 ALTER TABLE `cop_gallery_photos`
-MODIFY `gallery_photos_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `gallery_photos_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `cop_users`
 --

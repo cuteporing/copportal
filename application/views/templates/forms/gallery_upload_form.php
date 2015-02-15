@@ -7,8 +7,8 @@
 <div class="form-group">
 	<input type="hidden" name="upload_photo_path" value="GALLERY">
 	<input type="hidden" name="gallery_type" value="<?php if( isset($gallery_type) ){ echo $gallery_type; }?>">
-	<input type="hidden" name="gallery_id" value="<?php if( isset($gallery_id) ){ echo $gallery_id }?>">
-	<label for="exampleInputFile">Upload an image</label>
+	<input type="hidden" name="gallery_id" value="<?php if( isset($gallery_id) ){ echo $gallery_id; }?>">
+	<label for="userfile">Upload an image</label>
 	<input type="file" name="userfile" size="20">
 	<p class="error"></p>
 </div>

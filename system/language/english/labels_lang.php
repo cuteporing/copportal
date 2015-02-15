@@ -63,7 +63,9 @@ $lang['lbl_add_photo'] = 'Add photo';
 $lang['lbl_custom_album'] = 'Custom album';
 $lang['lbl_custom_event_album'] = 'Create event album';
 $lang['lbl_delete_album'] = 'Delete album';
+$lang['lbl_delete_photo'] = 'Delete photo';
 $lang['lbl_edit_album'] = 'Edit album';
+$lang['lbl_view_gallery'] = 'View gallery';
 
 
 /* End of file labels.php */

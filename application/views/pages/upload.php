@@ -1,6 +1,6 @@
-<?php echo $error;?>
+<!-- <?php echo $error;?> -->
 
-<?php echo form_open_multipart('gallery_ajax/upload');?>
+<?php echo form_open_multipart('upload/upload_gallery_photo');?>
 
 <input type="file" name="userfile" size="20" />
 

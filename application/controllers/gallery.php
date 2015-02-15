@@ -45,7 +45,7 @@ class gallery extends account
 		$data['modal_id']     = 'event-album-modal';
 		$data['modal_header'] = '<i class="fa fa-calendar-o"></i> Create an event album';
 		$this->load->view('templates/modal/modal_header', $data);
-		// $this->load->view('templates/forms/album_form', $data);
+		$this->load->view('templates/forms/event_album_form', $data);
 		$this->load->view('templates/modal/modal_footer', $data);
 	}
 
@@ -70,16 +70,46 @@ class gallery extends account
 	 */
 	public function get_gallery()
 	{
-		$album_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
-		if( $album_id !== '' ){
+		$album_slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		if( $album_slug !== '' ){
 			// $params
-			// $result = $this->gallery_model->get_album();
-			$data['result_album_photos'] = array();
+			$album_params = array();
+			$photo_params = array();
+			array_push($album_params, array('fieldname'=>'slug', 'data'=>$album_slug) );
+
+			$result_album = $this->gallery_model->get_album($album_params);
+
+			foreach ($result_album as $obj) {
+				$data['gallery_id']   = $obj->gallery_id;
+				$data['gallery_type'] = ( $obj->event_id === null )? 'custom' : 'event';
+
+				//SEARCH PARAMETERS FOR ALBUM PHOTOS
+				array_push($photo_params, array(
+					'fieldname'=>'gallery_id',
+					'data'     =>$data['gallery_id']) );
+
+				// //GET ALBUM PHOTOS
+				$result_album_photos = $this->gallery_model->get_album_photos(
+						$data['gallery_type'], $photo_params);
+
+				if( $result_album_photos ){
+					$data['result_album_photos'] = $result_album_photos;
+				}
+			}
+
+			$result_event_list = $this->gallery_model->get_events();
+
+			$data['btn_upload'] = 'show';
+			$data['event_list'] = $result_event_list;
 			$this->load->view('account/gallery', $data);
 			$this->custom_album_modal();
 			$this->event_album_modal();
 			$this->upload_photo_modal();
 		}else{
+			$result_event_list = $this->gallery_model->get_events();
+		
+			$data['btn_upload']   = 'hide';
+			$data['event_list']   = $result_event_list;
 			$data['result_album'] = $this->gallery_model->get_album();
 			$this->load->view('account/gallery', $data);
 			$this->custom_album_modal();

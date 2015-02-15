@@ -23,7 +23,10 @@ class upload extends CI_Controller {
 		$this->load->helper(array('form', 'url'));
 		$this->load->helper('url');
 	}
-
+	public function index()
+	{
+		$this->load->view('pages/upload');
+	}
 	/**
 	 * UPLOADS A PHOTO
 	 * @param Array, $params
@@ -56,7 +59,6 @@ class upload extends CI_Controller {
 				$status = 'error';
 				$msg = $this->upload->display_errors('', '');
 			}else{
-				$aaa  = $this->input->post('upload_photo_path');
 				$data = $this->upload->data();
 				$image_path = $data['full_path'];
 				if(file_exists($image_path)){
@@ -69,7 +71,10 @@ class upload extends CI_Controller {
 			}
 			@unlink($_FILES[$file_element_name]);
 		}
-		echo json_encode(array('status' => $status, 'msg' => $msg, 'img_data'=>$data, 'data'=>$aaa));
+		foreach ($data as $row=>$val) {
+			print_r('<b>'.$row.'</b>: '.$val.'<br>');
+		}
+		// echo json_encode(array('status' => $status, 'msg' => $msg, 'img_data'=>$data));
 	}
 }
 ?>

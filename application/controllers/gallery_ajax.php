@@ -78,10 +78,6 @@ class gallery_ajax extends CI_controller
 					'msg'   =>'Album already existed',
 				);
 			}
-
-		//EVENT ALBUM
-		}elseif ( $album_type == 'event' ) {
-
 		}
 
 		return $error_log;
@@ -98,16 +94,18 @@ class gallery_ajax extends CI_controller
 		if( $this->input->post('album_type') == 'custom' ){
 			$required_field = array('title');
 		}else{
-			$required_field = array('event_id');
+			$required_field = array('event');
+			echo common::response_msg(200, 'error', 'Something went wrong when saving the file, please try again.');
+		exit;
 		}
 
 		//IF THERE ARE MISSING INPUT DATA
 		if( count($this->validate_required($required_field)) > 0 ){
 			$error_log = $this->validate_required($required_field);
 			return common::response_msg(200, 'error_field', '', $error_log);
-		}elseif( count($this->validate_album_exist()) > 0 ){
-			$error_log = $this->validate_album_exist();
-			return common::response_msg(200, $error_log['status'], $error_log['msg']);
+		// }elseif( count($this->validate_album_exist()) > 0 ){
+		// 	$error_log = $this->validate_album_exist();
+		// 	return common::response_msg(200, $error_log['status'], $error_log['msg']);
 		//IF EVENT DATE IS NOT CORRECT
 		}else{
 			return FALSE;
@@ -125,7 +123,7 @@ class gallery_ajax extends CI_controller
 			echo $this->validate_album_create();
 			exit;
 		}
-
+		
 		$slug = url_title($this->input->post('title'), 'dash', TRUE);
 
 		if( $this->input->post('album_type') == 'custom' ){
@@ -137,14 +135,22 @@ class gallery_ajax extends CI_controller
 				'slug'         => $slug
 				);
 		}else{
-			$data = array(
-				'event_id'     => $this->input->pos('event_id'),
-				// 'title'        => $this->input->post('title'),
-				// 'description'  => $this->input->post('description'),
-				'date_entered' => common::get_today(),
-				'date_modified'=> common::get_today(),
-				// 'slug'         => $slug
-				);
+			$result_event = $this->events_model->get_events(
+				'event_id', $this->input->pos('event'));
+
+			foreach ($result_event as $obj) {
+
+				$slug = url_title($obj->title, 'dash', TRUE);
+
+				$data = array(
+					'event_id'     => $this->input->pos('event'),
+					'title'        => $obj->title,
+					'description'  => $this->input->post('description'),
+					'date_entered' => common::get_today(),
+					'date_modified'=> common::get_today(),
+					'slug'         => $slug
+					);
+			}
 		}
 
 		$result	= $this->gallery_model->create_album($data);
@@ -207,12 +213,32 @@ class gallery_ajax extends CI_controller
 				$data = $this->upload->data();
 				$image_path = $data['full_path'];
 				if(file_exists($image_path)){
-					echo common::response_msg(200, 'success', 'File successfully uploaded');
+					//SAVE GALLERY PHOTO TO DATABASE
+					$this->save_photo($data);
 				}else{
 					echo common::response_msg(200, 'error', 'Something went wrong when saving the file, please try again.');
 				}
 			}
 			@unlink($_FILES[$file_element_name]);
+		}
+	}
+
+	public function save_photo($uploaded_photo)
+	{
+		if( $this->input->post('gallery_type') == 'custom' ){
+			$data = array(
+				'gallery_id'=>$this->input->post('gallery_id'),
+				'raw_name'  =>$uploaded_photo['raw_name'],
+				'file_path' =>common::get_constants('imgPath', 'GALLERY'),
+				'file_ext'  =>$uploaded_photo['file_ext'],
+				);
+		}
+
+		$result = $this->gallery_model->save_photo($data);
+		if( $result ){
+			echo common::response_msg(200, 'refresh', '');
+		}else{
+			echo common::response_msg(200, 'error', 'Something went wrong when saving the file, please try again.');
 		}
 	}
 }

@@ -18,6 +18,39 @@ class Gallery_model extends CI_Model {
 	{
 		$this->load->database();
 	}
+
+	/**
+	 * GET EVENT LIST THAT IS NOT ON THE GALLERY
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function get_events()
+	{
+		// SELECT event_id, title FROM cop_events WHERE event_id NOT IN (SELECT event_id FROM cop_gallery WHERE event_id != NULL)
+		$event_id = array();
+		$event_sql   = 'event_id, title';
+		$gallery_sql = 'event_id';
+
+		$this->db->select($gallery_sql);
+		$this->db->from('cop_gallery');
+		$this->db->where('event_id !=', 'NULL');
+		$query_gallery  = $this->db->get();
+		$result_gallery = $query_gallery->result();
+
+		foreach ($result_gallery as $obj) {
+			array_push($event_id, $obj->event_id);
+		}
+
+		$this->db->select($event_sql);
+		$this->db->from('cop_events');
+		if( count($event_id) > 0 ){
+			$this->db->where_not_in('event_id', array());
+		}
+		$query = $this->db->get();
+
+		return $query->result_array();
+	}
+
 	/**
 	 * GET ALBUM
 	 * @param String, $search_by
@@ -51,24 +84,30 @@ class Gallery_model extends CI_Model {
 		}
 	}
 
-	public function get_album_photos($slug)
+	public function get_album_photos($type='custom', $search_param=array())
 	{
-		// 		$sql = 'cop_beneficiaries.id,';
-		// $sql.= 'cop_beneficiaries.first_name, ';
-		// $sql.= 'cop_beneficiaries.last_name, ';
-		// $sql.= 'cop_beneficiaries.gender, ';
-		// $sql.= 'cop_events_member.date_entered ';
+		if( count($search_param) > 0 ){
 
-		// $this->db->select($sql);
-		// $this->db->from('cop_events_member');
-		// $this->db->join('cop_beneficiaries',
-		// 	'cop_events_member.id = cop_beneficiaries.id', 'left');
-		// $this->db->where('cop_events_member.event_id', $event_id);
-		// $this->db->order_by('cop_beneficiaries.last_name', 'asc');
+			foreach ($search_param as $param) {
+				$this->db->where(
+					$param['fieldname'],
+					$param['data']
+				);
+			}
 
-		// $query = $this->db->get();
+			$this->db->from('cop_gallery_photos');
+			$query = $this->db->get();
 
-		// return $query->result_array();
+			if( $query->num_rows() > 0 ){
+				return $query->result();
+			}else{
+				return FALSE;
+			}
+
+		}else{
+			$query = $this->db->get('cop_gallery_photos');
+			return $query->result();
+		}
 	}
 
 	/**
@@ -141,5 +180,26 @@ class Gallery_model extends CI_Model {
 		}else{
 			return FALSE;
 		}
+	}
+
+	/**
+	 * SAVE PHOTO
+	 * @param Array, $data
+	 * @return Array | Boolean <FALSE>
+	 * --------------------------------------------
+	 */
+	public function save_photo($data)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('cop_gallery_photos', $data);
+
+		if( $this->db->trans_status() === FALSE )
+			{
+				$this->db->trans_rollback();
+				return FALSE;
+			}else{
+				$this->db->trans_commit();
+				return TRUE;
+			}
 	}
 }
