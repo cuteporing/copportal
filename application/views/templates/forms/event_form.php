@@ -64,6 +64,23 @@
 					* TIME
 				 *********************************
 		-->
+		<?php if( isset($result) ): ?>
+		<div class="box box-primary">
+			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_disable_account')?></h3></div>
+			<div class="box-body">
+				<div class="form-group">
+					<label>
+						<input type="radio" name="status" class="minimal-red" value="close"/>
+						Yes
+					</label>
+					<label>
+						<input type="radio" name="status" class="minimal-red" value="open" checked/>
+						No
+					</label>
+				</div>
+			</div>
+		</div>
+		<?php endif; ?>
 		<div class="box box-primary">
 			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_event_details')?></h3></div>
 			<div class="box-body">

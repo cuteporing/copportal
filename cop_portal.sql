@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2015 at 02:17 PM
+-- Generation Time: Feb 16, 2015 at 06:28 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
@@ -146,7 +146,8 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
 (31, 15, '', 1),
 (32, 16, '', 1),
-(37, 20, '', 1);
+(37, 20, '', 1),
+(39, 22, '', 1);
 
 -- --------------------------------------------------------
 
@@ -167,14 +168,15 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `time_end` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `location` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events`
 --
 
 INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
-(20, 1, 'TECH TUTOR 5', 'open', 1, '2015-02-08 22:05:35', '2015-02-09', '2015-02-09', '13:00:PM', '13:00:PM', 'Dasd', 'tech-tutor-5');
+(20, 1, 'TECH TUTOR 5', 'close', 1, '2015-02-16 04:55:55', '2015-02-09', '2015-02-09', '13:00:PM', '13:00:PM', 'Dasd', 'tech-tutor-5'),
+(22, 1, 'TECH TUTOR 7', 'close', 1, '2015-02-16 04:56:00', '2015-02-16', '2015-02-16', '10:00:00', '10:00:00', 'Sdfsdf', 'tech-tutor-7');
 
 -- --------------------------------------------------------
 
@@ -206,20 +208,21 @@ INSERT INTO `cop_events_member` (`event_id`, `id`, `date_entered`, `status`) VAL
 CREATE TABLE IF NOT EXISTS `cop_gallery` (
 `gallery_id` int(11) NOT NULL,
   `event_id` int(11) DEFAULT NULL,
-  `cover_photo_id` int(11) NOT NULL,
+  `cover_photo_id` varchar(50) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `description` text,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_gallery`
 --
 
 INSERT INTO `cop_gallery` (`gallery_id`, `event_id`, `cover_photo_id`, `title`, `description`, `date_entered`, `date_modified`, `slug`) VALUES
-(5, NULL, 0, 'SUPER', '', '2015-02-15 12:12:31', '2015-02-15 12:12:31', 'super');
+(17, NULL, '1', 'SUPER', '', '2015-02-16 04:39:51', '2015-02-16 04:39:51', 'super'),
+(18, 20, '2', 'TECH TUTOR 5', '', '2015-02-16 04:47:05', '2015-02-16 04:47:05', 'tech-tutor-5');
 
 -- --------------------------------------------------------
 
@@ -240,8 +243,8 @@ CREATE TABLE IF NOT EXISTS `cop_gallery_photos` (
 --
 
 INSERT INTO `cop_gallery_photos` (`gallery_photos_id`, `gallery_id`, `raw_name`, `file_path`, `file_ext`) VALUES
-(1, 5, '13973_clippy4', '/uploads/gallery/', '.jpg'),
-(2, 5, 'ampersand', './uploads/gallery/', '.png');
+(1, 17, 'sticker,375x360', './uploads/gallery/', '.png'),
+(2, 18, 'download_(1)', './uploads/gallery/', '.jpg');
 
 -- --------------------------------------------------------
 
@@ -365,17 +368,17 @@ MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=39;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `cop_gallery`
 --
 ALTER TABLE `cop_gallery`
-MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `cop_gallery_photos`
 --

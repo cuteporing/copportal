@@ -266,8 +266,7 @@ $(function() {
 
 			if( result.status_type == 'refresh' ){
 				//RELOAD PAGE
-				_this.attr('data-reload-link') = result.status_msg;
-				remove_data(_this);
+				location.reload();
 			}else{
 				//DISPLAY GENERAL ERROR MESSAGE
 				show_alert_msg(result.status_msg, 'danger');
