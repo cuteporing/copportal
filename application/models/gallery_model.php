@@ -20,31 +20,46 @@ class Gallery_model extends CI_Model {
 	}
 
 	/**
+	 * GET ALL EVENT ID LINK TO GALLERY ALBUM
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function get_event_album_id()
+	{
+		$event_id = array();
+
+		$this->db->select('event_id');
+		$this->db->from('cop_gallery');
+		$this->db->where('event_id !=', 'NULL');
+		$query = $this->db->get();
+
+		$result = $query->result();
+
+		if( count($result) > 0 ){
+			foreach ($result as $obj) {
+				array_push($event_id, $obj->event_id);
+			}
+
+			return $event_id;
+		}else{
+			return FALSE;
+		}
+
+	}
+
+	/**
 	 * GET EVENT LIST THAT IS NOT ON THE GALLERY
 	 * @return Array
 	 * --------------------------------------------
 	 */
 	public function get_events()
 	{
-		// SELECT event_id, title FROM cop_events WHERE event_id NOT IN (SELECT event_id FROM cop_gallery WHERE event_id != NULL)
-		$event_id = array();
-		$event_sql   = 'event_id, title';
-		$gallery_sql = 'event_id';
+		$event_id = $this->get_event_album_id();
 
-		$this->db->select($gallery_sql);
-		$this->db->from('cop_gallery');
-		$this->db->where('event_id !=', 'NULL');
-		$query_gallery  = $this->db->get();
-		$result_gallery = $query_gallery->result();
-
-		foreach ($result_gallery as $obj) {
-			array_push($event_id, $obj->event_id);
-		}
-
-		$this->db->select($event_sql);
+		$this->db->select('event_id, title');
 		$this->db->from('cop_events');
-		if( count($event_id) > 0 ){
-			$this->db->where_not_in('event_id', array());
+		if( $event_id !== FALSE ){
+			$this->db->where_not_in('event_id', $event_id);
 		}
 		$query = $this->db->get();
 
@@ -61,6 +76,23 @@ class Gallery_model extends CI_Model {
 	public function get_album($search_param=array())
 	{
 		if( count($search_param) > 0 ){
+			$sql = ' cop_gallery.gallery_id,';
+			$sql.= ' cop_gallery.event_id,';
+			$sql.= ' cop_gallery.cover_photo_id,';
+			$sql.= ' cop_gallery.title,';
+			$sql.= ' cop_gallery.description,';
+			$sql.= ' cop_gallery.date_entered,';
+			$sql.= ' cop_gallery.date_modified,';
+			$sql.= ' cop_gallery.slug,';
+			$sql.= ' cop_gallery_photos.gallery_photos_id,';
+			$sql.= ' cop_gallery_photos.raw_name,';
+			$sql.= ' cop_gallery_photos.file_path,';
+			$sql.= ' cop_gallery_photos.file_ext';
+
+			$this->db->select($sql);
+			$this->db->from('cop_gallery');
+			$this->db->join('cop_gallery_photos',
+			'cop_gallery.cover_photo_id = cop_gallery_photos.gallery_photos_id', 'left');
 
 			foreach ($search_param as $param) {
 				$this->db->where(
@@ -69,7 +101,6 @@ class Gallery_model extends CI_Model {
 				);
 			}
 
-			$this->db->from('cop_gallery');
 			$query = $this->db->get();
 
 			if( $query->num_rows() > 0 ){
@@ -79,11 +110,37 @@ class Gallery_model extends CI_Model {
 			}
 
 		}else{
-			$query = $this->db->get('cop_gallery');
+			$sql = ' cop_gallery.gallery_id,';
+			$sql.= ' cop_gallery.event_id,';
+			$sql.= ' cop_gallery.cover_photo_id,';
+			$sql.= ' cop_gallery.title,';
+			$sql.= ' cop_gallery.description,';
+			$sql.= ' cop_gallery.date_entered,';
+			$sql.= ' cop_gallery.date_modified,';
+			$sql.= ' cop_gallery.slug,';
+			$sql.= ' cop_gallery_photos.gallery_photos_id,';
+			$sql.= ' cop_gallery_photos.raw_name,';
+			$sql.= ' cop_gallery_photos.file_path,';
+			$sql.= ' cop_gallery_photos.file_ext';
+
+			$this->db->select($sql);
+			$this->db->from('cop_gallery');
+			$this->db->join('cop_gallery_photos',
+			'cop_gallery.cover_photo_id = cop_gallery_photos.gallery_photos_id', 'left');
+
+			$query = $this->db->get();
+
 			return $query->result();
 		}
 	}
 
+	/**
+	 * GET ALL PHOTOS IN AN ALBUM
+	 * @param String, $type -- ['custom', 'event']
+	 * @param Array, $search_param
+	 * @return Array | Boolean <FALSE>
+	 * --------------------------------------------
+	 */
 	public function get_album_photos($type='custom', $search_param=array())
 	{
 		if( count($search_param) > 0 ){
@@ -192,14 +249,31 @@ class Gallery_model extends CI_Model {
 	{
 		$this->db->trans_begin();
 		$this->db->insert('cop_gallery_photos', $data);
+		$insert_id = $this->db->insert_id();
 
-		if( $this->db->trans_status() === FALSE )
-			{
-				$this->db->trans_rollback();
-				return FALSE;
-			}else{
-				$this->db->trans_commit();
-				return TRUE;
-			}
+		if( $this->db->trans_status() === FALSE ){
+			$this->db->trans_rollback();
+			return FALSE;
+		}else{
+			$this->db->trans_commit();
+			return $insert_id;
+		}
+	}
+
+	public function default_cover_photo($gallery_id, $photo_id)
+	{
+		$gallery_data = array('cover_photo_id' => (Int) $photo_id);
+
+		$this->db->trans_begin();
+		$this->db->where('gallery_id', $gallery_id);
+		$this->db->update('cop_gallery', $gallery_data);
+
+		if( $this->db->trans_status() === FALSE ){
+			$this->db->trans_rollback();
+			return FALSE;
+		}else{
+			$this->db->trans_commit();
+			return TRUE;
+		}
 	}
 }

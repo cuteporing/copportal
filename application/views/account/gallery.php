@@ -21,7 +21,7 @@
 <?php if( isset($result_album) ): ?>
 	<div class="row">
 	<?php foreach ($result_album as $obj): ?>
-		<div class="col-md-3">
+		<div class="col-md-4">
 			<div class="box box-solid">
 				<div class="box-header">
 					<h3 class="box-title"><a href="<?=base_url() ?>account/gallery/<?=$obj->slug ?>"><?=$obj->title ?></a></h3>
@@ -38,6 +38,11 @@
 					</div>
 				</div>
 				<div class="box-body">
+					<?php if( is_null($obj->cover_photo_id) ): ?>
+						<img src="<?=base_url().'assets/img/noPhoto-icon.png' ?>">
+					<?php else: ?>
+						<img src="<?=base_url().$obj->file_path.$obj->raw_name.$obj->file_ext ?>">
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>
@@ -52,15 +57,15 @@
 				<div class="box box-solid">
 					<div class="box-header">
 						<div class="box-tools pull-right">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-								<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu">
-								<li><a href="<?=base_url() ?>gallery_ajax/delete_photo"><?=$this->lang->line('lbl_delete_photo')?></a></li>
-							</ul>
+							<div class="btn-group">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a href="<?=base_url() ?>gallery_ajax/delete_photo"><?=$this->lang->line('lbl_delete_photo')?></a></li>
+								</ul>
+							</div>
 						</div>
-					</div>
 					</div>
 					<div class="box-body">
 						<img src="<?=base_url().$obj->file_path.$obj->raw_name.$obj->file_ext ?>">

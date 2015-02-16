@@ -362,6 +362,13 @@ $(function() {
 				btn.removeAttr('disabled');
 				btn.removeClass('disabled');
 				console.log(obj);
+				_this[0].reset();
+
+				if( obj.status_type == 'refresh' ){
+					setTimeout(function(){
+						location.reload();
+					}, 3000);
+				}
 			},
 			error: function(data){
 				var obj = jQuery.parseJSON(data);

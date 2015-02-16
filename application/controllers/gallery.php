@@ -79,21 +79,23 @@ class gallery extends account
 
 			$result_album = $this->gallery_model->get_album($album_params);
 
-			foreach ($result_album as $obj) {
-				$data['gallery_id']   = $obj->gallery_id;
-				$data['gallery_type'] = ( $obj->event_id === null )? 'custom' : 'event';
+			if( $result_album ){
+				foreach ($result_album as $obj) {
+					$data['gallery_id']   = $obj->gallery_id;
+					$data['gallery_type'] = ( $obj->event_id === null )? 'custom' : 'event';
 
-				//SEARCH PARAMETERS FOR ALBUM PHOTOS
-				array_push($photo_params, array(
-					'fieldname'=>'gallery_id',
-					'data'     =>$data['gallery_id']) );
+					//SEARCH PARAMETERS FOR ALBUM PHOTOS
+					array_push($photo_params, array(
+						'fieldname'=>'gallery_id',
+						'data'     =>$data['gallery_id']) );
 
-				// //GET ALBUM PHOTOS
-				$result_album_photos = $this->gallery_model->get_album_photos(
-						$data['gallery_type'], $photo_params);
+					//GET ALBUM PHOTOS
+					$result_album_photos = $this->gallery_model->get_album_photos(
+							$data['gallery_type'], $photo_params);
 
-				if( $result_album_photos ){
-					$data['result_album_photos'] = $result_album_photos;
+					if( $result_album_photos ){
+						$data['result_album_photos'] = $result_album_photos;
+					}
 				}
 			}
 
@@ -107,10 +109,11 @@ class gallery extends account
 			$this->upload_photo_modal();
 		}else{
 			$result_event_list = $this->gallery_model->get_events();
-		
+			$result_album      = $this->gallery_model->get_album();
+
 			$data['btn_upload']   = 'hide';
 			$data['event_list']   = $result_event_list;
-			$data['result_album'] = $this->gallery_model->get_album();
+			$data['result_album'] = $result_album;
 			$this->load->view('account/gallery', $data);
 			$this->custom_album_modal();
 			$this->event_album_modal();

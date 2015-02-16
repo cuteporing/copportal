@@ -95,8 +95,6 @@ class gallery_ajax extends CI_controller
 			$required_field = array('title');
 		}else{
 			$required_field = array('event');
-			echo common::response_msg(200, 'error', 'Something went wrong when saving the file, please try again.');
-		exit;
 		}
 
 		//IF THERE ARE MISSING INPUT DATA
@@ -123,10 +121,12 @@ class gallery_ajax extends CI_controller
 			echo $this->validate_album_create();
 			exit;
 		}
-		
-		$slug = url_title($this->input->post('title'), 'dash', TRUE);
+
+		$slug = '';
 
 		if( $this->input->post('album_type') == 'custom' ){
+			$slug = url_title($this->input->post('title'), 'dash', TRUE);
+
 			$data = array(
 				'title'        => $this->input->post('title'),
 				'description'  => $this->input->post('description'),
@@ -135,21 +135,20 @@ class gallery_ajax extends CI_controller
 				'slug'         => $slug
 				);
 		}else{
+
 			$result_event = $this->events_model->get_events(
-				'event_id', $this->input->pos('event'));
+				'event_id', $this->input->post('event'));
 
 			foreach ($result_event as $obj) {
-
-				$slug = url_title($obj->title, 'dash', TRUE);
-
 				$data = array(
-					'event_id'     => $this->input->pos('event'),
+					'event_id'     => $this->input->post('event'),
 					'title'        => $obj->title,
 					'description'  => $this->input->post('description'),
 					'date_entered' => common::get_today(),
 					'date_modified'=> common::get_today(),
-					'slug'         => $slug
+					'slug'         => $obj->slug
 					);
+				$slug = $obj->slug;
 			}
 		}
 
@@ -157,14 +156,15 @@ class gallery_ajax extends CI_controller
 
 		if( $result['status'] == 'error' ){
 			echo common::response_msg(200, $result['status'], $result['msg']);
-		}else{
+		}
+		else{
 			echo common::response_msg(200, 'refresh', base_url().'account/gallery/'.$slug);
 		}
 	}
 
 	/**
 	 * DELETES AN ALBUM
-	 * @return Array, $response
+	 * @return JSON response
 	 * --------------------------------------------------------
 	 */
 	public function delete_album()
@@ -178,10 +178,11 @@ class gallery_ajax extends CI_controller
 			echo common::response_msg(200, 'error', 'The album contains photos');
 		}
 	}
+
 	/**
 	 * UPLOADS A PHOTO
 	 * @param Array, $params
-	 * @return Array
+	 * @return JSON response
 	 * --------------------------------------------
 	 */
 	public function upload_gallery_photo($params = array())
@@ -223,18 +224,33 @@ class gallery_ajax extends CI_controller
 		}
 	}
 
+
+	/**
+	 * SAVE UPLOADED IMAGE INFO ON DATABASE
+	 * @param Array, $uploaded_photo
+	 * @return JSON response
+	 * --------------------------------------------
+	 */
 	public function save_photo($uploaded_photo)
 	{
-		if( $this->input->post('gallery_type') == 'custom' ){
-			$data = array(
-				'gallery_id'=>$this->input->post('gallery_id'),
-				'raw_name'  =>$uploaded_photo['raw_name'],
-				'file_path' =>common::get_constants('imgPath', 'GALLERY'),
-				'file_ext'  =>$uploaded_photo['file_ext'],
-				);
+		$gallery_id = $this->input->post('gallery_id');
+		$is_empty   = $this->gallery_model->check_album_empty($gallery_id);
+		$data = array(
+			'gallery_id'=>$gallery_id,
+			'raw_name'  =>$uploaded_photo['raw_name'],
+			'file_path' =>common::get_constants('imgPath', 'GALLERY'),
+			'file_ext'  =>$uploaded_photo['file_ext'],
+			);
+
+		$last_insert_id = $this->gallery_model->save_photo($data);
+		$result         = ( $last_insert_id !== FALSE )? true : false;
+
+		if( $last_insert_id !== FALSE && $is_empty === TRUE){
+			$default_cover = $this->gallery_model->default_cover_photo($gallery_id, $last_insert_id);
+			echo common::response_msg(200, 'refresh', $default_cover);
+			exit;
 		}
 
-		$result = $this->gallery_model->save_photo($data);
 		if( $result ){
 			echo common::response_msg(200, 'refresh', '');
 		}else{
