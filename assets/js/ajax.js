@@ -233,7 +233,6 @@ $(function() {
 			console.log("RESULT: ");
 			console.log("--------------------------------------");
 			console.log( result );
-			console.log( result.status_type );
 			if( result.status_type=='success' ){
 				//DISPLAY GENERAL SUCCESS MESSAGE
 				show_alert_msg(result.status_msg, 'success');
@@ -242,6 +241,9 @@ $(function() {
 			}else if( result.status_type == 'error'){
 				//DISPLAY GENERAL ERROR MESSAGE
 				show_alert_msg(result.status_msg, 'danger');
+			}else if( result.status_type == 'refresh' ){
+				//RELOAD PAGE
+				location.reload();
 			}
 		});
 	});

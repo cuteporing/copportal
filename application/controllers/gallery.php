@@ -71,6 +71,7 @@ class gallery extends account
 	public function get_gallery()
 	{
 		$album_slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+
 		if( $album_slug !== '' ){
 			// $params
 			$album_params = array();
@@ -109,8 +110,23 @@ class gallery extends account
 			$this->event_album_modal();
 			$this->upload_photo_modal();
 		}else{
+			$photo_params = array();
+
 			$result_event_list = $this->gallery_model->get_events();
 			$result_album      = $this->gallery_model->get_album();
+
+			foreach ($result_album as $obj) {
+				//SEARCH PARAMETERS FOR ALBUM PHOTOS
+				array_push($photo_params, array(
+					'fieldname'=>'gallery_id',
+					'data'     =>$obj->gallery_id) );
+
+				$result_photos = $this->gallery_model->get_album_photos($photo_params, '');
+
+				// $result_album['photos'] = $result_photos;
+			}
+			
+			print_r($result_album);
 
 			$data['btn_upload']   = 'hide';
 			$data['event_list']   = $result_event_list;

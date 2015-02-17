@@ -42,6 +42,10 @@ class common extends CI_controller
 				'DESCRIPTION'   => 'COP Tracer',
 				'KEYWORDS'      => 'cop, training, seminar, outreach, program',
 				'AUTHOR'        => 'KBVCodes, 2014', ),
+			'NoImage'   => array(
+				'FILE_PATH'     => 'assets/img/',
+				'RAW_NAME'      => 'noPhoto-icon',
+				'FILE_EXT'      => '.png'),
 			'imgPath'   => array(
 				'BANNER'        => './uploads/banner/',
 				'GALLERY'       => './uploads/gallery/',

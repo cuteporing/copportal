@@ -41,7 +41,11 @@
 					<?php if( is_null($obj->cover_photo_id) ): ?>
 						<img src="<?=base_url().'assets/img/noPhoto-icon.png' ?>">
 					<?php else: ?>
-						<img src="<?=base_url().$obj->file_path.$obj->raw_name.$obj->file_ext ?>">
+						<?php if( $obj->file_path !== '' && !is_null($obj->file_path)): ?>
+							<img src="<?=base_url().$obj->file_path.$obj->raw_name.$obj->file_ext ?>">
+						<?php else: ?>
+							<img src="<?=base_url().'assets/img/noPhoto-icon.png' ?>">
+						<?php endif; ?>
 					<?php endif; ?>
 				</div>
 			</div>
@@ -62,6 +66,7 @@
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">
+									<li><a href="<?=base_url() ?>gallery_ajax/cover_photo/<?=$obj->gallery_photos_id ?>" data-ajax="delete" data-del-type="refresh"><?=$this->lang->line('lbl_set_as_cover')?></a></li>
 									<li><a href="<?=base_url() ?>gallery_ajax/delete_photo/<?=$obj->gallery_photos_id ?>" data-ajax="delete" data-del-type="refresh"><?=$this->lang->line('lbl_delete_photo')?></a></li>
 								</ul>
 							</div>

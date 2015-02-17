@@ -272,7 +272,7 @@ class Gallery_model extends CI_Model {
 	 * @return Boolean
 	 * --------------------------------------------
 	 */
-	public function delete_album($gallery_photos_id)
+	public function delete_photo($gallery_photos_id)
 	{
 		$this->db->trans_begin();
 		$this->db->where('gallery_photos_id', $gallery_photos_id);
@@ -295,7 +295,7 @@ class Gallery_model extends CI_Model {
 		$this->db->where('gallery_id', $gallery_id);
 		$query = $this->db->get();
 
-		if( count($result) > 0 ){
+		if( count($query) > 0 ){
 			return $query->result();
 		}else{
 			return FALSE;

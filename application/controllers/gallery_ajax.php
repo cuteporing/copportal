@@ -258,6 +258,29 @@ class gallery_ajax extends CI_controller
 		}
 	}
 
+	public function cover_photo()
+	{
+		$photo_params = array();
+		$gallery_photos_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+
+		//SEARCH PARAMETERS FOR ALBUM PHOTOS
+		array_push($photo_params,
+			array('fieldname'=>'gallery_photos_id',
+				  'data'     =>$gallery_photos_id )
+		);
+
+		//GET ALBUM PHOTOS
+		$result_album_photos = $this->gallery_model->get_album_photos(
+				$photo_params, '', 1);
+
+		foreach ($result_album_photos as $photo) {
+			$gallery_id = $photo->gallery_id;
+
+			$result     = $this->gallery_model->default_cover_photo()
+
+		}
+	}
+
 	/**
 	 * DELETES A PHOTO
 	 * @return JSON response
@@ -278,12 +301,32 @@ class gallery_ajax extends CI_controller
 		$result_album_photos = $this->gallery_model->get_album_photos(
 				$photo_params, '', 1);
 
-		$result = $this->gallery_model->delete_photo($gallery_photos_id);
-		// if( $result ){
-			// echo common::response_msg(200, 'success', '');
-		// }else{
-			echo common::response_msg(200, 'error', 'The album contains photos', $result_album_photos);
-		// }
+		foreach ($result_album_photos as $photo) {
+			$gallery_id         = $photo->gallery_id;
+			$result_album_cover = $this->gallery_model->get_default_cover_photo($gallery_id);
+			$file_path          = $photo->file_path.$photo->raw_name.$photo->file_ext;
+
+			foreach ($result_album_cover as $album) {
+				$cover_id = $album->cover_photo_id;
+
+				// if( $gallery_photos_id == $cover_id ){
+				// 	$update =
+				// }
+
+				$result = $this->gallery_model->delete_photo($gallery_photos_id);
+				if( $result ){
+					@unlink($file_path);
+					echo common::response_msg(200, 'refresh', '');
+				}else{
+					echo common::response_msg(200, 'error', 'The album contains photos');
+				}
+
+			}
+		}
+
+		
+
+		
 	}
 
 }
