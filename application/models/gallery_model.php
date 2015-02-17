@@ -141,7 +141,7 @@ class Gallery_model extends CI_Model {
 	 * @return Array | Boolean <FALSE>
 	 * --------------------------------------------
 	 */
-	public function get_album_photos($type='custom', $search_param=array())
+	public function get_album_photos($search_param=array(), $type='custom', $limit=false)
 	{
 		if( count($search_param) > 0 ){
 
@@ -153,6 +153,12 @@ class Gallery_model extends CI_Model {
 			}
 
 			$this->db->from('cop_gallery_photos');
+
+			if( $limit ){
+				$limit = (Int) $limit;
+				$this->db->limit( $limit );
+			}
+
 			$query = $this->db->get();
 
 			if( $query->num_rows() > 0 ){
@@ -257,6 +263,42 @@ class Gallery_model extends CI_Model {
 		}else{
 			$this->db->trans_commit();
 			return $insert_id;
+		}
+	}
+
+	/**
+	 * DELETES A PHOTO
+	 * @param Integer, $gallery_photos_id
+	 * @return Boolean
+	 * --------------------------------------------
+	 */
+	public function delete_album($gallery_photos_id)
+	{
+		$this->db->trans_begin();
+		$this->db->where('gallery_photos_id', $gallery_photos_id);
+		$this->db->delete('cop_gallery_photos');
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			$this->db->trans_rollback();
+			return FALSE;
+		}else{
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
+
+	public function get_default_cover_photo($gallery_id)
+	{
+		$this->db->select('cover_photo_id');
+		$this->db->from('cop_gallery');
+		$this->db->where('gallery_id', $gallery_id);
+		$query = $this->db->get();
+
+		if( count($result) > 0 ){
+			return $query->result();
+		}else{
+			return FALSE;
 		}
 	}
 

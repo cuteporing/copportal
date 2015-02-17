@@ -62,7 +62,7 @@
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">
-									<li><a href="<?=base_url() ?>gallery_ajax/delete_photo"><?=$this->lang->line('lbl_delete_photo')?></a></li>
+									<li><a href="<?=base_url() ?>gallery_ajax/delete_photo/<?=$obj->gallery_photos_id ?>" data-ajax="delete" data-del-type="refresh"><?=$this->lang->line('lbl_delete_photo')?></a></li>
 								</ul>
 							</div>
 						</div>

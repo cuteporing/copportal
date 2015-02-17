@@ -91,7 +91,8 @@ class gallery extends account
 
 					//GET ALBUM PHOTOS
 					$result_album_photos = $this->gallery_model->get_album_photos(
-							$data['gallery_type'], $photo_params);
+							$photo_params,
+							$data['gallery_type']);
 
 					if( $result_album_photos ){
 						$data['result_album_photos'] = $result_album_photos;

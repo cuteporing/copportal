@@ -257,5 +257,34 @@ class gallery_ajax extends CI_controller
 			echo common::response_msg(200, 'error', 'Something went wrong when saving the file, please try again.');
 		}
 	}
+
+	/**
+	 * DELETES A PHOTO
+	 * @return JSON response
+	 * --------------------------------------------------------
+	 */
+	public function delete_photo()
+	{
+		$photo_params = array();
+
+		$gallery_photos_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		//SEARCH PARAMETERS FOR ALBUM PHOTOS
+		array_push($photo_params,
+			array('fieldname'=>'gallery_photos_id',
+				  'data'     =>$gallery_photos_id )
+		);
+
+		//GET ALBUM PHOTOS
+		$result_album_photos = $this->gallery_model->get_album_photos(
+				$photo_params, '', 1);
+
+		$result = $this->gallery_model->delete_photo($gallery_photos_id);
+		// if( $result ){
+			// echo common::response_msg(200, 'success', '');
+		// }else{
+			echo common::response_msg(200, 'error', 'The album contains photos', $result_album_photos);
+		// }
+	}
+
 }
 ?>
