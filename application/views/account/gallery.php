@@ -21,7 +21,7 @@
 <?php if( isset($result_album) ): ?>
 	<div class="row">
 	<?php foreach ($result_album as $obj): ?>
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<div class="box box-solid">
 				<div class="box-header">
 					<h3 class="box-title"><a href="<?=base_url() ?>account/gallery/<?=$obj->slug ?>"><?=$obj->title ?></a></h3>
@@ -66,7 +66,7 @@
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">
-									<li><a href="<?=base_url() ?>gallery_ajax/cover_photo/<?=$obj->gallery_photos_id ?>" data-ajax="delete" data-del-type="refresh"><?=$this->lang->line('lbl_set_as_cover')?></a></li>
+									<li><a href="<?=base_url() ?>gallery_ajax/cover_photo/<?=$obj->gallery_photos_id ?>"><span data-ajax="edit" data-ajax-confirm-msg=""><?=$this->lang->line('lbl_set_as_cover')?></span></a></li>
 									<li><a href="<?=base_url() ?>gallery_ajax/delete_photo/<?=$obj->gallery_photos_id ?>" data-ajax="delete" data-del-type="refresh"><?=$this->lang->line('lbl_delete_photo')?></a></li>
 								</ul>
 							</div>

@@ -255,9 +255,12 @@ $(function() {
 		var url  = ( $(this).attr('href') )? $(this).attr('href') : $(this).parent().attr('href');
 		var _this= $(this);
 		var confirm_msg = _this.data('ajax-confirm-msg');
-		if( show_alert_confirm(
-			confirm_msg, true) === 'no' ){
-			return;
+
+		if( confirm_msg != '' ){
+			if( show_alert_confirm(
+				confirm_msg, true) === 'no' ){
+				return;
+			}
 		}
 
 		$.get( url, function( data ) {

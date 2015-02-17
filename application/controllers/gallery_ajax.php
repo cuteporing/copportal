@@ -190,7 +190,7 @@ class gallery_ajax extends CI_controller
 		$status = "";
 		$msg = "";
 		$file_element_name = 'userfile';
-		
+
 		if ($status != "error"){
 			$upload_path   = ( isset($params['upload_path']) )?   $params['upload_path']   : common::get_constants('imgPath',   'GALLERY');
 			$allowed_types = ( isset($params['allowed_types']) )? $params['allowed_types'] : common::get_constants('imgConfig', 'ALLOWED_TYPES');
@@ -275,9 +275,13 @@ class gallery_ajax extends CI_controller
 
 		foreach ($result_album_photos as $photo) {
 			$gallery_id = $photo->gallery_id;
+			$result     = $this->gallery_model->default_cover_photo($gallery_id, $gallery_photos_id);
 
-			$result     = $this->gallery_model->default_cover_photo()
-
+			if( $result ){
+				echo common::response_msg(200, 'refresh', '');
+			}else{
+				echo common::response_msg(200, 'error', '');
+			}
 		}
 	}
 
@@ -323,11 +327,6 @@ class gallery_ajax extends CI_controller
 
 			}
 		}
-
-		
-
-		
 	}
-
 }
 ?>

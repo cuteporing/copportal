@@ -125,8 +125,6 @@ class gallery extends account
 
 				// $result_album['photos'] = $result_photos;
 			}
-			
-			print_r($result_album);
 
 			$data['btn_upload']   = 'hide';
 			$data['event_list']   = $result_event_list;
