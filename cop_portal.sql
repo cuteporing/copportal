@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2015 at 10:07 AM
+-- Generation Time: Feb 17, 2015 at 05:00 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -221,8 +221,8 @@ CREATE TABLE IF NOT EXISTS `cop_gallery` (
 --
 
 INSERT INTO `cop_gallery` (`gallery_id`, `event_id`, `cover_photo_id`, `title`, `description`, `date_entered`, `date_modified`, `slug`) VALUES
-(17, NULL, '1', 'SUPER', '', '2015-02-16 04:39:51', '2015-02-16 04:39:51', 'super'),
-(18, NULL, '3', 'TECH TUTOR 5', '', '2015-02-17 08:37:24', '2015-02-17 08:37:24', 'tech-tutor-5');
+(17, NULL, '2', 'SUPER', '', '2015-02-17 15:58:46', '2015-02-17 15:58:46', 'super'),
+(18, NULL, NULL, 'TECH TUTOR 5', '', '2015-02-17 15:49:57', '2015-02-17 15:49:57', 'tech-tutor-5');
 
 -- --------------------------------------------------------
 
@@ -236,7 +236,15 @@ CREATE TABLE IF NOT EXISTS `cop_gallery_photos` (
   `raw_name` varchar(255) NOT NULL,
   `file_path` varchar(255) NOT NULL,
   `file_ext` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cop_gallery_photos`
+--
+
+INSERT INTO `cop_gallery_photos` (`gallery_photos_id`, `gallery_id`, `raw_name`, `file_path`, `file_ext`) VALUES
+(2, 17, '13973_clippy', './uploads/gallery/', '.jpg'),
+(3, 17, '10505527_857203360988587_2455090279547794881_n', './uploads/gallery/', '.jpg');
 
 -- --------------------------------------------------------
 
@@ -375,7 +383,7 @@ MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
 -- AUTO_INCREMENT for table `cop_gallery_photos`
 --
 ALTER TABLE `cop_gallery_photos`
-MODIFY `gallery_photos_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `gallery_photos_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `cop_users`
 --
