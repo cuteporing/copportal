@@ -31,6 +31,14 @@ class manage_beneficiary extends account
 	{
 		return array(
 				0 => array(
+					'data_attr' =>array(
+						0 => array(
+							'data_name' =>'data-toggle',
+							'value'=>'tooltip'),
+						1 => array(
+							'data_name' =>'title',
+							'value'=>'Edit')
+						),
 					'icon' =>'fa fa-edit',
 					'title'=>'Edit',
 					'type' =>'info',
@@ -43,7 +51,13 @@ class manage_beneficiary extends account
 							'value'=>'delete'),
 						1 => array(
 							'data_name' =>'data-del-type',
-							'value'=>'table')),
+							'value'=>'table'),
+						2 => array(
+							'data_name' =>'data-toggle',
+							'value'=>'tooltip'),
+						3 => array(
+							'data_name' =>'title',
+							'value'=>'Delete')),
 					'icon' =>'fa fa-trash-o',
 					'title'=>'Delete',
 					'type' =>'danger',

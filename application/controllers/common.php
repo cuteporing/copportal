@@ -133,13 +133,15 @@ class common extends CI_controller
 		}elseif( in_array( strtolower($page), $bs_acct ) ){
 			array_push($script, 'assets/js/jquery.min.js');
 			array_push($script, 'assets/js/bootstrap.min.js');
-			array_push($script, 'assets/js/jquery-ui.min.js');
+			// array_push($script, 'assets/js/jquery-ui.min.js');
+
 			// array_push($script, 'assets/js/raphael-min.js');
 			// array_push($script, 'assets/js/plugins/morris/morris.min.js');
 			// array_push($script, 'assets/js/plugins/sparkline/jquery.sparkline.min.js');
 			// array_push($script, 'assets/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js');
 			// array_push($script, 'assets/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js');
 			// array_push($script, 'assets/js/plugins/jqueryKnob/jquery.knob.js');
+
 			array_push($script, 'assets/js/plugins/input-mask/jquery.inputmask.js');
 			array_push($script, 'assets/js/plugins/input-mask/jquery.inputmask.date.extensions.js');
 			array_push($script, 'assets/js/plugins/input-mask/jquery.inputmask.extensions.js');

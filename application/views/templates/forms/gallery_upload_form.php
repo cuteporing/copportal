@@ -13,7 +13,7 @@
 	<p class="error"></p>
 </div>
 
-<input type="submit" class="btn btn-success btn-block"  value="upload" />
+<input type="submit" class="btn btn-success btn-block disabled" value="upload" disabled />
 
 <?php echo form_close(); ?>
 

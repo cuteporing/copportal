@@ -48,12 +48,28 @@ class events extends account
 		}else{
 			return array(
 				0 => array(
+					'data_attr' =>array(
+						0 => array(
+							'data_name' =>'data-toggle',
+							'value'=>'tooltip'),
+						1 => array(
+							'data_name' =>'title',
+							'value'=>'Event beneficiaries')
+						),
 					'icon' =>'fa fa-plus-square-o',
 					'title'=>'Join',
 					'type' =>'success',
 					'url'  =>'account/events/manage/',
 					),
 				1 => array(
+					'data_attr' =>array(
+						0 => array(
+							'data_name' =>'data-toggle',
+							'value'=>'tooltip'),
+						1 => array(
+							'data_name' =>'title',
+							'value'=>'Edit')
+						),
 					'icon' =>'fa fa-edit',
 					'title'=>'Edit',
 					'type' =>'info',
@@ -66,7 +82,13 @@ class events extends account
 							'value'=>'delete'),
 						1 => array(
 							'data_name' =>'data-del-type',
-							'value'=>'table')),
+							'value'=>'table'),
+						2 => array(
+							'data_name' =>'data-toggle',
+							'value'=>'tooltip'),
+						3 => array(
+							'data_name' =>'title',
+							'value'=>'Delete')),
 					'icon' =>'fa fa-trash-o',
 					'title'=>'Delete',
 					'type' =>'danger',
@@ -79,7 +101,13 @@ class events extends account
 							'value'=>'edit'),
 						1 => array(
 							'data_name' =>'data-ajax-confirm-msg',
-							'value'=>'Close the event?')),
+							'value'=>'Close the event?'),
+						2 => array(
+							'data_name' =>'data-toggle',
+							'value'=>'tooltip'),
+						3 => array(
+							'data_name' =>'title',
+							'value'=>'Close')),
 					'icon' =>'fa fa-ban',
 					'title'=>'Close',
 					'type' =>'warning',

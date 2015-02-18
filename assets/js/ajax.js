@@ -46,6 +46,23 @@ $(function() {
 		});
 	}
 
+	function create_call_out_info(type, header, msg){
+		var call_out_class = 'callout callout-'+type;
+		var call_out_box = '<div class="';
+
+		( header === undefined || header == '')?
+			header = ''
+		:	header = '<h4>'+header+'</h4>';
+
+		( msg === undefined || msg == '')?
+			msg = ''
+		:	msg = '<p>'+msg+'</p>';
+
+		return call_out_box +
+				call_out_class + '">' +
+				header + msg + '</div>';
+	}
+
 	// CREATES AN ALERT MESSAGE
 	// AVAILABLE CLASS:
 	// - danger
@@ -332,6 +349,17 @@ $(function() {
 		result_list.show();
 	});
 
+	$('input[type="file"]').change(function(){
+		console.log("onchange ");
+		var _this = $(this);
+		if( _this.val() == '' ) return;
+
+		_this.parents('form')
+			.find('input[type="submit"]')
+			.removeAttr('disabled')
+			.removeClass('disabled');
+	});
+
 	//UPLOAD FILES
 	// --------------------------------------------
 	$('form[enctype]').submit(function(e) {
@@ -344,6 +372,8 @@ $(function() {
 
 		btn.attr('disabled');
 		btn.addClass('disabled');
+		_this.find('input[type="file"]').hide();
+		_this.find('label[for="userfile"]').hide();
 		progressbar.removeClass('hide');
 
 		console.log( $('.progress').length );
@@ -362,16 +392,26 @@ $(function() {
 					width: '100%'
 				}, 1000, function(){
 					progressbar.fadeOut(1500);
+					if( obj.status_type == 'refresh' ){
+						btn.hide();
+					}else{
+						btn.removeAttr('disabled');
+						btn.removeClass('disabled');
+					}
 				});
-				btn.removeAttr('disabled');
-				btn.removeClass('disabled');
 				console.log(obj);
 				_this[0].reset();
 
 				if( obj.status_type == 'refresh' ){
+
+					_this.append(create_call_out_info('info', '', obj.status_msg));
+
 					setTimeout(function(){
 						location.reload();
 					}, 3000);
+				}else if( obj.status_type == 'error' ){
+					_this.find('input[type="file"]').show();
+					_this.find('label[for="userfile"]').show();
 				}
 			},
 			error: function(data){

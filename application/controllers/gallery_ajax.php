@@ -252,7 +252,7 @@ class gallery_ajax extends CI_controller
 		}
 
 		if( $result ){
-			echo common::response_msg(200, 'refresh', '');
+			echo common::response_msg(200, 'refresh', 'Done uploading!');
 		}else{
 			echo common::response_msg(200, 'error', 'Something went wrong when saving the file, please try again.');
 		}
@@ -274,7 +274,7 @@ class gallery_ajax extends CI_controller
 				$photo_params, '', 1);
 
 		foreach ($result_album_photos as $photo) {
-			$gallery_id = $photo->gallery_id;
+			$gallery_id = $photo['gallery_id'];
 			$result     = $this->gallery_model->default_cover_photo($gallery_id, $gallery_photos_id);
 
 			if( $result ){
@@ -306,12 +306,12 @@ class gallery_ajax extends CI_controller
 				$photo_params, '', 1);
 
 		foreach ($result_album_photos as $photo) {
-			$gallery_id         = $photo->gallery_id;
+			$gallery_id         = $photo['gallery_id'];
 			$result_album_cover = $this->gallery_model->get_default_cover_photo($gallery_id);
-			$file_path          = $photo->file_path.$photo->raw_name.$photo->file_ext;
+			$file_path          = $photo['file_path'].$photo['raw_name'].$photo['file_ext'];
 
 			foreach ($result_album_cover as $album) {
-				$cover_id = $album->cover_photo_id;
+				$cover_id = $album['cover_photo_id'];
 
 				// if( $gallery_photos_id == $cover_id ){
 				// 	$update =

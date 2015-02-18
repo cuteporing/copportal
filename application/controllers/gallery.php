@@ -82,8 +82,8 @@ class gallery extends account
 
 			if( $result_album ){
 				foreach ($result_album as $obj) {
-					$data['gallery_id']   = $obj->gallery_id;
-					$data['gallery_type'] = ( $obj->event_id === null )? 'custom' : 'event';
+					$data['gallery_id']   = $obj['gallery_id'];
+					$data['gallery_type'] = ( $obj['event_id'] === null )? 'custom' : 'event';
 
 					//SEARCH PARAMETERS FOR ALBUM PHOTOS
 					array_push($photo_params, array(
@@ -119,7 +119,7 @@ class gallery extends account
 				//SEARCH PARAMETERS FOR ALBUM PHOTOS
 				array_push($photo_params, array(
 					'fieldname'=>'gallery_id',
-					'data'     =>$obj->gallery_id) );
+					'data'     =>$obj['gallery_id']) );
 
 				$result_photos = $this->gallery_model->get_album_photos($photo_params, '');
 

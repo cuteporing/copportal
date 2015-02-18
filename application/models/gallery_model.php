@@ -104,7 +104,7 @@ class Gallery_model extends CI_Model {
 			$query = $this->db->get();
 
 			if( $query->num_rows() > 0 ){
-				return $query->result();
+				return $query->result_array();
 			}else{
 				return FALSE;
 			}
@@ -130,7 +130,7 @@ class Gallery_model extends CI_Model {
 
 			$query = $this->db->get();
 
-			return $query->result();
+			return $query->result_array();
 		}
 	}
 
@@ -162,7 +162,7 @@ class Gallery_model extends CI_Model {
 			$query = $this->db->get();
 
 			if( $query->num_rows() > 0 ){
-				return $query->result();
+				return $query->result_array();
 			}else{
 				return FALSE;
 			}
@@ -296,7 +296,7 @@ class Gallery_model extends CI_Model {
 		$query = $this->db->get();
 
 		if( count($query) > 0 ){
-			return $query->result();
+			return $query->result_array();
 		}else{
 			return FALSE;
 		}
