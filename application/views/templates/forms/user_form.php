@@ -1,4 +1,11 @@
-
+<div class="row">
+	<div class="col-md-8"></div>
+	<div class="col-md-4">
+		<a class="btn btn-warning btn-block" data-toggle="modal" data-target="#change-password-modal">
+			<i class="fa fa-lock"></i> Change password
+		</a><br>
+	</div>
+</div>
 <?php if( isset($result) ): ?>
 	<?php echo form_open('manage_users_ajax/edit/') ?>
 	<input  type="text" class="form-control hide" name="id" value="<?php if(isset($result->id)){ echo $result->id; } ?>">
@@ -138,9 +145,7 @@
 					</div>
 				</div>
 			</div>
-			<a class="btn btn-warning btn-block" data-toggle="modal" data-target="#change-password-modal">
-				<i class="fa fa-lock"></i> Change password
-			</a><br>
+
 		<?php else: ?>
 			<input type="hidden" name="status" class="minimal-red" value="Active" checked/>
 		<?php endif; ?>
@@ -180,8 +185,6 @@
 			</div><!--//END box-body -->
 		</div><!--//END box-primary -->
 	</div><!--//END col-md-4 -->
-
-
 </div>
 <?php echo form_close(); ?>
 

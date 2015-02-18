@@ -70,6 +70,7 @@ $route['manage_beneficiary_ajax/delete/(:any)'] = 'manage_beneficiary_ajax/delet
 
 //MANAGE USERS
 $route['manage_users_ajax/create']              = 'manage_users_ajax/create/$1';
+$route['manage_users_ajax/change_password']     = 'manage_users_ajax/change_password/$1';
 $route['manage_users_ajax/delete/(:any)']       = 'manage_users_ajax/delete/$1';
 $route['manage_users_ajax/edit']                = 'manage_users_ajax/edit/$1';
 

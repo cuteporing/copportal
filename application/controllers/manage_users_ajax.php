@@ -122,6 +122,25 @@ class manage_users_ajax extends CI_controller
 	}
 
 	/**
+	 * VALIDATES ALL POST DATA NEEDED FOR CHANGING USER'S
+	 * PASSWORD
+	 * @return Array, $error_log
+	 * --------------------------------------------------------
+	 */
+	public function validate_change_pass()
+	{
+		$error_log = array();
+		$required_field = array('user_password');
+		//IF THERE ARE MISSING INPUT DATA
+		if( count($this->validate_required($required_field)) > 0 ){
+			$error_log = $this->validate_required($required_field);
+			return common::response_msg(200, 'error_field', '', $error_log);
+		}else{
+			return FALSE;
+		}
+	}
+
+	/**
 	 * CREATES A USER
 	 * @return Array, $response
 	 * --------------------------------------------------------
@@ -270,6 +289,47 @@ class manage_users_ajax extends CI_controller
 			echo common::response_msg(200, 'success', 'User has been deleted');
 		}else{
 			echo common::response_msg(200, 'error', 'Cannot delete user');
+		}
+	}
+
+	/**
+	 * CHANGE USER'S PASSWORD
+	 * @return Array, $response
+	 * --------------------------------------------------------
+	 */
+	public function change_password()
+	{
+		if( $this->validate_change_pass() ){
+			echo $this->validate_change_pass();
+			exit;
+		}
+		$users = new users;
+
+		// GET PHP VERSION TO DETERMINE WHAT KIND OF ENCRYPTION
+		// TO BE USED
+		$version = $users->checkPHPVersion();
+
+		$user_info = array(
+			'user_name' =>$this->input->post('user_name'),
+			'crypt_type'=>''
+			);
+
+		//GET THE ENCRYPTED PASSWORD W/ SALT
+		$encrypt_pass = $users->encrypt_password(
+			$user_info, $this->input->post('user_password'));
+
+		$data = array(
+			'id'                =>$this->input->post('id'),
+			'first_name'        =>$this->input->post('first_name'),
+			'user_name'         =>$this->input->post('user_name'),
+			'user_password'     =>$encrypt_pass,
+			);
+		$result = $this->users_model->update_user($data);
+
+		if( $result ){
+			echo common::response_msg(200, 'refresh', base_url().'account/manage_users/edit/'.$this->input->post('id'));
+		}else{
+			echo common::response_msg(200, 'error', 'Cannot change password');
 		}
 	}
 }

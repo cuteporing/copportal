@@ -75,12 +75,15 @@ class manage_users extends account
 	 * @return modal
 	 * --------------------------------------------
 	 */
-	public function change_password_modal()
+	public function change_password_modal($result)
 	{
+		$data['id']           = $result->id;
+		$data['user_name']    = $result->user_name;
+		$data['first_name']   = $result->first_name;
 		$data['modal_id']     = 'change-password-modal';
 		$data['modal_header'] = '<i class="fa fa-key"></i> Change password';
 		$this->load->view('templates/modal/modal_header', $data);
-		// $this->load->view('templates/forms/custom_album_form', $data);
+		$this->load->view('templates/forms/change_password_form', $data);
 		$this->load->view('templates/modal/modal_footer', $data);
 	}
 
@@ -145,9 +148,9 @@ class manage_users extends account
 		$data['selected']    = $selected;
 		$data['city_list']   = $this->city_model->get_cities();
 		$data['gender_list'] = $this->get_gender();
-
+	
+		$this->change_password_modal($result[0]);
 		$this->load->view('templates/forms/user_form', $data);
-		$this->change_password_modal();
 	}
 
 	/**

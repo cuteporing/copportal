@@ -40,8 +40,8 @@ $(function() {
 		$('.error').empty();
 	}
 
-	function hide_error_highlight(){
-		$('input').each(function() {
+	function hide_error_highlight(form){
+		form.find('input').each(function() {
 			$(this).removeAttr('style');
 		});
 	}
@@ -163,10 +163,10 @@ $(function() {
 		e.preventDefault();
 		hide_alert_msg();
 		hide_error_field();
-		hide_error_highlight();
 		var form = $(this);
+		hide_error_highlight(form);
 		var btn  = form.find('input[type="submit"]');
-
+		console.log( form.attr('action') );
 		$.post(
 			form.attr('action'),
 			form.serialize(),
