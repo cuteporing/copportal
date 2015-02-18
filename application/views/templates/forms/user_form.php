@@ -124,23 +124,23 @@
 	<div class="col-md-4">
 		<?php if( isset($result) ): ?>
 			<div class="box box-primary">
-				<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_disable_account')?></h3></div>
+				<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_account_status')?></h3></div>
 				<div class="box-body">
 					<div class="form-group">
 						<label>
-							<input type="radio" name="status" class="minimal-red" value="Inactive"/>
-							Yes
-						</label>
+							<input type="radio" name="status" class="minimal" value="Inactive" <?php if( $result->status == "Inactive"){ echo 'checked'; } ?>/>
+							Disabled
+						</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<label>
-							<input type="radio" name="status" class="minimal-red" value="Active" checked/>
-							No
+							<input type="radio" name="status" class="minimal" value="Active" <?php if( $result->status == "Active"){ echo 'checked'; } ?>/>
+							Active
 						</label>
 					</div>
 				</div>
 			</div>
-			<button class="btn btn-warning btn-block" data>
+			<a class="btn btn-warning btn-block" data-toggle="modal" data-target="#change-password-modal">
 				<i class="fa fa-lock"></i> Change password
-			</button><br>
+			</a><br>
 		<?php else: ?>
 			<input type="hidden" name="status" class="minimal-red" value="Active" checked/>
 		<?php endif; ?>

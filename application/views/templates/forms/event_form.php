@@ -65,22 +65,23 @@
 				 *********************************
 		-->
 		<?php if( isset($result) ): ?>
-		<div class="box box-primary">
-			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_disable_account')?></h3></div>
+		<div class="box box-success">
+			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_event_status')?></h3></div>
 			<div class="box-body">
 				<div class="form-group">
 					<label>
-						<input type="radio" name="status" class="minimal-red" value="close"/>
-						Yes
-					</label>
+						<input type="radio" name="status" class="minimal" value="close" <?php if( $result->status == "close"){ echo 'checked'; } ?>/>
+						Close
+					</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<label>
-						<input type="radio" name="status" class="minimal-red" value="open" checked/>
-						No
+						<input type="radio" name="status" class="minimal" value="open" <?php if( $result->status == "open"){ echo 'checked'; } ?>/>
+						Open
 					</label>
 				</div>
 			</div>
 		</div>
 		<?php endif; ?>
+
 		<div class="box box-primary">
 			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_event_details')?></h3></div>
 			<div class="box-body">

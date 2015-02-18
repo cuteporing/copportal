@@ -364,7 +364,7 @@ class events_ajax extends CI_controller
 			'event_id'        =>$this->input->post('event_id'),
 			'owner_id'        =>$session_data['id'],
 			'title'           =>$this->input->post('title'),
-			'status'          =>'open',
+			'status'          =>$this->input->post('status'),
 			'category_id'     =>$this->input->post('category'),
 			'date_entered'    =>common::get_today(),
 			'date_start'      =>$date_start,

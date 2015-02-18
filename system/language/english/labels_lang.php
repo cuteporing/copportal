@@ -2,6 +2,7 @@
 
 $lang['lbl_about_us'] = 'About Us';
 $lang['lbl_accept'] = 'Accept';
+$lang['lbl_account_status'] = 'Account status';
 $lang['lbl_add_beneficiary'] = 'Add beneficiary';
 $lang['lbl_add_member'] = 'Add member';
 $lang['lbl_admin'] = 'Admin';
@@ -11,12 +12,13 @@ $lang['lbl_contact_us'] = 'Contact Us';
 $lang['lbl_create_announcement'] = 'Create new announcement';
 $lang['lbl_create_events'] = 'Create new events';
 $lang['lbl_create_user'] = 'Create user';
-$lang['lbl_disable_account'] = 'Disable account?';
+// $lang['lbl_disable_account'] = 'Disable account?';
 $lang['lbl_edit_announcement'] = 'Edit announcement';
 $lang['lbl_edit_beneficiary'] = 'Edit beneficiary';
 $lang['lbl_edit_user'] = 'Edit user';
 $lang['lbl_event_description'] = 'Event Description';
 $lang['lbl_event_details'] = 'Event details';
+$lang['lbl_event_status'] = 'Event status';
 $lang['lbl_edit_events'] = 'Edit event';
 $lang['lbl_forgot_password'] = 'I forgot my password';
 $lang['lbl_forum'] = 'Forum';

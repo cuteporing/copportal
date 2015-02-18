@@ -69,6 +69,21 @@ class manage_users extends account
 				);
 	}
 
+
+	/**
+	 * CREATE A PASSWORD FORM MODAL
+	 * @return modal
+	 * --------------------------------------------
+	 */
+	public function change_password_modal()
+	{
+		$data['modal_id']     = 'change-password-modal';
+		$data['modal_header'] = '<i class="fa fa-key"></i> Change password';
+		$this->load->view('templates/modal/modal_header', $data);
+		// $this->load->view('templates/forms/custom_album_form', $data);
+		$this->load->view('templates/modal/modal_footer', $data);
+	}
+
 	/**
 	 * GENDER COMBO BOX
 	 * @return Array
@@ -131,7 +146,8 @@ class manage_users extends account
 		$data['city_list']   = $this->city_model->get_cities();
 		$data['gender_list'] = $this->get_gender();
 
-		return $this->load->view('templates/forms/user_form', $data);
+		$this->load->view('templates/forms/user_form', $data);
+		$this->change_password_modal();
 	}
 
 	/**
