@@ -21,8 +21,6 @@ class gallery_ajax extends CI_controller
 	{
 		parent::__construct();
 		$this->load->helper('file');
-		$this->load->helper('url');
-		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 		$this->load->model('events_model');
 		$this->load->model('gallery_model');
@@ -192,7 +190,7 @@ class gallery_ajax extends CI_controller
 		$file_element_name = 'userfile';
 
 		if ($status != "error"){
-			$upload_path   = ( isset($params['upload_path']) )?   $params['upload_path']   : common::get_constants('imgPath',   'GALLERY');
+			$upload_path   = ( isset($params['upload_path']) )?   $params['upload_path']   : './'.common::get_constants('imgPath',   'GALLERY');
 			$allowed_types = ( isset($params['allowed_types']) )? $params['allowed_types'] : common::get_constants('imgConfig', 'ALLOWED_TYPES');
 			$max_size      = ( isset($params['max_size']) )?      $params['max_size']      : common::get_constants('imgConfig', 'MAX_SIZE');
 			$max_width     = ( isset($params['max_width']) )?     $params['max_width']     : common::get_constants('imgConfig', 'MAX_WIDTH');
@@ -209,7 +207,8 @@ class gallery_ajax extends CI_controller
 
 			if (!$this->upload->do_upload($file_element_name)){
 				$status = 'error';
-				$msg = $this->upload->display_errors('', '');
+				$msg    =  $this->upload->display_errors('', '');
+				echo common::response_msg(200, 'error', $msg);
 			}else{
 				$data = $this->upload->data();
 				$image_path = $data['full_path'];
@@ -247,12 +246,12 @@ class gallery_ajax extends CI_controller
 
 		if( $last_insert_id !== FALSE && $is_empty === TRUE){
 			$default_cover = $this->gallery_model->default_cover_photo($gallery_id, $last_insert_id);
-			echo common::response_msg(200, 'refresh', 'Done uploading!');
+			echo common::response_msg(200, 'refresh', '');
 			exit;
 		}
 
 		if( $result ){
-			echo common::response_msg(200, 'refresh', 'Done uploading!');
+			echo common::response_msg(200, 'refresh', '');
 		}else{
 			echo common::response_msg(200, 'error', 'Something went wrong when saving the file, please try again.');
 		}

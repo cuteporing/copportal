@@ -13,7 +13,6 @@ $(function() {
 		( confirm( msg ) == true )?
 			x = 'yes' : x = 'no';
 
-		console.log(x);
 		$('#confirm').val( x );
 		if( x == 'yes' && is_form === false){
 			$(":submit").click();
@@ -197,7 +196,6 @@ $(function() {
 					if( result.status_msg != '' ){
 						btn.data('redirect-link', result.status_msg);
 						btn.data('del-type', 'redirect');
-						console.log( btn.data('redirect-link') );
 						remove_data(btn);
 					}else{
 						location.reload();
@@ -305,7 +303,6 @@ $(function() {
 		var name        = _this.attr('name');
 
 		var MIN_LENGTH  = 3;
-		console.log( url );
 		//CHECK IF NO. OF CHARS IS MORE THAN 3 BEFORE MAKING AN AJAX REQUEST
 		if (keyword.length >= MIN_LENGTH) {
 			$.get( url, { keyword: keyword } )
@@ -350,7 +347,6 @@ $(function() {
 	});
 
 	$('input[type="file"]').change(function(){
-		console.log("onchange ");
 		var _this = $(this);
 		if( _this.val() == '' ) return;
 
@@ -376,7 +372,6 @@ $(function() {
 		_this.find('label[for="userfile"]').hide();
 		progressbar.removeClass('hide');
 
-		console.log( $('.progress').length );
 		$.ajax({
 			type: "POST",
 			url: url,
@@ -387,31 +382,36 @@ $(function() {
 			success: function(data){
 				var obj = jQuery.parseJSON(data);
 
-				//ANIMATE PROGRESS BAR WHEN UPLOAD IS SUCCESS
-				progressbar.find('.progress-bar').animate({
-					width: '100%'
-				}, 1000, function(){
-					progressbar.fadeOut(1500);
-					if( obj.status_type == 'refresh' ){
-						btn.hide();
-					}else{
-						btn.removeAttr('disabled');
-						btn.removeClass('disabled');
-					}
-				});
-				console.log(obj);
-				_this[0].reset();
-
 				if( obj.status_type == 'refresh' ){
+					//ANIMATE PROGRESS BAR WHEN UPLOAD IS SUCCESS
+					progressbar.find('.progress-bar').animate({
+						width: '100%'
+					}, 1000, function(){
+						progressbar.fadeOut(1500);
+						if( obj.status_type == 'refresh' ){
+							btn.hide();
+						}else{
+							btn.removeAttr('disabled');
+							btn.removeClass('disabled');
+						}
+					});
+					console.log(obj);
 
-					_this.append(create_call_out_info('info', '', obj.status_msg));
+					if( obj.status_msg != '' ){
+						_this.append(create_call_out_info('info', '', obj.status_msg));
+					}
 
 					setTimeout(function(){
 						location.reload();
 					}, 3000);
 				}else if( obj.status_type == 'error' ){
+					progressbar.addClass('hide');
+					_this[0].reset();
 					_this.find('input[type="file"]').show();
 					_this.find('label[for="userfile"]').show();
+					_this.find('input[name="userfile"]').next().html(obj.status_msg);
+					btn.removeAttr('disabled');
+					btn.removeClass('disabled');
 				}
 			},
 			error: function(data){

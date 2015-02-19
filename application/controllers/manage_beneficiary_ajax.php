@@ -21,7 +21,6 @@ class manage_beneficiary_ajax extends CI_controller
 	{
 		parent::__construct();
 		$this->load->helper('file');
-		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 		$this->load->model('beneficiary_model');
 	}

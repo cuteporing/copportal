@@ -11,36 +11,28 @@
 					</form>
 				</div>
 			</div>
-			<a href="#" class="btn-left arrow-left fa fa-angle-left"></a>
-			<a href="#" class="btn-left arrow-right fa fa-angle-right"></a>
+			<?php if( $swipper_arrow == true ): ?>
+					<a href="#" class="btn-left arrow-left fa fa-angle-left"></a>
+					<a href="#" class="btn-left arrow-right fa fa-angle-right"></a>
+			<?php endif; ?>
 		</div>
 		<div class="menu-wrapper col-md-9 col-sm-6 col-xs-4">
 			<a href="#" class="toggle-menu visible-sm visible-xs"><i class="fa fa-bars"></i></a>
 			<ul class="sf-menu hidden-xs hidden-sm">
-				<li class="active"><a href="index.html">Home</a></li>
-				<li><a href="services.html">Services</a></li>
-				<li><a href="#">Projects</a>
-					<ul>
-						<li><a href="projects-2.html">Two Columns</a></li>
-						<li><a href="projects-3.html">Three Columns</a></li>
-						<li><a href="project-details.html">Project Single</a></li>
-					</ul>
-				</li>
-				<li><a href="#">Blog</a>
-					<ul>
-						<li><a href="blog.html">Blog Masonry</a></li>
-						<li><a href="blog-single.html">Post Single</a></li>
-					</ul>
-				</li>
-				<li><a href="#">Pages</a>
-					<ul>
-						<li><a href="our-team.html">Our Team</a></li>
-						<li><a href="archives.html">Archives</a></li>
-						<li><a href="grids.html">Columns</a></li>
-						<li><a href="404.html">404 Page</a></li>
-					</ul>
-				</li>
-				<li><a href="login">Sign in</a></li>
+				<?php if( count($top_nav) > 0 ): ?>
+					<?php foreach ($top_nav as $row): ?>
+						<li>
+							<a href="<?=base_url().$row['link'] ?>" data-page="<?=$row['slug'] ?>"><?=$row['title'] ?></a>
+							<?php if( count($row['subtab']) > 0 ): ?>
+								<ul>
+								<?php foreach ($row['subtab'] as $sub): ?>
+									<li><a href="<?=base_url().$sub['link'] ?>" data-page="<?=$row['slug'] ?>"><?=$sub['title'] ?></a></li>
+								<?php endforeach; ?>
+								</ul>
+							<?php endif; ?>
+						</li>
+					<?php endforeach; ?>
+				<?php endif; ?>
 			</ul>
 		</div>
 	</div>

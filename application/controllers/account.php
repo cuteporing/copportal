@@ -30,7 +30,6 @@ class account extends CI_controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 	}
 

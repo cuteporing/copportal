@@ -64,13 +64,12 @@ class Announcements_model extends CI_Model {
 	public function get_announcements($search_by='', $data='')
 	{
 		if( $search_by == '' ){
+			$this->db->order_by("date_entered", "desc");
 			$query = $this->db->get('cop_announcements');
-			// $this->db->order_by("date_entered", "desc");
 			return $query->result_array();
 		}else{
 			$this->db->where($search_by, $data);
 			$this->db->from('cop_announcements');
-			$this->db->limit(1);
 			$query = $this->db->get();
 
 			if( $query->num_rows() == 1 ){

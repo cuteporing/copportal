@@ -16,7 +16,7 @@
 		</div>
 		<div class="footer">
 			<button type="submit" class="btn bg-olive btn-block"><?=$this->lang->line('lbl_sign_me_in')?></button>
-			<p><a href="forgot_password"><?=$this->lang->line('lbl_forgot_password')?></a></p>
+			<!-- <p><a href="forgot_password"><?=$this->lang->line('lbl_forgot_password')?></a></p> -->
 			<!-- <a href="register" class="text-center"><?=$this->lang->line('lbl_register_member')?></a> -->
 		</div>
 	<?php echo form_close(); ?>

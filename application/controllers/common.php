@@ -47,9 +47,10 @@ class common extends CI_controller
 				'RAW_NAME'      => 'noPhoto-icon',
 				'FILE_EXT'      => '.png'),
 			'imgPath'   => array(
-				'BANNER'        => './uploads/banner/',
-				'GALLERY'       => './uploads/gallery/',
-				'GENERAL'       => './uploads/', ),
+				'ANNOUNCEMENT'  => 'uploads/announcement/',
+				'BANNER'        => 'uploads/banner/',
+				'GALLERY'       => 'uploads/gallery/',
+				'GENERAL'       => 'uploads/', ),
 			'imgConfig' => array(
 				'ALLOWED_TYPES' => 'gif|jpg|png',
 				'MAX_SIZE'      => '100',
@@ -83,7 +84,7 @@ class common extends CI_controller
 		//VIEW PAGES
 		$bs_dark = array('login', 'forgot_password', 'register');
 
-		$artcore = array('home');
+		$artcore = array('home', 'announcement');
 
 		if( in_array( strtolower($page), $bs_dark ) ){
 			array_push($style, 'assets/css/bootstrap/bootstrap.min.css');
@@ -137,13 +138,14 @@ class common extends CI_controller
 
 		$bs_dark = array('login', 'forgot_password', 'register');
 
-		$artcore = array('home');
+		$artcore = array('home', 'announcement');
 
 		if( in_array( strtolower($page), $bs_dark ) ){
 			array_push($script, 'assets/js/bootstrap/jquery.min.js');
 			array_push($script, 'assets/js/bootstrap/bootstrap.min.js');
 		}elseif( in_array( strtolower($page), $bs_acct ) ){
 			array_push($script, 'assets/js/bootstrap/jquery.min.js');
+			array_push($script, 'assets/js/jquery.session.js');
 			array_push($script, 'assets/js/bootstrap/bootstrap.min.js');
 			// array_push($script, 'assets/js/bootstrap/jquery-ui.min.js');
 			// array_push($script, 'assets/js/bootstrap/raphael-min.js');

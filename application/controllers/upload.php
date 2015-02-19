@@ -20,8 +20,8 @@ class upload extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->helper(array('form', 'url'));
-		$this->load->helper('url');
+		// $this->load->helper(array('form', 'url'));
+		// $this->load->helper('url');
 	}
 	public function index()
 	{

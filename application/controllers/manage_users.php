@@ -21,7 +21,6 @@ class manage_users extends account
 		$this->load->model('city_model');
 		$this->load->model('events_model');
 		$this->load->model('users_model');
-		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 	}
 

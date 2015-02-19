@@ -20,7 +20,6 @@ class users extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('users_model');
-		$this->load->helper(array('form', 'url'));
 		$this->load->helper('security');
 		$this->load->library('form_validation');
 	}

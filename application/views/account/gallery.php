@@ -39,12 +39,12 @@
 				</div>
 				<div class="box-body" style="text-align:center;">
 					<?php if( is_null($row['cover_photo_id']) ): ?>
-						<img src="<?=base_url().'assets/img/noPhoto-icon.png' ?>" style="height:150px; width:150px; max-height:350px; max-width:350px">
+						<a href="<?=base_url() ?>account/gallery/<?=$row['slug'] ?>"><img src="<?=base_url().'assets/img/noPhoto-icon.png' ?>" style="height:150px; width:150px; max-height:350px; max-width:350px"></a>
 					<?php else: ?>
 						<?php if( $row['file_path'] !== '' && !is_null($row['file_path'])): ?>
-							<img src="<?=base_url().$row['file_path'].$row['raw_name'].$row['file_ext'] ?>" style="height:150px; width:150px; max-height:350px; max-width:350px">
+							<a href="<?=base_url() ?>account/gallery/<?=$row['slug'] ?>"><img src="<?=base_url().$row['file_path'].$row['raw_name'].$row['file_ext'] ?>" style="height:150px; width:150px; max-height:350px; max-width:350px"></a>
 						<?php else: ?>
-							<img src="<?=base_url().'assets/img/noPhoto-icon.png' ?>" style="height:150px; width:150px; max-height:350px; max-width:350px">
+							<a href="<?=base_url() ?>account/gallery/<?=$row['slug'] ?>"><img src="<?=base_url().'assets/img/noPhoto-icon.png' ?>" style="height:150px; width:150px; max-height:350px; max-width:350px"></a>
 						<?php endif; ?>
 					<?php endif; ?>
 				</div>

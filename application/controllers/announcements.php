@@ -12,7 +12,7 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class announcements extends account
+class announcements extends CI_controller
 {
 
 	public function __construct()
@@ -171,6 +171,38 @@ class announcements extends account
 		}
 		//CONTENT FOOTER
 		$this->load->view('templates/accounts/footer');
+	}
+
+	public function view_artcore($page)
+	{
+		$data['page_header'] = array('title'=>$page, 'subtitle'=>'News and announcements');
+		$view_type = str_replace('/', '', $this->uri->slash_segment(2, 'leading'));
+
+		if( $view_type == 'page' ){
+			$page_num = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+
+		}elseif( $view_type == 'title' ){
+			$title = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+
+		//SHOW ANNOUNCEMENTS
+		}else{
+			$result = $this->announcements_model->get_announcements();
+
+			if( $result ){
+
+				for ($i=0; $i<count($result); $i++) {
+					$result[$i]['description'] = $this->announcements_model->get_announcement_desc(
+						$result[$i]['announcement_id']);
+				}
+
+				$data['announcement_list'] = $result;
+			}
+
+		}
+
+		$this->load->view('templates/pages/content_wrapper_open');
+		$this->load->view('pages/'.$page, $data);
+		$this->load->view('templates/pages/content_wrapper_close');
 	}
 }
 ?>

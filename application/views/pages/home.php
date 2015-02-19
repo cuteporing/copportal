@@ -1,38 +1,22 @@
+<?php if( count($banner) > 0 ): ?>
 <div class="swiper-container">
     <div class="swiper-wrapper">
 
-        <div class="swiper-slide" style="background-image: url(assets/img/artcore/slide1.jpg);">
+    <?php foreach ($banner as $row): ?>
+        <div class="swiper-slide" style="background-image: url(<?=base_url().$row['file_path'].$row['raw_name'].$row['file_ext'] ?>);">
             <div class="overlay-s"></div>
             <div class="slider-caption">
                 <div class="inner-content">
-                    <h2>Earth New House Project</h2>
-                    <p>Artcore is free HTML5 template by <b class="blue">template</b><b class="green">mo</b>. Credit goes to <a rel="nofollow" href="http://unsplash.com">Unsplash</a> for photos.</p>
-                    <a href="#" class="main-btn white">View Projects</a>
+                    <?php if( $row['title'] != '' && !is_null($row['title']) ): ?><h2><?=$row['title']?></h2><?php endif; ?>
+                    <?php if( $row['subtitle'] != '' && !is_null($row['subtitle']) ): ?><p><?=$row['subtitle']?></p><?php endif; ?>
+                    <?php if( $row['link_title'] != '' && !is_null($row['link_title']) ): ?>
+                        <a href="<?=$row['link']?>" class="main-btn white"><?=$row['link_title']?></a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
-
-        <div class="swiper-slide" style="background-image: url(assets/img/artcore/slide2.jpg);">
-            <div class="overlay-s"></div>
-            <div class="slider-caption">
-                <div class="inner-content">
-                    <h2>Hotel and Residence Concept in Montenegro</h2>
-                    <p>We come with new fresh and unique ideas.</p>
-                    <a href="#" class="main-btn white">View Projects</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="swiper-slide" style="background-image: url(assets/img/artcore/slide3.jpg);">
-            <div class="overlay-s"></div>
-            <div class="slider-caption">
-                <div class="inner-content">
-                    <h2>Natural 3d Architecture Design</h2>
-                    <p>Natural concrete is a material which is calm and clean.</p>
-                    <a href="#" class="main-btn white">View Projects</a>
-                </div>
-            </div>
-        </div>
+    <?php endforeach; ?>
 
     </div>
 </div>
+<?php endif; ?>
