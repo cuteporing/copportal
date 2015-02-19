@@ -1,5 +1,9 @@
 <?php
+//LOGO
+$lang['lbl_main_logo'] = '<em>COP</em>Portal</a>';
+$lang['lbl_sub_logo'] = 'Community Outreach Program';
 
+//LABELS
 $lang['lbl_about_us'] = 'About Us';
 $lang['lbl_accept'] = 'Accept';
 $lang['lbl_account_status'] = 'Account status';
@@ -12,7 +16,6 @@ $lang['lbl_contact_us'] = 'Contact Us';
 $lang['lbl_create_announcement'] = 'Create new announcement';
 $lang['lbl_create_events'] = 'Create new events';
 $lang['lbl_create_user'] = 'Create user';
-// $lang['lbl_disable_account'] = 'Disable account?';
 $lang['lbl_edit_announcement'] = 'Edit announcement';
 $lang['lbl_edit_beneficiary'] = 'Edit beneficiary';
 $lang['lbl_edit_user'] = 'Edit user';

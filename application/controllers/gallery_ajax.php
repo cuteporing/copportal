@@ -247,7 +247,7 @@ class gallery_ajax extends CI_controller
 
 		if( $last_insert_id !== FALSE && $is_empty === TRUE){
 			$default_cover = $this->gallery_model->default_cover_photo($gallery_id, $last_insert_id);
-			echo common::response_msg(200, 'refresh', $default_cover);
+			echo common::response_msg(200, 'refresh', 'Done uploading!');
 			exit;
 		}
 

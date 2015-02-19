@@ -38,6 +38,20 @@ class pages extends CI_controller
 		}
 	}
 
+	public function page_loader()
+	{
+		return $this->load->view('templates/pages/loader');
+	}
+
+	public function site_header()
+	{
+		$this->load->view('templates/pages/site_header/site_header_open');
+		$this->load->view('templates/pages/site_header/top_header');
+		$this->load->view('templates/pages/site_header/main_header');
+		$this->load->view('templates/pages/site_header/responsive_menu');
+		$this->load->view('templates/pages/site_header/site_header_close');
+	}
+
 	/**
 	 * DISPLAY INDEX VIEW PAGE
 	 * @return data
@@ -74,21 +88,12 @@ class pages extends CI_controller
 	 */
 	public function home($page)
 	{
+		$this->page_loader();
+		$this->site_header();
+
 		return $this->load->view('pages/'.$page);
 	}
 
-
-	/**
-	 * DESTROYS LOG IN SESSION DATA
-	 * @return redirect
-	 * --------------------------------------------
-	 */
-	public function logout()
-	{
-		$this->session->unset_userdata('logged_in');
-		session_destroy();
-		return redirect('home', 'refresh');
-	}
 
 	/**
 	 * CHECK PAGE URI
@@ -103,10 +108,10 @@ class pages extends CI_controller
 		$common->display_header($page);
 
 		switch ($page) {
-			case 'forgot_password' : $this->forgot_password($page);	break;
-			case 'home'            : $this->home($page);			break;
-			case 'login'           : $this->login($page);			break;
-			default: $page = 'home'; $this->home($page); 			break;
+			case 'forgot_password' : $this->forgot_password($page); break;
+			case 'home'            : $this->home($page);            break;
+			case 'login'           : $this->login($page);           break;
+			default: $page = 'home'; $this->home($page);            break;
 		}
 
 		$common->display_footer();
