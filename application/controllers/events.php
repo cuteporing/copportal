@@ -301,7 +301,78 @@ class events extends CI_controller
 	 */
 	public function view_artcore($page)
 	{
-		$data['page_header'] = array('title'=>$page, 'subtitle'=>'Trainings and seminars');
+		$view_type  = str_replace('/', '', $this->uri->slash_segment(2, 'leading'));
+
+		if( $view_type == 'new' ){
+			$total_rows = $this->events_model->get_no_of_events('open');
+			$limit      = 10;
+			$filter     = array();
+
+			if( $total_rows > 0 ){
+				//GET THE OFFSET VIA URI SEGMENT
+				$offset = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+
+				//SEARCH PARAMETERS FOR GETTING THE ANNOUNCEMENT LIST
+				$params = array();
+				$search = array();
+				array_push($search, array(
+					'fieldname'=>'status',
+					'data'     =>'open'
+					));
+
+				$params['offset'] = ( $offset == '' )? 0 : $offset;
+				$params['limit']  = $limit;
+				$params['search_by'] = $search;
+
+				$result = $this->events_model->get_event_list($params);
+
+				for ($i=0; $i<count($result); $i++) {
+					$date_start= $result[$i]['date_start'];
+					$date_end  = $result[$i]['date_end'];
+
+					if( !in_array(common::format_date($date_start, 'F'), $filter) ){
+						array_push($filter, common::format_date($date_start, 'F'));
+					}
+
+					if( $date_start == $date_end ){
+						$date = common::format_date($date_start, 'F d, Y');
+					}else{
+						$date_start_arr = explode('-', $date_start);
+						$date_end_arr   = explode('-', $date_end);
+
+						//IF MONTH AND YEAR FOR STARTING AND ENDING DATE IS THE SAME,
+						//AND DAY IS DIFF DISPLAY AS:
+						// <M d-d, YYYY>
+						// <Feb 11-13, 2015>
+						if( $date_start_arr[0] == $date_end_arr[0] &&
+							$date_start_arr[1] == $date_end_arr[1] ){
+
+							$date = common::format_date($date_start, 'F ');
+							$date.= $date_start_arr[2].'-'.$date_end_arr[2].', '.$date_start_arr[0];
+
+						//IF MONTH OR YEAR FOR STARTING AND ENDING DATE IS DIFFERENT,
+						//DISPLAY AS:
+						// <M d, YYYY - M d, YYY>
+						// <Feb 11, 2015 - Feb 11, 2016>
+						}elseif( $date_start_arr[0] != $date_end_arr[0] ||
+							$date_start_arr[1] != $date_end_arr[1] ){
+
+							$date = common::format_date($date_start, 'F d, Y').' - ';
+							$date.= common::format_date($date_end, 'F d, Y');
+						}
+					}
+					$result[$i]['date_display'] = $date;
+				}
+			}
+			print_r($filter);
+			// print_r($result);
+			$data['event_new_list']  = $result;
+
+		}elseif( $view_type == 'archive' ){
+
+		}
+
+		$data['page_header'] = array('title'=>$page, 'subtitle'=>'Schedule');
 
 		$this->load->view('templates/pages/content_wrapper_open');
 		$this->load->view('pages/'.$page, $data);

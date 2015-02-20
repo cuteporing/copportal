@@ -125,7 +125,7 @@ class announcements extends CI_controller
 			$result_desc = $this->announcements_model->get_announcement_desc($result[$i]['announcement_id']);
 			if( $result_desc !== FALSE ){
 				foreach ($result_desc as $row) {
-					$description = character_limiter($row['description'], 80);
+					$description = character_limiter($row['description'], 60);
 				}
 			}else{
 				$description = '';

@@ -127,7 +127,7 @@ class Events_model extends CI_Model {
 		$this->db->order_by("sequence", "asc");
 		$query = $this->db->get();
 
-		if( $query->num_rows() == 1 ){
+		if( $query->num_rows() > 0 ){
 			return $query->result();
 		}else{
 			return FALSE;
@@ -153,13 +153,43 @@ class Events_model extends CI_Model {
 			$this->db->order_by("date_start", "desc");
 			$query = $this->db->get();
 
-			if( $query->num_rows() == 1 ){
+			if( $query->num_rows() > 0 ){
 				return $query->result();
 			}else{
 				return FALSE;
 			}
 		}
-		
+	}
+
+	/**
+	 * GET EVENT LIST
+	 * @param Array, $params
+	 * @return Array | Boolean <FALSE>
+	 * --------------------------------------------
+	 */
+	public function get_event_list($search_param = array())
+	{
+
+			if( count($search_param) > 0 ){
+				if( isset($search_param['search_by']) && count($search_param['search_by']) > 0 ){
+						foreach ($search_param['search_by'] as $param) {
+							$this->db->where(
+								$param['fieldname'],
+								$param['data']
+							);
+						}
+				}
+				$this->db->order_by("date_entered", "desc");
+				$query = $this->db->get('cop_events', $search_param['limit'], $search_param['offset']);
+			}else{
+				$query = $this->db->get('cop_events');
+			}
+
+			if( $query->num_rows() > 0 ){
+				return $query->result_array();
+			}else{
+				return FALSE;
+			}
 	}
 
 	/**
