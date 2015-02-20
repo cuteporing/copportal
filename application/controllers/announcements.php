@@ -186,12 +186,11 @@ class announcements extends CI_controller
 	public function view_artcore($page)
 	{
 		$view_type  = str_replace('/', '', $this->uri->slash_segment(2, 'leading'));
-		$total_rows = $this->announcements_model->get_no_anouncements();
-		$limit      = 10;
 
 		//VIEW ANNOUNCEMENTS PER PAGE
 		if( $view_type == 'page' ){
-
+			$total_rows = $this->announcements_model->get_no_anouncements();
+			$limit      = 10;
 			if( $total_rows > 0 ){
 				//GET THE OFFSET VIA URI SEGMENT
 				$offset = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
@@ -214,7 +213,7 @@ class announcements extends CI_controller
 
 					$result[$i]['title'] = character_limiter($result[$i]['title'], 29);
 					//GET THE ANNOUNCEMENT DESCRIPTION
-					$result[$i]['description']  = character_limiter($description[0]['description'], 150);
+					$result[$i]['description']  = word_limiter($description[0]['description'], 40);
 				}
 
 				//SET UP PAGINATION
@@ -241,16 +240,21 @@ class announcements extends CI_controller
 
 		//SHOW ANNOUNCEMENT PER TITLE
 		}elseif( $view_type == 'title' ){
-			$title = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+			$slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+			
+			$result                   = $this->announcements_model->get_announcements('slug', $slug);
+			$result[0]['date_entered']= common::format_date(
+						$result[0]['date_entered'], 'd F Y');
+			$result[0]['description'] = $this->announcements_model->get_announcement_desc(
+						$result[0]['announcement_id']);
 
+			$data['announcement_single']  = $result[0];
 		}
 
-
-		$data['page_header']        = array('title'=>$page, 'subtitle'=>'News and announcements');
+		$data['page_header'] = array('title'=>$page, 'subtitle'=>'News and announcements');
 
 		$this->load->view('templates/pages/content_wrapper_open');
 		$this->load->view('pages/'.$page, $data);
-
 		$this->load->view('templates/pages/content_wrapper_close');
 	}
 }

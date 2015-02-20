@@ -84,7 +84,7 @@ class common extends CI_controller
 		//VIEW PAGES
 		$bs_dark = array('login', 'forgot_password', 'register');
 
-		$artcore = array('home', 'announcement');
+		$artcore = array('home', 'announcement', 'event');
 
 		if( in_array( strtolower($page), $bs_dark ) ){
 			array_push($style, 'assets/css/bootstrap/bootstrap.min.css');
@@ -138,7 +138,7 @@ class common extends CI_controller
 
 		$bs_dark = array('login', 'forgot_password', 'register');
 
-		$artcore = array('home', 'announcement');
+		$artcore = array('home', 'announcement', 'event');
 
 		if( in_array( strtolower($page), $bs_dark ) ){
 			array_push($script, 'assets/js/bootstrap/jquery.min.js');

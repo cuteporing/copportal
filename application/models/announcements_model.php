@@ -84,7 +84,7 @@ class Announcements_model extends CI_Model {
 			$query = $this->db->get();
 
 			if( $query->num_rows() > 0 ){
-				return $query->result();
+				return $query->result_array();
 			}else{
 				return FALSE;
 			}
@@ -105,7 +105,7 @@ class Announcements_model extends CI_Model {
 			$query = $this->db->get('cop_announcements');
 			return $query->result_array();
 		}else{
-			$this->db->order_by("date_entered", "desc");
+			$this->db->order_by("date_entered", "asc");
 			$query = $this->db->get('cop_announcements', $params['limit'], $params['offset']);
 
 			if( $query->num_rows() > 0 ){

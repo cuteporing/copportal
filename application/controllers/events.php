@@ -12,7 +12,7 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class events extends account
+class events extends CI_controller
 {
 
 	public function __construct()
@@ -291,6 +291,21 @@ class events extends account
 		}
 		//CONTENT FOOTER
 		$this->load->view('templates/accounts/footer');
+	}
+
+	/**
+	 * DISPLAY ANNOUNCEMENT FRONT-SIDE PAGE
+	 * @param String, $page
+	 * @return page
+	 * --------------------------------------------
+	 */
+	public function view_artcore($page)
+	{
+		$data['page_header'] = array('title'=>$page, 'subtitle'=>'Trainings and seminars');
+
+		$this->load->view('templates/pages/content_wrapper_open');
+		$this->load->view('pages/'.$page, $data);
+		$this->load->view('templates/pages/content_wrapper_close');
 	}
 }
 ?>

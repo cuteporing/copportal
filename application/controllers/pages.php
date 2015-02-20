@@ -17,6 +17,7 @@ include_once('announcements.php');
 include_once('artcore_pagination.php');
 include_once('banner.php');
 include_once('common.php');
+include_once('events.php');
 include_once('users.php');
 
 class pages extends CI_controller
@@ -94,6 +95,20 @@ class pages extends CI_controller
 	}
 
 	/**
+	 * DISPLAY EVEMTS
+	 * @return data
+	 * --------------------------------------------
+	 */
+	public function event($page)
+	{
+		$event = new events;
+		$this->page_loader();
+		$this->site_header();
+
+		return $event->view_artcore($page);
+	}
+
+	/**
 	 * DISPLAY INDEX VIEW PAGE
 	 * @return data
 	 * --------------------------------------------
@@ -141,6 +156,7 @@ class pages extends CI_controller
 
 		switch ($page) {
 			case 'announcement'    : $this->announcement($page);    break;
+			case 'event'           : $this->event($page);           break;
 			case 'home'            : $this->home($page);            break;
 			case 'login'           : $this->login($page);           break;
 			default: $page = 'home'; $this->home($page);            break;

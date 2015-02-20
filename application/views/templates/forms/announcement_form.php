@@ -1,7 +1,7 @@
 
 <?php if( isset($result) ): ?>
 	<?php echo form_open('announcements_ajax/edit/') ?>
-	<input  type="text" class="form-control hide" name="announcement_id" value="<?php if(isset($result)){ echo $result->announcement_id; } ?>">
+	<input  type="text" class="form-control hide" name="announcement_id" value="<?php if(isset($result)){ echo $result['announcement_id']; } ?>">
 	<textarea class="hide" id="description_mirror" name="description_mirror">
 		<?php if( isset($result_desc) && count($result_desc) > 0 ): ?>
 			<?php foreach ($result_desc as $description): ?>
@@ -30,7 +30,7 @@
 			<div class="box-body">
 				<div class="form-group">
 					<label><?=$this->lang->line('lbl_announcement_title')?></label>
-					<input type="text" class="form-control" name="title" value="<?php if(isset($result)){ echo $result->title; } ?>" maxlength="150">
+					<input type="text" class="form-control" name="title" value="<?php if(isset($result)){ echo $result['title']; } ?>" maxlength="150">
 					<p class="error"></p>
 				</div>
 			</div>
