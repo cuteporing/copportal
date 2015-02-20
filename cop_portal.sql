@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2015 at 01:11 PM
+-- Generation Time: Feb 20, 2015 at 03:51 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `cop_announcements` (
   `file_path` varchar(255) DEFAULT NULL,
   `file_ext` varchar(255) DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_announcements`
@@ -43,7 +43,12 @@ CREATE TABLE IF NOT EXISTS `cop_announcements` (
 
 INSERT INTO `cop_announcements` (`announcement_id`, `owner_id`, `title`, `date_entered`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
 (9, 1, 'Neque porro quisquam est qui dolorem', '2015-02-20 11:38:36', 'blog-1', 'uploads/announcement/', '.jpg', 'neque-porro-quisquam-est-qui-dolorem'),
-(12, 1, 'NEW ANNOUNCEMENT', '2015-02-20 11:35:00', 'blog-2', 'uploads/announcement/', '.jpg', 'new-announcement');
+(12, 1, 'NEW ANNOUNCEMENT', '2015-02-20 11:35:00', 'blog-2', 'uploads/announcement/', '.jpg', 'new-announcement'),
+(13, 1, 'Keep Your Stuff Alive And Apply it On Life', '2015-02-19 18:06:02', NULL, NULL, NULL, 'keep-your-stuff-alive-and-apply-it-on-life'),
+(14, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.', '2015-02-19 18:07:59', NULL, NULL, NULL, 'lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit'),
+(15, 1, 'Debitis, totam dignissimos fugiat voluptatem esse optio unde alias nulla fuga', '2015-02-19 18:08:17', NULL, NULL, NULL, 'debitis-totam-dignissimos-fugiat-voluptatem-esse-optio-unde-alias-nulla-fuga'),
+(16, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. ', '2015-02-19 18:08:59', NULL, NULL, NULL, 'lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit'),
+(17, 1, 'NEW ANNOUNCEMENT', '2015-02-19 18:23:29', NULL, NULL, NULL, 'new-announcement');
 
 -- --------------------------------------------------------
 
@@ -56,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `cop_announcement_description` (
   `announcement_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_announcement_description`
@@ -64,7 +69,12 @@ CREATE TABLE IF NOT EXISTS `cop_announcement_description` (
 
 INSERT INTO `cop_announcement_description` (`id`, `announcement_id`, `description`, `sequence`) VALUES
 (1, 12, '', 1),
-(4, 9, '<strong>Lorem Ipsum</strong><span>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</span>', 1);
+(4, 9, '<strong>Lorem Ipsum</strong><span>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</span>', 1),
+(5, 13, '<a target="_blank" rel="nofollow" href="http://www.templatemo.com/preview/templatemo_423_artcore" title="Link: http://www.templatemo.com/preview/templatemo_423_artcore">Artcore</a><span>&nbsp;is free HTML5 bootstrap template by&nbsp;</span>templatemo<span>. Credit goes to&nbsp;</span><a target="_blank" rel="nofollow" href="http://unsplash.com/">Unsplash</a><span>&nbsp;for images. Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, blanditiis, esse nemo architecto veniam ipsam et in odit unde cumque. Quidem, sapiente, deserunt accusantium iure minus numquam velit beatae iste corrupti alias atque quisquam praesentium est autem voluptatibus? Magnam, repellendus id quidem reprehenderit eligendi. Voluptas, fugiat cumque earum similique suscipit at labore aut hic voluptatum deserunt aliquid dignissimos corporis facilis in provident atque nihil.</span>', 1),
+(6, 14, '<span>Quibusdam, maxime, itaque, ut, eligendi consequuntur quasi placeat molestiae nam sunt amet ab officia voluptates dolore error repudiandae fugit aperiam quas facilis? Ipsa, perspiciatis, nam, modi ducimus esse assumenda aut quaerat commodi natus dolorem quo accusantium saepe officiis quasi porro. Possimus, asperiores, nihil, vitae, cumque aperiam perspiciatis velit sit aliquid consectetur neque quidem dolore voluptatem rerum omnis totam impedit sequi eius explicabo culpa facilis.&nbsp;</span>', 1),
+(7, 15, '<span>Quibusdam, maxime, itaque, ut, eligendi consequuntur quasi placeat molestiae nam sunt amet ab officia voluptates dolore error repudiandae fugit aperiam quas facilis? Ipsa, perspiciatis, nam, modi ducimus esse assumenda aut quaerat commodi natus dolorem quo accusantium saepe officiis quasi porro. Possimus, asperiores, nihil, vitae, cumque aperiam perspiciatis velit sit aliquid consectetur neque quidem dolore voluptatem rerum omnis totam impedit sequi eius explicabo culpa facilis.&nbsp;</span>', 1),
+(8, 16, '<span>dolorum molestiae omnis natus neque autem minus dicta magnam nobis ipsa ratione recusandae numquam modi asperiores adipisci repudiandae quis beatae placeat ullam atque pariatur expedita.</span><br>', 1),
+(9, 17, '<span>dolorum molestiae omnis natus neque autem minus dicta magnam nobis ipsa ratione recusandae numquam modi asperiores adipisci repudiandae quis beatae placeat ullam atque pariatur expedita.</span><br>', 1);
 
 -- --------------------------------------------------------
 
@@ -111,8 +121,8 @@ CREATE TABLE IF NOT EXISTS `cop_artcore_subtab` (
 --
 
 INSERT INTO `cop_artcore_subtab` (`subtab_id`, `title`, `link`, `attribute`, `slug`) VALUES
-(1, 'New events', 'events/new_events', NULL, 'new_events'),
-(2, 'Archive', 'events/archive', NULL, 'archive');
+(1, 'New events', 'event/new/page/', NULL, 'new_events'),
+(2, 'Archive', 'event/archive/page/', NULL, 'archive');
 
 -- --------------------------------------------------------
 
@@ -246,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
@@ -255,9 +265,9 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
 (31, 15, '', 1),
 (32, 16, '', 1),
-(37, 20, '', 1),
 (40, 23, 'LOREM IPSUM DOLOR ESMET', 1),
-(42, 22, 'Aug 12, 2013 -&nbsp;<span>my class.inc file:S<!--?php class logout{ public function logout(){ ... You have to call the function mentioned below on the top your logout function in ...</span--></span>', 1);
+(43, 20, '', 1),
+(44, 22, 'Aug 12, 2013 -&nbsp;<span>my class.inc file:S<!--?php class logout{ public function logout(){ ... You have to call the function mentioned below on the top your logout function in ...</span--></span>', 1);
 
 -- --------------------------------------------------------
 
@@ -285,8 +295,8 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
 --
 
 INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
-(20, 1, 'TECH TUTOR 5', 'close', 1, '2015-02-16 04:55:55', '2015-02-09', '2015-02-09', '13:00:PM', '13:00:PM', 'Dasd', 'tech-tutor-5'),
-(22, 1, 'TECH TUTOR 7', 'close', 1, '2015-02-18 18:07:41', '2015-02-16', '2015-02-16', '21:00:PM', '21:00:PM', 'Sdfsdf', 'tech-tutor-7'),
+(20, 1, 'TECH TUTOR 5', 'open', 1, '2015-02-19 19:35:08', '2015-02-09', '2015-02-09', '22:30:PM', '22:30:PM', 'Dasd', 'tech-tutor-5'),
+(22, 1, 'TECH TUTOR 7', 'open', 1, '2015-02-19 19:35:15', '2015-02-16', '2015-02-16', '22:30:PM', '22:30:PM', 'Sdfsdf', 'tech-tutor-7'),
 (23, 1, 'COP EVENTS', 'open', 1, '2015-02-18 17:49:35', '2015-02-19', '2015-02-19', '20:45:PM', '20:45:PM', 'Asssssssss', 'cop-events');
 
 -- --------------------------------------------------------
@@ -385,7 +395,6 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
   `status` varchar(25) DEFAULT NULL,
   `address_street` varchar(150) DEFAULT NULL,
   `address_city_id` int(11) DEFAULT NULL,
-  `address_postalcode` varchar(9) DEFAULT NULL,
   `imagename` varchar(250) DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT '0',
   `crypt_type` varchar(20) NOT NULL DEFAULT 'MD5'
@@ -395,12 +404,12 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
 -- Dumping data for table `cop_users`
 --
 
-INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city_id`, `address_postalcode`, `imagename`, `deleted`, `crypt_type`) VALUES
-(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-02-19 13:08:20', '0000-00-00 00:00:00', '[]', 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 1, NULL, NULL, 0, 'PHP5.3MD5'),
-(2, 'ransu', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-05 07:36:56', '2015-02-02 18:02:51', '[]', '', 'Inactive', '', 1, '', NULL, 1, 'PHP5.3MD5'),
-(3, 'ransus', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-05 07:36:58', '2015-02-03 18:46:02', '[]', '', 'Inactive', '', 1, '', NULL, 1, 'PHP5.3MD5'),
-(4, 'ish', '$1$is000000$WJSzElarDohtazA863l5S.', 'ish', 'landrito', 'female', 'on', '2015-02-20 12:06:37', '2015-02-19 17:05:38', '[]', '', 'Inactive', '', 1, '', NULL, 1, 'PHP5.3MD5'),
-(5, 'ish', '$1$is000000$WJSzElarDohtazA863l5S.', 'Ish', 'Landrito', 'female', 'on', '2015-02-19 17:08:03', '2015-02-19 17:08:03', '[]', '', 'Active', '', 3, '', NULL, 0, 'PHP5.3MD5');
+INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city_id`, `imagename`, `deleted`, `crypt_type`) VALUES
+(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-02-19 13:08:20', '0000-00-00 00:00:00', '[]', 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 1, NULL, 0, 'PHP5.3MD5'),
+(2, 'ransu', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-05 07:36:56', '2015-02-02 18:02:51', '[]', '', 'Inactive', '', 1, NULL, 1, 'PHP5.3MD5'),
+(3, 'ransus', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-05 07:36:58', '2015-02-03 18:46:02', '[]', '', 'Inactive', '', 1, NULL, 1, 'PHP5.3MD5'),
+(4, 'ish', '$1$is000000$WJSzElarDohtazA863l5S.', 'ish', 'landrito', 'female', 'on', '2015-02-20 12:06:37', '2015-02-19 17:05:38', '[]', '', 'Inactive', '', 1, NULL, 1, 'PHP5.3MD5'),
+(5, 'ish', '$1$is000000$WJSzElarDohtazA863l5S.', 'Ish', 'Landrito', 'female', 'on', '2015-02-19 17:08:03', '2015-02-19 17:08:03', '[]', '', 'Active', '', 3, NULL, 0, 'PHP5.3MD5');
 
 --
 -- Indexes for dumped tables
@@ -498,12 +507,12 @@ ALTER TABLE `cop_users`
 -- AUTO_INCREMENT for table `cop_announcements`
 --
 ALTER TABLE `cop_announcements`
-MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `cop_announcement_description`
 --
 ALTER TABLE `cop_announcement_description`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `cop_artcore_parenttab`
 --
@@ -543,7 +552,7 @@ MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
