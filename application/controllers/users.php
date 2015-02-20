@@ -109,14 +109,14 @@ class users extends CI_Controller
 				$sess_array = array();
 				foreach ($result as $row) {
 					$sess_array = array(
-						'id'          =>$row->id,
-						'user_name'   =>$row->user_name,
-						'first_name'  =>$row->first_name,
-						'last_name'   =>$row->last_name,
-						'gender'      =>$row->gender,
-						'is_admin'    =>$row->is_admin,
-						'date_entered'=>$row->date_entered,
-						'imagename'   =>$row->imagename,
+						'id'          =>$row['id'],
+						'user_name'   =>$row['user_name'],
+						'first_name'  =>$row['first_name'],
+						'last_name'   =>$row['last_name'],
+						'gender'      =>$row['gender'],
+						'is_admin'    =>$row['is_admin'],
+						'date_entered'=>$row['date_entered'],
+						'imagename'   =>$row['imagename'],
 					);
 					$this->session->set_userdata('logged_in', $sess_array);
 				}

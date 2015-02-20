@@ -20,6 +20,18 @@ class Announcements_model extends CI_Model {
 	}
 
 	/**
+	 * GET NO. OF ANNOUNCEMENTS
+	 * @return Integer
+	 * --------------------------------------------
+	 */
+	public function get_no_anouncements()
+	{
+		$this->db->from('cop_announcements');
+		return $this->db->count_all_results();
+	}
+
+
+	/**
 	 * GET LAST INSERTED announcement ID
 	 * @return Array
 	 * --------------------------------------------
@@ -44,11 +56,10 @@ class Announcements_model extends CI_Model {
 	{
 		$this->db->where('announcement_id', $announcement_id);
 		$this->db->from('cop_announcement_description');
-		$this->db->limit(1);
 		$query = $this->db->get();
 
-		if( $query->num_rows() == 1 ){
-			return $query->result();
+		if( $query->num_rows() > 0 ){
+			return $query->result_array();
 		}else{
 			return FALSE;
 		}
@@ -72,8 +83,33 @@ class Announcements_model extends CI_Model {
 			$this->db->from('cop_announcements');
 			$query = $this->db->get();
 
-			if( $query->num_rows() == 1 ){
+			if( $query->num_rows() > 0 ){
 				return $query->result();
+			}else{
+				return FALSE;
+			}
+		}
+	}
+
+	/**
+	 * GET ANNOUNCEMENTS
+	 * @param String, $search_by
+	 * @param String, $data
+	 * @return Array | Boolean <FALSE>
+	 * --------------------------------------------
+	 */
+	public function get_announcements_list($params = array())
+	{
+		if( count($params) == 0 ){
+			$this->db->order_by("date_entered", "desc");
+			$query = $this->db->get('cop_announcements');
+			return $query->result_array();
+		}else{
+			$this->db->order_by("date_entered", "desc");
+			$query = $this->db->get('cop_announcements', $params['limit'], $params['offset']);
+
+			if( $query->num_rows() > 0 ){
+				return $query->result_array();
 			}else{
 				return FALSE;
 			}

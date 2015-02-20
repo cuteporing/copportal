@@ -5,7 +5,7 @@
 	<textarea class="hide" id="description_mirror" name="description_mirror">
 		<?php if( isset($result_desc) && count($result_desc) > 0 ): ?>
 			<?php foreach ($result_desc as $description): ?>
-				<?=$description->description ?>
+				<?=$description['description'] ?>
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</textarea>

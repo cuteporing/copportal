@@ -58,7 +58,7 @@ class Users_model extends CI_Model {
 				$this->db->where($search_by, $data);
 				$this->db->from('cop_users');
 				$query = $this->db->get();
-				if( $query->num_rows() == 1 ){
+				if( $query->num_rows() > 0 ){
 					return $query->result();
 				}else{
 					return FALSE;
@@ -99,6 +99,7 @@ class Users_model extends CI_Model {
 			$this->db->select('id');
 			$this->db->from('cop_users');
 			$this->db->where('user_name', $user_name);
+			$this->db->where('deleted', 0);
 		}else{
 			$sql_stmt ='id, user_name, user_password, first_name, last_name, ';
 			$sql_stmt.='gender, is_admin, date_entered, imagename';
@@ -115,7 +116,7 @@ class Users_model extends CI_Model {
 		$query = $this->db->get();
 
 		if( $query->num_rows() == 1 ){
-			return $query->result();
+			return $query->result_array();
 		}else{
 			return FALSE;
 		}

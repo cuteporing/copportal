@@ -14,6 +14,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 //INCLUDE CONTROLLERS
 include_once('announcements.php');
+include_once('artcore_pagination.php');
 include_once('banner.php');
 include_once('common.php');
 include_once('users.php');

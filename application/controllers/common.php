@@ -363,13 +363,6 @@ class common extends CI_controller
 
 		return json_encode($response);
 	}
-
-}
-
-function set_values($value){
-	if( isset( $value ) ){
-		return $value;
-	}
 }
 ?>
 
