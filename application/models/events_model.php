@@ -149,7 +149,7 @@ class Events_model extends CI_Model {
 		}else{
 			$this->db->where($search_by, $data);
 			$this->db->from('cop_events');
-			$this->db->order_by("date_start", "desc");
+			$this->db->order_by("date_start", "asc");
 			$query = $this->db->get();
 
 			if( $query->num_rows() > 0 ){
@@ -178,7 +178,7 @@ class Events_model extends CI_Model {
 							);
 						}
 				}
-				$this->db->order_by("date_entered", "desc");
+				$this->db->order_by("date_start", "desc");
 				$query = $this->db->get('cop_events', $search_param['limit'], $search_param['offset']);
 			}else{
 				$query = $this->db->get('cop_events');
@@ -374,7 +374,7 @@ class Events_model extends CI_Model {
 			$this->db->trans_commit();
 			return array(
 				'status'=>'success',
-				'msg'   =>$event_data['title'].' has been created'
+				'msg'   =>$unique_id
 				);
 		}
 	}

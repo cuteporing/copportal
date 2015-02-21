@@ -185,6 +185,7 @@ class announcements extends CI_controller
 	public function view_artcore($page)
 	{
 		$view_type  = str_replace('/', '', $this->uri->slash_segment(2, 'leading'));
+		$common = new common;
 
 		//VIEW ANNOUNCEMENTS PER PAGE
 		if( $view_type == 'page' ){
@@ -193,6 +194,9 @@ class announcements extends CI_controller
 			if( $total_rows > 0 ){
 				//GET THE OFFSET VIA URI SEGMENT
 				$offset = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+				if( $offset > $total_rows ){
+					return $common->show_404();
+				}
 
 				//SEARCH PARAMETERS FOR GETTING THE ANNOUNCEMENT LIST
 				$params = array();
@@ -241,13 +245,17 @@ class announcements extends CI_controller
 		}elseif( $view_type == 'title' ){
 			$slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
 			
-			$result                   = $this->announcements_model->get_announcements('slug', $slug);
-			$result[0]['date_entered']= common::format_date(
-						$result[0]['date_entered'], 'd F Y');
-			$result[0]['description'] = $this->announcements_model->get_announcement_desc(
-						$result[0]['announcement_id']);
+			$result = $this->announcements_model->get_announcements('slug', $slug);
+			if( $result ){
+				$result[0]['date_entered']= common::format_date(
+							$result[0]['date_entered'], 'd F Y');
+				$result[0]['description'] = $this->announcements_model->get_announcement_desc(
+							$result[0]['announcement_id']);
 
-			$data['announcement_single']  = $result[0];
+				$data['announcement_single']  = $result[0];
+			}else{
+				return $common->show_404();
+			}
 		}
 
 		$data['page_header'] = array('title'=>$page, 'subtitle'=>'News and announcements');

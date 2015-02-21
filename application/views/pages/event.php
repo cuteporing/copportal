@@ -31,7 +31,8 @@
                     <?php endif; ?>
                     <div class="box-content project-detail">
                         <h2><a href="<?=base_url().'event/title/'.$row['slug']?>"><?=$row['title'] ?></a></h2>
-                        <span class="blog-meta"><?=$row['date_display']?></span><br>
+                        <?php if( isset($row['status_display']) ): ?><?=$row['status_display']?><br><?php endif; ?>
+                        <span class="blog-meta"><?=$row['date_display']?> <small style="font-size:11px; color:rgb(184, 184, 184);"><?=$row['time_start']?> - <?=$row['time_end']?></small></span><br>
                         <span class="blog-meta"><span class="blue"><?=$row['location']?></span></span>
                         <p><?=$row['description'] ?></p>
                     </div>
@@ -66,12 +67,28 @@
                         <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>
+                <?php if( count($event_single['members']) == 0 ): ?>
+                 No participants
+                <?php endif; ?>
             </div>
         <?php endif; ?>
         <div class="blog-info col-md-8">
             <div class="box-content">
                 <h2 class="blog-title"><?=$event_single['title']?></h2>
-                <span class="blog-meta"><?=$event_single['date_entered']?></span>
+                <span class="blog-meta">
+                    <?php if( !is_null($event_single['date_display']) && $event_single['date_display'] !== ''): ?>
+                        WHEN : <?=$event_single['date_display']?><br>
+                    <?php endif; ?>
+                    <?php if( !is_null($event_single['time_start']) && $event_single['time_start'] !== ''): ?>
+                        START: <?=$event_single['time_start']?><br>
+                    <?php endif; ?>
+                    <?php if( !is_null($event_single['time_end']) && $event_single['time_end'] !== ''): ?>
+                        END &nbsp;&nbsp;&nbsp;: <?=$event_single['time_end']?><br>
+                    <?php endif; ?>
+                    <?php if( !is_null($event_single['location']) && $event_single['location'] !== ''): ?>
+                        VENUE: <?=$event_single['location']?><br>
+                    <?php endif; ?>
+                </span>
                 <?php if( isset($event_single['description']) && !is_null($event_single['description']) ): ?>
                     <p>
                     <?php foreach ($event_single['description'] as $row): ?>
@@ -92,6 +109,9 @@
                             <?php $counter++ ?>
                         <?php endforeach; ?>
                     </ul>
+                <?php endif; ?>
+                <?php if( count($event_single['members']) == 0 ): ?>
+                 No participants
                 <?php endif; ?>
             </div>
         <?php endif; ?>

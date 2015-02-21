@@ -1,4 +1,13 @@
-
+<?php if( isset($result) ): ?>
+	<div class="row">
+		<div class="col-md-8"></div>
+		<div class="col-md-4">
+			<a class="btn btn-warning btn-block" data-toggle="modal" data-target="#upload-photo-modal">
+				<i class="fa fa-photo"></i> Upload photo
+			</a><br>
+		</div>
+	</div>
+<?php endif; ?>
 <?php if( isset($result) ): ?>
 	<?php echo form_open('events_ajax/edit/') ?>
 	<input  type="text" class="form-control hide" name="event_id" value="<?php if(isset($result)){ echo $result['event_id']; } ?>">
@@ -123,7 +132,7 @@
 								<label><?=$this->lang->line('lbl_start_time')?></label>
 								<div class="input-group">
 									<div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
-									<input type="text" class="form-control timepicker" name="time_start">
+									<input type="text" class="form-control timepicker" name="time_start" value="<?php if(isset($result)){ echo $result['time_start']; } ?>">
 								</div>
 								<p class="error"></p>
 							</div>
@@ -135,7 +144,7 @@
 								<label><?=$this->lang->line('lbl_end_time')?></label>
 								<div class="input-group">
 									<div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
-									<input type="text" class="form-control timepicker" name="time_end">
+									<input type="text" class="form-control timepicker" name="time_end" value="<?php if(isset($result)){ echo $result['time_end']; } ?>">
 								</div><!--//END input-group -->
 								<p class="error"></p>
 							</div><!--//END form-group -->

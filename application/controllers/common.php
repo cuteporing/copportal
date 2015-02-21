@@ -370,6 +370,38 @@ class common extends CI_controller
 		return i('&nbsp', $icon);
 	}
 
+	static function display_date($date_start, $date_end)
+	{
+		if( $date_start == $date_end ){
+			$date = common::format_date($date_start, 'F d, Y');
+		}else{
+			$date_start_arr = explode('-', $date_start);
+			$date_end_arr   = explode('-', $date_end);
+
+			//IF MONTH AND YEAR FOR STARTING AND ENDING DATE IS THE SAME,
+			//AND DAY IS DIFF DISPLAY AS:
+			// <M d-d, YYYY>
+			// <Feb 11-13, 2015>
+			if( $date_start_arr[0] == $date_end_arr[0] &&
+				$date_start_arr[1] == $date_end_arr[1] ){
+
+				$date = common::format_date($date_start, 'F ');
+				$date.= $date_start_arr[2].'-'.$date_end_arr[2].', '.$date_start_arr[0];
+
+			//IF MONTH OR YEAR FOR STARTING AND ENDING DATE IS DIFFERENT,
+			//DISPLAY AS:
+			// <M d, YYYY - M d, YYY>
+			// <Feb 11, 2015 - Feb 11, 2016>
+			}elseif( $date_start_arr[0] != $date_end_arr[0] ||
+				$date_start_arr[1] != $date_end_arr[1] ){
+
+				$date = common::format_date($date_start, 'F d, Y').' - ';
+				$date.= common::format_date($date_end, 'F d, Y');
+			}
+		}
+
+		return $date;
+	}
 
 	/**
 	 * ENCODE INTO JSON FORMAT FOR AJAX RESPONSE

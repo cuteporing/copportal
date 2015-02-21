@@ -20,6 +20,22 @@ class Gallery_model extends CI_Model {
 	}
 
 	/**
+	 * GET NO. OF EVENTS PER STATUS
+	 * - ongoing
+	 * - closed
+	 * @return Integer
+	 * --------------------------------------------
+	 */
+	public function get_no_of_albums($fieldname='', $data='')
+	{
+		if( $fieldname !== '' ){
+			$this->db->where($fieldname, $data);
+		}
+		$this->db->from('cop_gallery');
+		return $this->db->count_all_results();
+	}
+
+	/**
 	 * GET ALL EVENT ID LINK TO GALLERY ALBUM
 	 * @return Array
 	 * --------------------------------------------
@@ -169,7 +185,22 @@ class Gallery_model extends CI_Model {
 
 		}else{
 			$query = $this->db->get('cop_gallery_photos');
-			return $query->result();
+			return $query->result_array();
+		}
+	}
+
+	public function get_remaining_photos($gallery_id, $gallery_photos_id)
+	{
+		$this->db->select('gallery_photos_id');
+		$this->db->from('cop_gallery_photos');
+		$this->db->where('gallery_id', $gallery_id);
+		$this->db->where('gallery_photos_id !=', $gallery_photos_id);
+		$query = $this->db->get();
+
+		if( count($query) > 0 ){
+			return $query->result_array();
+		}else{
+			return FALSE;
 		}
 	}
 
@@ -304,7 +335,7 @@ class Gallery_model extends CI_Model {
 
 	public function default_cover_photo($gallery_id, $photo_id)
 	{
-		$gallery_data = array('cover_photo_id' => (Int) $photo_id);
+		$gallery_data = array('cover_photo_id' => $photo_id);
 
 		$this->db->trans_begin();
 		$this->db->where('gallery_id', $gallery_id);

@@ -118,6 +118,21 @@ class events extends CI_controller
 	}
 
 	/**
+	 * CREATE AN EVENT ALBUM MODAL
+	 * @return modal
+	 * --------------------------------------------
+	 */
+	public function upload_photo_modal()
+	{
+		$data['modal_id']     = 'upload-photo-modal';
+		$data['modal_header'] = '<i class="fa fa-upload"></i> Upload photos';
+		$this->load->view('templates/modal/modal_header', $data);
+		// $this->load->view('templates/forms/gallery_upload_form', $data);
+		$this->load->view('templates/modal/modal_footer', $data);
+	}
+
+
+	/**
 	 * DISPLAY CREATE EVENT PAGE
 	 * @return table
 	 * --------------------------------------------
@@ -125,8 +140,8 @@ class events extends CI_controller
 	public function create()
 	{
 		$data['events_category'] = $this->events_model->get_categories();
-
-		return $this->load->view('templates/forms/event_form', $data);
+		// $this->upload_photo_modal();
+		$this->load->view('templates/forms/event_form', $data);
 	}
 
 	/**
@@ -162,7 +177,9 @@ class events extends CI_controller
 		$data['result']          = $result[0];
 		$data['result_desc']     = ($result_desc)? $result_desc : array();
 
-		return $this->load->view('templates/forms/event_form', $data);
+		$this->load->view('templates/forms/event_form', $data);
+		// $this->upload_photo_modal();
+
 	}
 
 	/**
@@ -221,33 +238,7 @@ class events extends CI_controller
 			$date_start= $result[$i]['date_start'];
 			$date_end  = $result[$i]['date_end'];
 
-			if( $date_start == $date_end ){
-				$date = common::format_date($date_start, 'M d, Y');
-			}else{
-				$date_start_arr = explode('-', $date_start);
-				$date_end_arr   = explode('-', $date_end);
-
-				//IF MONTH AND YEAR FOR STARTING AND ENDING DATE IS THE SAME,
-				//AND DAY IS DIFF DISPLAY AS:
-				// <M d-d, YYYY>
-				// <Feb 11-13, 2015>
-				if( $date_start_arr[0] == $date_end_arr[0] &&
-					$date_start_arr[1] == $date_end_arr[1] ){
-
-					$date = common::format_date($date_start, 'M ');
-					$date.= $date_start_arr[2].'-'.$date_end_arr[2].', '.$date_start_arr[0];
-
-				//IF MONTH OR YEAR FOR STARTING AND ENDING DATE IS DIFFERENT,
-				//DISPLAY AS:
-				// <M d, YYYY - M d, YYY>
-				// <Feb 11, 2015 - Feb 11, 2016>
-				}elseif( $date_start_arr[0] != $date_end_arr[0] ||
-					$date_start_arr[1] != $date_end_arr[1] ){
-
-					$date = common::format_date($date_start, 'M d, Y').' - ';
-					$date.= common::format_date($date_end, 'M d, Y');
-				}
-			}
+			$date = common::display_date($date_start, $date_end);
 
 			$result[$i]['date']      =  $date;
 			$result[$i]['result_id'] = $result[$i]['event_id'];
@@ -289,6 +280,8 @@ class events extends CI_controller
 			case '/manage': $this->manage(); break;
 			default:$this->get_events();     break;
 		}
+			$this->upload_photo_modal();
+		
 		//CONTENT FOOTER
 		$this->load->view('templates/accounts/footer');
 	}
@@ -301,27 +294,71 @@ class events extends CI_controller
 	 */
 	public function view_artcore($page)
 	{
+		$limit  = 10;
+		$filter = array();
+		$params = array();
+		$search = array();
+		$common = new common;
+
+		$offset     = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
 		$view_type  = str_replace('/', '', $this->uri->slash_segment(2, 'leading'));
 
-		if( $view_type == 'new' ){
-			$total_rows = $this->events_model->get_no_of_events('open');
-			$limit      = 10;
-			$filter     = array();
+		switch ($view_type) {
+			case 'archive': $slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading')); break;
+			case 'new'    : $slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading')); break;
+			case 'title'  : $slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading')); break;
+			default: return $common->show_404(); break;
+		}
+
+		//SINGLE EVENT DISPLAY
+		if( $view_type == 'title' ){
+			//GET EVENTS
+			$result = $this->events_model->get_events('slug', $slug);
+
+			if( $result ){
+				//GET EVENT DESCRIPTION
+				$result[0]['description'] = $this->events_model->get_event_desc(
+							$result[0]['event_id']);
+				//FORMAT DISPLAY DATE
+				$result[0]['date_display'] = common::display_date(
+							$result[0]['date_start'], $result[0]['date_end']);
+				//GET EVENT MEMBERS
+				$result[0]['members'] = $this->events_model->get_members(
+							$result[0]['event_id']);
+				$data['event_single']  = $result[0];
+			}else{
+				$common->show_404();
+			}
+
+		//EVENT LIST
+		}else{
+			( $offset == '' )? $offset = 0 : $offset = $offset;
+			//DISPLAY LIST OF NEW EVENTS
+			if( $view_type == 'new' ){
+				//GET TOTAL NO. OF OPENED EVENTS
+				$total_rows = $this->events_model->get_no_of_events('open');
+				$search_data= 'open';
+				$base_url   = 'http://localhost/copportal/event/new/page/';
+
+			}elseif( $view_type == 'archive' ){
+				//GET TOTAL NO. OF CLOSED EVENTS
+				$total_rows = $this->events_model->get_no_of_events('close');
+				$search_data= 'close';
+				$base_url   = 'http://localhost/copportal/event/archive/page/';
+			}
+
+			if( $offset > ($total_rows) || $offset > $limit ){
+				return $common->show_404();
+			}
 
 			if( $total_rows > 0 ){
-				//GET THE OFFSET VIA URI SEGMENT
-				$offset = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
-
-				//SEARCH PARAMETERS FOR GETTING THE ANNOUNCEMENT LIST
-				$params = array();
-				$search = array();
 				array_push($search, array(
-					'fieldname'=>'status',
-					'data'     =>'open'
-					));
+						'fieldname'=>'status',
+						'data'     =>$search_data
+						));
 
-				$params['offset'] = ( $offset == '' )? 0 : $offset;
-				$params['limit']  = $limit;
+				$params['offset']    = $offset;
+				$params['limit']     = $limit;
 				$params['search_by'] = $search;
 
 				$result = $this->events_model->get_event_list($params);
@@ -335,43 +372,20 @@ class events extends CI_controller
 					if( !in_array(common::format_date($date_start, 'F'), $filter) ){
 						array_push($filter, common::format_date($date_start, 'F'));
 					}
+					//DATE FORMATTED TO USER READABLE FORMAT
+					$date = common::display_date($date_start, $date_end);
 
-					if( $date_start == $date_end ){
-						$date = common::format_date($date_start, 'F d, Y');
-					}else{
-						$date_start_arr = explode('-', $date_start);
-						$date_end_arr   = explode('-', $date_end);
+					$result[$i]['date_display']   = $date;
+					$result[$i]['description']    = character_limiter($description[0]['description'], 200);
+					$result[$i]['filter']         = common::format_date($date_start, 'F');
+					$result[$i]['title']          = character_limiter($result[$i]['title'], 29);
 
-						//IF MONTH AND YEAR FOR STARTING AND ENDING DATE IS THE SAME,
-						//AND DAY IS DIFF DISPLAY AS:
-						// <M d-d, YYYY>
-						// <Feb 11-13, 2015>
-						if( $date_start_arr[0] == $date_end_arr[0] &&
-							$date_start_arr[1] == $date_end_arr[1] ){
-
-							$date = common::format_date($date_start, 'F ');
-							$date.= $date_start_arr[2].'-'.$date_end_arr[2].', '.$date_start_arr[0];
-
-						//IF MONTH OR YEAR FOR STARTING AND ENDING DATE IS DIFFERENT,
-						//DISPLAY AS:
-						// <M d, YYYY - M d, YYY>
-						// <Feb 11, 2015 - Feb 11, 2016>
-						}elseif( $date_start_arr[0] != $date_end_arr[0] ||
-							$date_start_arr[1] != $date_end_arr[1] ){
-
-							$date = common::format_date($date_start, 'F d, Y').' - ';
-							$date.= common::format_date($date_end, 'F d, Y');
-						}
+					if( $view_type == 'archive' ){
+						$result[$i]['status_display'] = ( $result[$i]['status'] == 'close' )? 'Closed' : 'Open';
 					}
-
-					$result[$i]['date_display'] = $date;
-					$result[$i]['description']  = character_limiter($description[0]['description'], 200);
-					$result[$i]['filter']       = common::format_date($date_start, 'F');
-					$result[$i]['title']        = character_limiter($result[$i]['title'], 29);
 				}
-
 				//SET UP PAGINATION
-				$config['base_url'] = 'http://localhost/copportal/event/new/page/';
+				$config['base_url'] = $base_url;
 				$config['uri_segment'] = 4;
 				$config['total_rows'] = $total_rows;
 				$config['per_page'] = $limit;
@@ -391,28 +405,6 @@ class events extends CI_controller
 				$data['filter']             = common::sort_month($filter);
 				$data['artcore_pagination'] = $this->pagination->create_links();
 			}
-
-
-		}elseif( $view_type == 'archive' ){
-
-		}elseif( $view_type == 'title' ){
-			$slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
-
-			//GET EVENTS
-			$result = $this->events_model->get_events('slug', $slug);
-
-			if( $result ){
-				//GET EVENT DESCRIPTION
-				$result[0]['description'] = $this->events_model->get_event_desc(
-							$result[0]['event_id']);
-				//GET EVENT MEMBERS
-				$result[0]['members'] = $this->events_model->get_members(
-							$result[0]['event_id']);
-				$data['event_single']  = $result[0];
-			}else{
-				$common = new common;
-				$common->show_404();
-			}
 		}
 
 		$data['page_header'] = array('title'=>$page, 'subtitle'=>'Schedule');
@@ -424,4 +416,3 @@ class events extends CI_controller
 }
 ?>
 
-			

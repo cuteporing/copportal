@@ -191,7 +191,7 @@ $(function() {
 					//DISPLAY GENERAL SUCCESS MESSAGE
 					show_alert_msg(result.status_msg, 'success');
 					form_reset(form.attr('action'));
-				}else if( result.status_type == "refresh" ){
+				}else if( result.status_type == "redirect" ){
 					//RELOAD PAGE
 					if( result.status_msg != '' ){
 						btn.data('redirect-link', result.status_msg);

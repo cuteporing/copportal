@@ -18,6 +18,7 @@ include_once('artcore_pagination.php');
 include_once('banner.php');
 include_once('common.php');
 include_once('events.php');
+include_once('gallery.php');
 include_once('users.php');
 
 class pages extends CI_controller
@@ -124,6 +125,20 @@ class pages extends CI_controller
 	}
 
 	/**
+	 * DISPLAY GALLERY
+	 * @return data
+	 * --------------------------------------------
+	 */
+	public function galleries($page)
+	{
+		$galleries = new gallery;
+		$this->page_loader();
+		$this->site_header();
+
+		return $galleries->view_artcore($page);
+	}
+
+	/**
 	 * DISPLAY INDEX VIEW PAGE
 	 * @return data
 	 * --------------------------------------------
@@ -157,6 +172,7 @@ class pages extends CI_controller
 			switch ($page) {
 				case 'announcement'    : $this->announcement($page);    break;
 				case 'event'           : $this->event($page);           break;
+				case 'galleries'       : $this->galleries($page);       break;
 				case 'home'            : $this->home($page);            break;
 				case 'login'           : $this->login($page);           break;
 				default: $page = 'home'; $this->home($page);            break;

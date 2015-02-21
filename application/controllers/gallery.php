@@ -163,4 +163,78 @@ class gallery extends CI_controller
 		//CONTENT FOOTER
 		$this->load->view('templates/accounts/footer');
 	}
+
+	/**
+	 * DISPLAY GALLERY FRONT-SIDE PAGE
+	 * @param String, $page
+	 * @return page
+	 * --------------------------------------------
+	 */
+	public function view_artcore($page)
+	{
+		$limit  = 10;
+		$filter = array();
+		$params = array();
+		$search = array();
+		$common = new common;
+
+		$offset     = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		$slug       = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		$view_type  = str_replace('/', '', $this->uri->slash_segment(2, 'leading'));
+
+		//PHOTO DISPLAY DISPLAY
+		if( $view_type == 'title' ){
+
+			array_push($search, array(
+						'fieldname'=>'slug',
+						'data'     =>$slug));
+
+			$result_album = $this->gallery_model->get_album();
+
+			if( $result_album ){
+				//SEARCH PARAMETERS FOR ALBUM PHOTOS
+				$search[0]['fieldname'] = 'gallery_id';
+				$search[0]['data']      =  $result_album[0]['gallery_id'];
+
+				$result_album[0]['title'] = character_limiter($result_album[0]['title'], 8);
+				$result_album[0]['photos']= $this->gallery_model->get_album_photos($search, '');
+				$result_album[0]['description'] = character_limiter($result_album[0]['description'], 200);
+
+				$data['album_single'] = $result_album[0];
+				$data['page_header'] = array('title'=>'Gallery', 'subtitle'=>$result_album[0]['title']);
+
+			}
+		}elseif( 'page' ){
+			//GET TOTAL NO. OF ALBUMS
+			$total_rows = $this->gallery_model->get_no_of_albums();
+
+			if( $offset > ($total_rows) || $offset > $limit ){
+				return $common->show_404();
+			}
+
+			if( $total_rows > 0 ){
+				$params['offset'] = $offset;
+				$params['limit']  = $limit;
+
+				$result_album = $this->gallery_model->get_album();
+
+				for($i=0; $i < count($result_album); $i++) {
+					//SEARCH PARAMETERS FOR ALBUM PHOTOS
+					array_push($search, array(
+						'fieldname'=>'gallery_id',
+						'data'     =>$result_album[$i]['gallery_id']) );
+
+					$result_album[$i]['title'] = character_limiter($result_album[$i]['title'], 8);
+					$result_album[$i]['photos']= $this->gallery_model->get_album_photos($search, '');
+					$result_album[$i]['description'] = character_limiter($result_album[$i]['description'], 200);
+				}
+				$data['album_list'] = $result_album;
+			}
+			$data['page_header'] = array('title'=>'Gallery', 'subtitle'=>'');
+		}
+
+		$this->load->view('templates/pages/content_wrapper_open');
+		$this->load->view('pages/'.$page, $data);
+		$this->load->view('templates/pages/content_wrapper_close');
+	}
 }

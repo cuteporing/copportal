@@ -205,7 +205,7 @@ class events_ajax extends CI_controller
 		if( $result['status'] == 'error' ){
 			echo common::response_msg(200, $result['status'], $result['msg']);
 		}else{
-			echo common::response_msg(200, 'refresh', '');
+			echo common::response_msg(200, 'redirect', '');
 		}
 	}
 
@@ -268,8 +268,8 @@ class events_ajax extends CI_controller
 
 		$date_start = common::format_date($date[0]);
 		$date_end   = common::format_date($date[1]);
-		$time_start = common::format_time($this->input->post('time_start'));
-		$time_end   = common::format_time($this->input->post('time_end'));
+		$time_start = $this->input->post('time_start');
+		$time_end   = $this->input->post('time_end');
 
 		$event_data = array(
 			'owner_id'        =>$session_data['id'],
@@ -299,7 +299,11 @@ class events_ajax extends CI_controller
 		}
 		$result = $this->events_model->create_events($event_data, $description_data);
 
-		echo common::response_msg(200, $result['status'], $result['msg']);
+		if( $result ){
+			echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result['msg']);
+		}else{
+			echo common::response_msg(200, 'error', 'Cannot delete event');
+		}
 	}
 
 	/**
@@ -357,8 +361,8 @@ class events_ajax extends CI_controller
 
 		$date_start = common::format_date($date[0]);
 		$date_end   = common::format_date($date[1]);
-		$time_start = common::format_time($this->input->post('time_start'));
-		$time_end   = common::format_time($this->input->post('time_end'));
+		$time_start = $this->input->post('time_start');
+		$time_end   = $this->input->post('time_end');
 
 		$event_data = array(
 			'event_id'        =>$this->input->post('event_id'),
@@ -388,7 +392,7 @@ class events_ajax extends CI_controller
 		}
 		$result = $this->events_model->update_events($event_data, $description_data);
 
-		echo common::response_msg(200, $result['status'], $result['msg']);
+		echo common::response_msg(200, $result['status'], $result['msg'], $event_data);
 	}
 }
 ?>
