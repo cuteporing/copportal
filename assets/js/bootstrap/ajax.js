@@ -194,6 +194,9 @@ $(function() {
 				}else if( result.status_type == "redirect" ){
 					//RELOAD PAGE
 					if( result.status_msg != '' ){
+						if( result.data.modal_id !== undefined ){
+							localStorage.setItem('modal_id', result.data.modal_id);
+						}
 						btn.data('redirect-link', result.status_msg);
 						btn.data('del-type', 'redirect');
 						remove_data(btn);

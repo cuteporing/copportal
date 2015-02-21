@@ -13,7 +13,6 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 include_once('common.php');
-include_once('upload.php');
 
 class gallery_ajax extends CI_controller
 {

@@ -55,12 +55,13 @@ $route['events_ajax/close/(:any)']              = 'events_ajax/close/$1';
 $route['events_ajax/member_list/(:any)']        = 'events_ajax/member_list/$1';
 $route['events_ajax/member_add/(:any)']         = 'events_ajax/member_add/$1';
 $route['events_ajax/member_delete/(:any)']      = 'events_ajax/member_delete/$1';
+$route['events_ajax/upload_photo']              = 'events_ajax/upload_photo/$1';
 
 //GALLERY
 $route['gallery_ajax/create_album']             = 'gallery_ajax/create_album/$1';
 $route['gallery_ajax/delete_album/(:any)']      = 'gallery_ajax/delete_album/$1';
 $route['gallery_ajax/delete_photo/(:any)']      = 'gallery_ajax/delete_photo/$1';
-$route['gallery_ajax/cover_photo/(:any)']      = 'gallery_ajax/cover_photo/$1';
+$route['gallery_ajax/cover_photo/(:any)']       = 'gallery_ajax/cover_photo/$1';
 $route['gallery_ajax/upload_gallery_photo']     = 'gallery_ajax/upload_gallery_photo/$1';
 
 //MANAGE BENEFICIARY

@@ -78,6 +78,7 @@ $(function() {
 	});
 
 
+
 	sideBar();
 
 	function sideBar(){
@@ -94,4 +95,11 @@ $(function() {
 		if( hasDrop )
 			link.find('.treeview-menu').slideDown('fast');
 	}
+	var showModal = true;
+
+	if (localStorage.getItem("modal_id") !== null) {
+		$('[data-autoload]').trigger( "click" );
+		if ("modal_id" in localStorage) localStorage.removeItem("modal_id");
+	}
+
 });

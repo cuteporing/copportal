@@ -124,10 +124,13 @@ class events extends CI_controller
 	 */
 	public function upload_photo_modal()
 	{
-		$data['modal_id']     = 'upload-photo-modal';
+		$event_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+
+		$data['event_id']     = $event_id;
+		$data['modal_id']     = 'event-upload-modal';
 		$data['modal_header'] = '<i class="fa fa-upload"></i> Upload photos';
 		$this->load->view('templates/modal/modal_header', $data);
-		// $this->load->view('templates/forms/gallery_upload_form', $data);
+		$this->load->view('templates/forms/event_upload_form', $data);
 		$this->load->view('templates/modal/modal_footer', $data);
 	}
 
@@ -178,7 +181,7 @@ class events extends CI_controller
 		$data['result_desc']     = ($result_desc)? $result_desc : array();
 
 		$this->load->view('templates/forms/event_form', $data);
-		// $this->upload_photo_modal();
+		$this->upload_photo_modal($data);
 
 	}
 
@@ -280,8 +283,7 @@ class events extends CI_controller
 			case '/manage': $this->manage(); break;
 			default:$this->get_events();     break;
 		}
-			$this->upload_photo_modal();
-		
+
 		//CONTENT FOOTER
 		$this->load->view('templates/accounts/footer');
 	}

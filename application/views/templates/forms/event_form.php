@@ -1,8 +1,10 @@
 <?php if( isset($result) ): ?>
 	<div class="row">
-		<div class="col-md-8"></div>
+		<div class="col-md-8">
+
+		</div>
 		<div class="col-md-4">
-			<a class="btn btn-warning btn-block" data-toggle="modal" data-target="#upload-photo-modal">
+			<a class="btn btn-warning btn-block" data-toggle="modal" data-target="#event-upload-modal" data-autoload>
 				<i class="fa fa-photo"></i> Upload photo
 			</a><br>
 		</div>
@@ -41,6 +43,9 @@
 					<label><?=$this->lang->line('lbl_event_title')?></label>
 					<input type="text" class="form-control" name="title" value="<?php if(isset($result)){ echo $result['title']; } ?>" maxlength="150">
 					<p class="error"></p>
+					<?php if( !is_null($result['raw_name']) ):?>
+						<img src="<?=base_url().$result['file_path'].$result['raw_name'].$result['file_ext']?>">
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

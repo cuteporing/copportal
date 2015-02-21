@@ -300,7 +300,8 @@ class events_ajax extends CI_controller
 		$result = $this->events_model->create_events($event_data, $description_data);
 
 		if( $result ){
-			echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result['msg']);
+			$local_storage = array('modal_id'=>$result['msg']);
+			echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result['msg'],$local_storage);
 		}else{
 			echo common::response_msg(200, 'error', 'Cannot delete event');
 		}
@@ -393,6 +394,87 @@ class events_ajax extends CI_controller
 		$result = $this->events_model->update_events($event_data, $description_data);
 
 		echo common::response_msg(200, $result['status'], $result['msg'], $event_data);
+	}
+
+	/**
+	 * UPLOADS A PHOTO
+	 * @param Array, $params
+	 * @return JSON response
+	 * --------------------------------------------
+	 */
+	public function upload_photo($params = array())
+	{
+		$status = "";
+		$msg = "";
+		$file_element_name = 'userfile';
+
+		if ($status != "error"){
+			$upload_path   = ( isset($params['upload_path']) )?   $params['upload_path']   : './'.common::get_constants('imgPath',   'EVENT');
+			$allowed_types = ( isset($params['allowed_types']) )? $params['allowed_types'] : common::get_constants('imgConfig', 'ALLOWED_TYPES');
+			$max_size      = ( isset($params['max_size']) )?      $params['max_size']      : common::get_constants('imgConfig', 'MAX_SIZE');
+			$max_width     = ( isset($params['max_width']) )?     $params['max_width']     : common::get_constants('imgConfig', 'MAX_WIDTH');
+			$max_height    = ( isset($params['max_height']) )?    $params['max_height']    : common::get_constants('imgConfig', 'MAX_HEIGHT');
+
+			$config['upload_path']   = $upload_path;
+			$config['allowed_types'] = $allowed_types;
+			$config['max_size']	     = $max_size;
+			$config['max_width']     = $max_width;
+			$config['max_height']    = $max_height;
+			$config['encrypt_name'] = FALSE;
+
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload($file_element_name)){
+				$status = 'error';
+				$msg    =  $this->upload->display_errors('', '');
+				echo common::response_msg(200, 'error', $msg);
+			}else{
+				$data = $this->upload->data();
+				$image_path = $data['full_path'];
+				if(file_exists($image_path)){
+					//SAVE GALLERY PHOTO TO DATABASE
+					$this->save_photo($data);
+				}else{
+					echo common::response_msg(200, 'error', 'Something went wrong when saving the file, please try again.');
+				}
+			}
+			@unlink($_FILES[$file_element_name]);
+		}
+	}
+
+	/**
+	 * SAVE UPLOADED IMAGE INFO ON DATABASE
+	 * @param Array, $uploaded_photo
+	 * @return JSON response
+	 * --------------------------------------------
+	 */
+	public function save_photo($uploaded_photo)
+	{
+		$event_id   = $this->input->post('event_id');
+
+		$data = array(
+			'event_id'  =>$event_id,
+			'raw_name'  =>$uploaded_photo['raw_name'],
+			'file_path' =>common::get_constants('imgPath', 'EVENT'),
+			'file_ext'  =>$uploaded_photo['file_ext'],
+			);
+
+		$events = $this->events_model->get_events('event_id', $event_id);
+
+		if( !is_null($events[0]['raw_name']) ){
+			$file_path  = $events[0]['file_path'];
+			$file_path .= $events[0]['raw_name'];
+			$file_path .= $events[0]['file_ext'];
+			@unlink($file_path);
+		}
+
+		$result = $this->events_model->update_events($data);
+
+		if( $result['status'] == 'success' ){
+			echo common::response_msg(200, 'refresh', '');
+		}else{
+			echo common::response_msg(200, 'error', 'Something went wrong when saving the file, please try again.');
+		}
 	}
 }
 ?>

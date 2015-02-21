@@ -306,18 +306,21 @@ class Events_model extends CI_Model {
 	 * @return Array
 	 * --------------------------------------------
 	 */
-	public function update_events($event_data, $description_data)
+	public function update_events($event_data, $description_data=array())
 	{
 		$this->db->trans_begin();
 		$this->db->where('event_id', $event_data['event_id']);
 		$this->db->update('cop_events', $event_data);
-		//DELETE ALL EVENT DESCRIPTION FOR THE EVENT
-		$this->delete_event_desc($event_data['event_id']);
 
-		foreach ($description_data as $data) {
-			$data['event_id'] = $event_data['event_id'];
-			//INSERT DESCRIPTION
-			$this->db->insert('cop_description', $data);
+		if( count($description_data) > 0 ){
+			//DELETE ALL EVENT DESCRIPTION FOR THE EVENT
+			$this->delete_event_desc($event_data['event_id']);
+
+			foreach ($description_data as $data) {
+				$data['event_id'] = $event_data['event_id'];
+				//INSERT DESCRIPTION
+				$this->db->insert('cop_description', $data);
+			}
 		}
 
 		if( $this->db->trans_status() === FALSE )
@@ -330,10 +333,18 @@ class Events_model extends CI_Model {
 				);
 		}else{
 			$this->db->trans_commit();
-			return array(
-				'status'=>'success',
-				'msg'   =>'"'.$event_data['title'].'" has been updated'
-				);
+			
+				if( isset($event_data['title']) ){
+					return array(
+						'status'=>'success',
+						'msg'   =>'"'.$event_data['title'].'" has been updated'
+					);
+				}else{
+					return array(
+						'status'=>'success',
+						'msg'   =>'Event has been updated'
+					);
+				}
 		}
 	}
 
