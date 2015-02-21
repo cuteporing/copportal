@@ -128,7 +128,7 @@ class Events_model extends CI_Model {
 		$query = $this->db->get();
 
 		if( $query->num_rows() > 0 ){
-			return $query->result();
+			return $query->result_array();
 		}else{
 			return FALSE;
 		}
@@ -149,12 +149,11 @@ class Events_model extends CI_Model {
 		}else{
 			$this->db->where($search_by, $data);
 			$this->db->from('cop_events');
-			$this->db->limit(1);
 			$this->db->order_by("date_start", "desc");
 			$query = $this->db->get();
 
 			if( $query->num_rows() > 0 ){
-				return $query->result();
+				return $query->result_array();
 			}else{
 				return FALSE;
 			}

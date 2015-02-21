@@ -20,7 +20,6 @@ class announcements extends CI_controller
 		parent::__construct();
 		$this->load->model('announcements_model');
 		$this->load->library('pagination');
-		$this->load->helper('file');
 	}
 
 	/**

@@ -19,7 +19,7 @@ class events extends CI_controller
 	{
 		parent::__construct();
 		$this->load->model('events_model');
-		$this->load->helper('file');
+		$this->load->library('pagination');
 	}
 
 	/**
@@ -155,8 +155,8 @@ class events extends CI_controller
 			return $this->load->view('error/record_not_found');
 		}
 
-		$result[0]->date_start =  common::format_date($result[0]->date_start, 'm/d/Y');
-		$result[0]->date_end   =  common::format_date($result[0]->date_end, 'm/d/Y');
+		$result[0]['date_start'] =  common::format_date($result[0]['date_start'], 'm/d/Y');
+		$result[0]['date_end']   =  common::format_date($result[0]['date_end'], 'm/d/Y');
 
 		$data['events_category'] = $this->events_model->get_categories();
 		$data['result']          = $result[0];
@@ -327,9 +327,11 @@ class events extends CI_controller
 				$result = $this->events_model->get_event_list($params);
 
 				for ($i=0; $i<count($result); $i++) {
-					$date_start= $result[$i]['date_start'];
-					$date_end  = $result[$i]['date_end'];
+					$description = $this->events_model->get_event_desc($result[$i]['event_id']);
+					$date_start  = $result[$i]['date_start'];
+					$date_end    = $result[$i]['date_end'];
 
+					//ADD THE MONTH OF START DATE INTO THE FILTER
 					if( !in_array(common::format_date($date_start, 'F'), $filter) ){
 						array_push($filter, common::format_date($date_start, 'F'));
 					}
@@ -361,15 +363,56 @@ class events extends CI_controller
 							$date.= common::format_date($date_end, 'F d, Y');
 						}
 					}
+
 					$result[$i]['date_display'] = $date;
+					$result[$i]['description']  = character_limiter($description[0]['description'], 200);
+					$result[$i]['filter']       = common::format_date($date_start, 'F');
+					$result[$i]['title']        = character_limiter($result[$i]['title'], 29);
 				}
+
+				//SET UP PAGINATION
+				$config['base_url'] = 'http://localhost/copportal/event/new/page/';
+				$config['uri_segment'] = 4;
+				$config['total_rows'] = $total_rows;
+				$config['per_page'] = $limit;
+				$config['full_tag_open'] = '<div class="row"><div class="col-md-12"><div class="pagination text-center"><ul>';
+				$config['full_tag_close'] = '</ul></div></div></div>';
+				$config['cur_tag_open'] = '<li><a href="javascript:void(0)" class="active">';
+				$config['cur_tag_close'] = '</a></li>';
+				$config['num_tag_open'] = '<li>';
+				$config['num_tag_close'] = '</li>';
+				$config['first_link'] = '<li>First';
+				$config['last_link'] = '<li>Last';
+				$config['prev_link'] = FALSE;
+				$config['next_link'] = FALSE;
+				$this->pagination->initialize($config);
+
+				$data['event_new_list']     = $result;
+				$data['filter']             = common::sort_month($filter);
+				$data['artcore_pagination'] = $this->pagination->create_links();
 			}
-			print_r($filter);
-			// print_r($result);
-			$data['event_new_list']  = $result;
+
 
 		}elseif( $view_type == 'archive' ){
 
+		}elseif( $view_type == 'title' ){
+			$slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+
+			//GET EVENTS
+			$result = $this->events_model->get_events('slug', $slug);
+
+			if( $result ){
+				//GET EVENT DESCRIPTION
+				$result[0]['description'] = $this->events_model->get_event_desc(
+							$result[0]['event_id']);
+				//GET EVENT MEMBERS
+				$result[0]['members'] = $this->events_model->get_members(
+							$result[0]['event_id']);
+				$data['event_single']  = $result[0];
+			}else{
+				$common = new common;
+				$common->show_404();
+			}
 		}
 
 		$data['page_header'] = array('title'=>$page, 'subtitle'=>'Schedule');
@@ -380,3 +423,5 @@ class events extends CI_controller
 	}
 }
 ?>
+
+			

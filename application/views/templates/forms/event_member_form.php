@@ -1,4 +1,4 @@
-<?php if( $result_event->status == 'open' ): ?>
+<?php if( $result_event['status'] == 'open' ): ?>
 	<div class="col-md-6" id="event_member_form">
 	<?php echo form_open('events_ajax/member_add/'.
 			str_replace('/', '', $this->uri->slash_segment(4, 'leading'))) ?>

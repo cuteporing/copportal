@@ -12,12 +12,11 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class gallery extends account
+class gallery extends CI_controller
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('file');
 		$this->load->model('gallery_model');
 	}
 
@@ -115,17 +114,17 @@ class gallery extends account
 			$result_event_list = $this->gallery_model->get_events();
 			$result_album      = $this->gallery_model->get_album();
 
-			foreach ($result_album as $obj) {
+			for($i=0; $i < count($result_album); $i++) {
 				//SEARCH PARAMETERS FOR ALBUM PHOTOS
 				array_push($photo_params, array(
 					'fieldname'=>'gallery_id',
-					'data'     =>$obj['gallery_id']) );
+					'data'     =>$result_album[$i]['gallery_id']) );
 
-				$result_photos = $this->gallery_model->get_album_photos($photo_params, '');
-
+				$result_album[$i]['title'] = character_limiter($result_album[$i]['title'], 8);
+				$result_photos             = $this->gallery_model->get_album_photos($photo_params, '');
+				echo strlen($result_album[$i]['title']).'<br>';
 				// $result_album['photos'] = $result_photos;
 			}
-
 			$data['btn_upload']   = 'hide';
 			$data['event_list']   = $result_event_list;
 			$data['result_album'] = $result_album;

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2015 at 03:51 PM
+-- Generation Time: Feb 21, 2015 at 01:35 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -97,8 +97,8 @@ CREATE TABLE IF NOT EXISTS `cop_artcore_parenttab` (
 
 INSERT INTO `cop_artcore_parenttab` (`parenttab_id`, `title`, `link`, `attribute`, `sequence`, `slug`) VALUES
 (1, 'Home', 'home', NULL, 1, 'home'),
-(2, 'Events', '#', NULL, 3, 'events'),
-(3, 'Gallery', 'gallery', NULL, 4, 'gallery'),
+(2, 'Events', 'event/new/page/', NULL, 3, 'events'),
+(3, 'Gallery', 'galleries', NULL, 4, 'galleries'),
 (4, 'Sign in', 'login', NULL, 5, 'login'),
 (5, 'Announcement', 'announcement/page/', NULL, 2, 'announcement');
 
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `cop_beneficiaries` (
 
 INSERT INTO `cop_beneficiaries` (`id`, `first_name`, `last_name`, `gender`, `date_entered`, `date_modified`, `phone`, `address_street`, `address_city_id`, `imagename`, `deleted`) VALUES
 (6, 'Ransu', 'Caw', 'Male', '2015-02-05 00:37:33', '2015-02-05 00:37:33', '[]', 'asdasdas', 4, '', 0),
-(8, 'Kevin', 'Valencia', 'Female', '2015-02-18 19:46:25', '2015-02-18 19:46:25', '[]', 'las pinas', 1, '', 0);
+(8, 'Mang', 'Kanor', 'Female', '2015-02-20 17:34:02', '2015-02-20 17:34:02', '[]', 'las pinas', 1, '', 0);
 
 -- --------------------------------------------------------
 
@@ -256,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
@@ -265,9 +265,10 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
 (31, 15, '', 1),
 (32, 16, '', 1),
-(40, 23, 'LOREM IPSUM DOLOR ESMET', 1),
 (43, 20, '', 1),
-(44, 22, 'Aug 12, 2013 -&nbsp;<span>my class.inc file:S<!--?php class logout{ public function logout(){ ... You have to call the function mentioned below on the top your logout function in ...</span--></span>', 1);
+(44, 22, 'Aug 12, 2013 -&nbsp;<span>my class.inc file:S<!--?php class logout{ public function logout(){ ... You have to call the function mentioned below on the top your logout function in ...</span--></span>', 1),
+(49, 23, '<span>To listen to Nelly Miricioiu, the soprano from Romania who is now a British citizen, is to fall in love with her. She will have a one-night concert, “Nelly Miricioiu Live in Manila,” on March 6 at 8 p.m. at Meralco Theater, Ortigas Center, Pasig City, with Najib Ismail as assisting artist in a program of arias by Verdi, Puccini, Bellini, Rossini, Chausson and Respighi. She will also conduct a bel canto masterclass for 13 young classical music singers who she handpicked based on the videos they had sent her. The classes, all open to the public, will run from March 9 to 11 at the Ayala Museum, Makati Ave., Makati City, from 11 a.m. to 6 p.m.<br></span><span><br></span><span>To listen to Nelly Miricioiu, the soprano from Romania who is now a British citizen, is to fall in love with her. She will have a one-night concert, “Nelly Miricioiu Live in Manila,” on March 6 at 8 p.m. at Meralco Theater, Ortigas Center, Pasig City, with Najib Ismail as assisting artist in a program of', 1),
+(50, 23, ' arias by Verdi, Puccini, Bellini, Rossini, Chausson and Respighi. She will also conduct a bel canto masterclass for 13 young classical music singers who she handpicked based on the videos they had sent her. The classes, all open to the public, will run from March 9 to 11 at the Ayala Museum, Makati Ave., Makati City, from 11 a.m. to 6 p.m.</span><span><br><br></span>', 2);
 
 -- --------------------------------------------------------
 
@@ -287,6 +288,9 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `time_start` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `time_end` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `location` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `raw_name` varchar(255) DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `file_ext` varchar(255) DEFAULT NULL,
   `slug` varchar(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
@@ -294,10 +298,10 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
 -- Dumping data for table `cop_events`
 --
 
-INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `slug`) VALUES
-(20, 1, 'TECH TUTOR 5', 'open', 1, '2015-02-19 19:35:08', '2015-02-09', '2015-02-09', '22:30:PM', '22:30:PM', 'Dasd', 'tech-tutor-5'),
-(22, 1, 'TECH TUTOR 7', 'open', 1, '2015-02-19 19:35:15', '2015-02-16', '2015-02-16', '22:30:PM', '22:30:PM', 'Sdfsdf', 'tech-tutor-7'),
-(23, 1, 'COP EVENTS', 'open', 1, '2015-02-18 17:49:35', '2015-02-19', '2015-02-19', '20:45:PM', '20:45:PM', 'Asssssssss', 'cop-events');
+INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
+(20, 1, 'TECH TUTOR 5', 'open', 1, '2015-02-21 11:40:18', '2015-02-09', '2015-02-09', '22:30:PM', '22:30:PM', 'Dasd', 'blog-6', 'uploads/event/', '.jpg', 'tech-tutor-5'),
+(22, 1, 'TECH TUTOR 7', 'open', 1, '2015-02-19 19:35:15', '2015-02-16', '2015-02-16', '22:30:PM', '22:30:PM', 'Sdfsdf', NULL, NULL, NULL, 'tech-tutor-7'),
+(23, 1, 'COP EVENTS', 'open', 1, '2015-02-21 04:58:03', '2015-03-18', '2015-03-19', '19:45:PM', '19:45:PM', 'Asssssssss', NULL, NULL, NULL, 'cop-events');
 
 -- --------------------------------------------------------
 
@@ -552,7 +556,7 @@ MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=51;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --

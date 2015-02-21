@@ -39,7 +39,7 @@ class pages extends CI_controller
 	{
 		if( !file_exists(APPPATH.'/views/pages/'.$page.'.php') )
 		{
-			return show_404();
+			return true;
 		}
 	}
 
@@ -149,20 +149,29 @@ class pages extends CI_controller
 	 */
 	public function view($page = 'home')
 	{
-		self::checkIfPageExist($page);
-		$common = new common;
-		$common->load_language();
-		$common->display_header($page);
+		if( !self::checkIfPageExist($page) ){
+			$common = new common;
+			$common->load_language();
+			$common->display_header($page);
 
-		switch ($page) {
-			case 'announcement'    : $this->announcement($page);    break;
-			case 'event'           : $this->event($page);           break;
-			case 'home'            : $this->home($page);            break;
-			case 'login'           : $this->login($page);           break;
-			default: $page = 'home'; $this->home($page);            break;
+			switch ($page) {
+				case 'announcement'    : $this->announcement($page);    break;
+				case 'event'           : $this->event($page);           break;
+				case 'home'            : $this->home($page);            break;
+				case 'login'           : $this->login($page);           break;
+				default: $page = 'home'; $this->home($page);            break;
+			}
+
+			$common->display_footer();
+		}else{
+			$common = new common;
+			$common->load_language();
+			$common->display_header($page);
+			$this->page_loader();
+			$this->site_header();
+			$common->show_404();
+			$common->display_footer();
 		}
-
-		$common->display_footer();
 	}
 }
 ?>

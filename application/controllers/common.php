@@ -49,6 +49,7 @@ class common extends CI_controller
 			'imgPath'   => array(
 				'ANNOUNCEMENT'  => 'uploads/announcement/',
 				'BANNER'        => 'uploads/banner/',
+				'EVENT'         => 'uploads/event/',
 				'GALLERY'       => 'uploads/gallery/',
 				'GENERAL'       => 'uploads/', ),
 			'imgConfig' => array(
@@ -110,7 +111,14 @@ class common extends CI_controller
 			array_push($style, 'assets/css/artcore/animate.css');
 			array_push($style, 'assets/css/artcore/templatemo-misc.css');
 			array_push($style, 'assets/css/artcore/templatemo-style.css');
-			
+		}else{
+			array_push($style, 'assets/css/artcore/roboto-slab.css');
+			array_push($style, 'assets/css/artcore/roboto.css');
+			array_push($style, 'assets/css/artcore/bootstrap.css');
+			array_push($style, 'assets/css/artcore/font-awesome.css');
+			array_push($style, 'assets/css/artcore/animate.css');
+			array_push($style, 'assets/css/artcore/templatemo-misc.css');
+			array_push($style, 'assets/css/artcore/templatemo-style.css');
 		}
 
 		return $style;
@@ -171,6 +179,12 @@ class common extends CI_controller
 			array_push($script, 'assets/js/bootstrap/all.js');
 			array_push($script, 'assets/js/bootstrap/ajax.js');
 		}elseif( in_array( strtolower($page), $artcore ) ){
+			array_push($script, 'assets/js/artcore/vendor/modernizr-2.6.1-respond-1.1.0.min.js');
+			array_push($script, 'assets/js/artcore/vendor/jquery-1.11.0.min.js');
+			array_push($script, 'assets/js/artcore/plugins.js');
+			array_push($script, 'assets/js/artcore/main.js');
+			array_push($script, 'assets/js/artcore/all.js');
+		}else{
 			array_push($script, 'assets/js/artcore/vendor/modernizr-2.6.1-respond-1.1.0.min.js');
 			array_push($script, 'assets/js/artcore/vendor/jquery-1.11.0.min.js');
 			array_push($script, 'assets/js/artcore/plugins.js');
@@ -316,6 +330,18 @@ class common extends CI_controller
 		return p($msg, array('class'=>'error'));
 	}
 
+	static function sort_month($input)
+	{
+		$output = array('All');
+
+		foreach($input as $month) {
+			$m = date_parse($month);
+			$output[$m['month']] = $month;
+		}
+		ksort($output);
+
+		return $output;
+	}
 
 	/**
 	 * CHECKS IF THERE IS A LOGGED IN USER
@@ -362,6 +388,13 @@ class common extends CI_controller
 		if ( is_array($data) ) { $response['data'] = $data; }
 
 		return json_encode($response);
+	}
+
+	public function show_404()
+	{
+		$this->load->view('templates/pages/content_wrapper_open');
+		$this->load->view('error/artcore/error_404');
+		$this->load->view('templates/pages/content_wrapper_close');
 	}
 }
 ?>

@@ -1,11 +1,11 @@
 
 <?php if( isset($result) ): ?>
 	<?php echo form_open('events_ajax/edit/') ?>
-	<input  type="text" class="form-control hide" name="event_id" value="<?php if(isset($result)){ echo $result->event_id; } ?>">
+	<input  type="text" class="form-control hide" name="event_id" value="<?php if(isset($result)){ echo $result['event_id']; } ?>">
 	<textarea class="hide" id="description_mirror" name="description_mirror">
 		<?php if( isset($result_desc) && count($result_desc) > 0 ): ?>
 			<?php foreach ($result_desc as $description): ?>
-				<?=$description->description ?>
+				<?=$description['description'] ?>
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</textarea>
@@ -30,7 +30,7 @@
 			<div class="box-body">
 				<div class="form-group">
 					<label><?=$this->lang->line('lbl_event_title')?></label>
-					<input type="text" class="form-control" name="title" value="<?php if(isset($result)){ echo $result->title; } ?>" maxlength="150">
+					<input type="text" class="form-control" name="title" value="<?php if(isset($result)){ echo $result['title']; } ?>" maxlength="150">
 					<p class="error"></p>
 				</div>
 			</div>
@@ -70,11 +70,11 @@
 			<div class="box-body">
 				<div class="form-group">
 					<label>
-						<input type="radio" name="status" class="minimal" value="close" <?php if( $result->status == "close"){ echo 'checked'; } ?>/>
+						<input type="radio" name="status" class="minimal" value="close" <?php if( $result['status'] == "close"){ echo 'checked'; } ?>/>
 						Close
 					</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<label>
-						<input type="radio" name="status" class="minimal" value="open" <?php if( $result->status == "open"){ echo 'checked'; } ?>/>
+						<input type="radio" name="status" class="minimal" value="open" <?php if( $result['status'] == "open"){ echo 'checked'; } ?>/>
 						Open
 					</label>
 				</div>
@@ -102,7 +102,7 @@
 					<label><?=$this->lang->line('lbl_location')?></label>
 					<div class="input-group">
 						<div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
-						<input type="text" class="form-control" name="location" value="<?php if(isset($result)){ echo $result->location; } ?>">
+						<input type="text" class="form-control" name="location" value="<?php if(isset($result)){ echo $result['location']; } ?>">
 					</div>
 					<p class="error"></p>
 				</div>
@@ -111,7 +111,7 @@
 					<label><?=$this->lang->line('lbl_event_date')?></label>
 					<div class="input-group">
 						<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-						<input type="text" class="form-control pull-right"  name="event_date" id="reservation" value="<?php if(isset($result)){ echo $result->date_start.' - '.$result->date_end; } ?>">
+						<input type="text" class="form-control pull-right"  name="event_date" id="reservation" value="<?php if(isset($result)){ echo $result['date_start'].' - '.$result['date_end']; } ?>">
 					</div>
 					<p class="error"></p>
 				</div>
