@@ -36,6 +36,13 @@ $(function() {
         }
     }, 1000);
 
+    if( $('.wysihtml5-sandbox').length > 0 ){
+        setInterval(function(){
+            $(".wysihtml5-sandbox").contents().find('ol').css({'list-style-type':'decimal', 'margin-left':'1.5em'});
+            $(".wysihtml5-sandbox").contents().find('ul').css({'list-style-type':'disc', 'margin-left':'1.5em'});
+        }, 1000);
+    }
+
     $('.daterange').daterangepicker(
             {
                 ranges: {

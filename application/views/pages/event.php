@@ -56,8 +56,15 @@
                 <img src="<?=base_url().$event_single['file_path'].$event_single['raw_name'].$event_single['file_ext'] ?>" alt="">
             </div> <!-- /.blog-image -->
             <div class="box-content col-md-4">
+                <h3>List of participants</h3>
                 <?php if( isset($event_single['members']) && !is_null($event_single['members']) ): ?>
-
+                    <?php $counter = 1;?>
+                    <ul>
+                        <?php foreach ($event_single['members'] as $row): ?>
+                            <li class="lined-list"><span class="small-inline-flex"><?=$counter?></span><?=$row['first_name']?> <?=$row['last_name']?></li>
+                            <?php $counter++ ?>
+                        <?php endforeach; ?>
+                    </ul>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
@@ -76,10 +83,13 @@
         </div> <!-- /.blog-info -->
         <?php if( $event_single['raw_name'] == '' && is_null($event_single['raw_name']) ): ?>
             <div class="box-content col-md-4">
+                <h3>List of participants</h3>
                 <?php if( isset($event_single['members']) && !is_null($event_single['members']) ): ?>
+                    <?php $counter = 1;?>
                     <ul>
                         <?php foreach ($event_single['members'] as $row): ?>
-                            <li><?=$row['first_name']?> <?=$row['last_name']?></li>
+                            <li class="lined-list"><span class="small-inline-flex"><?=$counter?></span><?=$row['first_name']?> <?=$row['last_name']?></li>
+                            <?php $counter++ ?>
                         <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>

@@ -122,7 +122,6 @@ class gallery extends CI_controller
 
 				$result_album[$i]['title'] = character_limiter($result_album[$i]['title'], 8);
 				$result_photos             = $this->gallery_model->get_album_photos($photo_params, '');
-				echo strlen($result_album[$i]['title']).'<br>';
 				// $result_album['photos'] = $result_photos;
 			}
 			$data['btn_upload']   = 'hide';

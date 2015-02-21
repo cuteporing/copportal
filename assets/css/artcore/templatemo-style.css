@@ -1489,3 +1489,13 @@ ul.archive-list li h3 a:hover {
 .map-canvas {
   height: 425px;
 }
+
+
+.small-inline-flex{
+  width: 25px;
+  display: inline-flex;
+}
+
+.lined-list {
+  border-bottom: 1px dotted rgb(189, 189, 189);
+}
