@@ -194,8 +194,10 @@ $(function() {
 				}else if( result.status_type == "redirect" ){
 					//RELOAD PAGE
 					if( result.status_msg != '' ){
-						if( result.data.modal_id !== undefined ){
-							localStorage.setItem('modal_id', result.data.modal_id);
+						if( result.hasOwnProperty('data') ){
+							if( result.data.hasOwnProperty('modal_id') ){
+								localStorage.setItem('modal_id', result.data.modal_id);
+							}
 						}
 						btn.data('redirect-link', result.status_msg);
 						btn.data('del-type', 'redirect');
@@ -408,6 +410,8 @@ $(function() {
 						location.reload();
 					}, 3000);
 				}else if( obj.status_type == 'error' ){
+					console.log(obj);
+					
 					progressbar.addClass('hide');
 					_this[0].reset();
 					_this.find('input[type="file"]').show();

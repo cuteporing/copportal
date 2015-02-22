@@ -71,6 +71,17 @@ class pages extends CI_controller
 	 */
 	public function site_header($show_swipper_arrow = false)
 	{
+		$common = new common;
+		$is_loggedin = $common->check_login();
+
+		if( $is_loggedin === true ){
+			$users = new users;
+			$users->get_login_info();
+			$session_data = $this->session->userdata('logged_in');
+			$data['logged_in_user'] = $session_data['first_name'].' '.$session_data['last_name'];
+		}
+
+
 		$data['top_nav']       = $this->get_top_nav();
 		$data['swipper_arrow'] = $show_swipper_arrow;
 
@@ -119,7 +130,7 @@ class pages extends CI_controller
 		$banner = new banner;
 		$this->page_loader();
 		$this->site_header(true);
-		$data['banner'] = $banner->get_banner();
+		$data['banner'] = $banner->get_artcore_banner();
 
 		return $this->load->view('pages/'.$page, $data);
 	}

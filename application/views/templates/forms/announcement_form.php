@@ -1,4 +1,3 @@
-
 <?php if( isset($result) ): ?>
 	<?php echo form_open('announcements_ajax/edit/') ?>
 	<input  type="text" class="form-control hide" name="announcement_id" value="<?php if(isset($result)){ echo $result['announcement_id']; } ?>">
@@ -15,7 +14,12 @@
 <div class="row">
 	<div class="error_message"></div>
 	<!-- LEFT COLUMN -->
-	<div class="col-md-12">
+	<?php if( isset($result) ): ?>
+			<div class="col-md-8">
+	<?php else: ?>
+			<div class="col-md-12">
+	<?php endif;?>
+
 		<!-- EVENT TITLE -->
 		<div class="box box-warning">
 			<div class="box-header">
@@ -32,6 +36,9 @@
 					<label><?=$this->lang->line('lbl_announcement_title')?></label>
 					<input type="text" class="form-control" name="title" value="<?php if(isset($result)){ echo $result['title']; } ?>" maxlength="150">
 					<p class="error"></p>
+					<?php if( isset($result) && !is_null($result['raw_name']) ):?>
+						<img src="<?=base_url().$result['file_path'].$result['raw_name'].$result['file_ext']?>">
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>
@@ -53,6 +60,15 @@
 			</div>
 		</div>
 	</div><!--//END col-md-8 -->
+	<?php if( isset($result) ): ?>
+
+		<div class="col-md-4">
+			<a class="btn btn-warning btn-block" data-toggle="modal" data-target="#announcement-upload-modal" data-autoload>
+				<i class="fa fa-photo"></i> Upload photo
+			</a><br>
+		</div>
+<?php endif; ?>
+
 </div>
 <?php echo form_close(); ?>
 

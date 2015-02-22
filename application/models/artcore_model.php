@@ -79,22 +79,5 @@ class Artcore_model extends CI_Model {
 		}
 	}
 
-	/**
-	 * GET BANNER
-	 * @return Array
-	 * --------------------------------------------
-	 */
-	public function get_banner()
-	{
-		$this->db->from('cop_banner');
-		$this->db->order_by('sequence', 'asc');
-		$query = $this->db->get();
-
-		if( $query->num_rows() > 0 ){
-			return $query->result_array();
-		}else{
-			return FALSE;
-		}
-	}
 }
 ?>

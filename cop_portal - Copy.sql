@@ -37,6 +37,18 @@ CREATE TABLE IF NOT EXISTS `cop_announcements` (
   `slug` varchar(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `cop_announcements`
+--
+
+INSERT INTO `cop_announcements` (`announcement_id`, `owner_id`, `title`, `date_entered`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
+(9, 1, 'Neque porro quisquam est qui dolorem', '2015-02-20 11:38:36', 'blog-1', 'uploads/announcement/', '.jpg', 'neque-porro-quisquam-est-qui-dolorem'),
+(12, 1, 'NEW ANNOUNCEMENT', '2015-02-20 11:35:00', 'blog-2', 'uploads/announcement/', '.jpg', 'new-announcement'),
+(13, 1, 'Keep Your Stuff Alive And Apply it On Life', '2015-02-19 18:06:02', NULL, NULL, NULL, 'keep-your-stuff-alive-and-apply-it-on-life'),
+(14, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.', '2015-02-19 18:07:59', NULL, NULL, NULL, 'lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit'),
+(15, 1, 'Debitis, totam dignissimos fugiat voluptatem esse optio unde alias nulla fuga', '2015-02-19 18:08:17', NULL, NULL, NULL, 'debitis-totam-dignissimos-fugiat-voluptatem-esse-optio-unde-alias-nulla-fuga'),
+(16, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. ', '2015-02-19 18:08:59', NULL, NULL, NULL, 'lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit'),
+(17, 1, 'NEW ANNOUNCEMENT', '2015-02-19 18:23:29', NULL, NULL, NULL, 'new-announcement');
 
 -- --------------------------------------------------------
 
@@ -50,6 +62,19 @@ CREATE TABLE IF NOT EXISTS `cop_announcement_description` (
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_announcement_description`
+--
+
+INSERT INTO `cop_announcement_description` (`id`, `announcement_id`, `description`, `sequence`) VALUES
+(1, 12, '', 1),
+(4, 9, '<strong>Lorem Ipsum</strong><span>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</span>', 1),
+(5, 13, '<a target="_blank" rel="nofollow" href="http://www.templatemo.com/preview/templatemo_423_artcore" title="Link: http://www.templatemo.com/preview/templatemo_423_artcore">Artcore</a><span>&nbsp;is free HTML5 bootstrap template by&nbsp;</span>templatemo<span>. Credit goes to&nbsp;</span><a target="_blank" rel="nofollow" href="http://unsplash.com/">Unsplash</a><span>&nbsp;for images. Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, blanditiis, esse nemo architecto veniam ipsam et in odit unde cumque. Quidem, sapiente, deserunt accusantium iure minus numquam velit beatae iste corrupti alias atque quisquam praesentium est autem voluptatibus? Magnam, repellendus id quidem reprehenderit eligendi. Voluptas, fugiat cumque earum similique suscipit at labore aut hic voluptatum deserunt aliquid dignissimos corporis facilis in provident atque nihil.</span>', 1),
+(6, 14, '<span>Quibusdam, maxime, itaque, ut, eligendi consequuntur quasi placeat molestiae nam sunt amet ab officia voluptates dolore error repudiandae fugit aperiam quas facilis? Ipsa, perspiciatis, nam, modi ducimus esse assumenda aut quaerat commodi natus dolorem quo accusantium saepe officiis quasi porro. Possimus, asperiores, nihil, vitae, cumque aperiam perspiciatis velit sit aliquid consectetur neque quidem dolore voluptatem rerum omnis totam impedit sequi eius explicabo culpa facilis.&nbsp;</span>', 1),
+(7, 15, '<span>Quibusdam, maxime, itaque, ut, eligendi consequuntur quasi placeat molestiae nam sunt amet ab officia voluptates dolore error repudiandae fugit aperiam quas facilis? Ipsa, perspiciatis, nam, modi ducimus esse assumenda aut quaerat commodi natus dolorem quo accusantium saepe officiis quasi porro. Possimus, asperiores, nihil, vitae, cumque aperiam perspiciatis velit sit aliquid consectetur neque quidem dolore voluptatem rerum omnis totam impedit sequi eius explicabo culpa facilis.&nbsp;</span>', 1),
+(8, 16, '<span>dolorum molestiae omnis natus neque autem minus dicta magnam nobis ipsa ratione recusandae numquam modi asperiores adipisci repudiandae quis beatae placeat ullam atque pariatur expedita.</span><br>', 1),
+(9, 17, '<span>dolorum molestiae omnis natus neque autem minus dicta magnam nobis ipsa ratione recusandae numquam modi asperiores adipisci repudiandae quis beatae placeat ullam atque pariatur expedita.</span><br>', 1);
 
 -- --------------------------------------------------------
 
@@ -139,6 +164,14 @@ CREATE TABLE IF NOT EXISTS `cop_banner` (
   `slug` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `cop_banner`
+--
+
+INSERT INTO `cop_banner` (`banner_id`, `title`, `subtitle`, `sequence`, `link`, `link_title`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
+(1, 'Community Engagement', 'Artcore is free HTML5 template by <b class="blue">template</b><b class="green">mo</b>. Credit goes to <a rel="nofollow" href="http://unsplash.com">Unsplash</a> for photos.', 1, '#', 'See More', 'slide1', './uploads/banner/', '.jpg', 'community-engagement'),
+(2, 'University of Perpetual Help', 'We come with new fresh and unique ideas.', 2, '#', 'See more', 'slide2', './uploads/banner/', '.jpg', 'university-of-perpetual-help'),
+(3, 'Natural 3d Architecture Design', 'Natural concrete is a material which is calm and clean.', 3, '#', 'See more', 'slide3', './uploads/banner/', '.jpg', 'natural-3da-achitecture-design');
 
 -- --------------------------------------------------------
 
@@ -159,6 +192,14 @@ CREATE TABLE IF NOT EXISTS `cop_beneficiaries` (
   `imagename` varchar(250) NOT NULL,
   `deleted` int(1) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_beneficiaries`
+--
+
+INSERT INTO `cop_beneficiaries` (`id`, `first_name`, `last_name`, `gender`, `date_entered`, `date_modified`, `phone`, `address_street`, `address_city_id`, `imagename`, `deleted`) VALUES
+(6, 'Ransu', 'Caw', 'Male', '2015-02-05 00:37:33', '2015-02-05 00:37:33', '[]', 'asdasdas', 4, '', 0),
+(8, 'Mang', 'Kanor', 'Female', '2015-02-20 17:34:02', '2015-02-20 17:34:02', '[]', 'las pinas', 1, '', 0);
 
 -- --------------------------------------------------------
 
@@ -217,6 +258,17 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `sequence` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `cop_description`
+--
+
+INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
+(31, 15, '', 1),
+(32, 16, '', 1),
+(43, 20, '', 1),
+(44, 22, 'Aug 12, 2013 -&nbsp;<span>my class.inc file:S<!--?php class logout{ public function logout(){ ... You have to call the function mentioned below on the top your logout function in ...</span--></span>', 1),
+(49, 23, '<span>To listen to Nelly Miricioiu, the soprano from Romania who is now a British citizen, is to fall in love with her. She will have a one-night concert, “Nelly Miricioiu Live in Manila,” on March 6 at 8 p.m. at Meralco Theater, Ortigas Center, Pasig City, with Najib Ismail as assisting artist in a program of arias by Verdi, Puccini, Bellini, Rossini, Chausson and Respighi. She will also conduct a bel canto masterclass for 13 young classical music singers who she handpicked based on the videos they had sent her. The classes, all open to the public, will run from March 9 to 11 at the Ayala Museum, Makati Ave., Makati City, from 11 a.m. to 6 p.m.<br></span><span><br></span><span>To listen to Nelly Miricioiu, the soprano from Romania who is now a British citizen, is to fall in love with her. She will have a one-night concert, “Nelly Miricioiu Live in Manila,” on March 6 at 8 p.m. at Meralco Theater, Ortigas Center, Pasig City, with Najib Ismail as assisting artist in a program of', 1),
+(50, 23, ' arias by Verdi, Puccini, Bellini, Rossini, Chausson and Respighi. She will also conduct a bel canto masterclass for 13 young classical music singers who she handpicked based on the videos they had sent her. The classes, all open to the public, will run from March 9 to 11 at the Ayala Museum, Makati Ave., Makati City, from 11 a.m. to 6 p.m.</span><span><br><br></span>', 2);
 
 -- --------------------------------------------------------
 
@@ -242,6 +294,14 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `slug` varchar(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `cop_events`
+--
+
+INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
+(20, 1, 'TECH TUTOR 5', 'open', 1, '2015-02-21 11:40:18', '2015-02-09', '2015-02-09', '22:30:PM', '22:30:PM', 'Dasd', 'blog-6', 'uploads/event/', '.jpg', 'tech-tutor-5'),
+(22, 1, 'TECH TUTOR 7', 'open', 1, '2015-02-19 19:35:15', '2015-02-16', '2015-02-16', '22:30:PM', '22:30:PM', 'Sdfsdf', NULL, NULL, NULL, 'tech-tutor-7'),
+(23, 1, 'COP EVENTS', 'open', 1, '2015-02-21 04:58:03', '2015-03-18', '2015-03-19', '19:45:PM', '19:45:PM', 'Asssssssss', NULL, NULL, NULL, 'cop-events');
 
 -- --------------------------------------------------------
 
@@ -256,6 +316,16 @@ CREATE TABLE IF NOT EXISTS `cop_events_member` (
   `status` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `cop_events_member`
+--
+
+INSERT INTO `cop_events_member` (`event_id`, `id`, `date_entered`, `status`) VALUES
+(14, 7, '2015-02-09 02:27:47', NULL),
+(14, 6, '2015-02-09 02:48:23', NULL),
+(23, 6, '2015-02-19 12:50:04', NULL),
+(20, 6, '2015-02-19 12:52:15', NULL),
+(23, 8, '2015-02-19 14:46:33', NULL);
 
 -- --------------------------------------------------------
 
@@ -274,6 +344,15 @@ CREATE TABLE IF NOT EXISTS `cop_gallery` (
   `slug` varchar(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `cop_gallery`
+--
+
+INSERT INTO `cop_gallery` (`gallery_id`, `event_id`, `cover_photo_id`, `title`, `description`, `date_entered`, `date_modified`, `slug`) VALUES
+(17, NULL, '3', 'SUPER', '', '2015-02-19 12:50:28', '2015-02-19 12:50:28', 'super'),
+(21, NULL, '25', 'dfsdf', '', '2015-02-19 18:16:16', '2015-02-19 18:16:16', 'dfsdf'),
+(22, NULL, '17', 'asd', '', '2015-02-19 18:04:51', '2015-02-19 18:04:51', 'asd'),
+(23, NULL, NULL, 'ssasdasdasdddddddddddddddddddd', '', '2015-02-20 04:44:54', '2015-02-20 04:44:54', 'ssasdasdasdddddddddddddddddddd');
 
 -- --------------------------------------------------------
 
@@ -289,6 +368,15 @@ CREATE TABLE IF NOT EXISTS `cop_gallery_photos` (
   `file_ext` varchar(10) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `cop_gallery_photos`
+--
+
+INSERT INTO `cop_gallery_photos` (`gallery_photos_id`, `gallery_id`, `raw_name`, `file_path`, `file_ext`) VALUES
+(3, 17, '10505527_857203360988587_2455090279547794881_n', 'uploads/gallery/', '.jpg'),
+(9, 17, '13973_clippy', 'uploads/gallery/', '.jpg'),
+(17, 22, '13973_clippy4', 'uploads/gallery/', '.jpg'),
+(25, 21, 'Pedo_Bear', 'uploads/gallery/', '.gif');
 
 -- --------------------------------------------------------
 
@@ -322,6 +410,10 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
 
 INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city_id`, `imagename`, `deleted`, `crypt_type`) VALUES
 (1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-02-19 13:08:20', '0000-00-00 00:00:00', '[]', 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 1, NULL, 0, 'PHP5.3MD5'),
+(2, 'ransu', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-05 07:36:56', '2015-02-02 18:02:51', '[]', '', 'Inactive', '', 1, NULL, 1, 'PHP5.3MD5'),
+(3, 'ransus', '$1$ra000000$kcBJP2.AQzMo5mBLnowMw1', 'ransu', 'ransu', 'female', 'on', '2015-02-05 07:36:58', '2015-02-03 18:46:02', '[]', '', 'Inactive', '', 1, NULL, 1, 'PHP5.3MD5'),
+(4, 'ish', '$1$is000000$WJSzElarDohtazA863l5S.', 'ish', 'landrito', 'female', 'on', '2015-02-20 12:06:37', '2015-02-19 17:05:38', '[]', '', 'Inactive', '', 1, NULL, 1, 'PHP5.3MD5'),
+(5, 'ish', '$1$is000000$WJSzElarDohtazA863l5S.', 'Ish', 'Landrito', 'female', 'on', '2015-02-19 17:08:03', '2015-02-19 17:08:03', '[]', '', 'Active', '', 3, NULL, 0, 'PHP5.3MD5');
 
 --
 -- Indexes for dumped tables
@@ -419,12 +511,12 @@ ALTER TABLE `cop_users`
 -- AUTO_INCREMENT for table `cop_announcements`
 --
 ALTER TABLE `cop_announcements`
-MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `cop_announcement_description`
 --
 ALTER TABLE `cop_announcement_description`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `cop_artcore_parenttab`
 --
@@ -444,12 +536,12 @@ MODIFY `map_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `cop_banner`
 --
 ALTER TABLE `cop_banner`
-MODIFY `banner_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+MODIFY `banner_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `cop_beneficiaries`
 --
 ALTER TABLE `cop_beneficiaries`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `cop_category`
 --
@@ -464,27 +556,27 @@ MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=51;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `cop_gallery`
 --
 ALTER TABLE `cop_gallery`
-MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `cop_gallery_photos`
 --
 ALTER TABLE `cop_gallery_photos`
-MODIFY `gallery_photos_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+MODIFY `gallery_photos_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `cop_users`
 --
 ALTER TABLE `cop_users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

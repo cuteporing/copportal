@@ -43,7 +43,7 @@
 					<label><?=$this->lang->line('lbl_event_title')?></label>
 					<input type="text" class="form-control" name="title" value="<?php if(isset($result)){ echo $result['title']; } ?>" maxlength="150">
 					<p class="error"></p>
-					<?php if( !is_null($result['raw_name']) ):?>
+					<?php if( isset($result) && !is_null($result['raw_name']) ):?>
 						<img src="<?=base_url().$result['file_path'].$result['raw_name'].$result['file_ext']?>">
 					<?php endif; ?>
 				</div>

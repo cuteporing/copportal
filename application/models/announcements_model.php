@@ -153,7 +153,7 @@ class Announcements_model extends CI_Model {
 			$this->db->trans_commit();
 			return array(
 				'status'=>'success',
-				'msg'   =>$announcement_data['title'].' has been created'
+				'msg'   =>$unique_id
 				);
 		}
 	}
@@ -165,18 +165,21 @@ class Announcements_model extends CI_Model {
 	 * @return Array
 	 * --------------------------------------------
 	 */
-	public function update_announcements($announcement_data, $description_data)
+	public function update_announcements($announcement_data, $description_data=array())
 	{
 		$this->db->trans_begin();
 		$this->db->where('announcement_id', $announcement_data['announcement_id']);
 		$this->db->update('cop_announcements', $announcement_data);
-		//DELETE ALL EVENT DESCRIPTION FOR THE EVENT
-		$this->delete_announcement_desc($announcement_data['announcement_id']);
 
-		foreach ($description_data as $data) {
-			$data['announcement_id'] = $announcement_data['announcement_id'];
-			//INSERT DESCRIPTION
-			$this->db->insert('cop_announcement_description', $data);
+		if( count($description_data) > 0 ){
+			//DELETE ALL EVENT DESCRIPTION FOR THE EVENT
+			$this->delete_announcement_desc($announcement_data['announcement_id']);
+
+			foreach ($description_data as $data) {
+				$data['announcement_id'] = $announcement_data['announcement_id'];
+				//INSERT DESCRIPTION
+				$this->db->insert('cop_announcement_description', $data);
+			}
 		}
 
 		if( $this->db->trans_status() === FALSE )
@@ -191,7 +194,7 @@ class Announcements_model extends CI_Model {
 			$this->db->trans_commit();
 			return array(
 				'status'=>'success',
-				'msg'   =>$announcement_data['title'].' has been updated'
+				'msg'   =>'Announcement has been updated'
 				);
 		}
 	}

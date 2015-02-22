@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="box-content project-detail">
-                        <h2><a href="<?=base_url().'galleries/title/'.$row['slug']?>"><?=$row['title']?></a></h2>
+                        <h2><a href="<?=base_url().'galleries/title/'.$row['slug'].'/page/'?>"><?=$row['title']?></a></h2>
                     </div>
                 </div>
                 <?php endif; ?>
@@ -31,7 +31,7 @@
 <?php endif; ?>
 
 
-<?php if( isset($album_single) ): ?>
+<?php if( isset($album_single) && $album_single['photos'] != ''): ?>
     <?php foreach( $album_single['photos'] as $row ): ?>
         <div class="col-md-4 col-sm-4 project-item mix design">
             <div class="project-thumb">
@@ -44,5 +44,6 @@
             </div>
         </div>
     <?php endforeach; ?>
+    <?php if( isset($artcore_pagination) ): ?><?=$artcore_pagination?><?php endif; ?>
 <?php endif; ?>
 </div>

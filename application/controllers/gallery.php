@@ -18,6 +18,7 @@ class gallery extends CI_controller
 	{
 		parent::__construct();
 		$this->load->model('gallery_model');
+		$this->load->library('pagination');
 	}
 
 	/**
@@ -229,6 +230,24 @@ class gallery extends CI_controller
 					$result_album[$i]['description'] = character_limiter($result_album[$i]['description'], 200);
 				}
 				$data['album_list'] = $result_album;
+				$config['base_url'] = 'account/gallery/page/';
+				$config['uri_segment'] = 3;
+				$config['total_rows'] = $total_rows;
+				$config['per_page'] = $limit;
+				$config['full_tag_open'] = '<div class="row"><div class="col-md-12"><div class="pagination text-center"><ul>';
+				$config['full_tag_close'] = '</ul></div></div></div>';
+				$config['cur_tag_open'] = '<li><a href="javascript:void(0)" class="active">';
+				$config['cur_tag_close'] = '</a></li>';
+				$config['num_tag_open'] = '<li>';
+				$config['num_tag_close'] = '</li>';
+				$config['first_link'] = '<li>First';
+				$config['last_link'] = '<li>Last';
+				$config['prev_link'] = FALSE;
+				$config['next_link'] = FALSE;
+				$this->pagination->initialize($config);
+
+				$data['filter']             = common::sort_month($filter);
+				$data['artcore_pagination'] = $this->pagination->create_links();
 			}
 			$data['page_header'] = array('title'=>'Gallery', 'subtitle'=>'');
 		}

@@ -116,8 +116,11 @@ class Gallery_model extends CI_Model {
 					$param['data']
 				);
 			}
-
-			$query = $this->db->get();
+			if( isset( $search_param['limit'] ) && !is_null( $search_param['limit'] )){
+				$query = $this->db->get('cop_events', $search_param['limit'], $search_param['offset']);
+			}else{
+				$query = $this->db->get();
+			}
 
 			if( $query->num_rows() > 0 ){
 				return $query->result_array();

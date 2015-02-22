@@ -15,6 +15,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 //INCLUDE CONTROLLERS
 include_once('common.php');
 include_once('announcements.php');
+include_once('banner.php');
 include_once('box.php');
 include_once('dashboard.php');
 include_once('events.php');
@@ -243,6 +244,24 @@ class account extends CI_controller
 	}
 
 	/**
+	 * BANNER
+	 * @param String, $page
+	 * @param String, $sidebar
+	 * @return page
+	 * --------------------------------------------
+	 */
+	public function banner($page, $sidebar)
+	{
+		$banner  = new banner;
+
+		$header  = $this->header();
+		$c_header= self::content_header(ucfirst($page));
+
+		return $banner->view($page,$header,$sidebar, $c_header);
+	}
+
+
+	/**
 	 * DISPLAY INDEX VIEW PAGE
 	 * @return data
 	 * --------------------------------------------
@@ -342,7 +361,8 @@ class account extends CI_controller
 		$sidebar = $sidebar->view_sidebar();
 
 		switch ($page) {
-			case 'announcements'     : $this->announcements($page, $sidebar);		break;
+			case 'announcements'     : $this->announcements($page, $sidebar);	break;
+			case 'banner'            : $this->banner($page, $sidebar);				break;
 			case 'dashboard'         : $this->dashboard($page, $sidebar);			break;
 			case 'events'            : $this->events($page, $sidebar);				break;
 			case 'gallery'           : $this->gallery($page, $sidebar);				break;

@@ -66,6 +66,22 @@ class announcements extends CI_controller
 					)
 				);
 	}
+	/**
+	 * CREATE AN EVENT ALBUM MODAL
+	 * @return modal
+	 * --------------------------------------------
+	 */
+	public function upload_photo_modal()
+	{
+		$announcement_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+
+		$data['announcement_id']     = $announcement_id;
+		$data['modal_id']     = 'announcement-upload-modal';
+		$data['modal_header'] = '<i class="fa fa-upload"></i> Upload photos';
+		$this->load->view('templates/modal/modal_header', $data);
+		$this->load->view('templates/forms/announcement_upload_form', $data);
+		$this->load->view('templates/modal/modal_footer', $data);
+	}
 
 	/**
 	 * DISPLAY CREATE ANNOUNCEMENT PAGE
@@ -106,7 +122,8 @@ class announcements extends CI_controller
 		$data['result']      = $result[0];
 		$data['result_desc'] = ($result_desc)? $result_desc : array();
 
-		return $this->load->view('templates/forms/announcement_form', $data);
+		$this->load->view('templates/forms/announcement_form', $data);
+		$this->upload_photo_modal($data);
 	}
 
 	/**

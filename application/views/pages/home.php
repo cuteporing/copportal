@@ -1,4 +1,4 @@
-<?php if( count($banner) > 0 ): ?>
+<?php if( isset($banner) && count($banner) > 0 ): ?>
 <div class="swiper-container">
     <div class="swiper-wrapper">
 
@@ -9,7 +9,7 @@
                 <div class="inner-content">
                     <?php if( $row['title'] != '' && !is_null($row['title']) ): ?><h2><?=$row['title']?></h2><?php endif; ?>
                     <?php if( $row['subtitle'] != '' && !is_null($row['subtitle']) ): ?><p><?=$row['subtitle']?></p><?php endif; ?>
-                    <?php if( $row['link_title'] != '' && !is_null($row['link_title']) ): ?>
+                    <?php if( $row['link'] != '' && !is_null($row['link']) ): ?>
                         <a href="<?=$row['link']?>" class="main-btn white"><?=$row['link_title']?></a>
                     <?php endif; ?>
                 </div>

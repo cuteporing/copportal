@@ -46,6 +46,11 @@ $route['account/(:any)'] = 'account/view/$1';
 $route['announcements_ajax/create']             = 'announcements_ajax/create/$1';
 $route['announcements_ajax/delete/(:any)']      = 'announcements_ajax/delete/$1';
 $route['announcements_ajax/edit']               = 'announcements_ajax/edit/$1';
+$route['announcements_ajax/upload_photo']       = 'announcements_ajax/upload_photo/$1';
+
+//BANNER
+$route['banner_ajax/delete/(:any)']             = 'banner_ajax/delete/$1';
+$route['banner_ajax/upload_photo']              = 'banner_ajax/upload_photo/$1';
 
 //EVENTS
 $route['events_ajax/create']                    = 'events_ajax/create/$1';

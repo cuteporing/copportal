@@ -65,16 +65,25 @@ $(function() {
 		var element      = $(elementClass);
 		var button       = $(this);
 
-		for (var i = 1; i < element.length; i++) {
-			if( $( elementClass ).eq( i ).hasClass('hide') ){
-				$( elementClass ).eq( i ).fadeIn('fast').removeClass('hide');
-
-				if( i == element.length-1 ){
-					button.hide();
-				}
-				return;
+		if( button.data('blind-sinsgle') !== "undefined" ){
+			if( $( elementClass ).hasClass('hide') ){
+				$( elementClass ).fadeIn('fast').removeClass('hide');
+			}else{
+				$( elementClass ).fadeIn('fast').addClass('hide');
 			}
-		};
+		}else{
+			for (var i = 1; i < element.length; i++) {
+				if( $( elementClass ).eq( i ).hasClass('hide') ){
+					$( elementClass ).eq( i ).fadeIn('fast').removeClass('hide');
+
+					if( i == element.length-1 ){
+						button.hide();
+					}
+					return;
+				}
+			};
+		}
+
 	});
 
 

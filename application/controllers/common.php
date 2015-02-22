@@ -54,7 +54,7 @@ class common extends CI_controller
 				'GENERAL'       => 'uploads/', ),
 			'imgConfig' => array(
 				'ALLOWED_TYPES' => 'gif|jpg|png',
-				'MAX_SIZE'      => '100',
+				'MAX_SIZE'      => '350',
 				'MAX_WIDTH'     => '1024',
 				'MAX_HEIGHT'    => '768',),
 		);
@@ -74,10 +74,10 @@ class common extends CI_controller
 		//ADMIN PAGES
 		$bs_acct = array(
 			'announcements',
+			'banner',
 			'dashboard',
 			'events',
 			'gallery',
-			// 'home',
 			'manage_beneficiary',
 			'manage_users',
 			'upload');
@@ -137,6 +137,7 @@ class common extends CI_controller
 		//DARK BOOTSTRAP THEME
 		$bs_acct = array(
 			'announcements',
+			'banner',
 			'dashboard',
 			'events',
 			'gallery',
@@ -206,6 +207,7 @@ class common extends CI_controller
 		//DARK BOOTSTRAP THEME
 		$bs_acct = array(
 			'announcements',
+			'banner',
 			'dashboard',
 			'events',
 			'gallery',

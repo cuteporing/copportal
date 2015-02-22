@@ -303,7 +303,7 @@ class events_ajax extends CI_controller
 			$local_storage = array('modal_id'=>$result['msg']);
 			echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result['msg'],$local_storage);
 		}else{
-			echo common::response_msg(200, 'error', 'Cannot delete event');
+			echo common::response_msg(200, 'error', 'Cannot create event');
 		}
 	}
 
@@ -314,9 +314,16 @@ class events_ajax extends CI_controller
 	 */
 	public function delete()
 	{
-		$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		$event_id  = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		$events    = $this->events_model->get_events('event_id', $event_id);
+
+		$file_path  = $events[0]['file_path'];
+		$file_path .= $events[0]['raw_name'];
+		$file_path .= $events[0]['file_ext'];
+
 		$result = $this->events_model->delete_event($event_id);
 		if( $result ){
+			@unlink($file_path);
 			echo common::response_msg(200, 'success', 'Event has been deleted');
 		}else{
 			echo common::response_msg(200, 'error', 'Cannot delete event');
@@ -461,16 +468,15 @@ class events_ajax extends CI_controller
 
 		$events = $this->events_model->get_events('event_id', $event_id);
 
-		if( !is_null($events[0]['raw_name']) ){
-			$file_path  = $events[0]['file_path'];
-			$file_path .= $events[0]['raw_name'];
-			$file_path .= $events[0]['file_ext'];
-			@unlink($file_path);
-		}
-
 		$result = $this->events_model->update_events($data);
 
 		if( $result['status'] == 'success' ){
+			if( !is_null($events[0]['raw_name']) ){
+				$file_path  = $events[0]['file_path'];
+				$file_path .= $events[0]['raw_name'];
+				$file_path .= $events[0]['file_ext'];
+				@unlink($file_path);
+			}
 			echo common::response_msg(200, 'refresh', '');
 		}else{
 			echo common::response_msg(200, 'error', 'Something went wrong when saving the file, please try again.');
