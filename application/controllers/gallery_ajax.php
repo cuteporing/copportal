@@ -139,13 +139,13 @@ class gallery_ajax extends CI_controller
 			foreach ($result_event as $obj) {
 				$data = array(
 					'event_id'     => $this->input->post('event'),
-					'title'        => $obj->title,
+					'title'        => $obj['title'],
 					'description'  => $this->input->post('description'),
 					'date_entered' => common::get_today(),
 					'date_modified'=> common::get_today(),
-					'slug'         => $obj->slug
+					'slug'         => $obj['slug']
 					);
-				$slug = $obj->slug;
+				$slug = $obj['slug'];
 			}
 		}
 

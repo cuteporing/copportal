@@ -193,7 +193,6 @@ class manage_users_ajax extends CI_controller
 			'status'            =>$this->input->post('status'),
 			'address_street'    =>$this->input->post('address_street'),
 			'address_city_id'    =>$this->input->post('city'),
-			'address_postalcode'=>'',
 			'deleted'           =>0,
 			'crypt_type'        =>$users->checkPHPVersion()
 			);
@@ -218,7 +217,8 @@ class manage_users_ajax extends CI_controller
 		$phone_list = array();
 
 		$session_data = $this->session->userdata('logged_in');
-		$id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		// $id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		$id = $this->input->post('id');
 
 		//GET ALL THE PHONE NUMBER AND TEMPORARILY SAVE IT
 		//IN AN ARRAY
@@ -259,7 +259,6 @@ class manage_users_ajax extends CI_controller
 			'status'            =>$this->input->post('status'),
 			'address_street'    =>$this->input->post('address_street'),
 			'address_city_id'   =>$this->input->post('city'),
-			'address_postalcode'=>'',
 			'deleted'           =>0,
 			'crypt_type'        =>$users->checkPHPVersion()
 			);
@@ -326,7 +325,7 @@ class manage_users_ajax extends CI_controller
 		$result = $this->users_model->update_user($data);
 
 		if( $result ){
-			echo common::response_msg(200, 'refresh', base_url().'account/manage_users/edit/'.$this->input->post('id'));
+			echo common::response_msg(200, 'redirect', base_url().'account/manage_users/edit/'.$this->input->post('id'));
 		}else{
 			echo common::response_msg(200, 'error', 'Cannot change password');
 		}

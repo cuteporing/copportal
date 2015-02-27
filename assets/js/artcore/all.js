@@ -18,4 +18,13 @@ $(window).load(function() { // makes sure the whole site is loaded
 
 		nav.addClass('active');
 	}
+
+
+	$('#search-input').keydown(function(e) {
+		if(e.keyCode == 13){
+			var action = $('#search-forms').attr('action');
+			$('#search-forms').attr('action', action+$('#search-input').val());
+		}
+
+	});
 })

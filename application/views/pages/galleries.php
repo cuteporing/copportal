@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="box-content project-detail">
-                        <h2><a href="<?=base_url().'galleries/title/'.$row['slug'].'/page/'?>"><?=$row['title']?></a></h2>
+                        <h2><a href="<?=base_url().'galleries/title/'.$row['slug']?>"><?=$row['title']?></a></h2>
                     </div>
                 </div>
                 <?php endif; ?>

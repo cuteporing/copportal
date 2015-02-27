@@ -6,8 +6,8 @@
 				<a href="#search-overlay" class="close-search"><i class="fa fa-times-circle"></i></a>
 				<div class="search-form-holder">
 					<h2>Type keywords and hit enter</h2>
-					<form id="search-form" action="#">
-						<input type="search" name="s" placeholder="" autocomplete="off" />
+					<form id="search-forms" action="<?=base_url().$search_link?>">
+						<input type="text"  placeholder="" autocomplete="off" id="search-input"/>
 					</form>
 				</div>
 			</div>

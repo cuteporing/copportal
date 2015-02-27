@@ -261,7 +261,8 @@ class announcements extends CI_controller
 		//SHOW ANNOUNCEMENT PER TITLE
 		}elseif( $view_type == 'title' ){
 			$slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
-			
+			$slug = str_replace('?', '', $slug);
+
 			$result = $this->announcements_model->get_announcements('slug', $slug);
 			if( $result ){
 				$result[0]['date_entered']= common::format_date(

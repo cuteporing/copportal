@@ -69,7 +69,7 @@ class pages extends CI_controller
 	 * @return Array
 	 * --------------------------------------------
 	 */
-	public function site_header($show_swipper_arrow = false)
+	public function site_header($search_link='', $show_swipper_arrow = false)
 	{
 		$common = new common;
 		$is_loggedin = $common->check_login();
@@ -84,6 +84,7 @@ class pages extends CI_controller
 
 		$data['top_nav']       = $this->get_top_nav();
 		$data['swipper_arrow'] = $show_swipper_arrow;
+		$data['search_link']   = $search_link;
 
 		$this->load->view('templates/pages/site_header/site_header_open');
 		$this->load->view('templates/pages/site_header/top_header');
@@ -101,7 +102,7 @@ class pages extends CI_controller
 	{
 		$announcements = new announcements;
 		$this->page_loader();
-		$this->site_header();
+		$this->site_header('announcement/title/');
 
 		return $announcements->view_artcore($page);
 	}
@@ -115,7 +116,7 @@ class pages extends CI_controller
 	{
 		$event = new events;
 		$this->page_loader();
-		$this->site_header();
+		$this->site_header('event/title/');
 
 		return $event->view_artcore($page);
 	}
@@ -129,7 +130,7 @@ class pages extends CI_controller
 	{
 		$banner = new banner;
 		$this->page_loader();
-		$this->site_header(true);
+		$this->site_header('event/title/', true);
 		$data['banner'] = $banner->get_artcore_banner();
 
 		return $this->load->view('pages/'.$page, $data);
@@ -144,7 +145,7 @@ class pages extends CI_controller
 	{
 		$galleries = new gallery;
 		$this->page_loader();
-		$this->site_header();
+		$this->site_header('galleries/title/');
 
 		return $galleries->view_artcore($page);
 	}
