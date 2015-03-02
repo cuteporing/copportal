@@ -482,5 +482,167 @@ class events_ajax extends CI_controller
 			echo common::response_msg(200, 'error', 'Something went wrong when saving the file, please try again.');
 		}
 	}
+
+	public function getFirstDay($month, $year)
+	{
+		$date = $month.'/1/'.$year;
+		return date('D', strtotime($date));
+	}
+
+	public function getLastDay($month, $day, $year)
+	{
+		$date = $month.'/'.$day.'/'.$year;
+		return date('D', strtotime($date));
+	}
+
+	public function getCalendarDays($month, $year)
+	{
+		return cal_days_in_month(CAL_GREGORIAN, $month, $year);
+	}
+
+	public function calendar()
+	{
+		$month  = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+		$year   = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+
+		$calendar = array();
+		$calendarFinal   = array();
+
+		$firstDay = $this->getFirstDay($month, $year);
+		$noOfDays = $this->getCalendarDays($month, $year);
+		$lastDay  = $this->getLastDay($month, $noOfDays, $year);
+
+		if( $month < 10 ){
+			$month = "0" + (string) $month;
+		}
+
+		switch ($firstDay) {
+			case 'Mon':
+				array_push($calendar, '<td date-month="'.$month.'" date-day="1">1</td>');
+				break;
+			case 'Tue':
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td date-month="'.$month.'" date-day="1">1</td>');
+				break;
+			case 'Wed':
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td date-month="'.$month.'" date-day="1">1</td>');
+				break;
+			case 'Thu':
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td date-month="'.$month.'" date-day="1">1</td>');
+				break;
+			case 'Fri':
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td date-month="'.$month.'" date-day="1">1</td>');
+				break;
+			case 'Sat':
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td date-month="'.$month.'" date-day="1">1</td>');
+				break;
+			case 'Sun':
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td date-month="'.$month.'" date-day="1">1</td>');
+				break;
+			default:
+				# code...
+				break;
+		}
+
+		for($i = 2; $i < $noOfDays; $i++){
+			if( $i < 10 ){
+				$currentDay = "0"+$i;
+			}else{
+				$currentDay = $i;
+			}
+			array_push($calendar, '<td date-month="'.$month.'" date-day="'.$currentDay.'">'.$currentDay.'</td>');
+		}
+
+		if( $noOfDays < 10 ){
+			$noOfDays = "0" + $noOfDays;
+		}
+
+		switch ($lastDay) {
+			case 'Mon':
+				array_push($calendar, '<td date-month="'.$month.'" date-day="'.$noOfDays.'">'.$noOfDays.'</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				break;
+			case 'Tue':
+				array_push($calendar, '<td date-month="'.$month.'" date-day="'.$noOfDays.'">'.$noOfDays.'</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				break;
+			case 'Wed':
+				array_push($calendar, '<td date-month="'.$month.'" date-day="'.$noOfDays.'">'.$noOfDays.'</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				break;
+			case 'Thu':
+				array_push($calendar, '<td date-month="'.$month.'" date-day="'.$noOfDays.'">'.$noOfDays.'</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				break;
+			case 'Fri':
+				array_push($calendar, '<td date-month="'.$month.'" date-day="'.$noOfDays.'">'.$noOfDays.'</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				break;
+			case 'Sat':
+				array_push($calendar, '<td date-month="'.$month.'" date-day="'.$noOfDays.'">'.$noOfDays.'</td>');
+				array_push($calendar, '<td class="no-border">&nbsp;</td>');
+				break;
+			case 'Sun':
+				array_push($calendar, '<td date-month="'.$month.'" date-day="'.$noOfDays.'">'.$noOfDays.'</td>');
+				break;
+			default:
+				break;
+		}
+
+		$result = $this->events_model->get_events_by_date($month, $year);
+
+		for($i=0; $i < count($result); $i++){
+			$result[$i]['date_month'] = common::format_date(
+				$result[$i]['date_start'], $format='m');
+
+			$result[$i]['date_day'] = common::format_date(
+				$result[$i]['date_start'], $format='d');
+
+			$description = $this->events_model->get_event_desc($result[$i]['event_id']);
+
+			$result[$i]['description'] = $description[0]['description'];
+			$result[$i]['slug'] = base_url().'event/title/'.$result[$i]['slug'];
+		}
+
+		$calendarFinal['dates']  = $calendar;
+		$calendarFinal['events'] = $result;
+
+		echo json_encode($calendarFinal);
+	}
 }
 ?>

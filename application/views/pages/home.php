@@ -1,5 +1,5 @@
 <?php if( isset($banner) && count($banner) > 0 ): ?>
-<div class="swiper-container">
+<div class="swiper-container" style="width: 100% !important;">
     <div class="swiper-wrapper">
 
     <?php foreach ($banner as $row): ?>
@@ -20,3 +20,29 @@
     </div>
 </div>
 <?php endif; ?>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="calendar-container">
+            <div class="calendar">
+                <header>
+                    <h2 class="month"></h2>
+                    <!-- <a class="btn-prev fontawesome-angle-left" href="#"></a> -->
+                    <!-- <a class="btn-next fontawesome-angle-right" href="#"></a> -->
+                </header>
+                <table>
+                    <thead>
+                        <tr><td>Mon</td><td>Tues</td><td>Wed</td><td>Thurs</td><td>Fri</td><td>Sat</td><td>Sun</td></tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+       <div class="list">
+        </div>
+    </div>
+</div>

@@ -57,7 +57,7 @@
                 <img src="<?=base_url().$event_single['file_path'].$event_single['raw_name'].$event_single['file_ext'] ?>" alt="">
             </div> <!-- /.blog-image -->
             <div class="box-content col-md-4">
-                <h3>List of participants</h3>
+                <h3>Beneficiaries</h3>
                 <?php if( isset($event_single['members']) && !is_null($event_single['members']) ): ?>
                     <?php $counter = 1;?>
                     <ul>
@@ -68,7 +68,7 @@
                     </ul>
                 <?php endif; ?>
                 <?php if( count($event_single['members']) == 0 ): ?>
-                 No participants
+                 No Beneficiary
                 <?php endif; ?>
             </div>
         <?php endif; ?>
@@ -100,7 +100,7 @@
         </div> <!-- /.blog-info -->
         <?php if( $event_single['raw_name'] == '' && is_null($event_single['raw_name']) ): ?>
             <div class="box-content col-md-4">
-                <h3>List of participants</h3>
+                <h3>Beneficiaries</h3>
                 <?php if( isset($event_single['members']) && !is_null($event_single['members']) ): ?>
                     <?php $counter = 1;?>
                     <ul>
@@ -111,7 +111,7 @@
                     </ul>
                 <?php endif; ?>
                 <?php if( count($event_single['members']) == 0 ): ?>
-                 No participants
+                 No Beneficiary
                 <?php endif; ?>
             </div>
         <?php endif; ?>

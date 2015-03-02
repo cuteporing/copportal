@@ -54,7 +54,7 @@ class account extends CI_controller
 	 */
 	public function logo()
 	{
-		return anchor('dashboard', 'COP Portal', array('class'=>'logo'));
+		return anchor(base_url(), 'COP Portal', array('class'=>'logo'));
 	}
 
 	/**

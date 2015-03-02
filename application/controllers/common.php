@@ -85,7 +85,9 @@ class common extends CI_controller
 		//VIEW PAGES
 		$bs_dark = array('login', 'forgot_password', 'register');
 
-		$artcore = array('home', 'announcement', 'event');
+		$artcore = array('announcement', 'event', 'galleries');
+
+		$artcore_home = array('home');
 
 		if( in_array( strtolower($page), $bs_dark ) ){
 			array_push($style, 'assets/css/bootstrap/bootstrap.min.css');
@@ -111,6 +113,15 @@ class common extends CI_controller
 			array_push($style, 'assets/css/artcore/animate.css');
 			array_push($style, 'assets/css/artcore/templatemo-misc.css');
 			array_push($style, 'assets/css/artcore/templatemo-style.css');
+		}elseif( in_array( strtolower($page), $artcore_home ) ) {
+			array_push($style, 'assets/css/artcore/roboto-slab.css');
+			array_push($style, 'assets/css/artcore/roboto.css');
+			array_push($style, 'assets/css/artcore/bootstrap.css');
+			array_push($style, 'assets/css/artcore/font-awesome.css');
+			array_push($style, 'assets/css/artcore/animate.css');
+			array_push($style, 'assets/css/artcore/style.css');
+			array_push($style, 'assets/css/artcore/templatemo-misc.css');
+			array_push($style, 'assets/css/artcore/templatemo-style.css');
 		}else{
 			array_push($style, 'assets/css/artcore/roboto-slab.css');
 			array_push($style, 'assets/css/artcore/roboto.css');
@@ -119,6 +130,7 @@ class common extends CI_controller
 			array_push($style, 'assets/css/artcore/animate.css');
 			array_push($style, 'assets/css/artcore/templatemo-misc.css');
 			array_push($style, 'assets/css/artcore/templatemo-style.css');
+			array_push($style, 'assets/css/artcore/style.css');
 		}
 
 		return $style;
@@ -147,7 +159,9 @@ class common extends CI_controller
 
 		$bs_dark = array('login', 'forgot_password', 'register');
 
-		$artcore = array('home', 'announcement', 'event');
+		$artcore = array('announcement', 'event');
+
+		$artcore_home = array('home');
 
 		if( in_array( strtolower($page), $bs_dark ) ){
 			array_push($script, 'assets/js/bootstrap/jquery.min.js');
@@ -184,12 +198,21 @@ class common extends CI_controller
 			array_push($script, 'assets/js/artcore/vendor/jquery-1.11.0.min.js');
 			array_push($script, 'assets/js/artcore/plugins.js');
 			array_push($script, 'assets/js/artcore/main.js');
+			array_push($script, 'assets/js/artcore/simplecalendar.js');
+			array_push($script, 'assets/js/artcore/all.js');
+		}elseif( in_array( strtolower($page), $artcore_home ) ){
+			array_push($script, 'assets/js/artcore/vendor/modernizr-2.6.1-respond-1.1.0.min.js');
+			array_push($script, 'assets/js/artcore/vendor/jquery-1.11.0.min.js');
+			array_push($script, 'assets/js/artcore/plugins.js');
+			array_push($script, 'assets/js/artcore/main.js');
+			array_push($script, 'assets/js/artcore/simplecalendar.js');
 			array_push($script, 'assets/js/artcore/all.js');
 		}else{
 			array_push($script, 'assets/js/artcore/vendor/modernizr-2.6.1-respond-1.1.0.min.js');
 			array_push($script, 'assets/js/artcore/vendor/jquery-1.11.0.min.js');
 			array_push($script, 'assets/js/artcore/plugins.js');
 			array_push($script, 'assets/js/artcore/main.js');
+			array_push($script, 'assets/js/artcore/simplecalendar.js');
 			array_push($script, 'assets/js/artcore/all.js');
 		}
 

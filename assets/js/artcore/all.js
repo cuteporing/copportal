@@ -27,4 +27,10 @@ $(window).load(function() { // makes sure the whole site is loaded
 		}
 
 	});
-})
+
+	setInterval(function(){
+		$('.swiper-container').css('height', '495px !important');
+	}, 1000);
+
+
+});

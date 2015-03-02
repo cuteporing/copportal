@@ -160,6 +160,20 @@ class Events_model extends CI_Model {
 		}
 	}
 
+	public function get_events_by_date($month, $year){
+			$this->db->where('YEAR(date_start)', $year);
+			$this->db->where('MONTH(date_start)', $month);
+			$this->db->from('cop_events');
+			$this->db->order_by("date_start", "asc");
+			$query = $this->db->get();
+
+			if( $query->num_rows() > 0 ){
+				return $query->result_array();
+			}else{
+				return FALSE;
+			}
+	}
+
 	/**
 	 * GET EVENT LIST
 	 * @param Array, $params

@@ -1,7 +1,7 @@
 <div class="top-header">
 	<div class="logo col-md-6 col-sm-6">
 		<h1><a href=""><?=$this->lang->line('lbl_main_logo')?></h1>
-		<span><?=$this->lang->line('lbl_sub_logo')?></span>
+		<!-- <span><?=$this->lang->line('lbl_sub_logo')?></span> -->
 	</div>
 	<div class="social-top col-md-6 col-sm-6">
 		<ul>

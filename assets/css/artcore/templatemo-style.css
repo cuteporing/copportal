@@ -620,9 +620,10 @@ a.btn-left:hover, .top-header .social-top ul li a:hover, .main-header .menu-wrap
 
 .swiper-container {
   overflow: hidden;
-  width: 100%;
+  width: 100% !important;
   height: 100%;
-  position: absolute;
+  max-height: 495px !important;
+  /*position: absolute;*/
   top: 0;
   z-index: 2;
 }
