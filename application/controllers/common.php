@@ -85,7 +85,7 @@ class common extends CI_controller
 		//VIEW PAGES
 		$bs_dark = array('login', 'forgot_password', 'register');
 
-		$artcore = array('announcement', 'event', 'galleries');
+		$artcore = array('announcement', 'event', 'galleries', 'about');
 
 		$artcore_home = array('home');
 
@@ -159,7 +159,7 @@ class common extends CI_controller
 
 		$bs_dark = array('login', 'forgot_password', 'register');
 
-		$artcore = array('announcement', 'event');
+		$artcore = array('announcement', 'event', 'about');
 
 		$artcore_home = array('home');
 

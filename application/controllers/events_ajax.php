@@ -513,7 +513,7 @@ class events_ajax extends CI_controller
 		$lastDay  = $this->getLastDay($month, $noOfDays, $year);
 
 		if( $month < 10 ){
-			$month = "0" + (string) $month;
+			$month = "0" + $month;
 		}
 
 		switch ($firstDay) {
@@ -642,7 +642,7 @@ class events_ajax extends CI_controller
 			$calendarFinal['events'] = $result;
 
 		}else{
-			$calendarFinal['events'] = array();
+			$calendarFinal['events'] = array($month, $year);
 
 		}
 		

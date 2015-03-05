@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2015 at 05:29 PM
+-- Generation Time: Mar 02, 2015 at 06:48 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `cop_artcore_parenttab` (
   `attribute` blob,
   `sequence` int(11) NOT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_artcore_parenttab`
@@ -87,9 +87,8 @@ INSERT INTO `cop_artcore_parenttab` (`parenttab_id`, `title`, `link`, `attribute
 (1, 'Home', 'home', NULL, 1, 'home'),
 (2, 'Events', 'event/new/page/', NULL, 3, 'events'),
 (3, 'Gallery', 'galleries', NULL, 4, 'galleries'),
-(4, 'Sign in', 'login', NULL, 6, 'login'),
-(5, 'Announcement', 'announcement/page/', NULL, 2, 'announcement'),
-(6, 'About', 'about', NULL, 5, 'about');
+(4, 'Sign in', 'login', NULL, 5, 'login'),
+(5, 'Announcement', 'announcement/page/', NULL, 2, 'announcement');
 
 -- --------------------------------------------------------
 
@@ -151,16 +150,14 @@ CREATE TABLE IF NOT EXISTS `cop_banner` (
   `file_path` varchar(255) DEFAULT NULL,
   `file_ext` varchar(255) DEFAULT NULL,
   `slug` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_banner`
 --
 
 INSERT INTO `cop_banner` (`banner_id`, `title`, `subtitle`, `sequence`, `link`, `link_title`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
-(1, '', '', 1, '', 'See more', 'project_4', 'uploads/banner/', '.jpg', ''),
-(2, '', '', 1, '', 'See more', 'project_3', 'uploads/banner/', '.jpg', ''),
-(3, 'LOREM IPSUM ', 'dolor esmet', 1, '', 'See more', 'project_1', 'uploads/banner/', '.jpg', 'lorem-ipsum');
+(1, '', '', 1, '', 'See more', 'project_4', 'uploads/banner/', '.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -244,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
@@ -254,8 +251,7 @@ INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `seq
 (4, 3, '', 1),
 (5, 4, '', 1),
 (11, 5, 'Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;<br>', 1),
-(16, 2, 'Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum<br>', 1),
-(17, 6, '', 1);
+(16, 2, 'Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum<br>', 1);
 
 -- --------------------------------------------------------
 
@@ -279,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `file_path` varchar(255) DEFAULT NULL,
   `file_ext` varchar(255) DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events`
@@ -289,8 +285,7 @@ INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_i
 (2, 1, 'Lorem Ipsum', 'open', 1, '2015-03-02 17:36:23', '2015-03-12', '2015-03-13', '11:30 PM', '11:30 PM', 'ASDASDAS', NULL, NULL, NULL, 'lorem-ipsum'),
 (3, 1, 'sdasdasdasda', 'open', 1, '2015-02-28 22:22:42', '2015-03-01', '2015-03-01', '01:15 PM', '01:15 PM', 'Sdasd', NULL, NULL, NULL, 'sdasdasdasda'),
 (4, 1, 'asdasdas', 'open', 1, '2015-03-02 17:32:39', '2015-03-01', '2015-03-03', '12:30 AM', '12:30 AM', 'Asda', NULL, NULL, NULL, 'asdasdas'),
-(5, 1, 'LOREM IPSUM 4', 'open', 1, '2015-03-02 17:36:48', '2015-03-11', '2015-03-11', '12:30 AM', '12:30 AM', 'Asdas', NULL, NULL, NULL, 'lorem-ipsum-4'),
-(6, 1, 'asdasdas', 'open', 1, '2015-03-04 20:03:27', '2015-03-05', '2015-03-05', '11:00 PM', '11:00 PM', 'Dasd', NULL, NULL, NULL, 'asdasdas');
+(5, 1, 'LOREM IPSUM 4', 'open', 1, '2015-03-02 17:36:48', '2015-03-11', '2015-03-11', '12:30 AM', '12:30 AM', 'Asdas', NULL, NULL, NULL, 'lorem-ipsum-4');
 
 -- --------------------------------------------------------
 
@@ -327,14 +322,7 @@ CREATE TABLE IF NOT EXISTS `cop_gallery` (
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `cop_gallery`
---
-
-INSERT INTO `cop_gallery` (`gallery_id`, `event_id`, `cover_photo_id`, `title`, `description`, `date_entered`, `date_modified`, `slug`) VALUES
-(1, 2, '1', 'Lorem Ipsum', '', '2015-03-05 15:54:10', '2015-03-05 15:54:10', 'lorem-ipsum');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -348,14 +336,7 @@ CREATE TABLE IF NOT EXISTS `cop_gallery_photos` (
   `raw_name` varchar(255) NOT NULL,
   `file_path` varchar(255) NOT NULL,
   `file_ext` varchar(10) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cop_gallery_photos`
---
-
-INSERT INTO `cop_gallery_photos` (`gallery_photos_id`, `gallery_id`, `raw_name`, `file_path`, `file_ext`) VALUES
-(1, 1, 'staff2', 'uploads/gallery/', '.jpg');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -498,7 +479,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT for table `cop_artcore_parenttab`
 --
 ALTER TABLE `cop_artcore_parenttab`
-MODIFY `parenttab_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `parenttab_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `cop_artcore_subtab`
 --
@@ -513,7 +494,7 @@ MODIFY `map_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `cop_banner`
 --
 ALTER TABLE `cop_banner`
-MODIFY `banner_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `banner_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `cop_beneficiaries`
 --
@@ -533,22 +514,22 @@ MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `cop_gallery`
 --
 ALTER TABLE `cop_gallery`
-MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `cop_gallery_photos`
 --
 ALTER TABLE `cop_gallery_photos`
-MODIFY `gallery_photos_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `gallery_photos_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `cop_users`
 --

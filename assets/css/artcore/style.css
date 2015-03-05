@@ -322,3 +322,11 @@ and (max-device-width : 568px)
 and (orientation : portrait) {
 /* STYLES GO HERE */
 }
+
+.top-header .logo {
+    background: url(http://localhost/copportal/assets/img/sprite.png);
+    background-repeat: no-repeat;
+    height: 82px;
+    background-size: 254px;
+    background-position: 60px;
+}

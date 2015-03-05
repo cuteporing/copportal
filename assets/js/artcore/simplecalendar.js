@@ -6,9 +6,12 @@ var calendar = {
          * Get current date
          */
         var d = new Date();
-        var strDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
+        var strDate       = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
+        var manilaOffset  = 8*60*60000;
+        var userOffset    = d.getTimezoneOffset()*60000;
+        var manilaiTime   = new Date(d.getTime()+manilaOffset+userOffset);
 
-        getCalendar(d.getDate(), d.getFullYear());
+        getCalendar(manilaiTime.getMonth()+1, manilaiTime.getFullYear());
 
 
         function getCalendar(month, year){
@@ -74,7 +77,7 @@ var calendar = {
                      /**
                      * Get current day and set as '.current-day'
                      */
-                    $('tbody').find('td[date-day="' + d.getDate() + '"]').addClass('current-day');
+                    $('tbody').find('td[date-day="' + manilaiTime.getDate() + '"]').addClass('current-day');
 
                     /**
                      * Add '.event' class to all days that has an event
@@ -88,7 +91,7 @@ var calendar = {
                     /**
                      * Get current month and set as '.current-month' in title
                      */
-                    var monthNumber = d.getMonth() + 1;
+                    var monthNumber = manilaiTime.getMonth() + 1;
 
                     function GetMonthName(monthNumber) {
                         var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

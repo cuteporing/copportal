@@ -60,7 +60,7 @@
 			<div class="col-md-3">
 				<div class="box box-solid">
 					<div class="box-header">
-						<div class="box-tools pull-right">
+						<div class="box-tools pull-right" style="position:absolute">
 							<div class="btn-group">
 								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 									<span class="caret"></span>
@@ -73,7 +73,7 @@
 						</div>
 					</div>
 					<div class="box-body" style="text-align:center;">
-						<img src="<?=base_url().$row['file_path'].$row['raw_name'].$row['file_ext'] ?>" style="height:150px; width:150px; max-height:350px; max-width:350px">
+						<img src="<?=base_url().$row['file_path'].$row['raw_name'].$row['file_ext'] ?>" style="height:150px; width: 100%; max-height:350px; max-width:350px">
 					</div>
 				</div>
 			</div>

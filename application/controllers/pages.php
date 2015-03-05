@@ -146,6 +146,21 @@ class pages extends CI_controller
 		$galleries = new gallery;
 		$this->page_loader();
 		$this->site_header('galleries/title/');
+		$this->load->view('templates/pages/content_wrapper_open');
+		$this->load->view('pages/'.$page);
+		$this->load->view('templates/pages/content_wrapper_close');
+	}
+
+	/**
+	 * DISPLAY ABOUT
+	 * @return data
+	 * --------------------------------------------
+	 */
+	public function about($page)
+	{
+		$galleries = new gallery;
+		$this->page_loader();
+		$this->site_header('galleries/title/');
 
 		return $galleries->view_artcore($page);
 	}
@@ -187,6 +202,7 @@ class pages extends CI_controller
 				case 'galleries'       : $this->galleries($page);       break;
 				case 'home'            : $this->home($page);            break;
 				case 'login'           : $this->login($page);           break;
+				case 'about'           : $this->about($page);           break;
 				default: $page = 'home'; $this->home($page);            break;
 			}
 

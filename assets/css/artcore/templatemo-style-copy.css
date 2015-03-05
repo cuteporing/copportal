@@ -275,11 +275,11 @@ a.btn-left, .top-header .social-top ul li a, .main-header .menu-wrapper a.toggle
   line-height: 36px;
   text-align: center;
   display: inline-block;
-  color: white;
+  color: #2c2c2c;
 }
 a.btn-left:hover, .top-header .social-top ul li a:hover, .main-header .menu-wrapper a.toggle-menu:hover {
-  color: #F3D014;
-  border-color: #F3D014;
+  color: #2c2c2c;
+  border-color: #2c2c2c;
 }
 
 /*.top-header {
@@ -360,12 +360,17 @@ a.btn-left:hover, .top-header .social-top ul li a:hover, .main-header .menu-wrap
 .top-header a {
   color: #2c2c2c;
 }
+/*.main-header {
+  width: 100%;
+  min-height: 96px;
+  background-color: #efefef;
+  padding: 30px 60px;
+}*/
 .main-header {
   width: 100%;
   min-height: 66px;
-  background-color: #881614;
+  background-color: #efefef;
   padding: 15px 60px;
-  border-bottom: 2px solid #f3d014;
 }
 @media screen and (min-width: 769px) and (max-width: 991px) {
   .main-header {
@@ -418,13 +423,13 @@ a.btn-left:hover, .top-header .social-top ul li a:hover, .main-header .menu-wrap
   text-transform: uppercase;
   font-weight: 500;
   padding: 30px 0;
-  color: white;
+  color: #2c2c2c;
 }
 .main-header .menu-wrapper ul li a:hover {
-  color: rgb(243, 208, 20);
+  color: #f69730;
 }
 .main-header .menu-wrapper ul li.active a {
-  color: white;
+  color: #f69730;
 }
 .main-header .menu-wrapper ul li ul {
   position: absolute;
@@ -1503,4 +1508,3 @@ ul.archive-list li h3 a:hover {
     background-size: 254px;
     background-position: 60px;
 }
-\

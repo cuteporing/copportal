@@ -8,7 +8,7 @@
 			<div class="col-md-4">
 				<div class="box box-solid">
 					<div class="box-header">
-						<div class="box-tools pull-right">
+						<div class="box-tools pull-right" style="position: absolute !important;">
 							<div class="btn-group">
 								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 									<span class="caret"></span>

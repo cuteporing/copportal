@@ -3,7 +3,7 @@
 		<div class="box box-solid box-primary">
 			<div class="box-header">
 				<h3 class="box-title"><?=$result_event['title'] ?></h3>
-				<div class="box-tools pull-right">
+				<div class="box-tools pull-right box-absolute">
 					<button class="btn btn-primary btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
 				</div>
 			</div>
