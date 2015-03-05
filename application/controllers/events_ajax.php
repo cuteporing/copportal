@@ -626,21 +626,27 @@ class events_ajax extends CI_controller
 
 		$result = $this->events_model->get_events_by_date($month, $year);
 
-		for($i=0; $i < count($result); $i++){
-			$result[$i]['date_month'] = common::format_date(
-				$result[$i]['date_start'], $format='m');
+		if( $result ){
+			for($i=0; $i < count($result); $i++){
+				$result[$i]['date_month'] = common::format_date(
+					$result[$i]['date_start'], $format='m');
 
-			$result[$i]['date_day'] = common::format_date(
-				$result[$i]['date_start'], $format='d');
+				$result[$i]['date_day'] = common::format_date(
+					$result[$i]['date_start'], $format='d');
 
-			$description = $this->events_model->get_event_desc($result[$i]['event_id']);
+				$description = $this->events_model->get_event_desc($result[$i]['event_id']);
 
-			$result[$i]['description'] = $description[0]['description'];
-			$result[$i]['slug'] = base_url().'event/title/'.$result[$i]['slug'];
+				$result[$i]['description'] = $description[0]['description'];
+				$result[$i]['slug'] = base_url().'event/title/'.$result[$i]['slug'];
+			}
+			$calendarFinal['events'] = $result;
+
+		}else{
+			$calendarFinal['events'] = array();
+
 		}
-
+		
 		$calendarFinal['dates']  = $calendar;
-		$calendarFinal['events'] = $result;
 
 		echo json_encode($calendarFinal);
 	}

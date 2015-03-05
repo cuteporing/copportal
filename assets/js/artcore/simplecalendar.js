@@ -14,6 +14,7 @@ var calendar = {
         function getCalendar(month, year){
             var url = 'http://localhost/copportal/events_ajax/calendar/'+year+'/'+month;
             $.get( url, function( data ) {
+                console.log( data );
                 var result = JSON.parse(data);
                 console.log("RESULT: ");
                 console.log("--------------------------------------");
@@ -22,30 +23,32 @@ var calendar = {
 
                 var list = '';
 
-                for (var i = 0; i < result.events.length; i++) {
-                    list = '<h2 class="title" style="margin-left:1.25em;">'+result.events[i].title+'</h2>';
-                    list+= '<a class="close fontawesome-remove fa fa-times"></a>';
-                    list+= '<p class="date">2014-3-16</p>';
-                    list+= '<p>'+result.events[i].description+'</p>';
-                    list+= '<a href="'+result.events[i].slug+'">';
-                    list+= '<span>Read more!</span>';
-                    list+= '</a><br>';
+                if( result.events.length > 0){
+                    for (var i = 0; i < result.events.length; i++) {
+                        list = '<h2 class="title" style="margin-left:1.25em;">'+result.events[i].title+'</h2>';
+                        list+= '<a class="close fontawesome-remove fa fa-times"></a>';
+                        list+= '<p class="date">2014-3-16</p>';
+                        list+= '<p>'+result.events[i].description+'</p>';
+                        list+= '<a href="'+result.events[i].slug+'">';
+                        list+= '<span>Read more!</span>';
+                        list+= '</a><br>';
 
-                    if( result.events[i].date_month < 10 ){
-                        result.events[i].date_month = result.events[i].date_month.replace('0', "");
+                        if( result.events[i].date_month < 10 ){
+                            result.events[i].date_month = result.events[i].date_month.replace('0', "");
+                        }
+
+                        if( result.events[i].date_day < 10 ){
+                            result.events[i].date_day = result.events[i].date_day.replace('0', "");
+                        }
+
+                        var div = document.createElement("div");
+                        div.className  = 'day-event';
+                        div.setAttribute('date-month', result.events[i].date_month);
+                        div.setAttribute('date-day', result.events[i].date_day);
+                        div.innerHTML = list;
+
+                        $(".list").append(div)
                     }
-
-                    if( result.events[i].date_day < 10 ){
-                        result.events[i].date_day = result.events[i].date_day.replace('0', "");
-                    }
-
-                    var div = document.createElement("div");
-                    div.className  = 'day-event';
-                    div.setAttribute('date-month', result.events[i].date_month);
-                    div.setAttribute('date-day', result.events[i].date_day);
-                    div.innerHTML = list;
-
-                    $(".list").append(div)
                 }
 
                 var calendar = '';
