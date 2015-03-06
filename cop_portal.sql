@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2015 at 05:58 AM
+-- Generation Time: Mar 06, 2015 at 07:21 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -37,13 +37,6 @@ CREATE TABLE IF NOT EXISTS `cop_announcements` (
   `slug` varchar(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `cop_announcements`
---
-
-INSERT INTO `cop_announcements` (`announcement_id`, `owner_id`, `title`, `date_entered`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
-(2, 1, 'baba ssss', '2015-03-06 04:34:20', NULL, NULL, NULL, 'baba-ssss');
-
 -- --------------------------------------------------------
 
 --
@@ -56,13 +49,6 @@ CREATE TABLE IF NOT EXISTS `cop_announcement_description` (
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `cop_announcement_description`
---
-
-INSERT INTO `cop_announcement_description` (`id`, `announcement_id`, `description`, `sequence`) VALUES
-(5, 2, 'sd', 1);
 
 -- --------------------------------------------------------
 
@@ -332,13 +318,6 @@ CREATE TABLE IF NOT EXISTS `cop_gallery` (
   `slug` varchar(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `cop_gallery`
---
-
-INSERT INTO `cop_gallery` (`gallery_id`, `event_id`, `cover_photo_id`, `title`, `description`, `date_entered`, `date_modified`, `slug`) VALUES
-(1, 2, '1', 'Lorem Ipsum', '', '2015-03-05 15:54:10', '2015-03-05 15:54:10', 'lorem-ipsum');
-
 -- --------------------------------------------------------
 
 --
@@ -352,13 +331,6 @@ CREATE TABLE IF NOT EXISTS `cop_gallery_photos` (
   `file_path` varchar(255) NOT NULL,
   `file_ext` varchar(10) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cop_gallery_photos`
---
-
-INSERT INTO `cop_gallery_photos` (`gallery_photos_id`, `gallery_id`, `raw_name`, `file_path`, `file_ext`) VALUES
-(1, 1, 'staff2', 'uploads/gallery/', '.jpg');
 
 -- --------------------------------------------------------
 
