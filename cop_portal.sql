@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2015 at 05:29 PM
+-- Generation Time: Mar 06, 2015 at 05:58 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `cop_announcements` (
 --
 
 INSERT INTO `cop_announcements` (`announcement_id`, `owner_id`, `title`, `date_entered`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
-(2, 3, 'baba', '2015-02-27 16:23:45', NULL, NULL, NULL, 'baba');
+(2, 1, 'baba ssss', '2015-03-06 04:34:20', NULL, NULL, NULL, 'baba-ssss');
 
 -- --------------------------------------------------------
 
@@ -55,14 +55,14 @@ CREATE TABLE IF NOT EXISTS `cop_announcement_description` (
   `announcement_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_announcement_description`
 --
 
 INSERT INTO `cop_announcement_description` (`id`, `announcement_id`, `description`, `sequence`) VALUES
-(4, 2, 'sd', 1);
+(5, 2, 'sd', 1);
 
 -- --------------------------------------------------------
 
@@ -268,6 +268,9 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `owner_id` int(11) NOT NULL,
   `title` varchar(255) CHARACTER SET latin1 NOT NULL,
   `status` varchar(50) NOT NULL,
+  `appr_status` tinyint(2) NOT NULL DEFAULT '1',
+  `appr_cop_dir` tinyint(2) NOT NULL,
+  `appr_sps_dir` tinyint(2) NOT NULL,
   `category_id` int(11) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_start` date DEFAULT NULL,
@@ -285,12 +288,12 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
 -- Dumping data for table `cop_events`
 --
 
-INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
-(2, 1, 'Lorem Ipsum', 'open', 1, '2015-03-02 17:36:23', '2015-03-12', '2015-03-13', '11:30 PM', '11:30 PM', 'ASDASDAS', NULL, NULL, NULL, 'lorem-ipsum'),
-(3, 1, 'sdasdasdasda', 'open', 1, '2015-02-28 22:22:42', '2015-03-01', '2015-03-01', '01:15 PM', '01:15 PM', 'Sdasd', NULL, NULL, NULL, 'sdasdasdasda'),
-(4, 1, 'asdasdas', 'open', 1, '2015-03-02 17:32:39', '2015-03-01', '2015-03-03', '12:30 AM', '12:30 AM', 'Asda', NULL, NULL, NULL, 'asdasdas'),
-(5, 1, 'LOREM IPSUM 4', 'open', 1, '2015-03-02 17:36:48', '2015-03-11', '2015-03-11', '12:30 AM', '12:30 AM', 'Asdas', NULL, NULL, NULL, 'lorem-ipsum-4'),
-(6, 1, 'asdasdas', 'open', 1, '2015-03-04 20:03:27', '2015-03-05', '2015-03-05', '11:00 PM', '11:00 PM', 'Dasd', NULL, NULL, NULL, 'asdasdas');
+INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `appr_status`, `appr_cop_dir`, `appr_sps_dir`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
+(2, 1, 'Lorem Ipsum', 'open', 1, 1, 1, 1, '2015-03-06 01:02:21', '2015-03-12', '2015-03-13', '11:30 PM', '11:30 PM', 'ASDASDAS', NULL, NULL, NULL, 'lorem-ipsum'),
+(3, 1, 'sdasdasdasda', 'open', 1, 1, 1, 1, '2015-03-06 01:02:24', '2015-03-01', '2015-03-01', '01:15 PM', '01:15 PM', 'Sdasd', NULL, NULL, NULL, 'sdasdasdasda'),
+(4, 1, 'asdasdas', 'open', 1, 1, 1, 1, '2015-03-06 01:02:26', '2015-03-01', '2015-03-03', '12:30 AM', '12:30 AM', 'Asda', NULL, NULL, NULL, 'asdasdas'),
+(5, 1, 'LOREM IPSUM 4', 'open', 1, 1, 1, 1, '2015-03-06 01:02:28', '2015-03-11', '2015-03-11', '12:30 AM', '12:30 AM', 'Asdas', NULL, NULL, NULL, 'lorem-ipsum-4'),
+(6, 1, 'asdasdas', 'open', 1, 1, 1, 1, '2015-03-06 01:02:29', '2015-03-05', '2015-03-05', '11:00 PM', '11:00 PM', 'Dasd', NULL, NULL, NULL, 'asdasdas');
 
 -- --------------------------------------------------------
 
@@ -360,6 +363,62 @@ INSERT INTO `cop_gallery_photos` (`gallery_photos_id`, `gallery_id`, `raw_name`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cop_kbn`
+--
+
+CREATE TABLE IF NOT EXISTS `cop_kbn` (
+`_id` int(11) NOT NULL,
+  `kbn_id` int(11) NOT NULL,
+  `role` varchar(255) NOT NULL,
+  `description` text,
+  `ann_create` tinyint(2) NOT NULL DEFAULT '0',
+  `ann_edit` tinyint(2) NOT NULL DEFAULT '0',
+  `ann_delete` tinyint(2) NOT NULL DEFAULT '0',
+  `banner` tinyint(2) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_kbn`
+--
+
+INSERT INTO `cop_kbn` (`_id`, `kbn_id`, `role`, `description`, `ann_create`, `ann_edit`, `ann_delete`, `banner`) VALUES
+(1, 10, 'COP Chairman', '', 1, 1, 1, 1),
+(2, 20, 'COP Director', '', 1, 1, 1, 1),
+(3, 30, 'SPS Director', '', 1, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cop_sidebar`
+--
+
+CREATE TABLE IF NOT EXISTS `cop_sidebar` (
+`id` int(11) NOT NULL,
+  `title` varchar(150) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `class` varchar(255) NOT NULL,
+  `icon` varchar(255) NOT NULL,
+  `icon2` varchar(255) NOT NULL,
+  `drop` text NOT NULL,
+  `sequence` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_sidebar`
+--
+
+INSERT INTO `cop_sidebar` (`id`, `title`, `link`, `class`, `icon`, `icon2`, `drop`, `sequence`) VALUES
+(1, 'Dashboard', 'account/dashboard', '{"class":"active"}', '{"class":"fa fa-dashboard"}', '{"class":"fa fa-angle-left pull-right"}', 'none', 1),
+(2, 'Announcements', 'account/announcements', '{"class":"treeview"}', '{"class":"fa fa-th"}', '{"class":"fa fa-angle-left pull-right"}', '[{"admin":"on","title":"Create announcements","link":"account\\/announcements\\/create","icon":{"class":"fa fa-angle-double-right"}},{"admin":"on","title":"View announcements","link":"account\\/announcements\\/","icon":{"class":"fa fa-angle-double-right"}}]', 2),
+(3, 'Banner', 'account/banner', '{"class":""}', '{"class":"fa fa-flag-o"}', '{"class":"fa fa-angle-left pull-right"}', 'none', 3),
+(4, 'Events', 'account/events', '{"class":"treeview"}', '{"class":"fa fa-calendar"}', '{"class":"fa fa-angle-left pull-right"}', '[{"admin":"on","title":"Create event","link":"account\\/events\\/create","icon":{"class":"fa fa-angle-double-right"}},{"admin":"on","title":"View events","link":"account\\/events\\/","icon":{"class":"fa fa-angle-double-right"}}]', 4),
+(5, 'Gallery', 'account/gallery', '{"class":""}', '{"class":"fa fa-picture-o"}', '{"class":"fa fa-angle-left pull-right"}', 'none', 5),
+(6, 'Manage Beneficiary', 'account/manage_beneficiary', '{"class":"treeview"}', '{"class":"fa fa-users"}', '{"class":"fa fa-angle-left pull-right"}', '[{"admin":"on","title":"Add beneficiary","link":"account\\/manage_beneficiary\\/create","icon":{"class":"fa fa-angle-double-right"}},{"admin":"on","title":"View beneficiary","link":"account\\/manage_beneficiary\\/view","icon":{"class":"fa fa-angle-double-right"}}]', 6),
+(7, 'Manage Users', 'account/manage_users', '{"class":"treeview"}', '{"class":"fa fa-user"}', '{"class":"fa fa-angle-left pull-right"}', '[{"admin":"on","title":"Add user","link":"account\\/manage_users\\/create","icon":{"class":"fa fa-angle-double-right"}},{"admin":"on","title":"View Users","link":"account\\/manage_users\\/view","icon":{"class":"fa fa-angle-double-right"}}]', 7);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cop_users`
 --
 
@@ -371,6 +430,7 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
   `last_name` varchar(30) DEFAULT NULL,
   `gender` varchar(10) DEFAULT NULL,
   `is_admin` varchar(3) DEFAULT '0',
+  `user_kbn` int(11) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `phone` varchar(150) DEFAULT NULL,
@@ -387,10 +447,10 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
 -- Dumping data for table `cop_users`
 --
 
-INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city_id`, `imagename`, `deleted`, `crypt_type`) VALUES
-(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', '2015-02-19 13:08:20', '0000-00-00 00:00:00', '[]', 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 1, NULL, 0, 'PHP5.3MD5'),
-(2, 'sdf', '$1$sd000000$4jZFyh2W5Xr5nPgZl762v1', 'Asd', 'Asd', 'female', 'on', '2015-02-27 15:52:47', '2015-02-26 20:50:30', '[]', '', 'Inactive', '', 1, NULL, 1, 'PHP5.3MD5'),
-(3, 'aaa', '$1$aa000000$XSsz9laPeqblXUDsjmhmm0', 'As123', 'lllllllllllllllll', 'female', 'on', '2015-02-27 15:56:53', '2015-02-26 20:56:37', '[]', '', 'Active', '', 1, NULL, 0, 'PHP5.3MD5');
+INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `is_admin`, `user_kbn`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city_id`, `imagename`, `deleted`, `crypt_type`) VALUES
+(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 'on', 30, '2015-03-06 00:50:58', '0000-00-00 00:00:00', '[]', 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 1, NULL, 0, 'PHP5.3MD5'),
+(2, 'ish', '$1$sd000000$Jr9No8zxXpEcn3i2r79vP1', 'Ish', 'Landrito', 'female', 'on', 0, '2015-03-06 00:52:16', '2015-03-05 17:52:06', '[]', '', 'Inactive', '', 1, NULL, 0, 'PHP5.3MD5'),
+(3, 'azenette', '$1$aa000000$kpWnszO4I3AgT/XhANako.', 'Azenette', 'Caingal', 'female', 'on', 0, '2015-03-06 00:55:26', '2015-03-05 17:55:08', '[]', '', 'Active', '', 1, NULL, 0, 'PHP5.3MD5');
 
 --
 -- Indexes for dumped tables
@@ -475,6 +535,18 @@ ALTER TABLE `cop_gallery_photos`
  ADD PRIMARY KEY (`gallery_photos_id`);
 
 --
+-- Indexes for table `cop_kbn`
+--
+ALTER TABLE `cop_kbn`
+ ADD PRIMARY KEY (`_id`);
+
+--
+-- Indexes for table `cop_sidebar`
+--
+ALTER TABLE `cop_sidebar`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `cop_users`
 --
 ALTER TABLE `cop_users`
@@ -493,7 +565,7 @@ MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `cop_announcement_description`
 --
 ALTER TABLE `cop_announcement_description`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `cop_artcore_parenttab`
 --
@@ -549,6 +621,16 @@ MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 ALTER TABLE `cop_gallery_photos`
 MODIFY `gallery_photos_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `cop_kbn`
+--
+ALTER TABLE `cop_kbn`
+MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `cop_sidebar`
+--
+ALTER TABLE `cop_sidebar`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `cop_users`
 --

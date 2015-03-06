@@ -1,7 +1,7 @@
 <div class="row">
     <div class="section-header col-md-12">
-        <?php if( $page_header['title']    != '' ){ echo '<h2>'.$page_header['title'].'</h2>'; }?>
-        <?php if( $page_header['subtitle'] != '' ){ echo '<span>'.$page_header['subtitle'].'</span>'; }?>
+        <?php if( isset($page_header['title']) && $page_header['title']    != '' ){ echo '<h2>'.$page_header['title'].'</h2>'; }?>
+        <?php if( isset($page_header['subtitle']) && $page_header['subtitle'] != '' ){ echo '<span>'.$page_header['subtitle'].'</span>'; }?>
     </div>
 </div>
 <div class="row">

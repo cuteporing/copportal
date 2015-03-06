@@ -262,6 +262,7 @@ class announcements extends CI_controller
 		}elseif( $view_type == 'title' ){
 			$slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
 			$slug = str_replace('?', '', $slug);
+			$slug = str_replace('%20', '-', $slug);
 
 			$result = $this->announcements_model->get_announcements('slug', $slug);
 			if( $result ){

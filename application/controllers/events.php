@@ -311,9 +311,10 @@ class events extends CI_controller
 			case 'title'  : $slug = str_replace('/', '', $this->uri->slash_segment(3, 'leading')); break;
 			default: return $common->show_404(); break;
 		}
-
 		//SINGLE EVENT DISPLAY
 		if( $view_type == 'title' ){
+			$slug = str_replace('%20', '-', $slug);
+
 			//GET EVENTS
 			$result = $this->events_model->get_events('slug', $slug);
 
@@ -338,13 +339,13 @@ class events extends CI_controller
 			//DISPLAY LIST OF NEW EVENTS
 			if( $view_type == 'new' ){
 				//GET TOTAL NO. OF OPENED EVENTS
-				$total_rows = $this->events_model->get_no_of_events('open');
+				$total_rows = $this->events_model->get_no_of_events('open', 'view');
 				$search_data= 'open';
 				$base_url   = 'http://localhost/copportal/event/new/page/';
 
 			}elseif( $view_type == 'archive' ){
 				//GET TOTAL NO. OF CLOSED EVENTS
-				$total_rows = $this->events_model->get_no_of_events('close');
+				$total_rows = $this->events_model->get_no_of_events('close', 'view');
 				$search_data= 'close';
 				$base_url   = 'http://localhost/copportal/event/archive/page/';
 			}

@@ -35,7 +35,7 @@ class box extends CI_controller
 			case 'primary': $color = array('class'=>'box box-primary');	break;
 			case 'success': $color = array('class'=>'box box-success');	break;
 			case 'warning': $color = array('class'=>'box box-warning');	break;
-			default: $color = array('class'=>'box box-primary');				break;
+			default: $color = array('class'=>'box box-primary');		break;
 		}
 
 		$this->box_color = $color;

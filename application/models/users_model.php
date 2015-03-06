@@ -76,7 +76,7 @@ class Users_model extends CI_Model {
 	 */
 	public function get_login_info($id)
 	{
-		$sql_stmt ='id, user_name, first_name, last_name, ';
+		$sql_stmt ='id, user_name, first_name, last_name, user_kbn, ';
 		$sql_stmt.='gender, is_admin, date_entered, imagename, deleted';
 
 		$this->db->select($sql_stmt);
@@ -101,7 +101,7 @@ class Users_model extends CI_Model {
 			$this->db->where('user_name', $user_name);
 			$this->db->where('deleted', 0);
 		}else{
-			$sql_stmt ='id, user_name, user_password, first_name, last_name, ';
+			$sql_stmt ='id, user_name, user_password, first_name, last_name, user_kbn, ';
 			$sql_stmt.='gender, is_admin, date_entered, imagename';
 
 			$this->db->select($sql_stmt);
