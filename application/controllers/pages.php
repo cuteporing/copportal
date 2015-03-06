@@ -146,9 +146,8 @@ class pages extends CI_controller
 		$galleries = new gallery;
 		$this->page_loader();
 		$this->site_header('galleries/title/');
-		$this->load->view('templates/pages/content_wrapper_open');
-		$this->load->view('pages/'.$page);
-		$this->load->view('templates/pages/content_wrapper_close');
+
+		return $galleries->view_artcore($page);
 	}
 
 	/**
@@ -160,9 +159,11 @@ class pages extends CI_controller
 	{
 		$galleries = new gallery;
 		$this->page_loader();
-		$this->site_header('galleries/title/');
+		$this->site_header('about/title/');
 
-		return $galleries->view_artcore($page);
+		$this->load->view('templates/pages/content_wrapper_open');
+		$this->load->view('pages/'.$page);
+		$this->load->view('templates/pages/content_wrapper_close');
 	}
 
 	/**

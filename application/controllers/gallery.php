@@ -1,4 +1,4 @@
-<?php
+	<?php
 /*********************************************************************************
 ** The contents of this file are subject to the COPPortal
  * Public License Version 1.0

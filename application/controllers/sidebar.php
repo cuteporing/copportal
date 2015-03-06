@@ -27,7 +27,7 @@ class sidebar extends account
 	{
 		$result = $this->sidebar_model->get_sidebar();
 
-		for ($i=0; $i < count($result); $i++) { 
+		for ($i=0; $i < count($result); $i++) {
 			$result[$i]['class'] = json_decode($result[$i]['class'], true);
 			$result[$i]['icon']  = json_decode($result[$i]['icon'], true);
 			$result[$i]['icon2'] = json_decode($result[$i]['icon2'], true);

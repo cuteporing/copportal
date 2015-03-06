@@ -47,3 +47,11 @@
     <?php if( isset($artcore_pagination) ): ?><?=$artcore_pagination?><?php endif; ?>
 <?php endif; ?>
 </div>
+
+<?php if( !isset($album_list) && !isset($album_single)): ?>
+<div class="projects-holder col-md-12 col-sm-9">
+        <div class="row">
+                <p class="text-center"><img src="<?=base_url()?>assets/img/trash.png" style="margin: 0 auto;"> Gallery is empty</p>
+        </div>
+</div>
+<?php endif; ?>

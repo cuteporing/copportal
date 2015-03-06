@@ -130,7 +130,6 @@ class common extends CI_controller
 			array_push($style, 'assets/css/artcore/animate.css');
 			array_push($style, 'assets/css/artcore/templatemo-misc.css');
 			array_push($style, 'assets/css/artcore/templatemo-style.css');
-			array_push($style, 'assets/css/artcore/style.css');
 		}
 
 		return $style;
@@ -170,13 +169,6 @@ class common extends CI_controller
 			array_push($script, 'assets/js/bootstrap/jquery.min.js');
 			array_push($script, 'assets/js/jquery.session.js');
 			array_push($script, 'assets/js/bootstrap/bootstrap.min.js');
-			// array_push($script, 'assets/js/bootstrap/jquery-ui.min.js');
-			// array_push($script, 'assets/js/bootstrap/raphael-min.js');
-			// array_push($script, 'assets/js/bootstrap/plugins/morris/morris.min.js');
-			// array_push($script, 'assets/js/bootstrap/plugins/sparkline/jquery.sparkline.min.js');
-			// array_push($script, 'assets/js/bootstrap/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js');
-			// array_push($script, 'assets/js/bootstrap/plugins/jvectormap/jquery-jvectormap-world-mill-en.js');
-			// array_push($script, 'assets/js/bootstrap/plugins/jqueryKnob/jquery.knob.js');
 			array_push($script, 'assets/js/bootstrap/plugins/input-mask/jquery.inputmask.js');
 			array_push($script, 'assets/js/bootstrap/plugins/input-mask/jquery.inputmask.date.extensions.js');
 			array_push($script, 'assets/js/bootstrap/plugins/input-mask/jquery.inputmask.extensions.js');
@@ -198,7 +190,6 @@ class common extends CI_controller
 			array_push($script, 'assets/js/artcore/vendor/jquery-1.11.0.min.js');
 			array_push($script, 'assets/js/artcore/plugins.js');
 			array_push($script, 'assets/js/artcore/main.js');
-			array_push($script, 'assets/js/artcore/simplecalendar.js');
 			array_push($script, 'assets/js/artcore/all.js');
 		}elseif( in_array( strtolower($page), $artcore_home ) ){
 			array_push($script, 'assets/js/artcore/vendor/modernizr-2.6.1-respond-1.1.0.min.js');
@@ -212,7 +203,6 @@ class common extends CI_controller
 			array_push($script, 'assets/js/artcore/vendor/jquery-1.11.0.min.js');
 			array_push($script, 'assets/js/artcore/plugins.js');
 			array_push($script, 'assets/js/artcore/main.js');
-			array_push($script, 'assets/js/artcore/simplecalendar.js');
 			array_push($script, 'assets/js/artcore/all.js');
 		}
 

@@ -61,3 +61,12 @@
         </div> <!-- /.blog-info -->
     </div> <!-- /.row -->
 <?php endif; ?>
+
+
+<?php if( !isset($announcement_list) && !isset($announcement_single)): ?>
+    <div class="projects-holder col-md-12 col-sm-9">
+            <div class="row">
+                    <p class="text-center"><img src="<?=base_url()?>assets/img/trash.png" style="margin: 0 auto;"> No announcement</p>
+            </div>
+    </div>
+<?php endif; ?>

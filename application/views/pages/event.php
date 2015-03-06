@@ -117,3 +117,12 @@
         <?php endif; ?>
     </div> <!-- /.row -->
 <?php endif; ?>
+
+
+<?php if( !isset($event_new_list) && !isset($event_single)): ?>
+<div class="projects-holder col-md-12 col-sm-9">
+        <div class="row">
+                <p class="text-center"><img src="<?=base_url()?>assets/img/trash.png" style="margin: 0 auto;"> No event</p>
+        </div>
+</div>
+<?php endif; ?>
