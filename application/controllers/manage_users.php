@@ -19,6 +19,7 @@ class manage_users extends account
 	{
 		parent::__construct();
 		$this->load->model('city_model');
+		$this->load->model('department_model');
 		$this->load->model('events_model');
 		$this->load->model('users_model');
 		$this->load->library('form_validation');
@@ -103,6 +104,13 @@ class manage_users extends account
 	 */
 	public function create()
 	{
+		$session_data = $this->session->userdata('logged_in');
+		
+		if( $session_data['user_kbn'] != 30 ){
+				redirect('account/dashboard', 'refresh');
+		}
+
+		$data['dept_list']      = $this->department_model->get_deaprtment();
 		$data['city_list']      = $this->city_model->get_cities();
 		$data['gender_list']    = $this->get_gender();
 		$data['user_type_list'] = $this->users_model->get_user_kbn();
@@ -119,6 +127,12 @@ class manage_users extends account
 	{
 		$id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
 
+		$session_data = $this->session->userdata('logged_in');
+
+		if( $session_data['user_kbn'] != 30 && $session_data['id'] != $id){
+				redirect('account/dashboard', 'refresh');
+		}
+
 		//IF THERE IS NO BENEFICIARY ID FROM URI, SHOW ERROR RECORD NOT FOUND
 		if( $id == '' ){
 			return $this->load->view('error/record_not_found');
@@ -134,7 +148,9 @@ class manage_users extends account
 
 		$selected = array(
 			'address_city_id'=>$result[0]->address_city_id,
-			'gender' =>$result[0]->gender
+			'gender' =>$result[0]->gender,
+			'dept_id' =>$result[0]->dept_id,
+			'user_kbn' =>$result[0]->user_kbn
 			);
 		$phone_list = json_decode( $result[0]->phone );
 
@@ -147,10 +163,14 @@ class manage_users extends account
 		$data['result']         = $result[0];
 		$data['selected']       = $selected;
 		$data['city_list']      = $this->city_model->get_cities();
+		$data['dept_list']      = $this->department_model->get_deaprtment();
 		$data['gender_list']    = $this->get_gender();
 		$data['user_type_list'] = $this->users_model->get_user_kbn();
 
-	
+		if( $session_data['user_kbn'] != 30 && $session_data['id'] == $id){
+			$data['restricted']   = 'yes';
+		}
+
 		$this->change_password_modal($result[0]);
 		$this->load->view('templates/forms/user_form', $data);
 	}

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2015 at 03:18 PM
+-- Generation Time: Mar 07, 2015 at 06:34 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -222,6 +222,38 @@ INSERT INTO `cop_city` (`city_id`, `city`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cop_department`
+--
+
+CREATE TABLE IF NOT EXISTS `cop_department` (
+`dept_id` int(11) NOT NULL,
+  `department` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cop_department`
+--
+
+INSERT INTO `cop_department` (`dept_id`, `department`) VALUES
+(1, 'Pharmacy'),
+(2, 'Dentistry'),
+(3, 'Med. Tech'),
+(4, 'Rad. Tech'),
+(5, 'Criminology'),
+(6, 'Maritime'),
+(7, 'CAS'),
+(8, 'Nursing & Midwifery'),
+(9, 'Computer Studies'),
+(10, 'Engineering'),
+(11, 'Education'),
+(12, 'CBAA'),
+(13, 'Basic Education'),
+(14, 'PT/OT/RT'),
+(15, 'IHM');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cop_description`
 --
 
@@ -230,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
@@ -238,11 +270,11 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
 
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
 (4, 3, '', 1),
-(11, 5, 'Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;<br>', 1),
 (16, 2, 'Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum<br>', 1),
 (17, 6, '', 1),
 (18, 7, 'asdasd', 1),
-(20, 4, '', 1);
+(20, 4, '', 1),
+(21, 5, 'Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;<br><ul style="list-style-type: disc; margin-left: 1.5em;"><li>rån&nbsp;Lorem Ipsum är en utf<br></li><li>&nbsp;Lorem Ipsum är en&nbsp;<br></li></ul><br>', 1);
 
 -- --------------------------------------------------------
 
@@ -290,18 +322,19 @@ INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `appr_statu
 --
 
 CREATE TABLE IF NOT EXISTS `cop_events_member` (
+`_id` int(11) NOT NULL,
   `event_id` int(11) NOT NULL,
   `id` int(11) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events_member`
 --
 
-INSERT INTO `cop_events_member` (`event_id`, `id`, `date_entered`, `status`) VALUES
-(2, 1, '2015-03-02 17:34:54', NULL);
+INSERT INTO `cop_events_member` (`_id`, `event_id`, `id`, `date_entered`, `status`) VALUES
+(1, 2, 1, '2015-03-02 17:34:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -429,6 +462,7 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
   `last_name` varchar(30) DEFAULT NULL,
   `gender` varchar(10) DEFAULT NULL,
   `user_kbn` int(11) NOT NULL,
+  `dept_id` int(11) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `phone` varchar(150) DEFAULT NULL,
@@ -445,12 +479,10 @@ CREATE TABLE IF NOT EXISTS `cop_users` (
 -- Dumping data for table `cop_users`
 --
 
-INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `user_kbn`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city_id`, `imagename`, `deleted`, `crypt_type`) VALUES
-(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 30, '2015-03-07 11:10:03', '0000-00-00 00:00:00', '[]', 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 1, NULL, 0, 'PHP5.3MD5'),
-(2, 'ish', '$1$is000000$WJSzElarDohtazA863l5S.', 'Ish', 'Landrito', 'female', 20, '2015-03-07 11:16:48', '2015-03-05 17:52:06', '[]', '', 'Active', '', 1, NULL, 0, 'PHP5.3MD5'),
-(3, 'azenette', '$1$az000000$DURwizZNpXM5KzJoyo9cd1', 'Azenette', 'Caingal', 'female', 10, '2015-03-07 11:10:29', '2015-03-05 17:55:08', '[]', '', 'Active', '', 1, NULL, 0, 'PHP5.3MD5'),
-(4, 'kevin', '$1$ke000000$RbIOedPHoBIz4C7HOMEcC.', 'Kevin', 'Valencia', 'female', 30, '2015-03-07 10:26:55', '2015-03-07 03:26:30', '[]', '', 'Inactive', '', 1, NULL, 1, 'PHP5.3MD5'),
-(5, 'axa', '$1$ax000000$YXVSyoScVM1v3d6wjW7Bj.', 'Asd', 'Asd', 'female', 20, '2015-03-07 10:26:57', '2015-03-07 03:26:46', '[]', '', 'Inactive', '', 1, NULL, 1, 'PHP5.3MD5');
+INSERT INTO `cop_users` (`id`, `user_name`, `user_password`, `first_name`, `last_name`, `gender`, `user_kbn`, `dept_id`, `date_entered`, `date_modified`, `phone`, `email`, `status`, `address_street`, `address_city_id`, `imagename`, `deleted`, `crypt_type`) VALUES
+(1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', 'Zhara', 'Gonzales', 'female', 30, 1, '2015-03-07 16:30:50', '0000-00-00 00:00:00', '[]', 'admin@gmail.com', 'Active', 'L18 B3 Belisario Subd.', 1, NULL, 0, 'PHP5.3MD5'),
+(2, 'ish', '$1$is000000$WJSzElarDohtazA863l5S.', 'Ish', 'Landrito', 'female', 20, 3, '2015-03-07 16:30:54', '2015-03-05 17:52:06', '[]', '', 'Active', '', 1, NULL, 0, 'PHP5.3MD5'),
+(3, 'azenette', '$1$az000000$kugfYCMHKWIKW6gCeobm91', 'Azenette', 'Caingal', 'female', 10, 15, '2015-03-07 17:09:17', '2015-03-06 22:09:17', '[]', '', 'Active', '', 2, NULL, 0, 'PHP5.3MD5');
 
 --
 -- Indexes for dumped tables
@@ -511,6 +543,12 @@ ALTER TABLE `cop_city`
  ADD PRIMARY KEY (`city_id`);
 
 --
+-- Indexes for table `cop_department`
+--
+ALTER TABLE `cop_department`
+ ADD PRIMARY KEY (`dept_id`);
+
+--
 -- Indexes for table `cop_description`
 --
 ALTER TABLE `cop_description`
@@ -521,6 +559,12 @@ ALTER TABLE `cop_description`
 --
 ALTER TABLE `cop_events`
  ADD PRIMARY KEY (`event_id`);
+
+--
+-- Indexes for table `cop_events_member`
+--
+ALTER TABLE `cop_events_member`
+ ADD PRIMARY KEY (`_id`);
 
 --
 -- Indexes for table `cop_gallery`
@@ -608,15 +652,25 @@ MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 ALTER TABLE `cop_city`
 MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
+-- AUTO_INCREMENT for table `cop_department`
+--
+ALTER TABLE `cop_department`
+MODIFY `dept_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+--
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
 MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `cop_events_member`
+--
+ALTER TABLE `cop_events_member`
+MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `cop_gallery`
 --

@@ -50,7 +50,11 @@ class Users_model extends CI_Model {
 					$this->db->where($search_by[$i], $data[$i]);
 					$this->db->from('cop_users');
 					$query = $this->db->get();
+					if( $query->num_rows() > 0 ){
 					return $query->result_array();
+				}else{
+					return FALSE;
+				}
 				}
 			//IF SEARCH PARAMETER IS STRING RETURN AN OBJECT
 			}else{

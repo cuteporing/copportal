@@ -91,13 +91,14 @@ class manage_users_ajax extends CI_controller
 	}
 
 	/**
-	 * VALIDATES ALL POST DATA NEEDED FOR CREATING AN EVENT
+	 * VALIDATES ALL POST DATA NEEDED FOR CREATING A USER
 	 * @return Array, $error_log
 	 * --------------------------------------------------------
 	 */
 	public function validate_users_create()
 	{
-		$error_log = array();
+		$error_log      = array();
+
 		$required_field = array(
 			'user_name', 'first_name', 'last_name',
 			'gender', 'user_password');
@@ -183,10 +184,10 @@ class manage_users_ajax extends CI_controller
 			'user_name'         =>$this->input->post('user_name'),
 			'user_password'     =>$encrypt_pass,
 			'first_name'        =>ucfirst($this->input->post('first_name')),
-			'user_kbn'          =>$this->input->post('user_kbn'),
 			'last_name'         =>ucfirst($this->input->post('last_name')),
 			'gender'            =>strtolower( $this->input->post('gender') ),
-			'date_entered'      =>common::get_today(),
+			'user_kbn'          =>$this->input->post('user_kbn'),
+			'dept_id'           =>$this->input->post('dept_id'),
 			'date_modified'     =>common::get_today(),
 			'phone'             =>$phone_json,
 			'email'             =>$this->input->post('email'),
@@ -209,16 +210,19 @@ class manage_users_ajax extends CI_controller
 	 */
 	public function edit()
 	{
-		if( $this->validate_users_create() ){
-			echo $this->validate_users_create();
-			exit;
+		$session_data = $this->session->userdata('logged_in');
+		$id = $this->input->post('id');
+
+		if( $session_data['user_kbn'] == 30 ){
+			if( $this->validate_users_create() ){
+				echo $this->validate_users_create();
+				exit;
+			}
 		}
+
 		$users = new users;
 		$phone_list = array();
 
-		$session_data = $this->session->userdata('logged_in');
-		// $id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
-		$id = $this->input->post('id');
 
 		//GET ALL THE PHONE NUMBER AND TEMPORARILY SAVE IT
 		//IN AN ARRAY
@@ -233,10 +237,14 @@ class manage_users_ajax extends CI_controller
 
 		//GET PHP VERSION TO DETERMINE WHAT KIND OF ENCRYPTION
 		// TO BE USED
-		$version = $users->checkPHPVersion();
+		$version     = $users->checkPHPVersion();
+
+		$result_user = $this->users_model->get_user('id', $id);
+
+		$user_name   = $this->input->post('user_name');
 
 		$user_info = array(
-			'user_name' =>$this->input->post('user_name'),
+			'user_name' =>$user_name,
 			'crypt_type'=>''
 			);
 
@@ -246,20 +254,17 @@ class manage_users_ajax extends CI_controller
 
 		$data = array(
 			'id'                =>$id,
-			'user_name'         =>$this->input->post('user_name'),
-			'user_password'     =>$encrypt_pass,
 			'first_name'        =>ucfirst($this->input->post('first_name')),
 			'last_name'         =>ucfirst($this->input->post('last_name')),
-			'user_kbn'          =>$this->input->post('user_kbn'),
 			'gender'            =>strtolower( $this->input->post('gender') ),
-			'date_entered'      =>common::get_today(),
+			'user_kbn'          =>$this->input->post('user_kbn'),
+			'dept_id'           =>$this->input->post('dept_id'),
 			'date_modified'     =>common::get_today(),
 			'phone'             =>$phone_json,
 			'email'             =>$this->input->post('email'),
 			'status'            =>$this->input->post('status'),
 			'address_street'    =>$this->input->post('address_street'),
 			'address_city_id'   =>$this->input->post('city'),
-			'deleted'           =>0,
 			'crypt_type'        =>$users->checkPHPVersion()
 			);
 

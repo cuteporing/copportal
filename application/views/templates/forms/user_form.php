@@ -39,21 +39,6 @@
 							<p class="error"></p>
 						</div>
 					</div>
-					<div class="col-md-6">
-							<div class="form-group">
-								<label><?=$this->lang->line('lbl_user_type')?></label>
-								<select class="form-control" name="user_kbn">
-									<?php foreach ($user_type_list as $row): ?>
-										<?php if( isset( $selected ) && $row['kbn_id'] == $selected['user_kbn'] ): ?>
-											<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'], 'selected'=>'selected')) ?>
-										<?php else: ?>
-											<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'])) ?>
-										<?php endif; ?>
-									<?php endforeach ?>
-								</select>
-								<p class="error"></p>
-							</div>
-					</div>
 				</div>
 
 				<div class="row">
@@ -78,22 +63,24 @@
 					<input type="hidden" class="form-control" name="re_user_password" value="<?php if(isset($result)){ echo $result->user_password; } ?>" maxlength="50">
 				<?php endif; ?>
 
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label><?=$this->lang->line('lbl_first_name')?></label>
-							<input type="text" class="form-control" name="first_name" value="<?php if(isset($result)){ echo $result->first_name; } ?>" maxlength="30">
-							<p class="error"></p>
+				<?php if( !isset($restricted) ): ?>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label><?=$this->lang->line('lbl_first_name')?></label>
+								<input type="text" class="form-control" name="first_name" value="<?php if(isset($result)){ echo $result->first_name; } ?>" maxlength="30">
+								<p class="error"></p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label><?=$this->lang->line('lbl_last_name')?></label>
+								<input type="text" class="form-control" name="last_name" value="<?php if(isset($result)){ echo $result->last_name; } ?>" maxlength="30">
+								<p class="error"></p>
+							</div>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label><?=$this->lang->line('lbl_last_name')?></label>
-							<input type="text" class="form-control" name="last_name" value="<?php if(isset($result)){ echo $result->last_name; } ?>" maxlength="30">
-							<p class="error"></p>
-						</div>
-					</div>
-				</div>
+				<?php endif;?>
 
 				<div class="form-group">
 					<label><?=$this->lang->line('lbl_street_address')?></label>
@@ -133,6 +120,46 @@
 				</div>
 			</div>
 		</div>
+
+		<?php if( !isset($restricted) ): ?>
+			<div class="box box-warning">
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label><?=$this->lang->line('lbl_user_type')?></label>
+								<select class="form-control" name="user_kbn">
+									<?php foreach ($user_type_list as $row): ?>
+										<?php if( isset( $selected ) && $row['kbn_id'] == $selected['user_kbn'] ): ?>
+											<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'], 'selected'=>'selected')) ?>
+										<?php else: ?>
+											<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'])) ?>
+										<?php endif; ?>
+									<?php endforeach ?>
+								</select>
+								<p class="error"></p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label><?=$this->lang->line('lbl_department')?></label>
+								<select class="form-control" name="dept_id">
+									<?php foreach ($dept_list as $row): ?>
+										<?php if( isset( $selected ) && $row['dept_id'] == $selected['dept_id'] ): ?>
+											<?= create_tag('option', $row['department'], array('value'=>$row['dept_id'], 'selected'=>'selected')) ?>
+										<?php else: ?>
+											<?= create_tag('option', $row['department'], array('value'=>$row['dept_id'])) ?>
+										<?php endif; ?>
+									<?php endforeach ?>
+								</select>
+								<p class="error"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php endif; ?>
+
 		<div class="row">
 			<div class="col-md-2">
 				<input type="submit" class="btn btn-success btn-block " value="Save">
@@ -145,52 +172,23 @@
 	<!-- RIGHT COLUMN -->
 	<div class="col-md-4">
 		<?php if( isset($result) ): ?>
-			<div class="box box-primary">
-				<div class="box-body">
-					<div class="form-group">
-						<label><?=$this->lang->line('lbl_user_type')?></label>
-						<select class="form-control" name="user_kbn">
-							<?php foreach ($user_type_list as $row): ?>
-								<?php if( isset( $selected ) && $row['kbn_id'] == $selected['user_kbn'] ): ?>
-									<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'], 'selected'=>'selected')) ?>
-								<?php else: ?>
-									<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'])) ?>
-								<?php endif; ?>
-							<?php endforeach ?>
-						</select>
-						<p class="error"></p>
-					</div>
-					<div class="form-group">
-						<label><?=$this->lang->line('lbl_user_type')?></label>
-						<select class="form-control" name="user_kbn">
-							<?php foreach ($user_type_list as $row): ?>
-								<?php if( isset( $selected ) && $row['kbn_id'] == $selected['user_kbn'] ): ?>
-									<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'], 'selected'=>'selected')) ?>
-								<?php else: ?>
-									<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'])) ?>
-								<?php endif; ?>
-							<?php endforeach ?>
-						</select>
-						<p class="error"></p>
+			<?php if( !isset($restricted) ): ?>
+				<div class="box box-primary">
+					<div class="box-body">
+						<label><?=$this->lang->line('lbl_account_status')?></label>
+						<div class="form-group">
+							<label>
+								<input type="radio" name="status" class="minimal" value="Inactive" <?php if( $result->status == "Inactive"){ echo 'checked'; } ?>/>
+								<span style="font-weight:normal">Disabled</span>
+							</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label>
+								<input type="radio" name="status" class="minimal" value="Active" <?php if( $result->status == "Active"){ echo 'checked'; } ?>/>
+								<span style="font-weight:normal">Active</span>
+							</label>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="box box-primary">
-				<div class="box-body">
-					<label><?=$this->lang->line('lbl_account_status')?></label>
-					<div class="form-group">
-						<label>
-							<input type="radio" name="status" class="minimal" value="Inactive" <?php if( $result->status == "Inactive"){ echo 'checked'; } ?>/>
-							<span style="font-weight:normal">Disabled</span>
-						</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<label>
-							<input type="radio" name="status" class="minimal" value="Active" <?php if( $result->status == "Active"){ echo 'checked'; } ?>/>
-							<span style="font-weight:normal">Active</span>
-						</label>
-					</div>
-				</div>
-			</div>
-
+			<?php endif; ?>
 		<?php else: ?>
 			<input type="hidden" name="status" class="minimal-red" value="Active" checked/>
 		<?php endif; ?>
