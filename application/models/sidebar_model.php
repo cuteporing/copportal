@@ -19,6 +19,20 @@ class Sidebar_model extends CI_Model {
 		$this->load->database();
 	}
 
+	public function get_sidebar_sub($id)
+	{
+		$this->db->where('id', $id);
+		$this->db->from('cop_sidebar_sub');
+		$this->db->order_by("sequence", "asc");
+		$query = $this->db->get();
+
+		if( $query->num_rows() > 0 ){
+			return $query->result_array();
+		}else{
+			return FALSE;
+		}
+	}
+
 	/**
 	 * GET PARENT TAB
 	 * @return Array

@@ -167,7 +167,7 @@ class common extends CI_controller
 			array_push($script, 'assets/js/bootstrap/bootstrap.min.js');
 		}elseif( in_array( strtolower($page), $bs_acct ) ){
 			array_push($script, 'assets/js/bootstrap/jquery.min.js');
-			array_push($script, 'assets/js/jquery.session.js');
+			// array_push($script, 'assets/js/jquery.session.js');
 			array_push($script, 'assets/js/bootstrap/bootstrap.min.js');
 			array_push($script, 'assets/js/bootstrap/plugins/input-mask/jquery.inputmask.js');
 			array_push($script, 'assets/js/bootstrap/plugins/input-mask/jquery.inputmask.date.extensions.js');
@@ -186,20 +186,20 @@ class common extends CI_controller
 			array_push($script, 'assets/js/bootstrap/all.js');
 			array_push($script, 'assets/js/bootstrap/ajax.js');
 		}elseif( in_array( strtolower($page), $artcore ) ){
-			array_push($script, 'assets/js/artcore/vendor/modernizr-2.6.1-respond-1.1.0.min.js');
+			// array_push($script, 'assets/js/artcore/vendor/modernizr-2.6.1-respond-1.1.0.min.js');
 			array_push($script, 'assets/js/artcore/vendor/jquery-1.11.0.min.js');
 			array_push($script, 'assets/js/artcore/plugins.js');
 			array_push($script, 'assets/js/artcore/main.js');
 			array_push($script, 'assets/js/artcore/all.js');
 		}elseif( in_array( strtolower($page), $artcore_home ) ){
-			array_push($script, 'assets/js/artcore/vendor/modernizr-2.6.1-respond-1.1.0.min.js');
+			// array_push($script, 'assets/js/artcore/vendor/modernizr-2.6.1-respond-1.1.0.min.js');
 			array_push($script, 'assets/js/artcore/vendor/jquery-1.11.0.min.js');
 			array_push($script, 'assets/js/artcore/plugins.js');
 			array_push($script, 'assets/js/artcore/main.js');
 			array_push($script, 'assets/js/artcore/simplecalendar.js');
 			array_push($script, 'assets/js/artcore/all.js');
 		}else{
-			array_push($script, 'assets/js/artcore/vendor/modernizr-2.6.1-respond-1.1.0.min.js');
+			// array_push($script, 'assets/js/artcore/vendor/modernizr-2.6.1-respond-1.1.0.min.js');
 			array_push($script, 'assets/js/artcore/vendor/jquery-1.11.0.min.js');
 			array_push($script, 'assets/js/artcore/plugins.js');
 			array_push($script, 'assets/js/artcore/main.js');

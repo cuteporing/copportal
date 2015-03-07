@@ -178,9 +178,7 @@ class pages extends CI_controller
 
 		if( $common->check_login() ){
 			$session_data = $this->session->userdata('logged_in');
-			if( $session_data['is_admin'] == 'on' ){
-				redirect('account/dashboard', 'refresh');
-			}
+			redirect('account/dashboard', 'refresh');
 		}
 		return $users->login($page);
 	}

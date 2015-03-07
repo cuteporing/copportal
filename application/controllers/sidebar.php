@@ -28,141 +28,20 @@ class sidebar extends account
 		$result = $this->sidebar_model->get_sidebar();
 
 		for ($i=0; $i < count($result); $i++) {
+			$result_sub = $this->sidebar_model->get_sidebar_sub($result[$i]['id']);
+
+			if( $result_sub ){
+				for ($y=0; $y < count($result_sub); $y++){
+					$result_sub[$y]['icon'] = json_decode($result_sub[$y]['icon'], true);
+				}
+			}
+
 			$result[$i]['class'] = json_decode($result[$i]['class'], true);
 			$result[$i]['icon']  = json_decode($result[$i]['icon'], true);
 			$result[$i]['icon2'] = json_decode($result[$i]['icon2'], true);
-			$result[$i]['drop']  = json_decode($result[$i]['drop'], true);
+			$result[$i]['drop']  = ( $result_sub )? $result_sub : 'none';
 		}
 		$this->links = $result;
-		// $this->links = array(
-		// 	0 => array(
-		// 		'admin'=>'both',
-		// 		'title'=>'Dashboard',
-		// 		'link' =>'account/dashboard',
-		// 		'class'=> array('class'=>'active'),
-		// 		'icon' => array('class'=>'fa fa-dashboard'),
-		// 		'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
-		// 		'badge'=> 'none',
-		// 		'drop' => 'none'
-		// 		),
-		// 	1 => array(
-		// 		'admin'=>'on',
-		// 		'title'=>'Announcements',
-		// 		'link' =>'account/announcements',
-		// 		'class'=> array('class'=>'treeview'),
-		// 		'icon' => array('class'=>'fa fa-th'),
-		// 		'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
-		// 		'badge'=> array(
-		// 								'text' => 'new',
-		// 								'class'=> array(
-		// 										'class'=>'badge pull-right bg-green'
-		// 									)
-		// 							),
-		// 		'drop' => array(
-		// 							0 =>array(
-		// 								'admin'=>'on',
-		// 								'title'=>'Create announcements',
-		// 								'link' =>'account/announcements/create',
-		// 								'icon' =>array('class'=>'fa fa-angle-double-right'),
-		// 								),
-		// 							1 =>array(
-		// 								'admin'=>'on',
-		// 								'title'=>'View announcements',
-		// 								'link' =>'account/announcements/',
-		// 								'icon' =>array('class'=>'fa fa-angle-double-right'),
-		// 								)
-		// 							)
-		// 		),
-		// 	2 => array(
-		// 		'admin'=>'on',
-		// 		'title'=>'Banner',
-		// 		'link' =>'account/banner',
-		// 		'class'=> array('class'=>''),
-		// 		'icon' => array('class'=>'fa fa-flag-o'),
-		// 		'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
-		// 		'badge'=> 'none',
-		// 		'drop' => 'none'
-		// 		),
-		// 	3 => array(
-		// 		'admin'=>'on',
-		// 		'title'=>'Events',
-		// 		'link' =>'account/events',
-		// 		'class'=> array('class'=>'treeview'),
-		// 		'icon' => array('class'=>'fa fa-calendar'),
-		// 		'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
-		// 		'badge'=> 'none',
-		// 		'drop' => array(
-		// 							0 =>array(
-		// 								'admin'=>'on',
-		// 								'title'=>'Create event',
-		// 								'link' =>'account/events/create',
-		// 								'icon' =>array('class'=>'fa fa-angle-double-right'),
-		// 								),
-		// 							1 =>array(
-		// 								'admin'=>'on',
-		// 								'title'=>'View events',
-		// 								'link' =>'account/events/',
-		// 								'icon' =>array('class'=>'fa fa-angle-double-right'),
-		// 								)
-		// 							)
-		// 		),
-		// 	4 => array(
-		// 		'admin'=>'on',
-		// 		'title'=>'Gallery',
-		// 		'link' =>'account/gallery',
-		// 		'class'=> array('class'=>''),
-		// 		'icon' => array('class'=>'fa fa-picture-o'),
-		// 		'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
-		// 		'badge'=> 'none',
-		// 		'drop' => 'none'
-		// 		),
-		// 	5 => array(
-		// 		'admin'=>'on',
-		// 		'title'=>'Manage Beneficiary',
-		// 		'link' =>'account/manage_beneficiary',
-		// 		'class'=> array('class'=>'treeview'),
-		// 		'icon' => array('class'=>'fa fa-users'),
-		// 		'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
-		// 		'badge'=> 'none',
-		// 		'drop' => array(
-		// 							0 =>array(
-		// 								'admin'=>'on',
-		// 								'title'=>'Add beneficiary',
-		// 								'link' =>'account/manage_beneficiary/create',
-		// 								'icon' =>array('class'=>'fa fa-angle-double-right'),
-		// 								),
-		// 							1 =>array(
-		// 								'admin'=>'on',
-		// 								'title'=>'View beneficiary',
-		// 								'link' =>'account/manage_beneficiary/view',
-		// 								'icon' =>array('class'=>'fa fa-angle-double-right'),
-		// 								)
-		// 							)
-		// 		),
-		// 	6 => array(
-		// 		'admin'=>'on',
-		// 		'title'=>'Manage Users',
-		// 		'link' =>'account/manage_users',
-		// 		'class'=> array('class'=>'treeview'),
-		// 		'icon' => array('class'=>'fa fa-user'),
-		// 		'icon2'=> array('class'=>'fa fa-angle-left pull-right'),
-		// 		'badge'=> 'none',
-		// 		'drop' => array(
-		// 							0 =>array(
-		// 								'admin'=>'on',
-		// 								'title'=>'Add user',
-		// 								'link' =>'account/manage_users/create',
-		// 								'icon' =>array('class'=>'fa fa-angle-double-right'),
-		// 								),
-		// 							1 =>array(
-		// 								'admin'=>'on',
-		// 								'title'=>'View Users',
-		// 								'link' =>'account/manage_users/view',
-		// 								'icon' =>array('class'=>'fa fa-angle-double-right'),
-		// 								)
-		// 							)
-		// 		)
-		// 	);
 	}
 
 	/**
@@ -241,7 +120,6 @@ class sidebar extends account
 	{
 		$li = '';
 		$session_data = $this->session->userdata('logged_in');
-
 		foreach ($details as $row) {
 			// if( $session_data['is_admin'] !== $row['admin'] &&
 			// 		$row['admin'] !== 'both'){
@@ -273,10 +151,9 @@ class sidebar extends account
 		$this->get_links();
 
 		foreach ($this->links as $content) {
-			// if( $session_data['is_admin'] !== $content['admin'] &&
-			// 		$content['admin'] !== 'both'){
-			// 	break;
-			// }
+			if( $session_data['user_kbn'] < $content['user_kbn'] ){
+				break;
+			}
 
 			if( is_array($content['drop']) ){
 				$icon  = common::create_icon($content['icon']);

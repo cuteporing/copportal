@@ -190,7 +190,7 @@ class gallery extends CI_controller
 						'fieldname'=>'slug',
 						'data'     =>$slug));
 
-			$result_album = $this->gallery_model->get_album();
+			$result_album = $this->gallery_model->get_album($search);
 
 			if( $result_album ){
 				//SEARCH PARAMETERS FOR ALBUM PHOTOS

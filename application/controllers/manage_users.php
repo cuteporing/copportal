@@ -103,9 +103,10 @@ class manage_users extends account
 	 */
 	public function create()
 	{
-		$data['city_list'] = $this->city_model->get_cities();
-		$data['gender_list'] = $this->get_gender();
-		
+		$data['city_list']      = $this->city_model->get_cities();
+		$data['gender_list']    = $this->get_gender();
+		$data['user_type_list'] = $this->users_model->get_user_kbn();
+
 		$this->load->view('templates/forms/user_form', $data);
 	}
 
@@ -143,10 +144,12 @@ class manage_users extends account
 			$data['phone_list'] = $phone_list;
 		}
 
-		$data['result']      = $result[0];
-		$data['selected']    = $selected;
-		$data['city_list']   = $this->city_model->get_cities();
-		$data['gender_list'] = $this->get_gender();
+		$data['result']         = $result[0];
+		$data['selected']       = $selected;
+		$data['city_list']      = $this->city_model->get_cities();
+		$data['gender_list']    = $this->get_gender();
+		$data['user_type_list'] = $this->users_model->get_user_kbn();
+
 	
 		$this->change_password_modal($result[0]);
 		$this->load->view('templates/forms/user_form', $data);
@@ -159,6 +162,11 @@ class manage_users extends account
 	 */
 	public function get_users()
 	{
+		$session_data = $this->session->userdata('logged_in');
+		
+		if( $session_data['user_kbn'] != 30 ){
+				redirect('account/dashboard', 'refresh');
+		}
 		$field_name = array('deleted');
 		$field_value = array('0');
 		$result = $this->users_model->get_user($field_name, $field_value);
@@ -188,7 +196,6 @@ class manage_users extends account
 	 */
 	public function view($page, $header, $sidebar, $c_header)
 	{
-		$session_data = $this->session->userdata('logged_in');
 		$data['header']  = $header;
 		$data['sidebar'] = $sidebar;
 		$data['content_header'] = $c_header;

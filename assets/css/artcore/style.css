@@ -332,3 +332,28 @@ and (orientation : portrait) {
     background-size: 254px;
     background-position: 60px;
 }
+.social-top .logo-h {
+    /*display: inline-block;*/
+    /*font-size: 2em !important;*/
+    text-transform: uppercase !important;
+    font-weight: 700 !important;
+    font-family: "Roboto Slab" !important;
+}
+    .social-top .logo-h a {
+        text-transform: none;
+        color: #2c2c2c !important;
+    }
+        .social-top .logo-h a em {
+            font-style: normal !important;
+            color: #f69730 !important;
+        }
+
+    .social-top .logo-s {
+        font-family: "Roboto", sans-serif;
+        background: transparent;
+        line-height: 1.75;
+        color: #777777;
+        font-weight: normal;
+        display: inline;
+        letter-spacing: 0;
+    }

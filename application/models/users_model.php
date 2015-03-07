@@ -27,7 +27,6 @@ class Users_model extends CI_Model {
 	public function get_no_of_user()
 	{
 		$this->db->where('status', 'Active');
-		$this->db->where('is_admin', 'on');
 		$this->db->from('cop_users');
 		return $this->db->count_all_results();
 	}
@@ -68,6 +67,23 @@ class Users_model extends CI_Model {
 	}
 
 	/**
+	 * GET USER KBN
+	 * @return Array | Object | Boolean <FALSE>
+	 * --------------------------------------------
+	 */
+	public function get_user_kbn()
+	{
+			$this->db->from('cop_kbn');
+			$query = $this->db->get();
+
+			if( $query->num_rows() > 0 ){
+				return $query->result_array();
+			}else{
+				return FALSE;
+			}
+	}
+
+	/**
 	 * GET LOGIN INFO
 	 * @param String | Array, $search_by
 	 * @param String | Array, $data
@@ -77,7 +93,7 @@ class Users_model extends CI_Model {
 	public function get_login_info($id)
 	{
 		$sql_stmt ='id, user_name, first_name, last_name, user_kbn, ';
-		$sql_stmt.='gender, is_admin, date_entered, imagename, deleted';
+		$sql_stmt.='gender, user_kbn, date_entered, imagename, deleted';
 
 		$this->db->select($sql_stmt);
 		$this->db->from('cop_users');
@@ -102,7 +118,7 @@ class Users_model extends CI_Model {
 			$this->db->where('deleted', 0);
 		}else{
 			$sql_stmt ='id, user_name, user_password, first_name, last_name, user_kbn, ';
-			$sql_stmt.='gender, is_admin, date_entered, imagename';
+			$sql_stmt.='gender, user_kbn, date_entered, imagename';
 
 			$this->db->select($sql_stmt);
 			$this->db->from('cop_users');

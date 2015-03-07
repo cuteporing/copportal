@@ -27,8 +27,8 @@
             <div class="calendar">
                 <header>
                     <h2 class="month"></h2>
-                    <!-- <a class="btn-prev fontawesome-angle-left" href="#"></a> -->
-                    <!-- <a class="btn-next fontawesome-angle-right" href="#"></a> -->
+                    <a class="btn-prev fa fa-angle-left"></a>
+                    <a class="btn-next fa fa-angle-right"></a>
                 </header>
                 <table>
                     <thead>

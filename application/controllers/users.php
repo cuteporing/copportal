@@ -115,7 +115,6 @@ class users extends CI_Controller
 						'last_name'   =>$row['last_name'],
 						'user_kbn'    =>$row['user_kbn'],
 						'gender'      =>$row['gender'],
-						'is_admin'    =>$row['is_admin'],
 						'date_entered'=>$row['date_entered'],
 						'imagename'   =>$row['imagename'],
 					);
@@ -123,68 +122,11 @@ class users extends CI_Controller
 				}
 				$session_data = $this->session->userdata('logged_in');
 
-				if( $session_data['is_admin'] == 'on' ){
-					redirect('account/dashboard', 'refresh');
-				}else{
-					redirect('home', 'refresh');
-				}
+				redirect('account/dashboard', 'refresh');
 			}else{
 				//IF USERNAME IS NOT FOUND THEN RETURN AN ERROR MESSAGE
 				return $this->load->view('pages/'.$page, $data);
 			}
-		}
-	}
-
-	/**
-	 * REGISTER USER DATA
-	 * @return validation|redirect
-	 * --------------------------------------------
-	 */
-	public function register($page, $is_admin='off')
-	{
-		//VALIDATE FIELDS
-		$this->form_validation->set_rules('firstname', 'Firstname', 'required');
-		$this->form_validation->set_rules('lastname', 'Lastname', 'required');
-		$this->form_validation->set_rules('username', 'Username', 'required');
-		$this->form_validation->set_rules('password', 'Password', 'required');
-		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
-
-		if( $this->form_validation->run() === FALSE ){
-			//SHOW VALIDATION MESSAGES
-			return $this->load->view('pages/'.$page);
-		}else{
-			//GET PHP VERSION TO DETERMINE WHAT KIND OF ENCRYPTION
-			//TO BE USED
-			$this->checkPHPVersion();
-
-			$user_info = array(
-				'user_name' =>$this->input->post('username'),
-				'crypt_type'=>''
-				);
-
-			//GET THE ENCRYPTED PASSWORD W/ SALT
-			$encrypt_pass = $this->encrypt_password(
-				$user_info, $this->input->post('password'));
-
-			//SET PARAMETERS TO AN ARRAY DATA
-			$data = array(
-				'user_name'     => $this->input->post('username'),
-				'user_password' => $encrypt_pass,
-				'first_name'    => ucfirst($this->input->post('firstname')),
-				'last_name'     => ucfirst($this->input->post('lastname')),
-				'gender'        => 'male',
-				'is_admin'      => $is_admin,
-				'date_entered'  => common::get_today(),
-				'date_modified' => common::get_today(),
-				'status'        => 'Active',
-				'deleted'       => 0,
-				'crypt_type'    => $this->checkPHPVersion());
-
-			//CREATE USER IN DB
-			$this->users_model->create_user($data);
-
-			//REDIRECT TO LOGIN PAGE
-			return redirect('login', 'refresh');
 		}
 	}
 
@@ -237,7 +179,6 @@ class users extends CI_Controller
 					'last_name'   =>$row->last_name,
 					'user_kbn'    =>$row->user_kbn,
 					'gender'      =>$row->gender,
-					'is_admin'    =>$row->is_admin,
 					'date_entered'=>$row->date_entered,
 					'imagename'   =>$row->imagename,
 				);

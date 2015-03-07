@@ -72,7 +72,7 @@ class dashboard extends account
 	 * @return String, $stat_box
 	 * --------------------------------------------
 	 */
-	public function display_admin_stat_box()
+	public function display_30_stat_box()
 	{
 		$details    = array();
 		$users      = new users;
@@ -99,7 +99,7 @@ class dashboard extends account
 		return $stat_box;
 	}
 
-	public function display_user_stat_box()
+	public function display_10_stat_box()
 	{
 		$stat_box = '';
 		return $stat_box;
@@ -118,10 +118,10 @@ class dashboard extends account
 	{
 		$session_data = $this->session->userdata('logged_in');
 
-		if( $session_data['is_admin'] == 'on' ){
-			$status_box = $this->display_admin_stat_box();
+		if( $session_data['user_kbn'] == 30 ){
+			$status_box = $this->display_30_stat_box();
 		}else{
-			$status_box = $this->display_user_stat_box();
+			$status_box = $this->display_10_stat_box();
 		}
 
 		$data['header']  = $header;

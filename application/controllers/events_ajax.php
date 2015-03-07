@@ -217,7 +217,7 @@ class events_ajax extends CI_controller
 	 */
 	public function member_delete()
 	{
-		$event_id      = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		$event_id       = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
 		$beneficiary_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
 
 		$result = $this->events_model->delete_event_member($event_id, $beneficiary_id);
@@ -629,21 +629,25 @@ class events_ajax extends CI_controller
 		if( $result ){
 			for($i=0; $i < count($result); $i++){
 				$result[$i]['date_month'] = common::format_date(
-					$result[$i]['date_start'], $format='m');
+					$result[$i]['date_start'], 'm');
 
 				$result[$i]['date_day'] = common::format_date(
-					$result[$i]['date_start'], $format='d');
+					$result[$i]['date_start'], 'd');
+
+				$date_start= $result[$i]['date_start'];
+				$date_end  = $result[$i]['date_end'];
+
+				$date = common::display_date($date_start, $date_end);
 
 				$description = $this->events_model->get_event_desc($result[$i]['event_id']);
 
+				$result[$i]['date']        =  $date;
 				$result[$i]['description'] = $description[0]['description'];
-				$result[$i]['slug'] = base_url().'event/title/'.$result[$i]['slug'];
+				$result[$i]['slug']        = base_url().'event/title/'.$result[$i]['slug'];
 			}
 			$calendarFinal['events'] = $result;
-
 		}else{
 			$calendarFinal['events'] = array($month, $year);
-
 		}
 		
 		$calendarFinal['dates']  = $calendar;

@@ -40,6 +40,19 @@
 						</div>
 					</div>
 					<div class="col-md-6">
+							<div class="form-group">
+								<label><?=$this->lang->line('lbl_user_type')?></label>
+								<select class="form-control" name="user_kbn">
+									<?php foreach ($user_type_list as $row): ?>
+										<?php if( isset( $selected ) && $row['kbn_id'] == $selected['user_kbn'] ): ?>
+											<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'], 'selected'=>'selected')) ?>
+										<?php else: ?>
+											<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'])) ?>
+										<?php endif; ?>
+									<?php endforeach ?>
+								</select>
+								<p class="error"></p>
+							</div>
 					</div>
 				</div>
 
@@ -133,16 +146,46 @@
 	<div class="col-md-4">
 		<?php if( isset($result) ): ?>
 			<div class="box box-primary">
-				<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_account_status')?></h3></div>
 				<div class="box-body">
+					<div class="form-group">
+						<label><?=$this->lang->line('lbl_user_type')?></label>
+						<select class="form-control" name="user_kbn">
+							<?php foreach ($user_type_list as $row): ?>
+								<?php if( isset( $selected ) && $row['kbn_id'] == $selected['user_kbn'] ): ?>
+									<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'], 'selected'=>'selected')) ?>
+								<?php else: ?>
+									<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'])) ?>
+								<?php endif; ?>
+							<?php endforeach ?>
+						</select>
+						<p class="error"></p>
+					</div>
+					<div class="form-group">
+						<label><?=$this->lang->line('lbl_user_type')?></label>
+						<select class="form-control" name="user_kbn">
+							<?php foreach ($user_type_list as $row): ?>
+								<?php if( isset( $selected ) && $row['kbn_id'] == $selected['user_kbn'] ): ?>
+									<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'], 'selected'=>'selected')) ?>
+								<?php else: ?>
+									<?= create_tag('option', $row['role'], array('value'=>$row['kbn_id'])) ?>
+								<?php endif; ?>
+							<?php endforeach ?>
+						</select>
+						<p class="error"></p>
+					</div>
+				</div>
+			</div>
+			<div class="box box-primary">
+				<div class="box-body">
+					<label><?=$this->lang->line('lbl_account_status')?></label>
 					<div class="form-group">
 						<label>
 							<input type="radio" name="status" class="minimal" value="Inactive" <?php if( $result->status == "Inactive"){ echo 'checked'; } ?>/>
-							Disabled
+							<span style="font-weight:normal">Disabled</span>
 						</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<label>
 							<input type="radio" name="status" class="minimal" value="Active" <?php if( $result->status == "Active"){ echo 'checked'; } ?>/>
-							Active
+							<span style="font-weight:normal">Active</span>
 						</label>
 					</div>
 				</div>
