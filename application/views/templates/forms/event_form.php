@@ -61,12 +61,40 @@
 				<textarea class="textarea" id="description" name="description" value="" placeholder="Place some text here" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-2">
-				<input type="submit" class="btn btn-success btn-block " value="Save">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title"><small><?=$this->lang->line('lbl_incharge_participants')?></label></small></h3>
+					<div class="pull-right box-tools">
+						<button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" onclick="return false;" data-original-title="" title=""><i class="fa fa-minus"></i></button>
+					</div>
+				</div>
+				<div class="box-body">
+						<div class='box-body pad'>
+							<textarea class="textarea" id="in_charge" name="in_charge" value="" placeholder="Place some text here" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+						</div>
+				</div>
 			</div>
-		</div>
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title"><small><?=$this->lang->line('lbl_expected_output')?></label></small></h3>
+					<div class="pull-right box-tools">
+						<button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" onclick="return false;" data-original-title="" title=""><i class="fa fa-minus"></i></button>
+					</div>
+				</div>
+				<div class="box-body">
+						<div class='box-body pad'>
+							<textarea class="textarea" id="expected_output" name="expected_output" value="" placeholder="Place some text here" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+						</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-2">
+					<input type="submit" class="btn btn-success btn-block " value="Save">
+				</div>
+			</div>
 	</div><!--//END col-md-8 -->
+
 	<!-- RIGHT COLUMN -->
 	<div class="col-md-4">
 		<!-- EVENT DETAILS -->
@@ -78,10 +106,10 @@
 					* TIME
 				 *********************************
 		-->
-		<?php if( isset($result) ): ?>
+<!-- 		<?php if( isset($result) ): ?>
 		<div class="box box-success">
-			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_event_status')?></h3></div>
 			<div class="box-body">
+			<label><?=$this->lang->line('lbl_event_status')?></label>
 				<div class="form-group">
 					<label>
 						<input type="radio" name="status" class="minimal" value="close" <?php if( $result['status'] == "close"){ echo 'checked'; } ?>/>
@@ -95,7 +123,7 @@
 			</div>
 		</div>
 		<?php endif; ?>
-
+ -->
 		<div class="box box-primary">
 			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_event_details')?></h3></div>
 			<div class="box-body">
@@ -103,7 +131,7 @@
 					<label><?=$this->lang->line('lbl_event_category')?></label>
 					<select class="form-control" name="category">
 						<?php foreach ($events_category as $category): ?>
-							<?php if( isset( $selected ) && $category['category_id'] == $selected_id ): ?>
+							<?php if( isset( $selected ) && $category['category_id'] == $selected['category_id'] ): ?>
 								<?= create_tag('option', $category['category_name'], array('value'=>$category['category_id'], 'selected'=>'selected')) ?>
 							<?php else: ?>
 								<?= create_tag('option', $category['category_name'], array('value'=>$category['category_id'])) ?>
@@ -156,8 +184,52 @@
 						</div><!--//END bootstrap-timepicker -->
 					</div><!--//END col-md-6 -->
 				</div><!--//END row -->
+
 			</div><!--//END box-body -->
 		</div><!--//END box-primary -->
+
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title"><small><?=$this->lang->line('lbl_budget_proposal')?></label></small></h3>
+				<div class="pull-right box-tools">
+					<button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" onclick="return false;" data-original-title="" title=""><i class="fa fa-minus"></i></button>
+				</div>
+			</div>
+			<div class="box-body">
+					<div class='box-body pad'>
+						<textarea class="textarea" id="budget" name="budget" value="" placeholder="Place some text here" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+					</div>
+			</div>
+		</div>
+
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title"><small><?=$this->lang->line('lbl_persons_involved')?></label></small></h3>
+				<div class="pull-right box-tools">
+					<button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" onclick="return false;" data-original-title="" title=""><i class="fa fa-minus"></i></button>
+				</div>
+			</div>
+			<div class="box-body">
+					<div class='box-body pad'>
+						<textarea class="textarea" id="persons_involved" name="persons_involved" value="" placeholder="Place some text here" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+					</div>
+			</div>
+		</div>
+
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title"><small><?=$this->lang->line('lbl_materials_needed')?></label></small></h3>
+				<div class="pull-right box-tools">
+					<button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" onclick="return false;" data-original-title="" title=""><i class="fa fa-minus"></i></button>
+				</div>
+			</div>
+			<div class="box-body">
+					<div class='box-body pad'>
+						<textarea class="textarea" id="materials_needed" name="materials_needed" value="" placeholder="Place some text here" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+					</div>
+			</div>
+		</div>
+
 	</div><!--//END col-md-4 -->
 </div>
 <?php echo form_close(); ?>

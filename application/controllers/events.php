@@ -173,12 +173,17 @@ class events extends CI_controller
 			return $this->load->view('error/record_not_found');
 		}
 
+		$selected = array(
+			'category_id'=>$result[0]['category_id']
+			);
+
 		$result[0]['date_start'] =  common::format_date($result[0]['date_start'], 'm/d/Y');
 		$result[0]['date_end']   =  common::format_date($result[0]['date_end'], 'm/d/Y');
 
 		$data['events_category'] = $this->events_model->get_categories();
 		$data['result']          = $result[0];
 		$data['result_desc']     = ($result_desc)? $result_desc : array();
+		$data['selected']        = $selected;
 
 		$this->load->view('templates/forms/event_form', $data);
 		$this->upload_photo_modal($data);
@@ -336,17 +341,25 @@ class events extends CI_controller
 		//EVENT LIST
 		}else{
 			( $offset == '' )? $offset = 0 : $offset = $offset;
+				array_push($search, array(
+					'fieldname'=>'appr_sps_dir',
+					'data'     =>1
+					));
 			//DISPLAY LIST OF NEW EVENTS
 			if( $view_type == 'new' ){
-				//GET TOTAL NO. OF OPENED EVENTS
-				$total_rows = $this->events_model->get_no_of_events('open', 'view');
-				$search_data= 'open';
+				array_push($search, array(
+					'fieldname'=>'date_start >',
+					'data'     =>common::get_today()
+					));
+				//GET TOTAL NO. OF NEW EVENTS
+				$total_rows = $this->events_model->get_no_of_events($search);
+				$search_data= common::get_today();
 				$base_url   = 'http://localhost/copportal/event/new/page/';
 
 			}elseif( $view_type == 'archive' ){
-				//GET TOTAL NO. OF CLOSED EVENTS
-				$total_rows = $this->events_model->get_no_of_events('close', 'view');
-				$search_data= 'close';
+				//GET TOTAL NO. OF EVENTS
+				$total_rows = $this->events_model->get_no_of_events();
+				$search_data= '';
 				$base_url   = 'http://localhost/copportal/event/archive/page/';
 			}
 
@@ -355,16 +368,15 @@ class events extends CI_controller
 			}
 
 			if( $total_rows > 0 ){
-				array_push($search, array(
-						'fieldname'=>'status',
-						'data'     =>$search_data
-						));
-
 				$params['offset']    = $offset;
 				$params['limit']     = $limit;
 				$params['search_by'] = $search;
 
-				$result = $this->events_model->get_event_list($params);
+				if( count($search) > 0 ){
+					$result = $this->events_model->get_event_list($params);
+				}else{
+					$result = $this->events_model->get_event_list();
+				}
 
 				for ($i=0; $i<count($result); $i++) {
 					$description = $this->events_model->get_event_desc($result[$i]['event_id']);

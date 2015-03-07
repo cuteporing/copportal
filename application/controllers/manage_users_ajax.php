@@ -235,38 +235,36 @@ class manage_users_ajax extends CI_controller
 		//SAVE THE PHONE NUMBER IN JSON FORMAT
 		$phone_json = json_encode($phone_list);
 
-		//GET PHP VERSION TO DETERMINE WHAT KIND OF ENCRYPTION
-		// TO BE USED
-		$version     = $users->checkPHPVersion();
-
-		$result_user = $this->users_model->get_user('id', $id);
-
-		$user_name   = $this->input->post('user_name');
-
-		$user_info = array(
-			'user_name' =>$user_name,
-			'crypt_type'=>''
-			);
-
-		//GET THE ENCRYPTED PASSWORD W/ SALT
-		$encrypt_pass = $users->encrypt_password(
-			$user_info, $this->input->post('user_password'));
-
-		$data = array(
-			'id'                =>$id,
-			'first_name'        =>ucfirst($this->input->post('first_name')),
-			'last_name'         =>ucfirst($this->input->post('last_name')),
-			'gender'            =>strtolower( $this->input->post('gender') ),
-			'user_kbn'          =>$this->input->post('user_kbn'),
-			'dept_id'           =>$this->input->post('dept_id'),
-			'date_modified'     =>common::get_today(),
-			'phone'             =>$phone_json,
-			'email'             =>$this->input->post('email'),
-			'status'            =>$this->input->post('status'),
-			'address_street'    =>$this->input->post('address_street'),
-			'address_city_id'   =>$this->input->post('city'),
-			'crypt_type'        =>$users->checkPHPVersion()
-			);
+		if( $session_data['user_kbn'] != 30 ){
+				$data = array(
+				'id'                =>$id,
+				'gender'            =>ucfirst( $this->input->post('gender') ),
+				'dept_id'           =>$this->input->post('dept_id'),
+				'date_modified'     =>common::get_today(),
+				'phone'             =>$phone_json,
+				'email'             =>$this->input->post('email'),
+				'status'            =>$this->input->post('status'),
+				'address_street'    =>$this->input->post('address_street'),
+				'address_city_id'   =>$this->input->post('city'),
+				'crypt_type'        =>$users->checkPHPVersion()
+				);
+		}else{
+				$data = array(
+				'id'                =>$id,
+				'first_name'        =>ucfirst($this->input->post('first_name')),
+				'last_name'         =>ucfirst($this->input->post('last_name')),
+				'gender'            =>ucfirst( $this->input->post('gender') ),
+				'user_kbn'          =>$this->input->post('user_kbn'),
+				'dept_id'           =>$this->input->post('dept_id'),
+				'date_modified'     =>common::get_today(),
+				'phone'             =>$phone_json,
+				'email'             =>$this->input->post('email'),
+				'status'            =>$this->input->post('status'),
+				'address_street'    =>$this->input->post('address_street'),
+				'address_city_id'   =>$this->input->post('city'),
+				'crypt_type'        =>$users->checkPHPVersion()
+				);
+		}
 
 		$result = $this->users_model->update_user($data);
 

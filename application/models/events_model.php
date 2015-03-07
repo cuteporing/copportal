@@ -26,18 +26,27 @@ class Events_model extends CI_Model {
 	 * @return Integer
 	 * --------------------------------------------
 	 */
-	public function get_no_of_events($status, $type = 'general')
+	public function get_no_of_events($search_param = array())
 	{
-		//GET ONLY THE NUMBER OF APPROVED EVENTS
-		//W/ STATUS OPEN OR CLOSES
-		if( $type == 'view' ) {
-			$this->db->where('status', $status);
-			$this->db->where('appr_sps_dir', 1);
-		}else{
-			$this->db->where('status', $status);
-		}
-		$this->db->from('cop_events');
-		return $this->db->count_all_results();
+			if( count($search_param) > 0 ){
+				if( isset($search_param['search_by']) && count($search_param['search_by']) > 0 ){
+						foreach ($search_param['search_by'] as $param) {
+							$this->db->where(
+								$param['fieldname'],
+								$param['data']
+							);
+						}
+				}
+				$this->db->order_by("date_start", "desc");
+				$this->db->from('cop_events');
+			}else{
+				$query = $this->db->get('cop_events');
+			}
+
+			return $this->db->count_all_results();
+
+			// $this->db->where('status', $status);
+			// $this->db->where('appr_sps_dir', 1);
 	}
 
 	/**

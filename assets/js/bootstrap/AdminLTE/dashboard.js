@@ -27,12 +27,29 @@ $(function() {
     // ;
 
     //bootstrap WYSIHTML5 - text editor
-    $(".textarea").wysihtml5();
-
+    $("#description").wysihtml5();
+    $("#in_charge, #expected_output").wysihtml5({
+         "font-styles": false, //Font styling, e.g. h1, h2, etc.
+         "emphasis": true, //Italics, bold, etc.
+         "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers.
+         "html": false, //Button which allows you to edit the generated HTML.
+         "link": false, //Button to insert a link.
+         "image": false, //Button to insert an image.
+         "color": false //Button to change color of font
+    });
+    $("#persons_involved, #materials_needed, #budget").wysihtml5({
+         "font-styles": false, //Font styling, e.g. h1, h2, etc.
+         "emphasis": false, //Italics, bold, etc.
+         "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers.
+         "html": false, //Button which allows you to edit the generated HTML.
+         "link": false, //Button to insert a link.
+         "image": false, //Button to insert an image.
+         "color": false //Button to change color of font
+    });
     setTimeout(function(){
         if( $('#description_mirror').length > 0 ){
              var description = $('#description_mirror').val();
-            $('.textarea').data("wysihtml5").editor.setValue( description );
+            $('#description').data("wysihtml5").editor.setValue( description );
         }
     }, 1000);
 

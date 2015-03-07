@@ -274,7 +274,6 @@ class events_ajax extends CI_controller
 		$event_data = array(
 			'owner_id'        =>$session_data['id'],
 			'title'           =>$this->input->post('title'),
-			'status'          =>'open',
 			'category_id'     =>$this->input->post('category'),
 			'date_entered'    =>common::get_today(),
 			'date_start'      =>$date_start,
@@ -330,26 +329,26 @@ class events_ajax extends CI_controller
 		}
 	}
 
-	/**
-	 * CLOSE THE EVENT
-	 * @return Array, $response
-	 * --------------------------------------------------------
-	 */
-	public function close()
-	{
-		$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
-		$data = array(
-			'event_id'=> $event_id,
-			'status'  => 'close'
-			);
+	// /**
+	//  * CLOSE THE EVENT
+	//  * @return Array, $response
+	//  * --------------------------------------------------------
+	//  */
+	// public function close()
+	// {
+	// 	$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+	// 	$data = array(
+	// 		'event_id'=> $event_id,
+	// 		'status'  => 'close'
+	// 		);
 
-		$result = $this->events_model->close_events($data);
-		if( $result ){
-			echo common::response_msg(200, 'refresh', '');
-		}else{
-			echo common::response_msg(200, 'error', 'Error while closing the event');
-		}
-	}
+	// 	$result = $this->events_model->close_events($data);
+	// 	if( $result ){
+	// 		echo common::response_msg(200, 'refresh', '');
+	// 	}else{
+	// 		echo common::response_msg(200, 'error', 'Error while closing the event');
+	// 	}
+	// }
 
 	/**
 	 * CREATES AN EVENT
@@ -376,7 +375,6 @@ class events_ajax extends CI_controller
 			'event_id'        =>$this->input->post('event_id'),
 			'owner_id'        =>$session_data['id'],
 			'title'           =>$this->input->post('title'),
-			'status'          =>$this->input->post('status'),
 			'category_id'     =>$this->input->post('category'),
 			'date_start'      =>$date_start,
 			'date_end'        =>$date_end,
