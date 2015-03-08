@@ -357,3 +357,14 @@ and (orientation : portrait) {
         display: inline;
         letter-spacing: 0;
     }
+@media print {
+    a {
+        display:none;
+    }
+ }
+
+ @media screen and projection {
+    a {
+        display:inline;
+    }
+  }

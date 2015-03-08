@@ -8,17 +8,17 @@
      $btn_delete  = base_url().'events_ajax/delete/'.$result_event['event_id'];
 
      switch ($result_event['status']) {
-         case 'Approved'            : $status_label = 'label label-success'; $status_by='Approved by'; break;
-         case 'Denied'              : $status_label = 'label label-danger';  $status_by='Confirmed by'; break;
-         case 'Final confirmation'  : $status_label = 'label label-info';    $status_by='Approved by'; break;
-         case 'Pending'             : $status_label = 'label label-default'; $status_by=''; break;
-         case 'Revise'              : $status_label = 'label label-warning'; $status_by='Confirmed by'; break;
+         case 'Approved'            : $status_label = 'label label-success'; break;
+         case 'Denied'              : $status_label = 'label label-danger';  break;
+         case 'Final confirmation'  : $status_label = 'label label-info';    break;
+         case 'Pending'             : $status_label = 'label label-default'; break;
+         case 'Revise'              : $status_label = 'label label-warning'; break;
          default: $status_label = 'label label-default'; break;
      }
     ?>
     <?php if( isset($show_action_btn) ):?>
         <?php if( $show_action_btn == 'restrict' ):?>
-            <div class="btn-group">
+            <div class="btn-group  no-print">
                 <button type="button" class="btn btn-default btn-flat">Action</button>
                 <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
@@ -29,7 +29,7 @@
                 </ul>
             </div><br></br>
         <?php else: ?>
-            <div class="btn-group">
+            <div class="btn-group  no-print">
                 <button type="button" class="btn btn-default btn-flat">Action</button>
                 <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
@@ -49,7 +49,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="box box-solid">
-                <div class="box-header" style="border-bottom: 1px dashed rgb(203, 203, 203);">
+                <div class="box-header " style="border-bottom: 1px dashed rgb(203, 203, 203);">
                     <h3 class="box-title"><?=$result_event['title'] ?></h3>
                     <small class="<?=$status_label?>" style="float: right;padding: 1.4em .6em 1.6em;">
                         <i class="fa fa-clock-o"></i> <?=$result_event['status'] ?>
@@ -136,15 +136,18 @@
                         <?php endif; ?>
                         </p><br><br>
 
+                        <p class="text-center">Approved by</p>
+
+                        <?php $name = $owner['first_name'].' '.$owner['last_name'];?>
                         <?php if( isset($result_confirmation) ): ?>
-                            <p class="text-center"><?=$status_by?></p>
-                            <?php if( strlen($result_confirmation['cop_director']) > 0 ): ?>
+                            <?php if( strlen($result_confirmation['cop_director']) > 0  &&
+                                        $name != $result_confirmation['cop_director'] ): ?>
                             <p class="text-center">
                                 <strong style="text-transform:uppercase;"><?=$result_confirmation['cop_director']?></strong><br>
                                 Cop Director
                             </p>
                             <?php endif; ?>
-                            <br><br>
+                            <br>
 
                             <?php if( strlen($result_confirmation['sps_director']) > 0 ): ?>
                             <p class="text-center">
@@ -152,12 +155,15 @@
                                 SPS Director
                             </p>
                             <?php endif; ?>
+                            <br>
                         <?php endif; ?>
+
+                        <button class="btn btn-default  no-print" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 no-print">
             <div class="box box-success">
                 <div class="box-header">
                     <i class="fa fa-comments-o"></i>
