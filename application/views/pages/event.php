@@ -6,10 +6,20 @@
 </div>
 <?php if( isset($event_new_list) ): ?>
 <div class="projects-holder-3">
-    <?php if( isset($filter) ): ?>
+<!--     <?php if( isset($filter) ): ?>
     <div class="filter-categories">
         <ul class="project-filter">
             <?php foreach( $filter as $value ): ?>
+                <li class="filter" data-filter="<?=strtolower($value)?>"><span><?=$value?></span></li>
+            <?php endforeach; ?>
+        </ul>
+    </div> -->
+    <?php endif; ?>
+    <?php if( isset($filter_dept) ): ?>
+    <div class="filter-categories">
+        <ul class="project-filter">
+                <li class="filter" data-filter="all"><span>All</span></li>
+            <?php foreach( $filter_dept as $value ): ?>
                 <li class="filter" data-filter="<?=strtolower($value)?>"><span><?=$value?></span></li>
             <?php endforeach; ?>
         </ul>
@@ -32,7 +42,7 @@
                     <div class="box-content project-detail">
                         <h2><a href="<?=base_url().'event/title/'.$row['slug']?>"><?=$row['title'] ?></a></h2>
                         <?php if( isset($row['status_display']) ): ?><?=$row['status_display']?><br><?php endif; ?>
-                        <span class="blog-meta"><?=$row['date_display']?> <small style="font-size:11px; color:rgb(184, 184, 184);"><?=$row['time_start']?> - <?=$row['time_end']?></small></span><br>
+                        <span class="blog-meta"><?=$row['date_display']?> <small style="font-size:11px; color:rgb(184, 184, 184);"><?=$row['time_display']?></small></span><br>
                         <span class="blog-meta"><span class="blue"><?=$row['location']?></span></span>
                         <p><?=$row['description'] ?></p>
                     </div>
@@ -62,7 +72,7 @@
                     <?php $counter = 1;?>
                     <ul>
                         <?php foreach ($event_single['members'] as $row): ?>
-                            <li class="lined-list"><span class="small-inline-flex"><?=$counter?></span><?=$row['first_name']?> <?=$row['last_name']?></li>
+                            <li class="lined-list"><span class="small-inline-flex"><?=$counter?></span></li>
                             <?php $counter++ ?>
                         <?php endforeach; ?>
                     </ul>
@@ -75,15 +85,16 @@
         <div class="blog-info col-md-8">
             <div class="box-content">
                 <h2 class="blog-title"><?=$event_single['title']?></h2>
+                <?php if( !is_null($event_single['department']) && $event_single['department'] !== ''): ?>
+                    <strong><?=$event_single['department']?></strong><br>
+                <?php endif; ?>
                 <span class="blog-meta">
+
                     <?php if( !is_null($event_single['date_display']) && $event_single['date_display'] !== ''): ?>
                         WHEN : <?=$event_single['date_display']?><br>
                     <?php endif; ?>
-                    <?php if( !is_null($event_single['time_start']) && $event_single['time_start'] !== ''): ?>
-                        START: <?=$event_single['time_start']?><br>
-                    <?php endif; ?>
-                    <?php if( !is_null($event_single['time_end']) && $event_single['time_end'] !== ''): ?>
-                        END &nbsp;&nbsp;&nbsp;: <?=$event_single['time_end']?><br>
+                    <?php if( !is_null($event_single['time']) && $event_single['time'] !== ''): ?>
+                        TIME: <?=$event_single['time']?><br>
                     <?php endif; ?>
                     <?php if( !is_null($event_single['location']) && $event_single['location'] !== ''): ?>
                         VENUE: <?=$event_single['location']?><br>
@@ -105,7 +116,7 @@
                     <?php $counter = 1;?>
                     <ul>
                         <?php foreach ($event_single['members'] as $row): ?>
-                            <li class="lined-list"><span class="small-inline-flex"><?=$counter?></span><?=$row['first_name']?> <?=$row['last_name']?></li>
+                            <li class="lined-list"><span class="small-inline-flex"><?=$counter?></span><?=$row['beneficiary']?></li>
                             <?php $counter++ ?>
                         <?php endforeach; ?>
                     </ul>

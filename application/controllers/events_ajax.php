@@ -270,7 +270,6 @@ class events_ajax extends CI_controller
 		//---------------------------
 		//- Approved
 		//- Denied
-		//- Edit
 		//- Final confirmation
 		//- Pending
 		//- Revise
@@ -278,14 +277,20 @@ class events_ajax extends CI_controller
 			$status       = 'Approved';
 			$appr_cop_dir = 1;
 			$appr_sps_dir = 1;
+			$appr_cop_dir_name = '';
+			$appr_sps_dir_name = $session_data['first_name'].' '.$session_data['last_name'];
 		}else if ( $session_data['user_kbn'] == 20 ) {
 			$status       = 'Final confirmation';
 			$appr_cop_dir = 1;
 			$appr_sps_dir = 0;
+			$appr_cop_dir_name = $session_data['first_name'].' '.$session_data['last_name'];
+			$appr_sps_dir_name = '';
 		}else{
 			$status       = 'Pending';
 			$appr_cop_dir = 0;
 			$appr_sps_dir = 0;
+			$appr_cop_dir_name = '';
+			$appr_sps_dir_name = '';
 		}
 
 		$event_data = array(
@@ -313,8 +318,8 @@ class events_ajax extends CI_controller
 
 		//IF ADDING OF EVENT IS SUCCESSFUL
 		if( $result_event ){
-			$description_data = array();
-			$beneficiary_data = array();
+			$description_data  = array();
+			$beneficiary_data  = array();
 
 			$description = str_split($this->input->post('description'), 1000);
 			$sequence = 1;
@@ -341,19 +346,28 @@ class events_ajax extends CI_controller
 				}
 			}
 
+			$confirmation_data = array(
+				'event_id'     => (int) $event_id,
+				'cop_director' => $appr_cop_dir_name,
+				'sps_director' => $appr_sps_dir_name
+				);
+
 			//ADD THE EVENT DESCRIPTION
 			$result_description = $this->events_model->add_event_description( $description_data );
 			$result_beneficiary = $this->events_model->add_event_member( $beneficiary_data );
+			$result_confirmation= $this->events_model->add_confirmation( $confirmation_data );
 
 			//IF ADDING OF EVENT DESCRIPTION IS SUCCESSFUL
-			if( $result_description && $result_beneficiary ){
+			if( $result_description && $result_beneficiary){
 				// $local_storage = array('modal_id'=>$result_event);
 				// echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result_event,$local_storage);
-				echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result_event);
+				echo common::response_msg(200, 'redirect', base_url().'account/events/manage/'.$event_id);
 			}else{
+				$this->delete($event_id);
 				echo common::response_msg(200, 'error', 'Cannot create event');
 			}
 		}else{
+			$this->delete($event_id);
 			echo common::response_msg(200, 'error', 'Cannot create event');
 		}
 	}
@@ -363,10 +377,15 @@ class events_ajax extends CI_controller
 	 * @return Array, $response
 	 * --------------------------------------------------------
 	 */
-	public function delete()
+	public function delete($delete_id = '')
 	{
-		$event_id  = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
-		$events    = $this->events_model->get_events('event_id', $event_id);
+		if( $delete_id != '' ){
+			$event_id = $delete_id;
+		}else{
+			$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
+		}
+
+		$events = $this->events_model->get_events('event_id', $event_id);
 
 		$file_path  = $events[0]['file_path'];
 		$file_path .= $events[0]['raw_name'];
@@ -407,7 +426,6 @@ class events_ajax extends CI_controller
 		//---------------------------
 		//- Approved
 		//- Denied
-		//- Edit
 		//- Final confirmation
 		//- Pending
 		//- Revise
@@ -415,24 +433,32 @@ class events_ajax extends CI_controller
 			$status       = 'Approved';
 			$appr_cop_dir = 1;
 			$appr_sps_dir = 1;
+			$appr_cop_dir_name = '';
+			$appr_sps_dir_name = $session_data['first_name'].' '.$session_data['last_name'];
 		}else if ( $session_data['user_kbn'] == 20 ) {
 			$status       = 'Final confirmation';
 			$appr_cop_dir = 1;
 			$appr_sps_dir = 0;
+			$appr_cop_dir_name = $session_data['first_name'].' '.$session_data['last_name'];
+			$appr_sps_dir_name = '';
 		}else{
 			$status       = 'Pending';
 			$appr_cop_dir = 0;
 			$appr_sps_dir = 0;
+			$appr_cop_dir_name = '';
+			$appr_sps_dir_name = '';
 		}
 
+		$event_id = (int) $this->input->post('event_id');
+
 		$event_data = array(
-			'event_id'        =>$this->input->post('event_id'),
-			'owner_id'        =>$session_data['id'],
+			'event_id'        =>$event_id,
+			'owner_id'        =>(int) $session_data['id'],
 			'title'           =>$this->input->post('title'),
 			'status'          =>$status,
 			'appr_cop_dir'    =>$appr_cop_dir,
 			'appr_sps_dir'    =>$appr_sps_dir,
-			'category_id'     =>$this->input->post('category'),
+			'category_id'     =>(int) $this->input->post('category'),
 			'date_entered'    =>common::get_today(),
 			'date_start'      =>$date_start,
 			'date_end'        =>$date_end,
@@ -454,40 +480,233 @@ class events_ajax extends CI_controller
 		$description = str_split($this->input->post('description'), 1000);
 		$sequence = 1;
 
-		foreach ($description as $text) {
-			array_push($description_data, array(
-				'event_id'   => $this->input->post('event_id'),
-				'description'=> $text,
-				'sequence'   => $sequence
-				)
-			);
+		if( count($description) > 0){
+			foreach ($description as $text) {
+				array_push($description_data, array(
+					'event_id'   => $event_id,
+					'description'=> $text,
+					'sequence'   => $sequence
+					)
+				);
 
-			$sequence++;
+				$sequence++;
+			}
 		}
 
 		if( !empty($this->input->post('beneficiary_id')) ){
 
 			foreach ($this->input->post('beneficiary_id') as $beneficiary) {
 				array_push($beneficiary_data, array(
-					'event_id'   => (int) $this->input->post('event_id'),
+					'event_id'   => $event_id,
 					'id'         => (int) $beneficiary
 					) );
 			}
 		}
 
+		$confirmation_data = array(
+			'event_id'     => (int) $event_id,
+			'cop_director' => $appr_cop_dir_name,
+			'sps_director' => $appr_sps_dir_name
+			);
 		//EDIT EVENT
 		$result_event = $this->events_model->update_events(
 											$event_data,
 											$description_data,
 											$beneficiary_data);
+		$result_confirmation= $this->events_model->update_confirmation( $confirmation_data );
 
 		if( $result_event ){
-				echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result_event);
+				echo common::response_msg(200, 'redirect', base_url().'account/events/manage/'.$event_id);
+		}else{
+				echo common::response_msg(200, 'error', 'Cannot edit event');
+		}
+	}
+
+	public function update_status()
+	{
+		$status_request = ucfirst(str_replace('/', '', $this->uri->slash_segment(3, 'leading')));
+
+		switch ($status_request) {
+			case 'Approved': $this->approved_event(); break;
+			case 'Denied'  : $this->denied_event();   break;
+			case 'Revise'  : $this->revise_event();   break;
+			default: echo common::response_msg(200, 'error', 'Cannot updated event status'); break;
+		}
+	}
+
+	/**
+	 * REVISE EVENT STATUS
+	 * @return JSON response
+	 * --------------------------------------------
+	 */
+	public function revise_event()
+	{
+		$session_data = $this->session->userdata('logged_in');
+		$event_id     = ucfirst(str_replace('/', '', $this->uri->slash_segment(4, 'leading')));
+		$events       = $this->events_model->get_events('event_id', $event_id);
+
+		//IF EVENT IS FOUND
+		if( $events ){
+			if( $session_data['user_kbn'] == 30 ){
+
+				$event_data = array(
+					'event_id'     => (int) $event_id,
+					'status'       => 'Revise',
+					'appr_cop_dir' => 0,
+					'appr_sps_dir' => 0,
+					);
+
+				$confirmation_data = array(
+					'event_id'     => (int) $event_id,
+					'sps_director' => $session_data['first_name'].' '.$session_data['last_name']
+					);
+			}else if( $session_data['user_kbn'] == 20 ){
+				if( $events[0]['appr_sps_dir'] == 1 ){
+					echo common::response_msg(200, 'error', 'Event has already been denied by the SPS Director');
+					exit;
+				}
+				$event_data = array(
+					'event_id'     => (int) $event_id,
+					'status'       => 'Revise',
+					'appr_cop_dir' => 0,
+					'appr_sps_dir' => 0,
+				);
+
+				$confirmation_data = array(
+					'event_id'     => (int) $event_id,
+					'cop_director' => $session_data['first_name'].' '.$session_data['last_name']
+					);
+			}
+
+			$result_event = $this->events_model->update_event_status($event_data);
+
+			if( $result_event ){
+				$result_confirmation = $this->events_model->update_confirmation($confirmation_data);
+
+				echo common::response_msg(200, 'redirect', base_url().'account/events/manage/'.$events[0]['event_id']);
+
 			}else{
-				echo common::response_msg(200, 'error', 'Cannot create event');
+				echo common::response_msg(200, 'error', 'Cannot updated event');
 			}
 		}else{
-				echo common::response_msg(200, 'error', 'Cannot create event');
+			echo common::response_msg(200, 'error', 'Cannot updated event status');
+		}
+	}
+
+	/**
+	 * DENY EVENT STATUS
+	 * @return JSON response
+	 * --------------------------------------------
+	 */
+	public function denied_event()
+	{
+		$session_data = $this->session->userdata('logged_in');
+		$event_id     = ucfirst(str_replace('/', '', $this->uri->slash_segment(4, 'leading')));
+		$events       = $this->events_model->get_events('event_id', $event_id);
+
+		//IF EVENT IS FOUND
+		if( $events ){
+			if( $session_data['user_kbn'] == 30 ){
+
+				$event_data = array(
+					'event_id'     => (int) $event_id,
+					'status'       => 'Denied',
+					'appr_cop_dir' => 1,
+					'appr_sps_dir' => 1,
+					);
+
+				$confirmation_data = array(
+					'event_id'     => (int) $event_id,
+					'sps_director' => $session_data['first_name'].' '.$session_data['last_name']
+					);
+			}else if( $session_data['user_kbn'] == 20 ){
+				if( $events[0]['appr_sps_dir'] == 1 && $events[0]['status'] == 'Denied' ){
+					echo common::response_msg(200, 'error', 'Event has already been denied byt the SPS Director');
+					exit;
+				}
+				$event_data = array(
+					'event_id'     => (int) $event_id,
+					'status'       => 'Denied',
+					'appr_cop_dir' => 1,
+					'appr_sps_dir' => 0,
+				);
+
+				$confirmation_data = array(
+					'event_id'     => (int) $event_id,
+					'cop_director' => $session_data['first_name'].' '.$session_data['last_name']
+					);
+			}
+
+			$result_event = $this->events_model->update_event_status($event_data);
+
+			if( $result_event ){
+				$result_confirmation = $this->events_model->update_confirmation($confirmation_data);
+
+				echo common::response_msg(200, 'redirect', base_url().'account/events/manage/'.$events[0]['event_id']);
+
+			}else{
+				echo common::response_msg(200, 'error', 'Cannot updated event');
+			}
+		}else{
+			echo common::response_msg(200, 'error', 'Cannot updated event status');
+		}
+	}
+
+	/**
+	 * APPROVE EVENT STATUS
+	 * @return JSON response
+	 * --------------------------------------------
+	 */
+	public function approved_event()
+	{
+		$session_data = $this->session->userdata('logged_in');
+		$event_id     = ucfirst(str_replace('/', '', $this->uri->slash_segment(4, 'leading')));
+		$events       = $this->events_model->get_events('event_id', $event_id);
+
+		if( $events ){
+			if( $session_data['user_kbn'] == 30 ){
+
+				$event_data = array(
+					'event_id'     => (int) $event_id,
+					'status'       => 'Approved',
+					'appr_cop_dir' => 1,
+					'appr_sps_dir' => 1,
+					);
+
+				$confirmation_data = array(
+					'event_id'     => (int) $event_id,
+					'sps_director' => $session_data['first_name'].' '.$session_data['last_name']
+					);
+			}else if( $session_data['user_kbn'] == 20 ){
+				if( $events[0]['appr_sps_dir'] == 1 && $events[0]['status'] == 'Approved' ){
+					echo common::response_msg(200, 'error', 'Event has already been approved byt the SPS Director');
+					exit;
+				}
+				$event_data = array(
+					'event_id'     => (int) $event_id,
+					'status'       => 'Final confirmation',
+					'appr_cop_dir' => 1,
+					'appr_sps_dir' => 0,
+				);
+
+				$confirmation_data = array(
+					'event_id'     => (int) $event_id,
+					'cop_director' => $session_data['first_name'].' '.$session_data['last_name']
+					);
+			}
+
+			$result_event = $this->events_model->update_event_status($event_data);
+
+			if( $result_event ){
+				$result_confirmation = $this->events_model->update_confirmation($confirmation_data);
+
+				echo common::response_msg(200, 'redirect', base_url().'account/events/manage/'.$events[0]['event_id']);
+
+			}else{
+				echo common::response_msg(200, 'error', 'Cannot updated event');
+			}
+		}else{
+			echo common::response_msg(200, 'error', 'Cannot updated event status');
 		}
 	}
 
@@ -571,23 +790,50 @@ class events_ajax extends CI_controller
 		}
 	}
 
+	/**
+	 * GET FIRST DAY OF THE MONTH IN 'D' FORMAT
+	 * @param Integer, $month
+	 * @param Integer, $year
+	 * @return Date
+	 * --------------------------------------------
+	 */
 	public function getFirstDay($month, $year)
 	{
 		$date = $month.'/1/'.$year;
 		return date('D', strtotime($date));
 	}
 
+	/**
+	 * GET last DAY OF THE MONTH IN 'D' FORMAT
+	 * @param Integer, $month
+	 * @param Integer, $day
+	 * @param Integer, $year
+	 * @return Date
+	 * --------------------------------------------
+	 */
 	public function getLastDay($month, $day, $year)
 	{
 		$date = $month.'/'.$day.'/'.$year;
 		return date('D', strtotime($date));
 	}
 
+	/**
+	 * GET THE NUMBER OF DAYS IN A GREGORIAN CAL
+	 * @param Integer, $month
+	 * @param Integer, $year
+	 * @return Date
+	 * --------------------------------------------
+	 */
 	public function getCalendarDays($month, $year)
 	{
 		return cal_days_in_month(CAL_GREGORIAN, $month, $year);
 	}
 
+	/**
+	 * CREATE CALENDAR
+	 * @return Calendar w/ events
+	 * --------------------------------------------
+	 */
 	public function calendar()
 	{
 		$month  = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
@@ -741,6 +987,36 @@ class events_ajax extends CI_controller
 		$calendarFinal['dates']  = $calendar;
 
 		echo json_encode($calendarFinal);
+	}
+
+	public function comment()
+	{
+		$session_data = $this->session->userdata('logged_in');
+		$event_id     = $this->input->post('event_id');
+		$comment      = $this->input->post('comment');
+
+		( $session_data['gender'] == 'Male' )?
+			$img = 'assets/img/avatar5.png'
+		: $img = 'assets/img/avatar3.png';
+
+		$data = array(
+			'event_id' => $event_id,
+			'name'     => $session_data['first_name'].' '.$session_data['last_name'],
+			'text'     => $comment,
+			'img'      => $img
+			);
+
+		$result = $this->events_model->add_comment($data);
+
+		if( $result ){
+			$date = new DateTime();
+			$data['datetime'] = date_format($date, 'H:i');
+			$data['img']      = base_url().$data['img'];
+			echo common::response_msg(200, 'add_comment', '',$data);
+		}else{
+			echo common::response_msg(200, 'error', 'Unable to send message');
+		}
+
 	}
 }
 ?>

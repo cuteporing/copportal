@@ -55,8 +55,10 @@ $route['banner_ajax/upload_photo']              = 'banner_ajax/upload_photo/$1';
 //EVENTS
 $route['events_ajax/create']                    = 'events_ajax/create/$1';
 $route['events_ajax/edit']                      = 'events_ajax/edit/$1';
+$route['events_ajax/comment']                   = 'events_ajax/comment/$1';
 $route['events_ajax/delete/(:any)']             = 'events_ajax/delete/$1';
 $route['events_ajax/close/(:any)']              = 'events_ajax/close/$1';
+$route['events_ajax/update_status/(:any)']      = 'events_ajax/update_status/$1';
 $route['events_ajax/member_list/(:any)']        = 'events_ajax/member_list/$1';
 $route['events_ajax/member_add/(:any)']         = 'events_ajax/member_add/$1';
 $route['events_ajax/member_delete/(:any)']      = 'events_ajax/member_delete/$1';

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2015 at 09:06 AM
+-- Generation Time: Mar 08, 2015 at 05:07 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -35,7 +35,14 @@ CREATE TABLE IF NOT EXISTS `cop_announcements` (
   `file_path` varchar(255) DEFAULT NULL,
   `file_ext` varchar(255) DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_announcements`
+--
+
+INSERT INTO `cop_announcements` (`announcement_id`, `owner_id`, `title`, `date_entered`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
+(1, 1, 'asdasda', '2015-03-07 18:15:01', NULL, NULL, NULL, 'asdasda');
 
 -- --------------------------------------------------------
 
@@ -48,7 +55,14 @@ CREATE TABLE IF NOT EXISTS `cop_announcement_description` (
   `announcement_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_announcement_description`
+--
+
+INSERT INTO `cop_announcement_description` (`id`, `announcement_id`, `description`, `sequence`) VALUES
+(1, 1, 'sdas', 1);
 
 -- --------------------------------------------------------
 
@@ -259,16 +273,17 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
 --
 
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
-(21, 5, 'Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;<br><ul style="list-style-type: disc; margin-left: 1.5em;"><li>rån&nbsp;Lorem Ipsum är en utf<br></li><li>&nbsp;Lorem Ipsum är en&nbsp;<br></li></ul><br>', 1),
-(32, 12, '<span>Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;</span>', 1),
-(42, 22, 'aaaaaaaaaaaaaaaaaaaaaaaaa', 1);
+(62, 39, 'asdasdasd', 1),
+(63, 38, 'asdasdasd', 1),
+(64, 40, 'asd', 1),
+(69, 37, '<strong>Lorem Ipsum</strong><span>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</span>', 1);
 
 -- --------------------------------------------------------
 
@@ -298,16 +313,17 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `file_path` varchar(255) DEFAULT NULL,
   `file_ext` varchar(255) DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events`
 --
 
 INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `appr_cop_dir`, `appr_sps_dir`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `in_charge`, `expected_output`, `materials_needed`, `budget`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
-(5, 2, 'LOREM IPSUM 4', 'Approved', 1, 1, 1, '2015-03-08 04:14:09', '2015-03-03', '2015-03-11', '12:30 AM', '12:30 AM', 'Asdas', '', '', '', '', NULL, NULL, NULL, 'lorem-ipsum-4'),
-(12, 1, 'LOREM IPSUM 45', 'Approved', 1, 1, 1, '2015-03-07 23:08:26', '2015-03-08', '2015-03-08', '02:00 PM', '02:00 PM', 'Las Piñas', 0x3c756c207374796c653d226c6973742d7374796c652d747970653a20646973633b206d617267696e2d6c6566743a20312e35656d3b223e3c6c693e4c6f72656d20497073756d20c3a47220656e20757466796c6c6e61647374657874206672c3a56e266e6273703b3c2f6c693e3c6c693e4c6f72656d20497073756d20c3a47220656e20757466796c6c6e61647374657874206672c3a56e266e6273703b3c62723e3c2f6c693e3c6c693e4c6f72656d20497073756d20c3a47220656e20757466796c6c6e61647374657874206672c3a56e266e6273703b3c62723e3c2f6c693e3c6c693e4c6f72656d20497073756d20c3a47220656e20757466796c6c6e61647374657874206672c3a56e266e6273703b3c62723e3c2f6c693e3c2f756c3e, 0x3c756c207374796c653d226c6973742d7374796c652d747970653a20646973633b206d617267696e2d6c6566743a20312e35656d3b223e3c6c693e4c6f72656d20497073756d20c3a47220656e20757466796c6c6e61647374657874206672c3a56e266e6273703b3c2f6c693e3c6c693e4c6f72656d20497073756d20c3a47220656e20757466796c6c6e61647374657874206672c3a56e266e6273703b3c62723e3c2f6c693e3c6c693e4c6f72656d20497073756d20c3a47220656e20757466796c6c6e61647374657874206672c3a56e266e6273703b3c62723e3c2f6c693e3c6c693e4c6f72656d20497073756d20c3a47220656e20757466796c6c6e61647374657874206672c3a56e266e6273703b3c62723e3c2f6c693e3c2f756c3e, 0x3c756c207374796c653d226c6973742d7374796c652d747970653a20646973633b206d617267696e2d6c6566743a20312e35656d3b223e3c6c693e4c6f72656d20497073756d20c3a47220656e20757466796c6c6e61647374657874206672c3a56e266e6273703b3c2f6c693e3c6c693e4c6f72656d20497073756d20c3a47220656e20757466796c6c6e61647374657874206672c3a56e266e6273703b3c62723e3c2f6c693e3c6c693e4c6f72656d20497073756d20c3a47220656e20757466796c6c6e61647374657874206672c3a56e266e6273703b3c62723e3c2f6c693e3c2f756c3e, 0x31302c20303030, NULL, NULL, NULL, 'lorem-ipsum-45'),
-(22, 1, 'asdasd', 'Approved', 1, 1, 1, '2015-03-08 00:18:18', '2015-03-08', '2015-03-08', '03:15 PM', '03:15 PM', 'Asd', 0x617364, 0x617364, '', 0x617364, NULL, NULL, NULL, 'asdasd');
+(37, 1, 'LOREM IPSUM 12', 'Approved', 1, 1, 1, '2015-03-08 03:40:14', '2015-03-06', '2015-03-06', '07:30 PM', '07:30 PM', 'Las piñas', 0x546865726520617265206d616e7920766172696174696f6e73206f66207061737361676573206f66204c6f72656d20497073756d20617661696c61626c652c2062757420746865206d616a6f72697479206861766520737566666572656420616c7465726174696f6e20696e20736f6d6520666f726d2c20627920696e6a65637465642068756d6f75722c206f722072616e646f6d6973656420776f72647320776869636820646f6e2774206c6f6f6b206576656e20736c696768746c792062656c69657661626c652e20496620796f752061726520676f696e6720746f2075736520612070617373616765206f66204c6f723c7370616e3e4c6f72656d20697073756d20646f6c6f722073697420616d65742c20636f6e73656374657475722061646970697363696e6720656c69742e266e6273703b3c2f7370616e3e6572652069736e277420616e797468696e6720656d62617272617373696e672068696464656e20696e20746865206d6964646c65206f6620746578742e266e6273703b, 0x3c756c207374796c653d226c6973742d7374796c652d747970653a20646973633b206d617267696e2d6c6566743a20312e35656d3b223e3c6c693e4c6f72656d20697073756d20646f6c6f722073697420616d65742c20636f6e73656374657475722061646970697363696e6720656c69742e266e6273703b3c62723e3c2f6c693e3c6c693e3c7370616e3e3c7370616e3e4c6f72656d20697073756d20646f6c6f722073697420616d65742e3c2f7370616e3e3c62723e3c2f7370616e3e3c2f6c693e3c2f756c3e, '', 0x32342c20303030, NULL, NULL, NULL, 'lorem-ipsum-12'),
+(38, 7, 'TECH TUTOR 5', 'Approved', 1, 1, 1, '2015-03-08 14:54:13', '2015-04-09', '2015-04-10', '08:00 PM', '08:00 PM', 'Asd', 0x617364, 0x617364, '', 0x617364, NULL, NULL, NULL, 'tech-tutor-5'),
+(39, 1, 'asdasdasdasd', 'Approved', 1, 1, 1, '2015-03-07 17:04:01', '2015-03-08', '2015-03-08', '08:00 PM', '08:00 PM', 'Asd', 0x617364, 0x617364, '', 0x617364, NULL, NULL, NULL, 'asdasdasdasd'),
+(40, 7, 'asdasd', 'Pending', 0, 0, 1, '2015-03-07 18:06:16', '2015-03-08', '2015-03-08', '09:00 PM', '09:00 PM', 'Asd', 0x61736461, 0x617364, 0x3c626c6f636b71756f7465207374796c653d226d617267696e3a20302030203020343070783b20626f726465723a206e6f6e653b2070616464696e673a203070783b223e3c62723e3c2f626c6f636b71756f74653e, 0x617364, NULL, NULL, NULL, 'asdasd');
 
 -- --------------------------------------------------------
 
@@ -320,15 +336,46 @@ CREATE TABLE IF NOT EXISTS `cop_events_member` (
   `event_id` int(11) NOT NULL,
   `id` int(11) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events_member`
 --
 
 INSERT INTO `cop_events_member` (`_id`, `event_id`, `id`, `date_entered`) VALUES
-(4, 18, 4, '2015-03-08 06:37:12'),
-(8, 22, 4, '2015-03-08 07:18:18');
+(40, 39, 3, '2015-03-08 12:04:01'),
+(41, 38, 3, '2015-03-08 12:32:33'),
+(42, 40, 4, '2015-03-08 13:06:17'),
+(43, 40, 3, '2015-03-08 13:06:17'),
+(48, 37, 3, '2015-03-08 15:40:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cop_event_comments`
+--
+
+CREATE TABLE IF NOT EXISTS `cop_event_comments` (
+`comment_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `text` text NOT NULL,
+  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `img` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_event_comments`
+--
+
+INSERT INTO `cop_event_comments` (`comment_id`, `event_id`, `name`, `text`, `date_entered`, `img`) VALUES
+(38, 40, 'Zhara Gonzales', 'asdas', '2015-03-08 14:49:43', 'assets/img/avatar3.png'),
+(39, 40, 'Zhara Gonzales', 'asdasd', '2015-03-08 14:49:45', 'assets/img/avatar3.png'),
+(40, 40, 'Zhara Gonzales', 'asd', '2015-03-08 14:49:46', 'assets/img/avatar3.png'),
+(41, 40, 'Zhara Gonzales', 'fgfgfgfgfg', '2015-03-08 14:49:48', 'assets/img/avatar3.png'),
+(42, 38, 'Ish Landrito', 'dddddddddddddddddddddd', '2015-03-08 14:53:29', 'assets/img/avatar3.png'),
+(43, 38, 'Zhara Gonzales', 'asdddddddddddddddd', '2015-03-08 14:53:45', 'assets/img/avatar3.png'),
+(44, 38, 'User User', 'asdasd', '2015-03-08 14:54:19', 'assets/img/avatar3.png');
 
 -- --------------------------------------------------------
 
@@ -339,8 +386,19 @@ INSERT INTO `cop_events_member` (`_id`, `event_id`, `id`, `date_entered`) VALUES
 CREATE TABLE IF NOT EXISTS `cop_event_confirmation` (
 `_id` int(11) NOT NULL,
   `event_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `cop_director` varchar(255) DEFAULT NULL,
+  `sps_director` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cop_event_confirmation`
+--
+
+INSERT INTO `cop_event_confirmation` (`_id`, `event_id`, `cop_director`, `sps_director`) VALUES
+(12, 37, '', 'Zhara Gonzales'),
+(13, 37, '', 'Zhara Gonzales'),
+(14, 37, '', 'Zhara Gonzales'),
+(15, 37, '', 'Zhara Gonzales');
 
 -- --------------------------------------------------------
 
@@ -574,6 +632,12 @@ ALTER TABLE `cop_events_member`
  ADD PRIMARY KEY (`_id`);
 
 --
+-- Indexes for table `cop_event_comments`
+--
+ALTER TABLE `cop_event_comments`
+ ADD PRIMARY KEY (`comment_id`);
+
+--
 -- Indexes for table `cop_event_confirmation`
 --
 ALTER TABLE `cop_event_confirmation`
@@ -623,12 +687,12 @@ ALTER TABLE `cop_users`
 -- AUTO_INCREMENT for table `cop_announcements`
 --
 ALTER TABLE `cop_announcements`
-MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `cop_announcement_description`
 --
 ALTER TABLE `cop_announcement_description`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `cop_artcore_parenttab`
 --
@@ -673,22 +737,27 @@ MODIFY `dept_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=70;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `cop_events_member`
 --
 ALTER TABLE `cop_events_member`
-MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
+--
+-- AUTO_INCREMENT for table `cop_event_comments`
+--
+ALTER TABLE `cop_event_comments`
+MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT for table `cop_event_confirmation`
 --
 ALTER TABLE `cop_event_confirmation`
-MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `cop_gallery`
 --

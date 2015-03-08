@@ -37,16 +37,30 @@ class Events_model extends CI_Model {
 							);
 						}
 				}
-				$this->db->order_by("date_start", "desc");
+				// $this->db->order_by("date_start", "desc");
 				$this->db->from('cop_events');
 			}else{
 				$query = $this->db->get('cop_events');
 			}
 
 			return $this->db->count_all_results();
+	}
 
-			// $this->db->where('status', $status);
-			// $this->db->where('appr_sps_dir', 1);
+	public function get_no_of_new_events($date)
+	{
+		$this->db->where('date_start >=', $date);
+		$this->db->where('status', 'Approved');
+		$this->db->from('cop_events');
+
+		return $this->db->count_all_results();
+	}
+
+	public function get_no_of_all_events()
+	{
+		$this->db->where('status', 'Approved');
+		$this->db->from('cop_events');
+
+		return $this->db->count_all_results();
 	}
 
 	/**
@@ -68,6 +82,19 @@ class Events_model extends CI_Model {
 		$this->db->where($fieldname, $status);
 		$this->db->from('cop_events_member');
 		return $this->db->count_all_results();
+	}
+
+	public function get_confirmation($event_id)
+	{
+		$this->db->where('event_id', $event_id);
+		$this->db->from('cop_event_confirmation');
+		$query = $this->db->get();
+
+		if( $query->num_rows() > 0 ){
+			return $query->result_array();
+		}else{
+			return FALSE;
+		}
 	}
 
 	/**
@@ -195,7 +222,7 @@ class Events_model extends CI_Model {
 
 	/**
 	 * GET EVENT LIST
-	 * @param Array, $params
+	 * @param Array, $search_param
 	 * @return Array | Boolean <FALSE>
 	 * --------------------------------------------
 	 */
@@ -212,12 +239,13 @@ class Events_model extends CI_Model {
 				}
 				$this->db->order_by("date_start", "desc");
 				if( isset($search_param['limit']) && !empty($search_param['limit']) ){
-					$query = $this->db->get('cop_events', $limit_param['limit'], $limit_param['offset']);
+					$query = $this->db->get('cop_events', $search_param['limit'], $search_param['offset']);
 				}else{
 					$this->db->from('cop_events');
 					$query = $this->db->get();
 				}
 			}else{
+				$this->db->order_by("date_start", "desc");
 				$query = $this->db->get('cop_events');
 			}
 
@@ -226,6 +254,26 @@ class Events_model extends CI_Model {
 			}else{
 				return FALSE;
 			}
+	}
+
+	/**
+	 * GET COMMENTS
+	 * @param Array, $event_id
+	 * @return Array | Boolean <FALSE>
+	 * --------------------------------------------
+	 */
+	public function get_comments($event_id)
+	{
+		$this->db->where('event_id', $event_id);
+		$this->db->from('cop_event_comments');
+		$this->db->order_by("date_entered", "desc");
+		$query = $this->db->get();
+
+		if( $query->num_rows() > 0 ){
+			return $query->result_array();
+		}else{
+			return FALSE;
+		}
 	}
 
 	/**
@@ -275,6 +323,7 @@ class Events_model extends CI_Model {
 		$this->db->delete('cop_events', $id);
 		$this->db->delete('cop_description', $id);
 		$this->db->delete('cop_events_member', $id);
+		$this->db->delete('cop_event_confirmation', $id);
 
 		// $this->delete_event_desc($event_id);
 
@@ -325,27 +374,40 @@ class Events_model extends CI_Model {
 		$this->db->trans_begin();
 		$this->db->where('event_id', $event_data['event_id']);
 		$this->db->update('cop_events', $event_data);
-
-		if( count($description_data) > 0 ){
-			//DELETE ALL EVENT DESCRIPTION FOR THE EVENT
-			$this->delete_event_desc($event_data['event_id']);
-
-			foreach ($description_data as $data) {
-				$data['event_id'] = $event_data['event_id'];
-				//INSERT DESCRIPTION
-				$this->db->insert('cop_description', $data);
-			}
-		}
-
+		$this->db->delete('cop_description', $id);
 		$this->db->delete('cop_events_member', $id);
-
+		$this->add_event_member( $beneficiary_data );
+		//INSERT DESCRIPTION
 		if( count($description_data) > 0 ){
-			$this->add_event_member( $beneficiary_data );
+			foreach ($description_data as $description) {
+				$this->db->insert('cop_description', $description);
+			}
 		}
 
 		if( $this->db->trans_status() === FALSE )
 		{
 			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
+			return FALSE;
+		}else{
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
+
+	/**
+	 * UPDATE EVENT STATUS
+	 * @param Array, $event_data
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function update_event_status($event_data)
+	{
+		$this->db->trans_begin();
+		$this->db->where('event_id', $event_data['event_id']);
+		$this->db->update('cop_events', $event_data);
+
+		if( $this->db->trans_status() === FALSE ){
 			$this->db->trans_rollback();
 			return FALSE;
 		}else{
@@ -388,7 +450,8 @@ class Events_model extends CI_Model {
 	 * @return Array
 	 * --------------------------------------------
 	 */
-	public function add_event_description($description_data){
+	public function add_event_description($description_data)
+	{
 		$this->db->trans_begin();
 		foreach ($description_data as $data) {
 			//INSERT DESCRIPTION
@@ -402,6 +465,56 @@ class Events_model extends CI_Model {
 			return FALSE;
 		}
 		else{
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
+
+	public function add_confirmation($confirmation_data)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('cop_event_confirmation', $confirmation_data);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			$this->db->trans_rollback();
+			return FALSE;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
+
+	public function add_comment($data)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('cop_event_comments', $data);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			$this->db->trans_rollback();
+			return FALSE;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
+
+	public function update_confirmation($confirmation_data){
+		$this->db->trans_begin();
+		$this->db->update('cop_event_confirmation', $confirmation_data);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			$this->db->trans_rollback();
+			return FALSE;
+		}
+		else
+		{
 			$this->db->trans_commit();
 			return TRUE;
 		}

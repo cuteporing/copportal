@@ -57,6 +57,7 @@ class status_box extends CI_controller
 	{
 		$avaialable_icons = array(
 			'bag'              => array('class'=>'ion ion-bag'),
+			'information'      => array('class'=>'ion ion-information'),
 			'stats_bars'       => array('class'=>'ion ion-stats-bars'),
 			'person_add'       => array('class'=>'ion ion-android-person-add'),
 			'pie_graph'        => array('class'=>'ion ion-pie-graph'),

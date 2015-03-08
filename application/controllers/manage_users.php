@@ -110,7 +110,7 @@ class manage_users extends account
 				redirect('account/dashboard', 'refresh');
 		}
 
-		$data['dept_list']      = $this->department_model->get_deaprtment();
+		$data['dept_list']      = $this->department_model->get_department();
 		$data['city_list']      = $this->city_model->get_cities();
 		$data['gender_list']    = $this->get_gender();
 		$data['user_type_list'] = $this->users_model->get_user_kbn();
@@ -163,7 +163,7 @@ class manage_users extends account
 		$data['result']         = $result[0];
 		$data['selected']       = $selected;
 		$data['city_list']      = $this->city_model->get_cities();
-		$data['dept_list']      = $this->department_model->get_deaprtment();
+		$data['dept_list']      = $this->department_model->get_department();
 		$data['gender_list']    = $this->get_gender();
 		$data['user_type_list'] = $this->users_model->get_user_kbn();
 

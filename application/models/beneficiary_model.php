@@ -26,7 +26,6 @@ class Beneficiary_model extends CI_Model {
 	 */
 	public function count_beneficiaries()
 	{
-		$this->db->where('deleted', 0);
 		$this->db->from('cop_beneficiaries');
 		return $this->db->count_all_results();
 	}

@@ -19,7 +19,7 @@ class Department_model extends CI_Model {
 		$this->load->database();
 	}
 
-	public function get_deaprtment($search_by='', $value='')
+	public function get_department($search_by='', $value='')
 	{
 		if( $search_by != '' ){
 			$this->db->where($search_by, $value);

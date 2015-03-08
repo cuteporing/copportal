@@ -8,6 +8,36 @@ $(function() {
 		return str;
 	}
 
+	// CHATBOX
+	// --------------------------------------------
+	function chatbox(type, data){
+		if( type == 'add_comment' ){
+			var chat = '';
+			var img  = '';
+			// var base = window.location.origin+'/copportal/';
+
+			img = '<img src="'+data.img+'" alt="user image" class="online"/>';
+
+			chat += '<small class="text-muted pull-right"><i class="fa fa-clock-o"></i> ';
+			chat += data.datetime+'</small>';
+			chat += data.name;
+
+			chat  = '<a href="#" class="name">'+chat+'</a>';
+			chat += data.text;
+
+			chat  = img+'<p class="message">'+chat+'</p>';
+			chat  = '<div class="item">'+chat+'<div>';
+
+			if( jQuery('#chat-box .item:eq(0)').length > 0 )
+				jQuery('#chat-box .item:eq(0)').prepend(chat);
+			else
+				jQuery('#chat-box').html(chat);
+
+			jQuery('#chat-msg-box').val('');
+
+		}
+	}
+
 	function show_alert_confirm(msg, is_form) {
 		var x;
 		( confirm( msg ) == true )?
@@ -199,6 +229,9 @@ $(function() {
 				}else if( result.status_type == 'error_confirm' ){
 					//DISPLAY ALERT CONFIRM MESSAGE
 					show_alert_confirm(result.status_msg, false);
+				}else if( result.status_type == 'add_comment' ){
+					//DISPLAY CHATBOX
+					chatbox(result.status_type, result.data);
 				}else if( result.status_type == "success" ){
 					//DISPLAY GENERAL SUCCESS MESSAGE
 					show_alert_msg(result.status_msg, 'success');
@@ -307,6 +340,12 @@ $(function() {
 			if( result.status_type == 'refresh' ){
 				//RELOAD PAGE
 				location.reload();
+			}else if( result.status_type == 'error'){
+				//DISPLAY GENERAL ERROR MESSAGE
+				show_alert_msg(result.status_msg, 'danger');
+			}else if( result.status_type == 'redirect' ){
+				//RELOAD PAGE
+				window.location = result.status_msg;
 			}else{
 				//DISPLAY GENERAL ERROR MESSAGE
 				show_alert_msg(result.status_msg, 'danger');
@@ -444,4 +483,5 @@ $(function() {
 		});
 	});
 
+	
 });

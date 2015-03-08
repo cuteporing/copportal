@@ -19,7 +19,9 @@ class events extends CI_controller
 	{
 		parent::__construct();
 		$this->load->model('beneficiary_model');
+		$this->load->model('department_model');
 		$this->load->model('events_model');
+		$this->load->model('users_model');
 		$this->load->library('pagination');
 	}
 
@@ -41,10 +43,10 @@ class events extends CI_controller
 							'data_name' =>'title',
 							'value'=>'View')
 						),
-					'icon' =>'fa fa-edit',
+					'icon' =>'fa fa-tasks',
 					'title'=>'View',
-					'type' =>'info',
-					'url'  =>'account/events/manage/view/',
+					'type' =>'warning',
+					'url'  =>'account/events/manage/',
 					)
 				);
 		}else if( $type == 30 ){
@@ -188,46 +190,57 @@ class events extends CI_controller
 
 		//GET EVENT DETAILS
 		$result_event = $this->events_model->get_events('cop_events.event_id', $event_id);
-
 		if( $result_event ) {
-			for( $i=0; $i<count($result_event); $i++ ){
-				$date_start= $result_event[$i]['date_start'];
-				$date_end  = $result_event[$i]['date_end'];
+			$date_start= $result_event[0]['date_start'];
+			$date_end  = $result_event[0]['date_end'];
 
-				$date = common::display_date($date_start, $date_end);
+			$date = common::display_date($date_start, $date_end);
 
-				//FORMAT TIME DISPLAY
-				( $result_event[$i]['time_start'] == $result_event[$i]['time_end'] )?
-					$time = $result_event[$i]['time_start']
-				: $time = $result_event[$i]['time_start'].' - '.$result_event[$i]['time_end'];
+			//FORMAT TIME DISPLAY
+			( $result_event[0]['time_start'] == $result_event[0]['time_end'] )?
+				$time = $result_event[0]['time_start']
+			: $time = $result_event[0]['time_start'].' - '.$result_event[0]['time_end'];
 
-				$result_event[$i]['date'] = $date;
-				$result_event[$i]['time'] = $time;
+			$result_event[0]['date'] = $date;
+			$result_event[0]['time'] = $time;
+
+			if( $session_data['user_kbn'] == 10 &&
+					$result_event[0]['status'] == 'Revise'){
+					$data['show_action_btn'] = 'restrict';
+			}else if( $session_data['user_kbn'] <= 30 &&
+					$session_data['user_kbn'] != 10){
+					$data['show_action_btn'] = 'all';
 			}
-
+			//GET EVENT OWNER
+			$result_owner       = json_decode(json_encode( $this->users_model->get_user('id', $result_event[0]['owner_id']) ), true);
+			//GET KBN
+			$result_kbn         = $this->users_model->get_user_kbn('kbn_id', $result_owner[0]['user_kbn']);
 			//GET EVENT DESCRIPTION
 			$result_desc        = $this->events_model->get_event_desc($event_id);
 			//GET EVENT BENEFICIARY
 			$result_beneficiary = $this->events_model->get_members($event_id);
+			//GET EVENT CONFIRMATION
+			$result_confirmation= $this->events_model->get_confirmation($event_id);
+			//GET EVENT COMMENTS
+			$result_comments    = $this->events_model->get_comments($event_id);
+			//GET DEPARTMENT
+			$result_deparment   = json_decode(json_encode( $this->department_model->get_department(
+				'dept_id', $result_owner[0]['dept_id']) ), true);
 
-			if( $result_desc )         $data['result_desc']        = $result_desc;
-			if( $result_beneficiary )  $data['result_beneficiary'] = $result_beneficiary;
+			$result_event[0]['department'] = $result_deparment[0]['department'];
+			$result_event[0]['role']       = $result_kbn[0]['role'];
+
+			if( $result_desc )         $data['result_desc']         = $result_desc;
+			if( $result_owner )        $data['result_owner']        = $result_owner;
+			if( $result_beneficiary )  $data['result_beneficiary']  = $result_beneficiary;
+			if( $result_confirmation ) $data['result_confirmation'] = $result_confirmation[0];
+			if( $result_comments )     $data['result_comments']     = $result_comments;
 
 			$data['result_event'] = $result_event[0];
+			$this->load->view('account/events_view', $data);
+		}else{
+			$this->load->view('account/events_view');
 		}
-
-		$this->load->view('account/events_view', $data);
-
-	}
-
-	/**
-	 * VIEW EVENTS
-	 * @return table
-	 * --------------------------------------------
-	 */
-	public function manage_view()
-	{
-
 	}
 
 	/**
@@ -328,11 +341,12 @@ class events extends CI_controller
 	 */
 	public function view_artcore($page)
 	{
-		$limit  = 10;
-		$filter = array();
-		$params = array();
-		$search = array();
-		$common = new common;
+		$limit       = 10;
+		$filter      = array();
+		$filter_dept = array();
+		$params      = array();
+		$search      = array();
+		$common      = new common;
 
 		$offset     = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
 		$view_type  = str_replace('/', '', $this->uri->slash_segment(2, 'leading'));
@@ -351,6 +365,13 @@ class events extends CI_controller
 			$result = $this->events_model->get_events('slug', $slug);
 
 			if( $result ){
+				//FORMAT TIME DISPLAY
+				( $result[0]['time_start'] == $result[0]['time_end'] )?
+					$time = $result[0]['time_start']
+				: $time = $result[0]['time_start'].' - '.$result[0]['time_end'];
+
+				$result[0]['time'] = $time;
+
 				//GET EVENT DESCRIPTION
 				$result[0]['description'] = $this->events_model->get_event_desc(
 							$result[0]['event_id']);
@@ -360,33 +381,46 @@ class events extends CI_controller
 				//GET EVENT MEMBERS
 				$result[0]['members'] = $this->events_model->get_members(
 							$result[0]['event_id']);
+
+				//GET EVENT OWNER
+				$result_owner       = json_decode(json_encode( $this->users_model->get_user('id', $result[0]['owner_id']) ), true);
+				//GET DEPARTMENT
+				$result_deparment   = json_decode(json_encode( $this->department_model->get_department(
+					'dept_id', $result_owner[0]['dept_id']) ), true);
+
+				$result[0]['department'] = $result_deparment[0]['department'];
+
 				$data['event_single']  = $result[0];
 			}else{
 				$common->show_404();
 			}
-
 		//EVENT LIST
 		}else{
 			( $offset == '' )? $offset = 0 : $offset = $offset;
-				array_push($search, array(
-					'fieldname'=>'appr_sps_dir',
-					'data'     =>1
-					));
+
 			//DISPLAY LIST OF NEW EVENTS
 			if( $view_type == 'new' ){
-				array_push($search, array(
-					'fieldname'=>'date_start >',
-					'data'     =>common::get_today()
-					));
+
 				//GET TOTAL NO. OF NEW EVENTS
-				$total_rows = $this->events_model->get_no_of_events($search);
-				$search_data= common::get_today();
+				$total_rows = $this->events_model->get_no_of_new_events(
+					common::format_date(common::get_today(), 'Y-m-d'));
+
+				array_push($search, array(
+					'fieldname'=>'status',
+					'data'     =>'Approved' ));
+				array_push($search, array(
+					'fieldname'=>'date_start >=',
+					'data'     =>common::format_date(common::get_today(), 'Y-m-d') ));
+
 				$base_url   = 'http://localhost/copportal/event/new/page/';
 
 			}elseif( $view_type == 'archive' ){
+
+				array_push($search, array(
+					'fieldname'=>'status',
+					'data'     =>'Approved' ));
 				//GET TOTAL NO. OF EVENTS
-				$total_rows = $this->events_model->get_no_of_events();
-				$search_data= '';
+				$total_rows = $this->events_model->get_no_of_all_events();
 				$base_url   = 'http://localhost/copportal/event/archive/page/';
 			}
 
@@ -406,7 +440,14 @@ class events extends CI_controller
 				}
 
 				for ($i=0; $i<count($result); $i++) {
+					//GET EVENT DESCRIPTION
 					$description = $this->events_model->get_event_desc($result[$i]['event_id']);
+					//GET EVENT OWNER
+					$result_owner       = json_decode(json_encode( $this->users_model->get_user('id', $result[$i]['owner_id']) ), true);
+					//GET DEPARTMENT
+					$result_deparment   = json_decode(json_encode( $this->department_model->get_department(
+						'dept_id', $result_owner[0]['dept_id']) ), true);
+
 					$date_start  = $result[$i]['date_start'];
 					$date_end    = $result[$i]['date_end'];
 
@@ -414,16 +455,33 @@ class events extends CI_controller
 					if( !in_array(common::format_date($date_start, 'F'), $filter) ){
 						array_push($filter, common::format_date($date_start, 'F'));
 					}
+					//ADD THE DEPARTMENT INTO THE FILTER
+					if( !in_array($result_deparment[0]['department'], $filter_dept) ){
+						array_push($filter_dept, $result_deparment[0]['department']);
+					}
+					
 					//DATE FORMATTED TO USER READABLE FORMAT
 					$date = common::display_date($date_start, $date_end);
 
+					//FORMAT TIME DISPLAY
+					( $result[$i]['time_start'] == $result[$i]['time_end'] )?
+						$time = $result[$i]['time_start']
+					: $time = $result[$i]['time_start'].' - '.$result[$i]['time_end'];
+
+					$result[$i]['time_display']   = $time;
 					$result[$i]['date_display']   = $date;
 					$result[$i]['description']    = character_limiter($description[0]['description'], 200);
 					$result[$i]['filter']         = common::format_date($date_start, 'F');
+					$result[$i]['filter']         = $result[$i]['filter'].' '.$result_deparment[0]['department'];
 					$result[$i]['title']          = character_limiter($result[$i]['title'], 29);
 
-					if( $view_type == 'archive' ){
-						$result[$i]['status_display'] = ( $result[$i]['status'] == 'close' )? 'Closed' : 'Open';
+					if( $view_type == 'archive' &&
+							$result[$i]['date_start'] > common::format_date(common::get_today(), 'Y-m-d')){
+							$result[$i]['status_display'] = 'New';
+					}
+					else if( $view_type == 'archive' &&
+							$result[$i]['date_start'] == common::format_date(common::get_today(), 'Y-m-d')){
+							$result[$i]['status_display'] = 'Ongoing';
 					}
 				}
 				//SET UP PAGINATION
@@ -445,6 +503,7 @@ class events extends CI_controller
 
 				$data['event_new_list']     = $result;
 				$data['filter']             = common::sort_month($filter);
+				$data['filter_dept']        = $filter_dept;
 				$data['artcore_pagination'] = $this->pagination->create_links();
 			}
 		}

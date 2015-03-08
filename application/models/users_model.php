@@ -75,8 +75,12 @@ class Users_model extends CI_Model {
 	 * @return Array | Object | Boolean <FALSE>
 	 * --------------------------------------------
 	 */
-	public function get_user_kbn()
+	public function get_user_kbn($search_by='',$data='')
 	{
+			if( $search_by != '' ){
+				$this->db->where($search_by, $data);
+			}
+
 			$this->db->from('cop_kbn');
 			$query = $this->db->get();
 

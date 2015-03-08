@@ -46,6 +46,7 @@ $lang['lbl_announcement_title'] = 'Announcement title';
 $lang['lbl_beneficiary_name'] = 'Beneficiary';
 $lang['lbl_budget_proposal'] = 'Budget Proposal';
 $lang['lbl_city'] = 'City';
+$lang['lbl_comments'] = 'Comments';
 $lang['lbl_department'] = 'Department';
 $lang['lbl_description'] = 'Description';
 $lang['lbl_email'] = 'Email';

@@ -357,7 +357,7 @@ class common extends CI_controller
 
 		return $output;
 	}
-
+	
 	/**
 	 * CHECKS IF THERE IS A LOGGED IN USER
 	 * @return redirect
