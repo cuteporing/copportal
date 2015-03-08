@@ -49,9 +49,7 @@ class manage_beneficiary_ajax extends CI_controller
 
 	public function check_beneficiary()
 	{
-		$name = array(
-			'first_name'=>ucfirst( $this->input->post('first_name') ),
-			'last_name' =>ucfirst( $this->input->post('last_name') ) );
+		$name = array( 'beneficiary'=>ucfirst( $this->input->post('beneficiary') ) );
 
 		$result = $this->beneficiary_model->check_beneficiary($name);
 		if( $result === TRUE && $this->input->post('confirm') == 'yes' ){
@@ -69,10 +67,7 @@ class manage_beneficiary_ajax extends CI_controller
 	public function validate_beneficiary_create()
 	{
 		$error_log = array();
-		$required_field = array(
-			'first_name',
-			'last_name',
-			'address_street');
+		$required_field = array('beneficiary');
 
 		//IF THERE ARE MISSING INPUT DATA
 		if( count($this->validate_required($required_field)) > 0 ){
@@ -110,15 +105,12 @@ class manage_beneficiary_ajax extends CI_controller
 		$phone_json = json_encode($phone_list);
 
 		$data = array(
-			'first_name'     => ucfirst($this->input->post('first_name')),
-			'last_name'      => ucfirst($this->input->post('last_name')),
-			'gender'         => $this->input->post('gender'),
+			'beneficiary'    => $this->input->post('beneficiary'),
 			'date_entered'   => common::get_today(),
 			'date_modified'  => common::get_today(),
 			'phone'          => $phone_json,
 			'address_street' => $this->input->post('address_street'),
-			'address_city_id'=> $this->input->post('city'),
-			'deleted'        => 0
+			'address_city_id'=> $this->input->post('city')
 			);
 
 		$result = $this->beneficiary_model->create_beneficiary($data);
@@ -168,15 +160,12 @@ class manage_beneficiary_ajax extends CI_controller
 
 		$data = array(
 			'id'             => $this->input->post('id'),
-			'first_name'     => ucfirst($this->input->post('first_name')),
-			'last_name'      => ucfirst($this->input->post('last_name')),
-			'gender'         => $this->input->post('gender'),
+			'beneficiary'    => ucfirst($this->input->post('beneficiary')),
 			'date_entered'   => common::get_today(),
 			'date_modified'  => common::get_today(),
 			'phone'          => $phone_json,
 			'address_street' => $this->input->post('address_street'),
-			'address_city_id'=> $this->input->post('city'),
-			'deleted'        => 0
+			'address_city_id'=> $this->input->post('city')
 			);
 
 		$result = $this->beneficiary_model->update_beneficiary($data);

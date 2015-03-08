@@ -38,7 +38,9 @@ class events_ajax extends CI_controller
 	{
 		$error_log  = array();
 		foreach ($input_field as $field) {
-			if( $this->input->post($field) == '' ){
+				$label = str_replace('[]', '', ucfirst($field));
+
+			if( empty($this->input->post($field)) || $this->input->post($field) == '' ){
 				$label = str_replace('_', ' ', ucfirst($field));
 				array_push($error_log, array(
 					'input'=>$field,
@@ -125,8 +127,12 @@ class events_ajax extends CI_controller
 	{
 		$error_log = array();
 		$required_field = array(
+			'beneficiary_id',
 			'category',
+			'budget',
 			'event_date',
+			'expected_output',
+			'in_charge',
 			'location',
 			'time_end',
 			'time_start',
@@ -135,6 +141,14 @@ class events_ajax extends CI_controller
 		//IF THERE ARE MISSING INPUT DATA
 		if( count($this->validate_required($required_field)) > 0 ){
 			$error_log = $this->validate_required($required_field);
+			if( count($error_log) > 0 ) {
+				for ($i=0; $i < count($error_log); $i++) {
+					if( $error_log[$i]['input'] == 'beneficiary_id' ){
+						$error_log[$i]['input']     = 'beneficiary_id[]';
+						$error_log[$i]['error_msg'] = 'Beneficiary is required';
+					}
+				}
+			}
 			return common::response_msg(200, 'error_field', '', $error_log);
 		//IF EVENT DATE IS NOT CORRECT
 		}elseif( count($this->validate_event_date()) > 0 ){
@@ -243,8 +257,8 @@ class events_ajax extends CI_controller
 		$result  = $this->beneficiary_model->get_beneficiary_list($keyword);
 		foreach ($result as $row) {
 			array_push($data, array(
-				'label'=>$row->first_name.' '.$row->last_name,
-				'value'=>$row->id,
+				'label'=>$row['first_name'].' '.$row['last_name'],
+				'value'=>$row['id'],
 				));
 		}
 		echo json_encode($data);
@@ -263,6 +277,7 @@ class events_ajax extends CI_controller
 		}
 		$session_data = $this->session->userdata('logged_in');
 
+		//EVENT DETAILS
 		$date = trim(preg_replace('/\s+/',' ', $this->input->post('event_date')));
 		$date = explode('-', $date);
 
@@ -271,9 +286,33 @@ class events_ajax extends CI_controller
 		$time_start = $this->input->post('time_start');
 		$time_end   = $this->input->post('time_end');
 
+		//status:
+		//---------------------------
+		//- Approved
+		//- Denied
+		//- Edit
+		//- Final confirmation
+		//- Pending
+		if( $session_data['user_kbn'] == 30 ){
+			$status       = 'Approved';
+			$appr_cop_dir = 1;
+			$appr_sps_dir = 1;
+		}else if ( $session_data['user_kbn'] == 20 ) {
+			$status       = 'Final confirmation';
+			$appr_cop_dir = 1;
+			$appr_sps_dir = 0;
+		}else{
+			$status       = 'Pending';
+			$appr_cop_dir = 0;
+			$appr_sps_dir = 0;
+		}
+
 		$event_data = array(
 			'owner_id'        =>$session_data['id'],
 			'title'           =>$this->input->post('title'),
+			'status'          =>$status,
+			'appr_cop_dir'    =>$appr_cop_dir,
+			'appr_sps_dir'    =>$appr_sps_dir,
 			'category_id'     =>$this->input->post('category'),
 			'date_entered'    =>common::get_today(),
 			'date_start'      =>$date_start,
@@ -284,25 +323,44 @@ class events_ajax extends CI_controller
 			'slug'            =>url_title($this->input->post('title'), 'dash', TRUE)
 			);
 
-		$description_data = array();
-		$description = str_split($this->input->post('description'), 1000);
-		$sequence = 1;
+		$beneficiary_list = array();
+		if( !empty($this->input->post('beneficiary_id')) ){
 
-		foreach ($description as $text) {
-			array_push($description_data, array(
-				'event_id'   => 0,
-				'description'=> $text,
-				'sequence'   => $sequence)
-			);
-			$sequence++;
+			foreach ($this->input->post('beneficiary_id') as $beneficiary) {
+				array_push($beneficiary_list, (int) $beneficiary);
+			}
 		}
-		$result = $this->events_model->create_events($event_data, $description_data);
 
-		if( $result ){
-			$local_storage = array('modal_id'=>$result['msg']);
-			echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result['msg'],$local_storage);
-		}else{
-			echo common::response_msg(200, 'error', 'Cannot create event');
+		//ADD EVENT
+		$result_event = $this->events_model->create_events($event_data);
+
+		//IF ADDING OF EVENT IS SUCCESSFUL
+		if( $result_event ){
+			$description_data = array();
+			$description = str_split($this->input->post('description'), 1000);
+			$sequence = 1;
+
+			foreach ($description as $text) {
+				array_push($description_data, array(
+					'event_id'   => 0,
+					'description'=> $text,
+					'sequence'   => $sequence
+					)
+				);
+
+				$sequence++;
+			}
+
+			//ADD THE EVENT DESCRIPTION
+			$result_description = $this->events_model->add_event_description( $description_data );
+
+			//IF ADDING OF EVENT DESCRIPTION IS SUCCESSFUL
+			if( $result_description ){
+				$local_storage = array('modal_id'=>$result_event);
+				echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result_event,$local_storage);
+			}else{
+				echo common::response_msg(200, 'error', 'Cannot create event');
+			}
 		}
 	}
 

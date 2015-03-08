@@ -198,7 +198,6 @@ class Events_model extends CI_Model {
 	 */
 	public function get_event_list($search_param = array())
 	{
-
 			if( count($search_param) > 0 ){
 				if( isset($search_param['search_by']) && count($search_param['search_by']) > 0 ){
 						foreach ($search_param['search_by'] as $param) {
@@ -208,7 +207,6 @@ class Events_model extends CI_Model {
 							);
 						}
 				}
-				$this->db->where('appr_sps_dir', 1);
 				$this->db->order_by("date_start", "desc");
 				$query = $this->db->get('cop_events', $search_param['limit'], $search_param['offset']);
 			}else{
@@ -382,11 +380,10 @@ class Events_model extends CI_Model {
 	/**
 	 * CREATES AN EVENT
 	 * @param Array, $event_data
-	 * @param Array, $description_data
 	 * @return Array
 	 * --------------------------------------------
 	 */
-	public function create_events($event_data, $description_data)
+	public function create_events($event_data)
 	{
 		$this->db->trans_begin();
 		$this->db->insert('cop_events', $event_data);
@@ -398,8 +395,27 @@ class Events_model extends CI_Model {
 
 		if( $unique_id == '' || is_null($unique_id)){ $unique_id++; }
 
+		if( $this->db->trans_status() === FALSE )
+		{
+			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
+			return FALSE;
+		}
+		else{
+			$this->db->trans_commit();
+			return $unique_id;
+		}
+	}
+
+	/**
+	 * ADDS A DESCRIPTION
+	 * @param Array, $description_data
+	 * @return Array
+	 * --------------------------------------------
+	 */
+	public function add_event_description($description_data){
+		$this->db->trans_begin();
 		foreach ($description_data as $data) {
-			$data['event_id'] = $unique_id;
 			//INSERT DESCRIPTION
 			$this->db->insert('cop_description', $data);
 		}
@@ -408,16 +424,11 @@ class Events_model extends CI_Model {
 		{
 			//TRANSACTION ERROR CATCH
 			$this->db->trans_rollback();
-			return array(
-				'status'=>'error',
-				'msg'   =>'Cannot create an event'
-				);
-		}else{
+			return FALSE;
+		}
+		else{
 			$this->db->trans_commit();
-			return array(
-				'status'=>'success',
-				'msg'   =>$unique_id
-				);
+			return TRUE;
 		}
 	}
 }

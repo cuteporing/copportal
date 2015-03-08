@@ -18,6 +18,7 @@ class events extends CI_controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('beneficiary_model');
 		$this->load->model('events_model');
 		$this->load->library('pagination');
 	}
@@ -47,6 +48,20 @@ class events extends CI_controller
 				);
 		}else{
 			return array(
+				// 0 => array(
+				// 	'data_attr' =>array(
+				// 		0 => array(
+				// 			'data_name' =>'data-toggle',
+				// 			'value'=>'tooltip'),
+				// 		1 => array(
+				// 			'data_name' =>'title',
+				// 			'value'=>'Event beneficiaries')
+				// 		),
+				// 	'icon' =>'fa fa-plus-square-o',
+				// 	'title'=>'Join',
+				// 	'type' =>'success',
+				// 	'url'  =>'account/events/manage/',
+				// 	),
 				0 => array(
 					'data_attr' =>array(
 						0 => array(
@@ -54,28 +69,28 @@ class events extends CI_controller
 							'value'=>'tooltip'),
 						1 => array(
 							'data_name' =>'title',
-							'value'=>'Event beneficiaries')
-						),
-					'icon' =>'fa fa-plus-square-o',
-					'title'=>'Join',
-					'type' =>'success',
-					'url'  =>'account/events/manage/',
-					),
-				1 => array(
-					'data_attr' =>array(
-						0 => array(
-							'data_name' =>'data-toggle',
-							'value'=>'tooltip'),
-						1 => array(
-							'data_name' =>'title',
-							'value'=>'Edit')
+							'value'=>'View')
 						),
 					'icon' =>'fa fa-edit',
-					'title'=>'Edit',
+					'title'=>'View',
 					'type' =>'info',
-					'url'  =>'account/events/edit/',
+					'url'  =>'account/events/manage/',
 					),
-				2 => array(
+				// 1 => array(
+				// 	'data_attr' =>array(
+				// 		0 => array(
+				// 			'data_name' =>'data-toggle',
+				// 			'value'=>'tooltip'),
+				// 		1 => array(
+				// 			'data_name' =>'title',
+				// 			'value'=>'Edit')
+				// 		),
+				// 	'icon' =>'fa fa-edit',
+				// 	'title'=>'Edit',
+				// 	'type' =>'info',
+				// 	'url'  =>'account/events/edit/',
+				// 	),
+				1 => array(
 					'data_attr' =>array(
 						0 => array(
 							'data_name' =>'data-ajax',
@@ -94,25 +109,25 @@ class events extends CI_controller
 					'type' =>'danger',
 					'url'  =>'events_ajax/delete/',
 					),
-				3 => array(
-					'data_attr' =>array(
-						0 => array(
-							'data_name' =>'data-ajax',
-							'value'=>'edit'),
-						1 => array(
-							'data_name' =>'data-ajax-confirm-msg',
-							'value'=>'Close the event?'),
-						2 => array(
-							'data_name' =>'data-toggle',
-							'value'=>'tooltip'),
-						3 => array(
-							'data_name' =>'title',
-							'value'=>'Close')),
-					'icon' =>'fa fa-ban',
-					'title'=>'Close',
-					'type' =>'warning',
-					'url'  =>'events_ajax/close/',
-					)
+				// 2 => array(
+				// 	'data_attr' =>array(
+				// 		0 => array(
+				// 			'data_name' =>'data-ajax',
+				// 			'value'=>'edit'),
+				// 		1 => array(
+				// 			'data_name' =>'data-ajax-confirm-msg',
+				// 			'value'=>'Cancel the event?'),
+				// 		2 => array(
+				// 			'data_name' =>'data-toggle',
+				// 			'value'=>'tooltip'),
+				// 		3 => array(
+				// 			'data_name' =>'title',
+				// 			'value'=>'Cancel')),
+				// 	'icon' =>'fa fa-ban',
+				// 	'title'=>'Cancel',
+				// 	'type' =>'warning',
+				// 	'url'  =>'events_ajax/cancel/',
+				// 	)
 				);
 		}
 	}
@@ -142,7 +157,9 @@ class events extends CI_controller
 	 */
 	public function create()
 	{
-		$data['events_category'] = $this->events_model->get_categories();
+		$data['events_category']  = $this->events_model->get_categories();
+		$data['beneficiary_list'] = $this->beneficiary_model->get_beneficiary_list();
+
 		// $this->upload_photo_modal();
 		$this->load->view('templates/forms/event_form', $data);
 	}
@@ -204,33 +221,31 @@ class events extends CI_controller
 			return $this->load->view('error/record_not_found');
 		}
 
-		//GET EVENT DETAILS
-		$result_event = $this->events_model->get_events('event_id', $event_id);
-		//GET EVENT DESCRIPTION
-		$result_desc = $this->events_model->get_event_desc($event_id);
-		//GET EVENT MEMBERS
-		$result_members = $this->events_model->get_members($event_id);
+		// //GET EVENT DETAILS
+		// $result_event = $this->events_model->get_events('event_id', $event_id);
+		// //GET EVENT DESCRIPTION
+		// $result_desc = $this->events_model->get_event_desc($event_id);
+		// //GET EVENT MEMBERS
+		// $result_members = $this->events_model->get_members($event_id);
 
-		for($i=0; $i<count($result_members); $i++){
-			$result_members[$i]['date_entered'] = common::format_date(
-				$result_members[$i]['date_entered'], 'M d, Y');
-			$result_members[$i]['name'] = '<b>'.$result_members[$i]['last_name'];
-			$result_members[$i]['name'].='</b>, '.$result_members[$i]['first_name'];
-			$result_members[$i]['result_id'] = $event_id.'/'.$result_members[$i]['id'];
-		}
+		// for($i=0; $i<count($result_members); $i++){
+		// 	$result_members[$i]['date_entered'] = common::format_date(
+		// 		$result_members[$i]['date_entered'], 'M d, Y');
+		// 	$result_members[$i]['result_id'] = $event_id.'/'.$result_members[$i]['id'];
+		// }
 
-		$data['action_btn']   = self::action_btn('members');
-		$data['event_id']     = $event_id;
-		$data['result_event'] = $result_event[0];
-		$data['result_desc']  = ($result_desc)? $result_desc : array();
-		$data['table_name']   = 'Members';
-		$data['fieldname']    = array('name', 'date_entered', 'action');
-		$data['field_label']  = array('Name', 'Date joined', '&nbsp;');
-		$data['result']       = $result_members;
+		// $data['action_btn']   = self::action_btn('members');
+		// $data['event_id']     = $event_id;
+		// $data['result_event'] = $result_event[0];
+		// $data['result_desc']  = ($result_desc)? $result_desc : array();
+		// $data['table_name']   = 'Members';
+		// $data['fieldname']    = array('name', 'date_entered', 'action');
+		// $data['field_label']  = array('Name', 'Date joined', '&nbsp;');
+		// $data['result']       = $result_members;
 
-		$this->load->view('account/events', $data);
-		$this->load->view('templates/forms/event_member_form', $data);
-		$this->load->view('templates/tables/data_tables_full', $data);
+		// $this->load->view('account/events', $data);
+		// $this->load->view('templates/forms/event_member_form', $data);
+		// $this->load->view('templates/tables/data_tables_full', $data);
 	}
 
 	/**
@@ -240,7 +255,11 @@ class events extends CI_controller
 	 */
 	public function get_events()
 	{
-		$result = $this->events_model->get_events();
+		$session_data = $this->session->userdata('logged_in');
+
+		if( $session_data['user_kbn'] == 30 ){
+			$result = $this->events_model->get_event_list();
+		}
 
 		for( $i=0; $i<count($result); $i++ ){
 			$date_start= $result[$i]['date_start'];

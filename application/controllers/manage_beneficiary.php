@@ -67,16 +67,6 @@ class manage_beneficiary extends account
 	}
 
 	/**
-	 * GENDER COMBO BOX
-	 * @return Array
-	 * --------------------------------------------
-	 */
-	public function get_gender()
-	{
-		return array('Female', 'Male', 'Other');
-	}
-
-	/**
 	 * CREATE BENEFICIARY
 	 * @return PAGE
 	 * --------------------------------------------
@@ -84,7 +74,6 @@ class manage_beneficiary extends account
 	public function create()
 	{
 		$data['city_list'] = $this->city_model->get_cities();
-		$data['gender_list'] = $this->get_gender();
 
 		$this->load->view('templates/forms/beneficiary_form', $data);
 		$this->load->view('templates/modal', $data);
@@ -114,7 +103,6 @@ class manage_beneficiary extends account
 
 		$selected = array(
 			'address_city_id'=>$result[0]->address_city_id,
-			'gender' =>$result[0]->gender
 			);
 
 		$phone_list = json_decode( $result[0]->phone );
@@ -128,7 +116,6 @@ class manage_beneficiary extends account
 		$data['result']      = $result[0];
 		$data['selected']    = $selected;
 		$data['city_list']   = $this->city_model->get_cities();
-		$data['gender_list'] = $this->get_gender();
 
 		return $this->load->view('templates/forms/beneficiary_form', $data);
 	}
@@ -143,14 +130,13 @@ class manage_beneficiary extends account
 		$result = $this->beneficiary_model->get_beneficiary();
 
 		for( $i=0; $i<count($result); $i++ ){
-			$result[$i]['name'] =  '<b>'.$result[$i]['last_name'].'</b>, '.$result[$i]['first_name'];
 			$result[$i]['result_id'] = $result[$i]['id'];
 		}
 
 		$data['action_btn']   = self::action_btn();
 		$data['table_name']   = 'Trainings and seminars';
-		$data['fieldname']    = array('name', 'action');
-		$data['field_label']  = array('Name', '&nbsp;');
+		$data['fieldname']    = array('beneficiary', 'action');
+		$data['field_label']  = array('Beneficiary', '&nbsp;');
 		$data['result']       = $result;
 
 		return $this->load->view('templates/tables/data_tables_full', $data);

@@ -21,22 +21,15 @@
 				</h3>
 			</div>
 			<div class="box-body">
-				<div class="row">
-					<div class="col-md-6">
+		<!-- 		<div class="row">
+					<div class="col-md-6"> -->
 						<div class="form-group">
-							<label><?=$this->lang->line('lbl_first_name')?></label>
-							<input type="text" class="form-control" name="first_name" value="<?php if(isset($result)){ echo $result->first_name; } ?>" maxlength="30">
+							<label><?=$this->lang->line('lbl_beneficiary_name')?></label>
+							<input type="text" class="form-control" name="beneficiary" value="<?php if(isset($result)){ echo $result->beneficiary; } ?>" maxlength="30">
 							<p class="error"></p>
 						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label><?=$this->lang->line('lbl_last_name')?></label>
-							<input type="text" class="form-control" name="last_name" value="<?php if(isset($result)){ echo $result->last_name; } ?>" maxlength="30">
-							<p class="error"></p>
-						</div>
-					</div>
-				</div>
+<!-- 					</div>
+				</div> -->
 
 				<div class="form-group">
 					<label><?=$this->lang->line('lbl_street_address')?></label>
@@ -54,20 +47,6 @@
 										<?= create_tag('option', $row['city'], array('value'=>$row['city_id'], 'selected'=>'selected')) ?>
 									<?php else: ?>
 										<?= create_tag('option', $row['city'], array('value'=>$row['city_id'])) ?>
-									<?php endif; ?>
-								<?php endforeach ?>
-							</select>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label><?=$this->lang->line('lbl_gender')?></label>
-							<select class="form-control" name="gender">
-								<?php foreach ($gender_list as $gender): ?>
-									<?php if( isset( $selected ) && $gender == $selected['gender'] ): ?>
-										<?= create_tag('option', $gender, array('value'=>$gender, 'selected'=>'selected')) ?>
-									<?php else: ?>
-										<?= create_tag('option', $gender, array('value'=>$gender)) ?>
 									<?php endif; ?>
 								<?php endforeach ?>
 							</select>

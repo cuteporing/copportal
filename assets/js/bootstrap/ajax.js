@@ -25,11 +25,23 @@ $(function() {
 	// --------------------------------------------
 	function show_error_field(data){
 		$.each(data, function(idx, obj){
-			$('input[name="'+obj.input+'"]')
-				.css('border-color', 'red')
-				.parents('.form-group')
-				.find('.error')
-				.html(obj.error_msg);
+			if( $('[name="'+obj.input+'"]').is("textarea") ) {
+				$('textarea[name="'+obj.input+'"]').nextAll('iframe').css('border-color', 'red');
+			}
+			else if( $('[name="'+obj.input+'"]').is("select") ) {
+				$('select[name="'+obj.input+'"]')
+					.css('border-color', 'red')
+					.parents('.form-group')
+					.find('.error')
+					.html(obj.error_msg);
+			}
+			else{
+				$('input[name="'+obj.input+'"]')
+					.css('border-color', 'red')
+					.parents('.form-group')
+					.find('.error')
+					.html(obj.error_msg);
+			}
 		});
 	}
 
@@ -230,8 +242,8 @@ $(function() {
 
 	// REMOVE BORDER ERROR HIGHLIGHT WHEN FOCUS
 	// --------------------------------------------
-	$('input').focus(function(){
-		$(this).removeAttr('style').next().html('');
+	$('input, select').focus(function(){
+		$(this).removeAttr('style').parents('.form-group').find('.error').html('');
 	});
 
 	// DELETE DATA VIA AJAX
@@ -385,6 +397,7 @@ $(function() {
 			contentType: false,
 			processData: false,
 			success: function(data){
+				console.log(data);
 				var obj = jQuery.parseJSON(data);
 
 				if( obj.status_type == 'refresh' ){

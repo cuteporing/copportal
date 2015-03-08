@@ -128,6 +128,15 @@
 			<div class="box-header"><h3 class="box-title"><?=$this->lang->line('lbl_event_details')?></h3></div>
 			<div class="box-body">
 				<div class="form-group">
+					<label><?=$this->lang->line('lbl_beneficiary_name')?></label>
+					<select multiple class="form-control" name="beneficiary_id[]">
+						<?php foreach ($beneficiary_list as $beneficiary): ?>
+								<?= create_tag('option', $beneficiary['beneficiary'], array('value'=>$beneficiary['id'])) ?>
+						<?php endforeach ?>
+					</select>
+					<p class="error"></p>
+				</div>
+				<div class="form-group">
 					<label><?=$this->lang->line('lbl_event_category')?></label>
 					<select class="form-control" name="category">
 						<?php foreach ($events_category as $category): ?>
@@ -197,21 +206,8 @@
 			</div>
 			<div class="box-body">
 					<div class='box-body pad'>
-						<textarea class="textarea" id="budget" name="budget" value="" placeholder="Place some text here" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-					</div>
-			</div>
-		</div>
-
-		<div class="box">
-			<div class="box-header">
-				<h3 class="box-title"><small><?=$this->lang->line('lbl_persons_involved')?></label></small></h3>
-				<div class="pull-right box-tools">
-					<button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" onclick="return false;" data-original-title="" title=""><i class="fa fa-minus"></i></button>
-				</div>
-			</div>
-			<div class="box-body">
-					<div class='box-body pad'>
-						<textarea class="textarea" id="persons_involved" name="persons_involved" value="" placeholder="Place some text here" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+						<textarea class="textarea" id="budget" name="budget" value="" placeholder="Place some text here" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+						<p class="error"></p>
 					</div>
 			</div>
 		</div>

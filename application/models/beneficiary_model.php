@@ -42,8 +42,7 @@ class Beneficiary_model extends CI_Model {
 	{
 		$this->db->select('id');
 		$this->db->from('cop_beneficiaries');
-		$this->db->where('first_name', $name['first_name']);
-		$this->db->where('last_name', $name['last_name']);
+		$this->db->where('beneficiary', $name['beneficiary']);
 		$this->db->limit(1);
 
 		$query = $this->db->get();
@@ -56,15 +55,17 @@ class Beneficiary_model extends CI_Model {
 
 	}
 
-	public function get_beneficiary_list($keyword)
+	public function get_beneficiary_list($keyword = '')
 	{
-		$this->db->select('id, first_name, last_name');
+		$this->db->select('id, beneficiary');
 		$this->db->from('cop_beneficiaries');
-		$this->db->like('cop_beneficiaries.first_name', $keyword, 'both');
-		$this->db->or_like('cop_beneficiaries.last_name', $keyword, 'both');
+		if( $keyword != '' ){
+			$this->db->like('cop_beneficiaries.beneficiary', $keyword, 'both');
+		}
+		$this->db->order_by("beneficiary", "asc");
 		$query = $this->db->get();
 
-		return $query->result();
+		return $query->result_array();
 	}
 
 	/**
@@ -78,7 +79,7 @@ class Beneficiary_model extends CI_Model {
 	{
 		if( $search_by == '' ){
 			$query = $this->db->get('cop_beneficiaries');
-			$this->db->order_by("last_name", "asc");
+			$this->db->order_by("beneficiary", "asc");
 			return $query->result_array();
 		}else{
 			$this->db->where($search_by, $data);
@@ -142,7 +143,7 @@ class Beneficiary_model extends CI_Model {
 			$this->db->trans_commit();
 			return array(
 				'status'=>'success',
-				'msg'   =>$data['first_name'].' has been added to the list of beneficiaries'
+				'msg'   =>$data['beneficiary'].' has been added to the list of beneficiaries'
 				);
 		}
 	}
@@ -171,7 +172,7 @@ class Beneficiary_model extends CI_Model {
 			$this->db->trans_commit();
 			return array(
 				'status'=>'success',
-				'msg'   =>'"'.$data['first_name'].'" profile has been updated'
+				'msg'   =>'"'.$data['beneficiary'].'" profile has been updated'
 				);
 		}
 	}

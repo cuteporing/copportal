@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2015 at 08:34 PM
+-- Generation Time: Mar 08, 2015 at 04:46 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -156,24 +156,21 @@ INSERT INTO `cop_banner` (`banner_id`, `title`, `subtitle`, `sequence`, `link`, 
 
 CREATE TABLE IF NOT EXISTS `cop_beneficiaries` (
 `id` int(11) NOT NULL,
-  `first_name` varchar(30) NOT NULL,
-  `last_name` varchar(30) NOT NULL,
-  `gender` varchar(10) NOT NULL,
+  `beneficiary` varchar(255) NOT NULL,
   `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `phone` varchar(150) DEFAULT NULL,
   `address_street` varchar(150) NOT NULL,
-  `address_city_id` int(11) NOT NULL,
-  `imagename` varchar(250) NOT NULL,
-  `deleted` int(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `address_city_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_beneficiaries`
 --
 
-INSERT INTO `cop_beneficiaries` (`id`, `first_name`, `last_name`, `gender`, `date_entered`, `date_modified`, `phone`, `address_street`, `address_city_id`, `imagename`, `deleted`) VALUES
-(1, 'Ransu', 'Caw', 'Female', '2015-03-01 22:34:44', '2015-03-01 22:34:44', '[]', 'asd', 1, '', 0);
+INSERT INTO `cop_beneficiaries` (`id`, `beneficiary`, `date_entered`, `date_modified`, `phone`, `address_street`, `address_city_id`) VALUES
+(3, 'SATIMA Village', '2015-03-07 18:45:35', '2015-03-07 18:45:35', '[]', '', 1),
+(4, 'COP Coordinators', '2015-03-07 18:50:14', '2015-03-07 18:50:14', '[]', 'asdasdas', 3);
 
 -- --------------------------------------------------------
 
@@ -262,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
   `event_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_description`
@@ -270,7 +267,8 @@ CREATE TABLE IF NOT EXISTS `cop_description` (
 
 INSERT INTO `cop_description` (`description_id`, `event_id`, `description`, `sequence`) VALUES
 (21, 5, 'Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;Lorem Ipsum är en utfyllnadstext från&nbsp;<br><ul style="list-style-type: disc; margin-left: 1.5em;"><li>rån&nbsp;Lorem Ipsum är en utf<br></li><li>&nbsp;Lorem Ipsum är en&nbsp;<br></li></ul><br>', 1),
-(27, 2, 'Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum<br>', 1);
+(27, 2, 'Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum<br>', 1),
+(28, 0, '', 1);
 
 -- --------------------------------------------------------
 
@@ -283,7 +281,6 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `owner_id` int(11) NOT NULL,
   `title` varchar(255) CHARACTER SET latin1 NOT NULL,
   `status` varchar(50) NOT NULL,
-  `appr_status` tinyint(2) NOT NULL DEFAULT '1',
   `appr_cop_dir` tinyint(2) NOT NULL,
   `appr_sps_dir` tinyint(2) NOT NULL,
   `category_id` int(11) NOT NULL,
@@ -293,19 +290,24 @@ CREATE TABLE IF NOT EXISTS `cop_events` (
   `time_start` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `time_end` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `location` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `in_charge` blob NOT NULL,
+  `expected_output` blob NOT NULL,
+  `materials_needed` blob NOT NULL,
+  `budget` blob NOT NULL,
   `raw_name` varchar(255) DEFAULT NULL,
   `file_path` varchar(255) DEFAULT NULL,
   `file_ext` varchar(255) DEFAULT NULL,
   `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events`
 --
 
-INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `appr_status`, `appr_cop_dir`, `appr_sps_dir`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
-(2, 1, 'Lorem Ipsum', 'Done', 1, 1, 1, 1, '2015-03-07 18:32:46', '2015-03-12', '2015-03-13', '11:30 PM', '11:30 PM', 'Las Piñas City', NULL, NULL, NULL, 'lorem-ipsum'),
-(5, 1, 'LOREM IPSUM 4', 'Done', 1, 1, 1, 1, '2015-03-07 18:32:50', '2015-03-03', '2015-03-11', '12:30 AM', '12:30 AM', 'Asdas', NULL, NULL, NULL, 'lorem-ipsum-4');
+INSERT INTO `cop_events` (`event_id`, `owner_id`, `title`, `status`, `appr_cop_dir`, `appr_sps_dir`, `category_id`, `date_entered`, `date_start`, `date_end`, `time_start`, `time_end`, `location`, `in_charge`, `expected_output`, `materials_needed`, `budget`, `raw_name`, `file_path`, `file_ext`, `slug`) VALUES
+(2, 1, 'Lorem Ipsum', 'Approved', 1, 1, 1, '2015-03-08 02:36:55', '2015-03-12', '2015-03-13', '11:30 PM', '11:30 PM', 'Las Piñas City', '', '', '', '', NULL, NULL, NULL, 'lorem-ipsum'),
+(5, 1, 'LOREM IPSUM 4', 'Approved', 1, 1, 1, '2015-03-08 02:36:58', '2015-03-03', '2015-03-11', '12:30 AM', '12:30 AM', 'Asdas', '', '', '', '', NULL, NULL, NULL, 'lorem-ipsum-4'),
+(8, 1, 'ASDASD', 'Approved', 1, 1, 1, '2015-03-07 20:28:02', '2015-03-08', '2015-03-08', '11:15 AM', '11:15 AM', 'ASD', '', '', '', '', NULL, NULL, NULL, 'asdasd');
 
 -- --------------------------------------------------------
 
@@ -317,16 +319,15 @@ CREATE TABLE IF NOT EXISTS `cop_events_member` (
 `_id` int(11) NOT NULL,
   `event_id` int(11) NOT NULL,
   `id` int(11) NOT NULL,
-  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` varchar(50) DEFAULT NULL
+  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `cop_events_member`
 --
 
-INSERT INTO `cop_events_member` (`_id`, `event_id`, `id`, `date_entered`, `status`) VALUES
-(1, 2, 1, '2015-03-02 17:34:54', NULL);
+INSERT INTO `cop_events_member` (`_id`, `event_id`, `id`, `date_entered`) VALUES
+(1, 2, 1, '2015-03-02 17:34:54');
 
 -- --------------------------------------------------------
 
@@ -650,7 +651,7 @@ MODIFY `banner_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT for table `cop_beneficiaries`
 --
 ALTER TABLE `cop_beneficiaries`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `cop_category`
 --
@@ -670,12 +671,12 @@ MODIFY `dept_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 -- AUTO_INCREMENT for table `cop_description`
 --
 ALTER TABLE `cop_description`
-MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+MODIFY `description_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `cop_events`
 --
 ALTER TABLE `cop_events`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `cop_events_member`
 --
