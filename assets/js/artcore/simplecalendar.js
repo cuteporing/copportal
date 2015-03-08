@@ -34,6 +34,8 @@ var calendar = {
 
                 if( result.events.length > 0){
                     for (var i = 0; i < result.events.length; i++) {
+                        result.events[i].description = result.events[i].description.replace('<span>', '');
+                        result.events[i].description = result.events[i].description.replace('</span>', '');
                         list = '<h2 class="title" style="margin-left:1.25em;">'+result.events[i].title+'</h2>';
                         list+= '<a class="close fontawesome-remove fa fa-times"></a>';
                         list+= '<p class="date">'+result.events[i].date+'</p>';
