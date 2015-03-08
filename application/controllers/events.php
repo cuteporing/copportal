@@ -28,40 +28,10 @@ class events extends CI_controller
 	 * @return Array
 	 * --------------------------------------------
 	 */
-	static function action_btn($type='event')
+	static function action_btn($type=30)
 	{
-		if($type == 'members'){
+		if($type == 10){
 			return array(
-				0 => array(
-					'data_attr' =>array(
-						0 => array(
-							'data_name' =>'data-ajax',
-							'value'=>'delete'),
-						1 => array(
-							'data_name' =>'data-del-type',
-							'value'=>'table')),
-					'icon' =>'fa fa-times',
-					'title'=>'Delete',
-					'type' =>'danger',
-					'url'  =>'events_ajax/member_delete/',
-					)
-				);
-		}else{
-			return array(
-				// 0 => array(
-				// 	'data_attr' =>array(
-				// 		0 => array(
-				// 			'data_name' =>'data-toggle',
-				// 			'value'=>'tooltip'),
-				// 		1 => array(
-				// 			'data_name' =>'title',
-				// 			'value'=>'Event beneficiaries')
-				// 		),
-				// 	'icon' =>'fa fa-plus-square-o',
-				// 	'title'=>'Join',
-				// 	'type' =>'success',
-				// 	'url'  =>'account/events/manage/',
-				// 	),
 				0 => array(
 					'data_attr' =>array(
 						0 => array(
@@ -74,22 +44,25 @@ class events extends CI_controller
 					'icon' =>'fa fa-edit',
 					'title'=>'View',
 					'type' =>'info',
+					'url'  =>'account/events/manage/view/',
+					)
+				);
+		}else if( $type == 30 ){
+			return array(
+				0 => array(
+					'data_attr' =>array(
+						0 => array(
+							'data_name' =>'data-toggle',
+							'value'=>'tooltip'),
+						1 => array(
+							'data_name' =>'title',
+							'value'=>'View')
+						),
+					'icon' =>'fa fa-tasks',
+					'title'=>'View',
+					'type' =>'warning',
 					'url'  =>'account/events/manage/',
 					),
-				// 1 => array(
-				// 	'data_attr' =>array(
-				// 		0 => array(
-				// 			'data_name' =>'data-toggle',
-				// 			'value'=>'tooltip'),
-				// 		1 => array(
-				// 			'data_name' =>'title',
-				// 			'value'=>'Edit')
-				// 		),
-				// 	'icon' =>'fa fa-edit',
-				// 	'title'=>'Edit',
-				// 	'type' =>'info',
-				// 	'url'  =>'account/events/edit/',
-				// 	),
 				1 => array(
 					'data_attr' =>array(
 						0 => array(
@@ -108,26 +81,7 @@ class events extends CI_controller
 					'title'=>'Delete',
 					'type' =>'danger',
 					'url'  =>'events_ajax/delete/',
-					),
-				// 2 => array(
-				// 	'data_attr' =>array(
-				// 		0 => array(
-				// 			'data_name' =>'data-ajax',
-				// 			'value'=>'edit'),
-				// 		1 => array(
-				// 			'data_name' =>'data-ajax-confirm-msg',
-				// 			'value'=>'Cancel the event?'),
-				// 		2 => array(
-				// 			'data_name' =>'data-toggle',
-				// 			'value'=>'tooltip'),
-				// 		3 => array(
-				// 			'data_name' =>'title',
-				// 			'value'=>'Cancel')),
-				// 	'icon' =>'fa fa-ban',
-				// 	'title'=>'Cancel',
-				// 	'type' =>'warning',
-				// 	'url'  =>'events_ajax/cancel/',
-				// 	)
+					)
 				);
 		}
 	}
@@ -174,6 +128,7 @@ class events extends CI_controller
 		$session_data = $this->session->userdata('logged_in');
 
 		$event_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+		$beneficiary_id_list = array();
 
 		//IF THERE IS NO EVENT ID FROM URI, SHOW ERROR RECORD NOT FOUND
 		if( $event_id == '' ){
@@ -197,10 +152,18 @@ class events extends CI_controller
 		$result[0]['date_start'] =  common::format_date($result[0]['date_start'], 'm/d/Y');
 		$result[0]['date_end']   =  common::format_date($result[0]['date_end'], 'm/d/Y');
 
-		$data['events_category'] = $this->events_model->get_categories();
-		$data['result']          = $result[0];
-		$data['result_desc']     = ($result_desc)? $result_desc : array();
-		$data['selected']        = $selected;
+		$result_beneficiary = $this->events_model->get_members($event_id);
+
+		foreach ($result_beneficiary as $beneficiary) {
+			array_push($beneficiary_id_list, $beneficiary['id']);
+		}
+
+		$data['beneficiary_list']   = $this->beneficiary_model->get_beneficiary_list();
+		$data['result_beneficiary'] = $beneficiary_id_list;
+		$data['events_category']    = $this->events_model->get_categories();
+		$data['result']             = $result[0];
+		$data['result_desc']        = ($result_desc)? $result_desc : array();
+		$data['selected']           = $selected;
 
 		$this->load->view('templates/forms/event_form', $data);
 		$this->upload_photo_modal($data);
@@ -208,44 +171,63 @@ class events extends CI_controller
 	}
 
 	/**
-	 * ADD BENEFICIARY ON EVENT
+	 * MANAGE EVENTS
 	 * @return table
 	 * --------------------------------------------
 	 */
 	public function manage()
 	{
-		$event_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
-		
+		$event_id    = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
+
 		//IF THERE IS NO EVENT ID FROM URI, SHOW ERROR RECORD NOT FOUND
 		if( $event_id == '' ){
 			return $this->load->view('error/record_not_found');
 		}
+		//CHECK USER LEVEL
+		$session_data = $this->session->userdata('logged_in');
 
-		// //GET EVENT DETAILS
-		// $result_event = $this->events_model->get_events('event_id', $event_id);
-		// //GET EVENT DESCRIPTION
-		// $result_desc = $this->events_model->get_event_desc($event_id);
-		// //GET EVENT MEMBERS
-		// $result_members = $this->events_model->get_members($event_id);
+		//GET EVENT DETAILS
+		$result_event = $this->events_model->get_events('cop_events.event_id', $event_id);
 
-		// for($i=0; $i<count($result_members); $i++){
-		// 	$result_members[$i]['date_entered'] = common::format_date(
-		// 		$result_members[$i]['date_entered'], 'M d, Y');
-		// 	$result_members[$i]['result_id'] = $event_id.'/'.$result_members[$i]['id'];
-		// }
+		if( $result_event ) {
+			for( $i=0; $i<count($result_event); $i++ ){
+				$date_start= $result_event[$i]['date_start'];
+				$date_end  = $result_event[$i]['date_end'];
 
-		// $data['action_btn']   = self::action_btn('members');
-		// $data['event_id']     = $event_id;
-		// $data['result_event'] = $result_event[0];
-		// $data['result_desc']  = ($result_desc)? $result_desc : array();
-		// $data['table_name']   = 'Members';
-		// $data['fieldname']    = array('name', 'date_entered', 'action');
-		// $data['field_label']  = array('Name', 'Date joined', '&nbsp;');
-		// $data['result']       = $result_members;
+				$date = common::display_date($date_start, $date_end);
 
-		// $this->load->view('account/events', $data);
-		// $this->load->view('templates/forms/event_member_form', $data);
-		// $this->load->view('templates/tables/data_tables_full', $data);
+				//FORMAT TIME DISPLAY
+				( $result_event[$i]['time_start'] == $result_event[$i]['time_end'] )?
+					$time = $result_event[$i]['time_start']
+				: $time = $result_event[$i]['time_start'].' - '.$result_event[$i]['time_end'];
+
+				$result_event[$i]['date'] = $date;
+				$result_event[$i]['time'] = $time;
+			}
+
+			//GET EVENT DESCRIPTION
+			$result_desc        = $this->events_model->get_event_desc($event_id);
+			//GET EVENT BENEFICIARY
+			$result_beneficiary = $this->events_model->get_members($event_id);
+
+			if( $result_desc )         $data['result_desc']        = $result_desc;
+			if( $result_beneficiary )  $data['result_beneficiary'] = $result_beneficiary;
+
+			$data['result_event'] = $result_event[0];
+		}
+
+		$this->load->view('account/events_view', $data);
+
+	}
+
+	/**
+	 * VIEW EVENTS
+	 * @return table
+	 * --------------------------------------------
+	 */
+	public function manage_view()
+	{
+
 	}
 
 	/**
@@ -257,25 +239,51 @@ class events extends CI_controller
 	{
 		$session_data = $this->session->userdata('logged_in');
 
-		if( $session_data['user_kbn'] == 30 ){
+		//CHECK LOGGED IN USER LEVEL
+
+		//CAN VIEW ALL EVENTS
+		if( $session_data['user_kbn'] == 30 || $session_data['user_kbn'] == 20 ){
 			$result = $this->events_model->get_event_list();
+			$data['action_btn'] = self::action_btn(30);
+
+		//VIEW ONLY THE USER'S CREATED EVENTS
+		}else{
+			$params = array();
+			$search = array();
+
+			//SEARCH PARAMETERS FOR EVENTS
+			array_push($search, array(
+					'fieldname'=>'owner_id',
+					'data'     => (int) $session_data['id']
+					)
+			);
+
+			$params['search_by'] = $search;
+
+			//GET EVENTS
+			$result = $this->events_model->get_event_list($params);
+			$data['action_btn'] = self::action_btn(10);
 		}
 
-		for( $i=0; $i<count($result); $i++ ){
-			$date_start= $result[$i]['date_start'];
-			$date_end  = $result[$i]['date_end'];
+		//IF AN EVENT IS FOUND
+		if( $result ){
+			for( $i=0; $i<count($result); $i++ ){
+				$date_start= $result[$i]['date_start'];
+				$date_end  = $result[$i]['date_end'];
 
-			$date = common::display_date($date_start, $date_end);
+				$date = common::display_date($date_start, $date_end);
 
-			$result[$i]['date']      =  $date;
-			$result[$i]['result_id'] = $result[$i]['event_id'];
+				$result[$i]['date']      = $date;
+				$result[$i]['result_id'] = $result[$i]['event_id'];
+			}
+
+			$data['result']     = $result;
 		}
 
-		$data['action_btn']   = self::action_btn('event');
+		//DISPLAY LIST IN A TABLE
 		$data['table_name']   = 'Trainings and seminars';
 		$data['fieldname']    = array('title','date', 'location', 'status', 'action');
 		$data['field_label']  = array('Activity','Date', 'Venue', 'Status', '&nbsp;');
-		$data['result']       = $result;
 
 		return $this->load->view('templates/tables/data_tables_full', $data);
 	}

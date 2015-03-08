@@ -19,36 +19,38 @@
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($result as $row): ?>
-        <tr>
-        <?php for( $i=0; $i<count($fieldname); $i++ ): ?>
-          <?php if( array_key_exists($fieldname[$i], $row) ): ?>
-          <td><?=$row[$fieldname[$i]]?></td>
+      <?php if( isset($result) ): ?>
+        <?php foreach ($result as $row): ?>
+          <tr>
+          <?php for( $i=0; $i<count($fieldname); $i++ ): ?>
+            <?php if( array_key_exists($fieldname[$i], $row) ): ?>
+            <td><?=$row[$fieldname[$i]]?></td>
+            <?php endif ?>
+          <?php endfor ?>
+          <?php if( in_array('action', $fieldname) ): ?>
+            <td>
+              <?php if( isset($action_btn) ): ?>
+              <div class="btn-group">
+                  <?php foreach ($action_btn as $btn): ?>
+                      <a href="<?= base_url().$btn['url'].$row['result_id'] ?>">
+                        <button type="button" class="btn btn-<?=$btn['type'] ?>"
+                          <?php if( isset($btn['data_attr']) ): ?>
+                            <?php foreach ($btn['data_attr'] as $key): ?>
+                              <?= $key['data_name'].'="'.$key['value'].'" ' ?>
+                             <?php endforeach; ?>
+                          <?php endif; ?>
+                          >
+                          <i class="<?= $btn['icon']?>"></i>
+                        </button>
+                      </a>
+                  <?php endforeach; ?>
+              </div>
+              <?php endif; ?>
+            </td>
           <?php endif ?>
-        <?php endfor ?>
-        <?php if( in_array('action', $fieldname) ): ?>
-          <td>
-            <?php if( isset($action_btn) ): ?>
-            <div class="btn-group">
-                <?php foreach ($action_btn as $btn): ?>
-                    <a href="<?= base_url().$btn['url'].$row['result_id'] ?>">
-                      <button type="button" class="btn btn-<?=$btn['type'] ?>"
-                        <?php if( isset($btn['data_attr']) ): ?>
-                          <?php foreach ($btn['data_attr'] as $key): ?>
-                            <?= $key['data_name'].'="'.$key['value'].'" ' ?>
-                           <?php endforeach; ?>
-                        <?php endif; ?>
-                        >
-                        <i class="<?= $btn['icon']?>"></i>
-                      </button>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-            <?php endif; ?>
-          </td>
-        <?php endif ?>
-        </tr>
-      <?php endforeach ?>
+          </tr>
+        <?php endforeach ?>
+      <?php endif; ?>
     </tbody>
     <tfoot>
         <tr>

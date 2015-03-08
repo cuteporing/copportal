@@ -51,6 +51,22 @@ $(function() {
              var description = $('#description_mirror').val();
             $('#description').data("wysihtml5").editor.setValue( description );
         }
+        if( $('#in_charge_mirror').length > 0 ){
+             var description = $('#in_charge_mirror').val();
+            $('#in_charge').data("wysihtml5").editor.setValue( description );
+        }
+        if( $('#budget_mirror').length > 0 ){
+             var description = $('#budget_mirror').val();
+            $('#budget').data("wysihtml5").editor.setValue( description );
+        }
+        if( $('#materials_needed_mirror').length > 0 ){
+             var description = $('#materials_needed_mirror').val();
+            $('#materials_needed').data("wysihtml5").editor.setValue( description );
+        }
+        if( $('#expected_output_mirror').length > 0 ){
+             var description = $('#expected_output_mirror').val();
+            $('#expected_output').data("wysihtml5").editor.setValue( description );
+        }
     }, 1000);
 
     if( $('.wysihtml5-sandbox').length > 0 ){

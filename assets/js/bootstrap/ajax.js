@@ -276,6 +276,9 @@ $(function() {
 			}else if( result.status_type == 'refresh' ){
 				//RELOAD PAGE
 				location.reload();
+			}else if( result.status_type == 'redirect' ){
+				//RELOAD PAGE
+				window.location = result.status_msg;
 			}
 		});
 	});

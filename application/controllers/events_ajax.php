@@ -224,26 +224,6 @@ class events_ajax extends CI_controller
 	}
 
 	/**
-	 * ADD BENEFICIARY TO THE LIST OF MEMBER JOINING IN AN
-	 * EVENT
-	 * @return JSON, $response
-	 * --------------------------------------------------------
-	 */
-	public function member_delete()
-	{
-		$event_id       = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
-		$beneficiary_id = str_replace('/', '', $this->uri->slash_segment(4, 'leading'));
-
-		$result = $this->events_model->delete_event_member($event_id, $beneficiary_id);
-
-		if( $result ){
-			echo common::response_msg(200, 'success', 'Beneficiary has been removed');
-		}else{
-			echo common::response_msg(200, 'error', 'Cannot remove beneficiary from the event');
-		}
-	}
-
-	/**
 	 * CREATES AN EVENT
 	 * @return JSON, $response
 	 * --------------------------------------------------------
@@ -293,6 +273,7 @@ class events_ajax extends CI_controller
 		//- Edit
 		//- Final confirmation
 		//- Pending
+		//- Revise
 		if( $session_data['user_kbn'] == 30 ){
 			$status       = 'Approved';
 			$appr_cop_dir = 1;
@@ -320,16 +301,12 @@ class events_ajax extends CI_controller
 			'time_start'      =>$time_start,
 			'time_end'        =>$time_end,
 			'location'        =>ucfirst($this->input->post('location')),
+			'in_charge'       =>$this->input->post('in_charge'),
+			'expected_output' =>$this->input->post('expected_output'),
+			'materials_needed'=>$this->input->post('materials_needed'),
+			'budget'          =>$this->input->post('budget'),
 			'slug'            =>url_title($this->input->post('title'), 'dash', TRUE)
 			);
-
-		$beneficiary_list = array();
-		if( !empty($this->input->post('beneficiary_id')) ){
-
-			foreach ($this->input->post('beneficiary_id') as $beneficiary) {
-				array_push($beneficiary_list, (int) $beneficiary);
-			}
-		}
 
 		//ADD EVENT
 		$result_event = $this->events_model->create_events($event_data);
@@ -337,12 +314,15 @@ class events_ajax extends CI_controller
 		//IF ADDING OF EVENT IS SUCCESSFUL
 		if( $result_event ){
 			$description_data = array();
+			$beneficiary_data = array();
+
 			$description = str_split($this->input->post('description'), 1000);
 			$sequence = 1;
+			$event_id = $result_event;
 
 			foreach ($description as $text) {
 				array_push($description_data, array(
-					'event_id'   => 0,
+					'event_id'   => $event_id,
 					'description'=> $text,
 					'sequence'   => $sequence
 					)
@@ -351,16 +331,30 @@ class events_ajax extends CI_controller
 				$sequence++;
 			}
 
+			if( !empty($this->input->post('beneficiary_id')) ){
+
+				foreach ($this->input->post('beneficiary_id') as $beneficiary) {
+					array_push($beneficiary_data, array(
+						'event_id'   => (int) $event_id,
+						'id'         => (int) $beneficiary
+						) );
+				}
+			}
+
 			//ADD THE EVENT DESCRIPTION
 			$result_description = $this->events_model->add_event_description( $description_data );
+			$result_beneficiary = $this->events_model->add_event_member( $beneficiary_data );
 
 			//IF ADDING OF EVENT DESCRIPTION IS SUCCESSFUL
-			if( $result_description ){
-				$local_storage = array('modal_id'=>$result_event);
-				echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result_event,$local_storage);
+			if( $result_description && $result_beneficiary ){
+				// $local_storage = array('modal_id'=>$result_event);
+				// echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result_event,$local_storage);
+				echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result_event);
 			}else{
 				echo common::response_msg(200, 'error', 'Cannot create event');
 			}
+		}else{
+			echo common::response_msg(200, 'error', 'Cannot create event');
 		}
 	}
 
@@ -381,32 +375,11 @@ class events_ajax extends CI_controller
 		$result = $this->events_model->delete_event($event_id);
 		if( $result ){
 			@unlink($file_path);
-			echo common::response_msg(200, 'success', 'Event has been deleted');
+			echo common::response_msg(200, 'redirect', base_url().'account/events/');
 		}else{
 			echo common::response_msg(200, 'error', 'Cannot delete event');
 		}
 	}
-
-	// /**
-	//  * CLOSE THE EVENT
-	//  * @return Array, $response
-	//  * --------------------------------------------------------
-	//  */
-	// public function close()
-	// {
-	// 	$event_id = str_replace('/', '', $this->uri->slash_segment(3, 'leading'));
-	// 	$data = array(
-	// 		'event_id'=> $event_id,
-	// 		'status'  => 'close'
-	// 		);
-
-	// 	$result = $this->events_model->close_events($data);
-	// 	if( $result ){
-	// 		echo common::response_msg(200, 'refresh', '');
-	// 	}else{
-	// 		echo common::response_msg(200, 'error', 'Error while closing the event');
-	// 	}
-	// }
 
 	/**
 	 * CREATES AN EVENT
@@ -421,6 +394,7 @@ class events_ajax extends CI_controller
 		}
 		$session_data = $this->session->userdata('logged_in');
 
+		//EVENT DETAILS
 		$date = trim(preg_replace('/\s+/',' ', $this->input->post('event_date')));
 		$date = explode('-', $date);
 
@@ -429,34 +403,92 @@ class events_ajax extends CI_controller
 		$time_start = $this->input->post('time_start');
 		$time_end   = $this->input->post('time_end');
 
+		//status:
+		//---------------------------
+		//- Approved
+		//- Denied
+		//- Edit
+		//- Final confirmation
+		//- Pending
+		//- Revise
+		if( $session_data['user_kbn'] == 30 ){
+			$status       = 'Approved';
+			$appr_cop_dir = 1;
+			$appr_sps_dir = 1;
+		}else if ( $session_data['user_kbn'] == 20 ) {
+			$status       = 'Final confirmation';
+			$appr_cop_dir = 1;
+			$appr_sps_dir = 0;
+		}else{
+			$status       = 'Pending';
+			$appr_cop_dir = 0;
+			$appr_sps_dir = 0;
+		}
+
 		$event_data = array(
 			'event_id'        =>$this->input->post('event_id'),
 			'owner_id'        =>$session_data['id'],
 			'title'           =>$this->input->post('title'),
+			'status'          =>$status,
+			'appr_cop_dir'    =>$appr_cop_dir,
+			'appr_sps_dir'    =>$appr_sps_dir,
 			'category_id'     =>$this->input->post('category'),
+			'date_entered'    =>common::get_today(),
 			'date_start'      =>$date_start,
 			'date_end'        =>$date_end,
 			'time_start'      =>$time_start,
 			'time_end'        =>$time_end,
 			'location'        =>ucfirst($this->input->post('location')),
+			'in_charge'       =>$this->input->post('in_charge'),
+			'expected_output' =>$this->input->post('expected_output'),
+			'materials_needed'=>$this->input->post('materials_needed'),
+			'budget'          =>$this->input->post('budget'),
 			'slug'            =>url_title($this->input->post('title'), 'dash', TRUE)
 			);
 
+
+		//IF ADDING OF EVENT IS SUCCESSFUL
 		$description_data = array();
+		$beneficiary_data = array();
+
 		$description = str_split($this->input->post('description'), 1000);
 		$sequence = 1;
 
 		foreach ($description as $text) {
 			array_push($description_data, array(
-				'event_id'   => 0,
+				'event_id'   => $this->input->post('event_id'),
 				'description'=> $text,
-				'sequence'   => $sequence)
+				'sequence'   => $sequence
+				)
 			);
+
 			$sequence++;
 		}
-		$result = $this->events_model->update_events($event_data, $description_data);
 
-		echo common::response_msg(200, $result['status'], $result['msg'], $event_data);
+		if( !empty($this->input->post('beneficiary_id')) ){
+
+			foreach ($this->input->post('beneficiary_id') as $beneficiary) {
+				array_push($beneficiary_data, array(
+					'event_id'   => (int) $this->input->post('event_id'),
+					'id'         => (int) $beneficiary
+					) );
+			}
+		}
+
+		//EDIT EVENT
+		$result_event = $this->events_model->update_events(
+											$event_data,
+											$description_data,
+											$beneficiary_data);
+
+		if( $result_event ){
+				echo common::response_msg(200, 'redirect', base_url().'account/events/edit/'.$result_event);
+			}else{
+				echo common::response_msg(200, 'error', 'Cannot create event');
+			}
+		}else{
+				echo common::response_msg(200, 'error', 'Cannot create event');
+		}
 	}
 
 	/**

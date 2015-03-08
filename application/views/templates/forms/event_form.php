@@ -1,5 +1,5 @@
 <?php if( isset($result) ): ?>
-	<div class="row">
+<!-- 	<div class="row">
 		<div class="col-md-8">
 
 		</div>
@@ -8,7 +8,7 @@
 				<i class="fa fa-photo"></i> Upload photo
 			</a><br>
 		</div>
-	</div>
+	</div> -->
 <?php endif; ?>
 <?php if( isset($result) ): ?>
 	<?php echo form_open('events_ajax/edit/') ?>
@@ -20,6 +20,10 @@
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</textarea>
+	<textarea class="hide" id="materials_needed_mirror" name="materials_needed_mirror"><?=$result['materials_needed']?></textarea>
+	<textarea class="hide" id="expected_output_mirror" name="expected_output_mirror"><?=$result['expected_output']?></textarea>
+	<textarea class="hide" id="in_charge_mirror" name="in_charge_mirror"><?=$result['in_charge']?></textarea>
+	<textarea class="hide" id="budget_mirror" name="budget_mirror"><?=$result['budget']?></textarea>
 <?php else: ?>
 	<?php echo form_open('events_ajax/create') ?>
 <?php endif; ?>
@@ -131,7 +135,11 @@
 					<label><?=$this->lang->line('lbl_beneficiary_name')?></label>
 					<select multiple class="form-control" name="beneficiary_id[]">
 						<?php foreach ($beneficiary_list as $beneficiary): ?>
+							<?php if( isset( $result_beneficiary ) && in_array($beneficiary['id'], $result_beneficiary) ): ?>
+								<?= create_tag('option', $beneficiary['beneficiary'], array('value'=>$beneficiary['id'], 'selected'=>'selected')) ?>
+							<?php else: ?>
 								<?= create_tag('option', $beneficiary['beneficiary'], array('value'=>$beneficiary['id'])) ?>
+							<?php endif; ?>
 						<?php endforeach ?>
 					</select>
 					<p class="error"></p>

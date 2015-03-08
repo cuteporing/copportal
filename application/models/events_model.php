@@ -79,9 +79,7 @@ class Events_model extends CI_Model {
 	public function get_members($event_id)
 	{
 		$sql = 'cop_beneficiaries.id,';
-		$sql.= 'cop_beneficiaries.first_name, ';
-		$sql.= 'cop_beneficiaries.last_name, ';
-		$sql.= 'cop_beneficiaries.gender, ';
+		$sql.= 'cop_beneficiaries.beneficiary, ';
 		$sql.= 'cop_events_member.date_entered ';
 
 		$this->db->select($sql);
@@ -89,7 +87,7 @@ class Events_model extends CI_Model {
 		$this->db->join('cop_beneficiaries',
 			'cop_events_member.id = cop_beneficiaries.id', 'left');
 		$this->db->where('cop_events_member.event_id', $event_id);
-		$this->db->order_by('cop_beneficiaries.last_name', 'asc');
+		$this->db->order_by('cop_beneficiaries.beneficiary', 'asc');
 
 		$query = $this->db->get();
 
@@ -163,9 +161,14 @@ class Events_model extends CI_Model {
 			$query = $this->db->get('cop_events');
 			return $query->result_array();
 		}else{
-			$this->db->where($search_by, $data);
 			$this->db->from('cop_events');
-			$this->db->order_by("date_start", "asc");
+			$this->db->join(
+				'cop_category',
+				'cop_events.category_id = cop_category.category_id',
+				'left');
+			$this->db->where($search_by, $data);
+			$this->db->order_by('cop_events.date_start', 'asc');
+
 			$query = $this->db->get();
 
 			if( $query->num_rows() > 0 ){
@@ -208,7 +211,12 @@ class Events_model extends CI_Model {
 						}
 				}
 				$this->db->order_by("date_start", "desc");
-				$query = $this->db->get('cop_events', $search_param['limit'], $search_param['offset']);
+				if( isset($search_param['limit']) && !empty($search_param['limit']) ){
+					$query = $this->db->get('cop_events', $limit_param['limit'], $limit_param['offset']);
+				}else{
+					$this->db->from('cop_events');
+					$query = $this->db->get();
+				}
 			}else{
 				$query = $this->db->get('cop_events');
 			}
@@ -226,43 +234,16 @@ class Events_model extends CI_Model {
 	 * @return Array
 	 * --------------------------------------------
 	 */
-	public function add_event_member($data)
+	public function add_event_member($beneficiary_data)
 	{
 		$this->db->trans_begin();
-		$this->db->insert('cop_events_member', $data);
+		foreach ($beneficiary_data as $data) {
+			$this->db->insert('cop_events_member', $data);
+		}
 
 		if( $this->db->trans_status() === FALSE )
 		{
 			//TRANSACTION ERROR CATCH
-			$this->db->trans_rollback();
-			return array(
-				'status'=>'error',
-				'msg'   =>'Cannot create an event'
-				);
-		}else{
-			$this->db->trans_commit();
-			return array(
-				'status'=>'success',
-				'msg'   =>''
-				);
-		}
-	}
-
-	/**
-	 * REMOVE BENEFICIARY FROM AN EVENT
-	 * @param Integer, $event_id
-	 * --------------------------------------------
-	 */
-	public function delete_event_member($event_id, $id)
-	{
-		$this->db->trans_begin();
-
-		$this->db->where('event_id', $event_id);
-		$this->db->where('id', $id);
-		$this->db->delete('cop_events_member');
-
-		if( $this->db->trans_status() === FALSE )
-		{
 			$this->db->trans_rollback();
 			return FALSE;
 		}else{
@@ -276,9 +257,8 @@ class Events_model extends CI_Model {
 	 * @param Integer, $event_id
 	 * --------------------------------------------
 	 */
-	public function delete_event_desc($event_id)
+	public function delete_event_desc($id)
 	{
-		$id = array('event_id'=>$event_id);
 		$this->db->delete('cop_description', $id);
 	}
 
@@ -293,7 +273,10 @@ class Events_model extends CI_Model {
 
 		$this->db->trans_begin();
 		$this->db->delete('cop_events', $id);
-		$this->delete_event_desc($event_id);
+		$this->db->delete('cop_description', $id);
+		$this->db->delete('cop_events_member', $id);
+
+		// $this->delete_event_desc($event_id);
 
 		if( $this->db->trans_status() === FALSE )
 		{
@@ -335,8 +318,10 @@ class Events_model extends CI_Model {
 	 * @return Array
 	 * --------------------------------------------
 	 */
-	public function update_events($event_data, $description_data=array())
+	public function update_events($event_data, $description_data=array(), $beneficiary_data=array())
 	{
+		$id = array('event_id'=>$event_data['event_id']);
+
 		$this->db->trans_begin();
 		$this->db->where('event_id', $event_data['event_id']);
 		$this->db->update('cop_events', $event_data);
@@ -352,28 +337,20 @@ class Events_model extends CI_Model {
 			}
 		}
 
+		$this->db->delete('cop_events_member', $id);
+
+		if( count($description_data) > 0 ){
+			$this->add_event_member( $beneficiary_data );
+		}
+
 		if( $this->db->trans_status() === FALSE )
 		{
 			//TRANSACTION ERROR CATCH
 			$this->db->trans_rollback();
-			return array(
-				'status'=>'error',
-				'msg'   =>'Cannot update the event'
-				);
+			return FALSE;
 		}else{
 			$this->db->trans_commit();
-			
-				if( isset($event_data['title']) ){
-					return array(
-						'status'=>'success',
-						'msg'   =>'"'.$event_data['title'].'" has been updated'
-					);
-				}else{
-					return array(
-						'status'=>'success',
-						'msg'   =>'Event has been updated'
-					);
-				}
+			return TRUE;
 		}
 	}
 
@@ -388,13 +365,6 @@ class Events_model extends CI_Model {
 		$this->db->trans_begin();
 		$this->db->insert('cop_events', $event_data);
 
-		//GET LAST INSERTED ID
-		$result = $this->get_last_event_id();
-
-		foreach ($result as $row) { $unique_id = $row->event_id; }
-
-		if( $unique_id == '' || is_null($unique_id)){ $unique_id++; }
-
 		if( $this->db->trans_status() === FALSE )
 		{
 			//TRANSACTION ERROR CATCH
@@ -403,6 +373,11 @@ class Events_model extends CI_Model {
 		}
 		else{
 			$this->db->trans_commit();
+			//GET LAST INSERTED ID
+
+			$result = $this->get_last_event_id();
+			foreach ($result as $row) { $unique_id = $row->event_id; }
+
 			return $unique_id;
 		}
 	}
