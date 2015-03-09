@@ -6,28 +6,45 @@ $lang['lbl_sub_logo'] = 'Community Outreach Program';
 $lang['lbl_about_us'] = 'About Us';
 $lang['lbl_accept'] = 'Accept';
 $lang['lbl_account_status'] = 'Account status';
+$lang['lbl_action'] = 'Action';
 $lang['lbl_add_beneficiary'] = 'Add beneficiary';
 $lang['lbl_add_member'] = 'Add member';
 $lang['lbl_admin'] = 'Admin';
 $lang['lbl_announcement'] = 'Announcement';
+$lang['lbl_approved_by'] = 'Approved by';
+$lang['lbl_BENEFICIARY'] = 'BENEFICIARY';
+$lang['lbl_BUDGET'] = 'BUDGET';
+$lang['lbl_CATEGORY'] = 'CATEGORY';
 $lang['lbl_contact_details'] = 'Contact details';
 $lang['lbl_contact_us'] = 'Contact Us';
+$lang['lbl_cop_director'] = 'COP Director';
 $lang['lbl_create_announcement'] = 'Create new announcement';
 $lang['lbl_create_events'] = 'Create an event proposal';
 $lang['lbl_create_user'] = 'Create user';
+$lang['lbl_DESCRIPTION'] = 'DESCRIPTION';
 $lang['lbl_edit_announcement'] = 'Edit announcement';
 $lang['lbl_edit_beneficiary'] = 'Edit beneficiary';
 $lang['lbl_edit_user'] = 'Edit user';
+$lang['lbl_edit_events'] = 'Edit event';
 $lang['lbl_event_description'] = 'Event Description';
 $lang['lbl_event_details'] = 'Event Details';
 $lang['lbl_event_proposal'] = 'Event proposal';
 $lang['lbl_event_status'] = 'Event status';
-$lang['lbl_edit_events'] = 'Edit event';
+$lang['lbl_EXPECTED_OUTPUT'] = 'EXPECTED OUTPUT';
 $lang['lbl_forgot_password'] = 'I forgot my password';
 $lang['lbl_forum'] = 'Forum';
 $lang['lbl_have_membership'] = 'I already have a membership';
 $lang['lbl_home'] = 'Home';
+$lang['lbl_IN_CHARGE'] = 'IN-CHARGE / PARTICIPANTS';
+$lang['lbl_MATERIALS_NEEDED'] = 'MATERIALS NEEDED';
+$lang['lbl_no_beneficiary'] = '-- No beneficiary --';
+$lang['lbl_no_budget_proposed'] = '-- No budget proposed --';
+$lang['lbl_no_description'] = '-- No Description --';
+$lang['lbl_no_expected_output'] = '-- No expected output --';
+$lang['lbl_no_incharge'] = '-- No in-charge personnel --';
+$lang['lbl_no_materials_needed'] = '-- No materials needed --';
 $lang['lbl_personal_info'] = 'Personal Information';
+$lang['lbl_prepared_by'] = 'Prepared by';
 $lang['lbl_register_member'] = 'Register a new membership';
 $lang['lbl_register_membership'] = 'Register New Membership';
 $lang['lbl_remember_me'] = 'Remember me';
@@ -36,8 +53,11 @@ $lang['lbl_seminars'] = 'Seminars';
 $lang['lbl_sign_in'] = 'Sign In';
 $lang['lbl_sign_me_in'] = 'Sign me in';
 $lang['lbl_sign_me_up'] = 'Sign me up';
+$lang['lbl_sps_director'] = 'SPS Director';
 $lang['lbl_reject'] = 'Reject';
 $lang['lbl_training'] = 'Training';
+$lang['lbl_toggle_drop'] = 'Toggle Dropdown';
+
 
 //FORM LABELS
 $lang['lbl_account_type'] = 'Account type';
@@ -74,15 +94,31 @@ $lang['lbl_user_type'] = 'User type';
 
 //BUTTONS
 $lang['lbl_add_photo'] = 'Add photo';
+$lang['lbl_approve'] = 'Approve';
 $lang['lbl_custom_album'] = 'Custom album';
 $lang['lbl_custom_event_album'] = 'Create event album';
+$lang['lbl_delete'] = 'Delete';
 $lang['lbl_delete_album'] = 'Delete album';
 $lang['lbl_delete_banner'] = 'Delete banner';
 $lang['lbl_delete_photo'] = 'Delete photo';
+$lang['lbl_denied'] = 'Denied';
+$lang['lbl_edit'] = 'Edit';
 $lang['lbl_edit_album'] = 'Edit album';
+$lang['lbl_for_revision'] = 'For revision';
 $lang['lbl_set_as_cover'] = 'Set as cover photo';
 $lang['lbl_view_gallery'] = 'View gallery';
 
 
 /* End of file labels.php */
 /* Location: ./system/language/english/labels.php */
+
+
+
+
+
+
+
+
+
+
+
