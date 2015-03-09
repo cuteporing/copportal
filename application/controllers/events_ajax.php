@@ -453,13 +453,11 @@ class events_ajax extends CI_controller
 
 		$event_data = array(
 			'event_id'        =>$event_id,
-			'owner_id'        =>(int) $session_data['id'],
 			'title'           =>$this->input->post('title'),
 			'status'          =>$status,
 			'appr_cop_dir'    =>$appr_cop_dir,
 			'appr_sps_dir'    =>$appr_sps_dir,
 			'category_id'     =>(int) $this->input->post('category'),
-			'date_entered'    =>common::get_today(),
 			'date_start'      =>$date_start,
 			'date_end'        =>$date_end,
 			'time_start'      =>$time_start,
