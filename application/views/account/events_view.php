@@ -28,6 +28,22 @@
                     <li><a href="<?=$btn_edit?>"><?=$this->lang->line('lbl_edit')?></a></li>
                 </ul>
             </div><br></br>
+        <?php elseif( $show_action_btn == 'recommendation' ):?>
+            <div class="btn-group  no-print">
+                <button type="button" class="btn btn-default btn-flat"><?=$this->lang->line('lbl_action')?></button>
+                <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only"><?=$this->lang->line('lbl_toggle_drop')?></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="<?=$btn_edit?>"><?=$this->lang->line('lbl_edit')?></a></li>
+                    <li><a href="<?=$btn_approve?>" data-ajax="edit" data-ajax-confirm-msg=""><?=$this->lang->line('lbl_recommendation_approve')?></a></li>
+                    <li><a href="<?=$btn_denied?>" data-ajax="edit" data-ajax-confirm-msg=""><?=$this->lang->line('lbl_denied')?></a></li>
+                    <li><a href="<?=$btn_revise?>" data-ajax="edit" data-ajax-confirm-msg=""><?=$this->lang->line('lbl_for_revision')?></a></li>
+                    <li class="divider"></li>
+                    <li><a href="<?=$btn_delete?>" data-ajax="delete" data-del-type="redirect"><i class="fa fa-trash-o"></i> <?=$this->lang->line('lbl_delete')?></a></li>
+                </ul>
+            </div><br></br>
         <?php else: ?>
             <div class="btn-group  no-print">
                 <button type="button" class="btn btn-default btn-flat"><?=$this->lang->line('lbl_action')?></button>
@@ -145,10 +161,10 @@
                         <?php endif; ?>
                         </p><br><br>
 
-                        <p class="text-center"><?=$this->lang->line('lbl_approved_by')?></p>
 
                         <?php $name = $owner['first_name'].' '.$owner['last_name'];?>
                         <?php if( isset($result_confirmation) ): ?>
+                            <p class="text-center"><?=$this->lang->line('lbl_approved_by')?></p>
                             <?php if( strlen($result_confirmation['cop_director']) > 0  &&
                                         $name != $result_confirmation['cop_director'] ): ?>
                             <p class="text-center">

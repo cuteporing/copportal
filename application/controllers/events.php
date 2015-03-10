@@ -207,8 +207,9 @@ class events extends CI_controller
 			if( $session_data['user_kbn'] == 10 &&
 					$result_event[0]['status'] == 'Revise'){
 					$data['show_action_btn'] = 'restrict';
-			}else if( $session_data['user_kbn'] <= 30 &&
-					$session_data['user_kbn'] != 10){
+			}else if( $session_data['user_kbn'] == 20 ){
+					$data['show_action_btn'] = 'recommendation';
+			}else if( $session_data['user_kbn'] == 30 ){
 					$data['show_action_btn'] = 'all';
 			}
 			//GET EVENT OWNER

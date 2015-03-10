@@ -105,6 +105,7 @@ $lang['lbl_denied'] = 'Denied';
 $lang['lbl_edit'] = 'Edit';
 $lang['lbl_edit_album'] = 'Edit album';
 $lang['lbl_for_revision'] = 'For revision';
+$lang['lbl_recommendation_approve'] = 'Recommendation approve';
 $lang['lbl_set_as_cover'] = 'Set as cover photo';
 $lang['lbl_view_gallery'] = 'View gallery';
 
