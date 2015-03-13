@@ -117,9 +117,4 @@ $(function() {
         window.print();
     	jQuery('#print-template').addClass('hide');
     });
-    jQuery('.cancel').click(function(e){
-
-    	
-    });
-
 });
