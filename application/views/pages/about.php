@@ -4,42 +4,48 @@
         <span>Community Outreach Program </span>
     </div> <!-- /.section-header -->
 </div> <!-- /.row -->
-<div class="row">
-    <div class="col-md-12">
-        <div class="box-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3 class="grid-heading">Philosophy</h3>
+<div class="projects-holder-2 row">
+    <div class="filter-categories col-md-2 col-sm-3">
+        <ul class="project-filter">
+            <!-- <li class="filter active" data-filter="all"><span>All</span></li> -->
+            <li class="filter" data-filter="philosophy"><span>Philosophy</span></li>
+            <li class="filter" data-filter="vision"><span>Vision</span></li>
+            <li class="filter" data-filter="mission"><span>Mission</span></li>
+            <li class="filter" data-filter="objectives"><span>Objectives</span></li>
+        </ul>
+    </div>
+    <div class="projects-holder col-md-10 col-sm-9">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 project-item mix philosophy">
+                <div class="box-content project-detail">
+                    <h2><a href="project-details.html">Philosophy</a></h2>
                     <p>
                         <a href="<?=base_url() ?>">The Community Outreach Program (COP)</a>
                          believes in the dignity of man and the development of his potentials to the optimum. The Program further 
                          believes that such development could be attained through the involvement of socially conscious student, 
                          faculty members and non-teaching staff in community services.</p>
                 </div>
-            </div> <!-- /.row -->
-            <hr>
-            <div class="row">
-                <div class="col-md-12">
-                    <h3 class="grid-heading">Vision</h3>
+            </div> <!-- /.project-item -->
+            <div class="col-md-12 col-sm-12 project-item mix vision">
+                <div class="box-content project-detail">
+                    <h2><a href="project-details.html">Vision</a></h2>
                     <p>
                         The UPHSD Community Outreach Program (COP) is a dynamic, facilitative and integrative office that assists 
                         people to become physically and mentally healthy, especially those in the depressed communities in the 
                         city of Las Piñas and its environs.
                 </div>
-            </div> <!-- /.row -->
-            <hr>
-            <div class="row">
-                <div class="col-md-12">
-                    <h3 class="grid-heading">Mission</h3>
+            </div> <!-- /.project-item -->
+            <div class="col-md-12 col-sm-12 project-item mix mission">
+                <div class="box-content project-detail">
+                    <h2><a href="project-details.html">Mission</a></h2>
                     <p>
                         To effect an environment supportive of the development of self-reliant, healthy and socially responsible 
                         citizens of Las Piñas, in particular, and the Philippines, in general. </p>
                 </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-md-12">
-                    <h3 class="grid-heading">Objectives</h3>
+            </div> <!-- /.project-item -->
+            <div class="col-md-12 col-sm-12 project-item mix objectives">
+                <div class="box-content project-detail">
+                    <h2><a href="project-details.html">Objectives</a></h2>
                     <p>
                         <strong>General Objectives, The UPHSD Community Outreach Program is envisioned to:</strong>
                         <ul style="list-style-type: decimal; margin-left: 1.5em;">
@@ -73,62 +79,7 @@
                         </ul>
                     </p>
                 </div>
-            </div>
-        </div>
-    </div>
+            </div> <!-- /.project-item -->
+        </div> <!-- /.row -->
+    </div> <!-- /.projects-holder -->
 </div>
-
-<!-- <div class="our-staff row">
-    <div class="intro-header col-md-3 col-sm-6">
-        <h2>Our Staff</h2>
-        <p>Integer ac rhoncus enim, et tempor nisi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed gravida sit amet magna nec pretium.</p>
-    </div>s
-    <div class="col-md-3 col-sm-6">
-        <div class="staff-member">
-            <img src="http://localhost/copportal/assets/img/artcore/team/staff2.jpg" alt="">
-            <div class="overlay">
-                <div class="overlay-inner">
-                    <ul class="social-network">
-                        <li><a href="#" class="fa fa-facebook"></a></li>
-                        <li><a href="#" class="fa fa-linkedin"></a></li>
-                        <li><a href="#" class="fa fa-dribbble"></a></li>
-                        <li><a href="#" class="fa fa-google-plus"></a></li>
-                    </ul>
-                    <span>Teri Belle</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6">
-        <div class="staff-member">
-            <img src="http://localhost/copportal/assets/img/artcore/team/staff3.jpg" alt="">
-            <div class="overlay">
-                <div class="overlay-inner">
-                    <ul class="social-network">
-                        <li><a href="#" class="fa fa-facebook"></a></li>
-                        <li><a href="#" class="fa fa-linkedin"></a></li>
-                        <li><a href="#" class="fa fa-dribbble"></a></li>
-                        <li><a href="#" class="fa fa-google-plus"></a></li>
-                    </ul>
-                    <span>Tawana Cherry</span>
-                </div>
-            </div>
-        </div>
-    </div> 
-    <div class="col-md-3 col-sm-6">
-        <div class="staff-member">
-            <img src="http://localhost/copportal/assets/img/artcore/team/staff1.jpg" alt="">
-            <div class="overlay">
-                <div class="overlay-inner">
-                    <ul class="social-network">
-                        <li><a href="#" class="fa fa-facebook"></a></li>
-                        <li><a href="#" class="fa fa-linkedin"></a></li>
-                        <li><a href="#" class="fa fa-dribbble"></a></li>
-                        <li><a href="#" class="fa fa-google-plus"></a></li>
-                    </ul>
-                    <span>Christina Welldone</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
