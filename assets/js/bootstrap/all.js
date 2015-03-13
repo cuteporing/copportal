@@ -111,4 +111,15 @@ $(function() {
 		if ("modal_id" in localStorage) localStorage.removeItem("modal_id");
 	}
 
+
+    jQuery('#print').click(function(e){
+        jQuery('#print-template').removeClass('hide');
+        window.print();
+    	jQuery('#print-template').addClass('hide');
+    });
+    jQuery('.cancel').click(function(e){
+
+    	
+    });
+
 });

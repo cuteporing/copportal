@@ -64,8 +64,16 @@
     <?php endif; ?>
     <div class="row">
         <div class="col-md-8">
+            <div class="row text-center hide" id="print-template">
+                <div class="col-md-2 " style=""><img src="<?=base_url()?>assets/img/UPHSD-logo.jpg" height="50" style="float:left;margin-left:8em;"></div>
+                <div class="col-md-10"style="float:left;margin-left:1em;">
+                    <strong>UNIVERSITY OF PERPETUAL HELP SYSTEM DALTA <br></strong>
+                    Las Piñas Campus<br>
+                    <strong>Proposed Outreach Activity</strong><br><br><br>
+                </div>
+            </div>
             <div class="box box-solid">
-                <div class="box-header " style="border-bottom: 1px dashed rgb(203, 203, 203);">
+                                <div class="box-header " style="border-bottom: 1px dashed rgb(203, 203, 203);">
                     <h3 class="box-title"><?=$result_event['title'] ?></h3>
                     <small class="<?=$status_label?>" style="float: right;padding: 1.4em .6em 1.6em;">
                         <i class="fa fa-clock-o"></i> <?=$result_event['status'] ?>
@@ -147,8 +155,8 @@
                         </p><hr>
 
                          <!-- PREPARED BY -->
-                        <p class="text-center"><?=$this->lang->line('lbl_prepared_by')?></p><br>
-                        <p class="text-center">
+                        <p class="text-center no-print"><?=$this->lang->line('lbl_prepared_by')?></p><br>
+                        <p class="text-center no-print">
                         <?php if( isset($result_owner) ): ?>
                             <?php foreach ($result_owner as $owner): ?>
                                 <strong style="text-transform:uppercase;"><?= $owner['first_name'] ?> <?= $owner['last_name'] ?></strong><br>
@@ -164,10 +172,10 @@
 
                         <?php $name = $owner['first_name'].' '.$owner['last_name'];?>
                         <?php if( isset($result_confirmation) ): ?>
-                            <p class="text-center"><?=$this->lang->line('lbl_approved_by')?></p>
+                            <p class="text-center no-print"><?=$this->lang->line('lbl_approved_by')?></p>
                             <?php if( strlen($result_confirmation['cop_director']) > 0  &&
                                         $name != $result_confirmation['cop_director'] ): ?>
-                            <p class="text-center">
+                            <p class="text-center no-print">
                                 <strong style="text-transform:uppercase;"><?=$result_confirmation['cop_director']?></strong><br>
                                 <?=$this->lang->line('lbl_cop_director')?>
                             </p>
@@ -175,7 +183,7 @@
                             <br>
 
                         <?php if( strlen($result_confirmation['sps_director']) > 0 ): ?>
-                            <p class="text-center">
+                            <p class="text-center no-print">
                                 <strong style="text-transform:uppercase;"><?=$result_confirmation['sps_director']?></strong><br>
                                 <?=$this->lang->line('lbl_sps_director')?>
                             </p>
@@ -183,9 +191,9 @@
                             <br>
                         <?php endif; ?>
 
-                        <button class="btn btn-default  no-print" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
-                </div><!-- /.box-body -->
-            </div><!-- /.box -->
+                        <button class="btn btn-default no-print" onclick="" id="print"><i class="fa fa-print"></i> Print</button>
+                </div>
+            </div>
         </div>
 
         <div class="col-md-4 no-print">
