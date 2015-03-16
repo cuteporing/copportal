@@ -31,6 +31,8 @@ $lang['lbl_event_details'] = 'Event Details';
 $lang['lbl_event_proposal'] = 'Event proposal';
 $lang['lbl_event_status'] = 'Event status';
 $lang['lbl_EXPECTED_OUTPUT'] = 'EXPECTED OUTPUT';
+$lang['lbl_final_approval'] = 'Final approval:';
+
 $lang['lbl_forgot_password'] = 'I forgot my password';
 $lang['lbl_forum'] = 'Forum';
 $lang['lbl_have_membership'] = 'I already have a membership';

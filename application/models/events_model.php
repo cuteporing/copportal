@@ -470,22 +470,6 @@ class Events_model extends CI_Model {
 		}
 	}
 
-	public function add_confirmation($confirmation_data)
-	{
-		$this->db->trans_begin();
-		$this->db->insert('cop_event_confirmation', $confirmation_data);
-
-		if( $this->db->trans_status() === FALSE )
-		{
-			$this->db->trans_rollback();
-			return FALSE;
-		}
-		else
-		{
-			$this->db->trans_commit();
-			return TRUE;
-		}
-	}
 
 	public function add_comment($data)
 	{
@@ -504,9 +488,29 @@ class Events_model extends CI_Model {
 		}
 	}
 
-	public function update_confirmation($confirmation_data){
+
+	/**
+	 * GET NO. OF CONFIRMATION DETAIL
+	 * @param Integer, $event_id
+	 * --------------------------------------------
+	 */
+	public function get_no_of_confirmation($event_id)
+	{
+		$this->db->where('event_id', $event_id);
+		$this->db->from('cop_event_confirmation');
+
+		return $this->db->count_all_results();
+	}
+
+	/**
+	 * ADD CONFIRMATION DETAILS
+	 * @param Array, $confirmation_data
+	 * --------------------------------------------
+	 */
+	public function add_confirmation($confirmation_data)
+	{
 		$this->db->trans_begin();
-		$this->db->update('cop_event_confirmation', $confirmation_data);
+		$this->db->insert('cop_event_confirmation', $confirmation_data);
 
 		if( $this->db->trans_status() === FALSE )
 		{
@@ -515,6 +519,57 @@ class Events_model extends CI_Model {
 		}
 		else
 		{
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
+
+	/**
+	 * UPDATE CONFIRMATION DETAILS
+	 * @param Array, $confirmation_data
+	 * --------------------------------------------
+	 */
+	public function update_confirmation($confirmation_data){
+		$this->db->trans_begin();
+		$count = $this->get_no_of_confirmation($confirmation_data['event_id']);
+
+		if( $count > 0 ){
+			$this->db->update('cop_event_confirmation', $confirmation_data);
+		}else{
+			$this->db->insert('cop_event_confirmation', $confirmation_data);
+		}
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			$this->db->trans_rollback();
+			return FALSE;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
+
+
+	/**
+	 * DELETE EVENT CONFIRMATION DETAILS
+	 * @param Integer, $event_id
+	 * --------------------------------------------
+	 */
+	public function delete_confirmation($event_id)
+	{
+		$id = array('event_id'=>$event_id);
+
+		$this->db->trans_begin();
+		$this->db->delete('cop_event_confirmation', $id);
+
+		if( $this->db->trans_status() === FALSE )
+		{
+			//TRANSACTION ERROR CATCH
+			$this->db->trans_rollback();
+			return FALSE;
+		}else{
 			$this->db->trans_commit();
 			return TRUE;
 		}

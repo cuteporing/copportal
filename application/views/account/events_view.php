@@ -155,8 +155,8 @@
                         </p><hr>
 
                          <!-- PREPARED BY -->
-                        <p class="text-center no-print"><?=$this->lang->line('lbl_prepared_by')?></p><br>
-                        <p class="text-center no-print">
+                        <p class="text-center"><?=$this->lang->line('lbl_prepared_by')?></p><br>
+                        <p class="text-center">
                         <?php if( isset($result_owner) ): ?>
                             <?php foreach ($result_owner as $owner): ?>
                                 <strong style="text-transform:uppercase;"><?= $owner['first_name'] ?> <?= $owner['last_name'] ?></strong><br>
@@ -172,23 +172,23 @@
 
                         <?php $name = $owner['first_name'].' '.$owner['last_name'];?>
                         <?php if( isset($result_confirmation) ): ?>
-                            <p class="text-center no-print"><?=$this->lang->line('lbl_approved_by')?></p>
                             <?php if( strlen($result_confirmation['cop_director']) > 0  &&
                                         $name != $result_confirmation['cop_director'] ): ?>
-                            <p class="text-center no-print">
+                            <p class="text-center"><?=$this->lang->line('lbl_approved_by')?></p><br>
+                            <p class="text-center">
                                 <strong style="text-transform:uppercase;"><?=$result_confirmation['cop_director']?></strong><br>
                                 <?=$this->lang->line('lbl_cop_director')?>
-                            </p>
+                            </p><br><br>
                             <?php endif; ?>
-                            <br>
+                            
 
                         <?php if( strlen($result_confirmation['sps_director']) > 0 ): ?>
-                            <p class="text-center no-print">
+                            <p class="text-center"><?=$this->lang->line('lbl_final_approval')?></p><br>
+                            <p class="text-center">
                                 <strong style="text-transform:uppercase;"><?=$result_confirmation['sps_director']?></strong><br>
                                 <?=$this->lang->line('lbl_sps_director')?>
-                            </p>
+                            </p><br>
                             <?php endif; ?>
-                            <br>
                         <?php endif; ?>
 
                         <button class="btn btn-default no-print" onclick="" id="print"><i class="fa fa-print"></i> Print</button>

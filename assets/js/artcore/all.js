@@ -33,4 +33,10 @@ $(window).load(function() { // makes sure the whole site is loaded
 	}, 5000);
 
 
+	setTimeout(function(){
+		$('.vision').removeAttr('style');
+		$('.mission').removeAttr('style');
+		$('.objectives').removeAttr('style');
+	}, 400);
+
 });

@@ -4,17 +4,17 @@
         <span>Community Outreach Program </span>
     </div> <!-- /.section-header -->
 </div> <!-- /.row -->
-<div class="projects-holder-2 row">
+<div class="projects-holder-2 row ">
     <div class="filter-categories col-md-2 col-sm-3">
         <ul class="project-filter">
             <!-- <li class="filter active" data-filter="all"><span>All</span></li> -->
-            <li class="filter" data-filter="philosophy"><span>Philosophy</span></li>
+            <li class="filter active" data-filter="philosophy"><span>Philosophy</span></li>
             <li class="filter" data-filter="vision"><span>Vision</span></li>
             <li class="filter" data-filter="mission"><span>Mission</span></li>
             <li class="filter" data-filter="objectives"><span>Objectives</span></li>
         </ul>
     </div>
-    <div class="projects-holder col-md-10 col-sm-9">
+    <div id="about" class="projects-holder col-md-10 col-sm-9">
         <div class="row">
             <div class="col-md-12 col-sm-12 project-item mix philosophy">
                 <div class="box-content project-detail">

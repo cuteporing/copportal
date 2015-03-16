@@ -277,7 +277,7 @@ class events_ajax extends CI_controller
 			$status       = 'Approved';
 			$appr_cop_dir = 1;
 			$appr_sps_dir = 1;
-			$appr_cop_dir_name = '';
+			// $appr_cop_dir_name = '';
 			$appr_sps_dir_name = $session_data['first_name'].' '.$session_data['last_name'];
 		}else if ( $session_data['user_kbn'] == 20 ) {
 			$status       = 'Final confirmation';
@@ -554,10 +554,6 @@ class events_ajax extends CI_controller
 					'appr_sps_dir' => 0,
 					);
 
-				$confirmation_data = array(
-					'event_id'     => (int) $event_id,
-					'sps_director' => $session_data['first_name'].' '.$session_data['last_name']
-					);
 			}else if( $session_data['user_kbn'] == 20 ){
 				if( $events[0]['appr_sps_dir'] == 1 ){
 					echo common::response_msg(200, 'error', 'Event has already been denied by the SPS Director');
@@ -570,16 +566,12 @@ class events_ajax extends CI_controller
 					'appr_sps_dir' => 0,
 				);
 
-				$confirmation_data = array(
-					'event_id'     => (int) $event_id,
-					'cop_director' => $session_data['first_name'].' '.$session_data['last_name']
-					);
 			}
 
 			$result_event = $this->events_model->update_event_status($event_data);
 
 			if( $result_event ){
-				$result_confirmation = $this->events_model->update_confirmation($confirmation_data);
+				$result_confirmation = $this->events_model->delete_confirmation($event_id);
 
 				echo common::response_msg(200, 'redirect', base_url().'account/events/manage/'.$events[0]['event_id']);
 
@@ -613,10 +605,6 @@ class events_ajax extends CI_controller
 					'appr_sps_dir' => 1,
 					);
 
-				$confirmation_data = array(
-					'event_id'     => (int) $event_id,
-					'sps_director' => $session_data['first_name'].' '.$session_data['last_name']
-					);
 			}else if( $session_data['user_kbn'] == 20 ){
 				if( $events[0]['appr_sps_dir'] == 1 && $events[0]['status'] == 'Denied' ){
 					echo common::response_msg(200, 'error', 'Event has already been denied byt the SPS Director');
@@ -629,17 +617,12 @@ class events_ajax extends CI_controller
 					'appr_sps_dir' => 0,
 				);
 
-				$confirmation_data = array(
-					'event_id'     => (int) $event_id,
-					'cop_director' => $session_data['first_name'].' '.$session_data['last_name']
-					);
 			}
 
 			$result_event = $this->events_model->update_event_status($event_data);
 
 			if( $result_event ){
-				$result_confirmation = $this->events_model->update_confirmation($confirmation_data);
-
+				$result_confirmation = $this->events_model->delete_confirmation($event_id);
 				echo common::response_msg(200, 'redirect', base_url().'account/events/manage/'.$events[0]['event_id']);
 
 			}else{
@@ -697,7 +680,6 @@ class events_ajax extends CI_controller
 
 			if( $result_event ){
 				$result_confirmation = $this->events_model->update_confirmation($confirmation_data);
-
 				echo common::response_msg(200, 'redirect', base_url().'account/events/manage/'.$events[0]['event_id']);
 
 			}else{
