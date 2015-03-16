@@ -3,9 +3,22 @@
 <div class="box">
 	<div class="box-header">
 	<h3 class="box-title"><?=$table_name ?></h3>
+  <?php if( isset($show_status_control) ): ?>
+    <div class="col-md-3">
+    <select class="form-control" id="status-control" style="margin-top:7px">
+      <option value="">All</option>
+      <option value="Approved">Approved</option>
+      <option value="Final confirmation">Final confirmation</option>
+      <option value="Denied">Denied</option>
+      <option value="Revise">Revise</option>
+    </select>
+  <?php endif; ?>
+  </div>
+   
 </div><!-- /.box-header -->
 
 <div class="box-body table-responsive">
+
   <table id="displayData" class="table table-bordered table-striped">
     <thead>
       <tr>

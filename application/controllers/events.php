@@ -295,6 +295,7 @@ class events extends CI_controller
 		}
 
 		//DISPLAY LIST IN A TABLE
+		$data['show_status_control'] = 'yes';
 		$data['table_name']   = 'Trainings and seminars';
 		$data['fieldname']    = array('title','date', 'location', 'status', 'action');
 		$data['field_label']  = array('Activity','Date', 'Venue', 'Status', '&nbsp;');

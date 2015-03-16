@@ -3572,3 +3572,5 @@ fieldset[disabled] .btn-vk.active {
   color: #587ea3;
   background-color: #ffffff;
 }
+
+#status-control { margin-top: 7px; }

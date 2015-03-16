@@ -49,7 +49,13 @@ $(function() {
 		showInputs: false
 	});
 	//Data table
-	$("#displayData").dataTable();
+	$('#displayData').dataTable( { } );
+	  var oTable;
+	  oTable = $('#displayData').dataTable();
+
+	  $('#status-control').change( function() { 
+	        oTable.fnFilter( $(this).val() ); 
+	   });
 	$('#example2').dataTable({
 		"bPaginate": true,
 		"bLengthChange": false,
@@ -117,4 +123,13 @@ $(function() {
         window.print();
     	jQuery('#print-template').addClass('hide');
     });
+
+    // jQuery('#status-control').on('change', function(e){
+    // 	var status = jQuery('#status-control').val();
+	
+    // 	jQuery('#displayData_filter').find('input').val( status );
+    // 	$('#displayData_filter input').trigger(
+	   //      jQuery.Event( 'keypress', { keyCode: 13, which: 13 } )
+	   //  );
+    // });
 });

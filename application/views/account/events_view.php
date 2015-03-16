@@ -75,7 +75,7 @@
             <div class="box box-solid">
                                 <div class="box-header " style="border-bottom: 1px dashed rgb(203, 203, 203);">
                     <h3 class="box-title"><?=$result_event['title'] ?></h3>
-                    <small class="<?=$status_label?>" style="float: right;padding: 1.4em .6em 1.6em;">
+                    <small class="<?=$status_label?> no-print" style="float: right;padding: 1.4em .6em 1.6em;">
                         <i class="fa fa-clock-o"></i> <?=$result_event['status'] ?>
                     </small>
                 </div>
