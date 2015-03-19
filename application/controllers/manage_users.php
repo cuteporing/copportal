@@ -192,14 +192,17 @@ class manage_users extends account
 		$result = $this->users_model->get_user($field_name, $field_value);
 
 		for( $i=0; $i<count($result); $i++ ){
+			$result_dept =  $this->department_model->get_department('dept_id', $result[$i]['dept_id']);
+
+			$result[$i]['department'] = $result_dept[0]['department'];
 			$result[$i]['name'] =  '<b>'.$result[$i]['last_name'].'</b>, '.$result[$i]['first_name'];
 			$result[$i]['result_id'] = $result[$i]['id'];
 		}
 
 		$data['action_btn']   = self::action_btn();
 		$data['table_name']   = 'List of users';
-		$data['fieldname']    = array('name', 'status', 'action');
-		$data['field_label']  = array('Name', 'Status', '&nbsp;');
+		$data['fieldname']    = array('name', 'department', 'status', 'action');
+		$data['field_label']  = array('Name', 'Department', 'Status', '&nbsp;');
 		$data['result']       = $result;
 
 		return $this->load->view('templates/tables/data_tables_full', $data);

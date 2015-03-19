@@ -143,7 +143,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label><?=$this->lang->line('lbl_department')?></label>
-								<select class="form-control" name="dept_id">
+								<select class="form-control" id="dept_id" name="dept_id">
 									<?php foreach ($dept_list as $row): ?>
 										<?php if( isset( $selected ) && $row['dept_id'] == $selected['dept_id'] ): ?>
 											<?= create_tag('option', $row['department'], array('value'=>$row['dept_id'], 'selected'=>'selected')) ?>

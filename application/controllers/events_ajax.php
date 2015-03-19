@@ -277,7 +277,7 @@ class events_ajax extends CI_controller
 			$status       = 'Approved';
 			$appr_cop_dir = 1;
 			$appr_sps_dir = 1;
-			// $appr_cop_dir_name = '';
+			$appr_cop_dir_name = '';
 			$appr_sps_dir_name = $session_data['first_name'].' '.$session_data['last_name'];
 		}else if ( $session_data['user_kbn'] == 20 ) {
 			$status       = 'Final confirmation';

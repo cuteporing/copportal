@@ -124,4 +124,26 @@ $(function() {
         window.print();
     	jQuery('#print-template').addClass('hide');
     });
+
+    jQuery('select[name="user_kbn"]').on("change", function(){
+
+    	if( $(this).val() == 30 || $(this).val() == 20 ){
+				var textToFind = 'COP Department';
+				var dd = document.getElementById('dept_id');
+				for (var i = 0; i < dd.options.length; i++) {
+				    if (dd.options[i].text === textToFind) {
+				        dd.selectedIndex = i;
+				        break;
+				    }
+				}
+    	}else{
+    		$('#dept_id option[selected="selected"]').each(
+				    function() {
+				        $(this).removeAttr('selected');
+				    }
+				);
+
+    		jQuery("select[name='dept_id'] option:first").attr('selected','selected');
+    	}
+    });
 });
